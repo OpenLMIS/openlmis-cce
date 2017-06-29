@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.template;
+package org.openlmis.cce;
 
 import org.javers.common.date.DateProvider;
 import org.joda.time.DateTimeZone;

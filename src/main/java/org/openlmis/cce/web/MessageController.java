@@ -13,9 +13,9 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.template.web;
+package org.openlmis.cce.web;
 
-import org.openlmis.template.i18n.ExposedMessageSource;
+import org.openlmis.cce.i18n.ExposedMessageSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

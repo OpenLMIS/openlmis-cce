@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.template;
+package org.openlmis.cce;
 
 import org.flywaydb.core.Flyway;
 import org.javers.core.Javers;
@@ -27,9 +27,9 @@ import org.javers.repository.sql.SqlRepositoryBuilder;
 import org.javers.spring.auditable.AuthorProvider;
 import org.javers.spring.boot.sql.JaversProperties;
 import org.javers.spring.jpa.TransactionalJaversBuilder;
-import org.openlmis.template.domain.BaseEntity;
-import org.openlmis.template.i18n.ExposedMessageSourceImpl;
-import org.openlmis.template.security.UserNameProvider;
+import org.openlmis.cce.domain.BaseEntity;
+import org.openlmis.cce.i18n.ExposedMessageSourceImpl;
+import org.openlmis.cce.security.UserNameProvider;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

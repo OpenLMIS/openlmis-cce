@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.template.util;
+package org.openlmis.cce.util;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;

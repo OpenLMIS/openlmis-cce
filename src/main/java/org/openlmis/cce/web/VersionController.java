@@ -13,28 +13,30 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.template.domain;
+package org.openlmis.cce.web;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.javers.core.metamodel.annotation.TypeName;
+import org.openlmis.util.Version;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+/**
+ * Controller used for displaying service's version information.
+ */
+@RestController
+public class VersionController {
 
-@Entity
-@TypeName("Widget")
-@Table(name = "widget", schema = "template")
-@NoArgsConstructor
-public class Widget extends BaseEntity {
-  private static final String TEXT = "text";
+  private static final Logger LOGGER = LoggerFactory.getLogger(VersionController.class);
 
-  @Column(nullable = false, columnDefinition = TEXT)
-  @Getter
-  @Setter
-  private String name;
-
-
+  /**
+   * Displays version information.
+   *
+   * @return {Version} Returns version read from file.
+   */
+  @RequestMapping("/")
+  public Version display() {
+    LOGGER.debug("Returning version");
+    return new Version();
+  }
 }

@@ -1,6 +1,6 @@
 version: "2"
 services:
-  template-service:
+  cce:
     image: openlmis/dev:2
     ports:
       - "5005:5005"

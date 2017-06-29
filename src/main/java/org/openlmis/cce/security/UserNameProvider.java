@@ -12,3 +12,25 @@
  * the GNU Affero General Public License along with this program. If not, see
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
+
+package org.openlmis.cce.security;
+
+import org.javers.spring.auditable.AuthorProvider;
+
+/**
+ * This class is used by JaVers to retrieve the name of the user currently logged in.
+ * JaVers then associates audited changes being made with this particular user.
+ */
+public class UserNameProvider implements AuthorProvider {
+
+  /**
+   * A service intended for production would offer an implementation of
+   * provide() based on its approach to authentication. It is expected
+   * that most services will return a UUID rather than actual user name.
+   */
+  @Override
+  public String provide() {
+    return "unauthenticated user";
+  }
+
+}

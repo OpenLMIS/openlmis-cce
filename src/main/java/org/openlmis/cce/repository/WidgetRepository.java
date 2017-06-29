@@ -13,23 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.template;
+package org.openlmis.cce.repository;
 
-import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
+import org.openlmis.cce.domain.Widget;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-@Configuration
-public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
+import java.util.UUID;
 
-  @Value("${service.url}")
-  private String serviceUrl;
-
-  @Override
-  public void addViewControllers(ViewControllerRegistry registry) {
-    registry.addViewController("/docs").setViewName("redirect:" + serviceUrl + "/docs/");
-    registry.addViewController("/docs/").setViewName("forward:/docs/index.html");
-    super.addViewControllers(registry);
-  }
+@JaversSpringDataAuditable
+public interface WidgetRepository extends PagingAndSortingRepository<Widget, UUID> {
 }

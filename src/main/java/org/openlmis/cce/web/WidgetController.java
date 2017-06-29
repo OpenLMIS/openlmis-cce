@@ -13,10 +13,10 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.template.web;
+package org.openlmis.cce.web;
 
-import org.openlmis.template.domain.Widget;
-import org.openlmis.template.repository.WidgetRepository;
+import org.openlmis.cce.domain.Widget;
+import org.openlmis.cce.repository.WidgetRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

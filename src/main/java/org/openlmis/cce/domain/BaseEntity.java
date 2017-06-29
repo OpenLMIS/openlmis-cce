@@ -13,22 +13,27 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.template.util;
+package org.openlmis.cce.domain;
 
-import org.hibernate.engine.spi.SessionImplementor;
-import org.hibernate.id.UUIDGenerator;
-import org.openlmis.template.domain.BaseEntity;
+import lombok.Getter;
+import lombok.Setter;
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Type;
 
-import java.io.Serializable;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.MappedSuperclass;
+import java.util.UUID;
 
-public class ConditionalUuidGenerator extends UUIDGenerator {
+@MappedSuperclass
+public abstract class BaseEntity {
 
-  @Override
-  public Serializable generate(SessionImplementor session, Object object) {
-    if ((((BaseEntity) object).getId()) == null) {
-      return super.generate(session, object);
-    } else {
-      return ((BaseEntity) object).getId();
-    }
-  }
+  @Id
+  @GeneratedValue(generator = "uuid-gen")
+  @GenericGenerator(name = "uuid-gen",
+      strategy = "org.openlmis.cce.util.ConditionalUuidGenerator")
+  @Type(type = "pg-uuid")
+  @Getter
+  @Setter
+  protected UUID id;
 }

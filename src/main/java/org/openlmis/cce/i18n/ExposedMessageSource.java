@@ -13,14 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.template.repository;
+package org.openlmis.cce.i18n;
 
-import org.javers.spring.annotation.JaversSpringDataAuditable;
-import org.openlmis.template.domain.Widget;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.context.MessageSource;
 
-import java.util.UUID;
+import java.util.Locale;
+import java.util.Map;
 
-@JaversSpringDataAuditable
-public interface WidgetRepository extends PagingAndSortingRepository<Widget, UUID> {
+public interface ExposedMessageSource extends MessageSource {
+
+  Map<String, String> getAllMessages(Locale locale);
 }

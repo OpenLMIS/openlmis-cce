@@ -13,24 +13,28 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.template.security;
+package org.openlmis.cce.domain;
 
-import org.javers.spring.auditable.AuthorProvider;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.javers.core.metamodel.annotation.TypeName;
 
-/**
- * This class is used by JaVers to retrieve the name of the user currently logged in.
- * JaVers then associates audited changes being made with this particular user.
- */
-public class UserNameProvider implements AuthorProvider {
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Table;
 
-  /**
-   * A service intended for production would offer an implementation of
-   * provide() based on its approach to authentication. It is expected
-   * that most services will return a UUID rather than actual user name.
-   */
-  @Override
-  public String provide() {
-    return "unauthenticated user";
-  }
+@Entity
+@TypeName("Widget")
+@Table(name = "widget", schema = "cce")
+@NoArgsConstructor
+public class Widget extends BaseEntity {
+  private static final String TEXT = "text";
+
+  @Column(nullable = false, columnDefinition = TEXT)
+  @Getter
+  @Setter
+  private String name;
+
 
 }
