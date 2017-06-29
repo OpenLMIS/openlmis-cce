@@ -1,0 +1,15 @@
+{
+  "service": {
+    "Name": "cce",
+    "Port": 8080,
+    "Tags": ["openlmis-service"]
+  },
+  "raml": "src/main/resources/api-definition.yaml",
+  "path": [
+    "cce",
+    "cce/docs",
+    "cce/docs/<all>",
+    "cce/webjars",
+    "cce/webjars/<all>"
+  ]
+}
