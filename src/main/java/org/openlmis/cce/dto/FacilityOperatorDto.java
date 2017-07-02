@@ -13,28 +13,15 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.domain;
+package org.openlmis.cce.dto;
 
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import org.javers.core.metamodel.annotation.TypeName;
+import lombok.Data;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import java.util.UUID;
 
-@Entity
-@TypeName("Widget")
-@Table(name = "widget", schema = "cce")
-@NoArgsConstructor
-public class Widget extends BaseEntity {
-  private static final String TEXT = "text";
-
-  @Column(nullable = false, columnDefinition = TEXT)
-  @Getter
-  @Setter
+@Data
+public class FacilityOperatorDto {
+  private UUID id;
+  private String code;
   private String name;
-
-
 }

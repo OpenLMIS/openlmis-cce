@@ -113,26 +113,3 @@ resourceTypes:
             body:
               application/json:
                 schema: version
-
-    /widgets:
-      displayName: widgets
-      get:
-        responses:
-          200:
-      /{id}:
-        uriParameters:
-          id:
-            displayName: id
-            type: string
-            required: true
-            repeat: false
-        delete:
-          responses:
-        get:
-          responses:
-        put:
-          responses:
-        post:
-          responses:
-      /{id}/auditLog:
-        type: instanceAuditLog

@@ -13,34 +13,40 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.security;
+package org.openlmis.cce.exception;
 
-import org.javers.spring.auditable.AuthorProvider;
-import org.openlmis.cce.dto.UserDto;
-import org.openlmis.cce.util.AuthenticationHelper;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.openlmis.cce.util.Message;
 
 /**
- * This class is used by JaVers to retrieve the name of the user currently logged in.
- * JaVers then associates audited changes being made with this particular user.
+ * Base class for exceptions using Message.
  */
-public class UserNameProvider implements AuthorProvider {
+public class BaseMessageException extends RuntimeException {
+  private final Message message;
 
-  @Autowired
-  AuthenticationHelper authenticationHelper;
-
-  @Override
-  public String provide() {
-    try {
-      UserDto currentUser = authenticationHelper.getCurrentUser();
-      if (currentUser != null && currentUser.getId() != null) {
-        return currentUser.getId().toString();
-      } else {
-        return "unauthenticated user";
-      }
-    } catch (Exception ex) {
-      return "unknown user";
-    }
+  public BaseMessageException(Message message) {
+    this.message = message;
   }
 
+  public BaseMessageException(Message message, Throwable cause) {
+    super(cause);
+    this.message = message;
+  }
+
+  public BaseMessageException(String messageKey) {
+    this.message = new Message(messageKey);
+  }
+
+  public Message asMessage() {
+    return message;
+  }
+
+  /**
+   * Overrides RuntimeException's public String getMessage().
+   *
+   * @return a localized string description
+   */
+  @Override
+  public String getMessage() {
+    return this.message.toString();
+  }
 }

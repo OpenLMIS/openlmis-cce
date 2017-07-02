@@ -13,34 +13,38 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.security;
+package org.openlmis.cce.dto;
 
-import org.javers.spring.auditable.AuthorProvider;
-import org.openlmis.cce.dto.UserDto;
-import org.openlmis.cce.util.AuthenticationHelper;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.Getter;
+import lombok.Setter;
 
-/**
- * This class is used by JaVers to retrieve the name of the user currently logged in.
- * JaVers then associates audited changes being made with this particular user.
- */
-public class UserNameProvider implements AuthorProvider {
+import java.util.Objects;
+import java.util.Set;
+import java.util.UUID;
 
-  @Autowired
-  AuthenticationHelper authenticationHelper;
+@Getter
+@Setter
+public class RightDto {
+  private UUID id;
+  private String name;
+  private RightType type;
+  private String description;
+  private Set<RightDto> attachments;
 
   @Override
-  public String provide() {
-    try {
-      UserDto currentUser = authenticationHelper.getCurrentUser();
-      if (currentUser != null && currentUser.getId() != null) {
-        return currentUser.getId().toString();
-      } else {
-        return "unauthenticated user";
-      }
-    } catch (Exception ex) {
-      return "unknown user";
-    }
+  public int hashCode() {
+    return name.hashCode();
   }
 
+  @Override
+  public boolean equals(Object obj) {
+    if (this == obj) {
+      return true;
+    }
+    if (!(obj instanceof RightDto)) {
+      return false;
+    }
+    RightDto rightDto = (RightDto) obj;
+    return Objects.equals(name, rightDto.name);
+  }
 }

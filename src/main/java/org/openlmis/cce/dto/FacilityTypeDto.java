@@ -13,14 +13,18 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.repository;
+package org.openlmis.cce.dto;
 
-import org.javers.spring.annotation.JaversSpringDataAuditable;
-import org.openlmis.cce.domain.Widget;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import lombok.Data;
 
 import java.util.UUID;
 
-@JaversSpringDataAuditable
-public interface WidgetRepository extends PagingAndSortingRepository<Widget, UUID> {
+@Data
+public class FacilityTypeDto {
+  private UUID id;
+  private String code;
+  private String name;
+  private String description;
+  private Integer displayOrder;
+  private Boolean active;
 }
