@@ -213,14 +213,25 @@ processResources {
     }
 }
 
+apply from: "registration.gradle"
+
+assemble {
+    dependsOn ramlToHtml
+    dependsOn ramlToSwagger
+    dependsOn copyRamlHtmlToBuild
+    dependsOn copyConsulRegistrationToBuild
+    dependsOn jacocoTestReport
+}
+
 check {
-    dependsOn checkApiIsRaml
+    dependsOn ramlToHtml
+    dependsOn ramlToSwagger
+    dependsOn copyRamlHtmlToBuild
     dependsOn integrationTest
+    dependsOn copyConsulRegistrationToBuild
 }
 
 build {
     dependsOn jacocoTestReport
     dependsOn check
-    dependsOn ramlToHtml
-    dependsOn copyRamlHtmlToBuild
 }
