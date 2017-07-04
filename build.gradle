@@ -129,6 +129,9 @@ task integrationTest(type: Test) {
         exceptionFormat = 'full'
     }
     mustRunAfter test
+    environment 'BASE_URL', "http://localhost"
+
+    exclude '**/migration/**'
 }
 
 tasks.withType(Test) {
