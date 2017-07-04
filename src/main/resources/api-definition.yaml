@@ -10,6 +10,27 @@ documentation:
       content: Welcome to the OpenLMIS cce-service documentation. This minimal API is intended for illustrative purposes.
 
 schemas:
+  - localizedErrorResponse: |
+        {
+            "type": "object",
+            "$schema": "http://json-schema.org/draft-04/schema",
+            "title": "LocalizedErrorResponse",
+            "description": "Localized Error response",
+            "properties": {
+                "messageKey": { "type": "string", "title": "message key" },
+                "message": { "type": "string", "title": "message" }
+            },
+            "required": ["messageKey"]
+        }
+
+  - catalogItem: !include schemas/catalogItem.json
+
+  - catalogItemArray: |
+        {
+            "type": "array",
+            "items": { "type": "object", "$ref":"schemas/catalogItem.json" }
+        }
+
   - auditLogEntry: !include schemas/auditLogEntry.json
 
   - auditLogEntryArray: |
@@ -153,16 +174,84 @@ resourceTypes:
             is: [ secured ]
             responses:
                 200:
-/:
-    displayName: Version
-    get:
-        description: Get version
-        responses:
-          200:
-            description: Returns version information.
-            headers:
-              X-Content-Type-Options:
-              X-XSS-Protection:
-            body:
+/api:
+  /catalogItems:
+      displayName: CCE Catalog Item
+      get:
+          is: [ secured ]
+          description: Get all CCE catalog items.
+          responses:
+              "400":
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+              "200":
+                  body:
+                    application/json:
+                      schema: catalogItemArray
+              "403":
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+              "404":
+      post:
+          is: [ secured ]
+          description: Creates given CCE catalog item if possible.
+          body:
               application/json:
-                schema: version
+                  schema: catalogItem
+          responses:
+              "201":
+                  body:
+                    application/json:
+                      schema: catalogItem
+              "400":
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+              "403":
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+      /{id}:
+          uriParameters:
+              id:
+                  displayName: id
+                  type: string
+                  required: true
+                  repeat: false
+          get:
+              is: [ secured ]
+              description: Get chosen CCE catalog item.
+              responses:
+                  "200":
+                      body:
+                        application/json:
+                          schema: catalogItem
+                  "403":
+                      body:
+                        application/json:
+                          schema: localizedErrorResponse
+                  "404":
+                      body:
+                        application/json:
+                          schema: localizedErrorResponse
+          put:
+              is: [ secured ]
+              description: Update existing CCE catalog item.
+              body:
+                  application/json:
+                    schema: catalogItem
+              responses:
+                  "200":
+                      body:
+                        application/json:
+                          schema: catalogItem
+                  "400":
+                      body:
+                        application/json:
+                          schema: localizedErrorResponse
+                  "403":
+                      body:
+                        application/json:
+                          schema: localizedErrorResponse

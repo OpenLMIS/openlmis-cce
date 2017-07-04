@@ -13,30 +13,21 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.domain;
+package org.openlmis.cce.exception;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+import org.openlmis.cce.util.Message;
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import java.util.UUID;
+/**
+ * Exception for indicating that an entity explicitly asked for wasn't found.  This should result
+ * in a NOT FOUND api response.
+ */
+public class NotFoundException extends BaseMessageException {
 
-@MappedSuperclass
-public abstract class BaseEntity {
+  public NotFoundException(Message message) {
+    super(message);
+  }
 
-  protected static final String UUID = "pg-uuid";
-  protected static final String TEXT = "text";
-
-  @Id
-  @GeneratedValue(generator = "uuid-gen")
-  @GenericGenerator(name = "uuid-gen",
-      strategy = "org.openlmis.cce.util.ConditionalUuidGenerator")
-  @Type(type = UUID)
-  @Getter
-  @Setter
-  protected UUID id;
+  public NotFoundException(String messageKey) {
+    super(messageKey);
+  }
 }

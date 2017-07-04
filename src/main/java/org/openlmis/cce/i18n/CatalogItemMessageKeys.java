@@ -13,30 +13,17 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.domain;
+package org.openlmis.cce.i18n;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+public class CatalogItemMessageKeys {
+  private static final String SERVICE_PREFIX = "cce";
+  private static final String ERROR_PREFIX = SERVICE_PREFIX + ".error";
+  private static final String CATALOG_PREFIX = ERROR_PREFIX + ".catalog";
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import java.util.UUID;
+  public static final String ERROR_NOT_FOUND = CATALOG_PREFIX
+      + ".itemNotFound";
 
-@MappedSuperclass
-public abstract class BaseEntity {
-
-  protected static final String UUID = "pg-uuid";
-  protected static final String TEXT = "text";
-
-  @Id
-  @GeneratedValue(generator = "uuid-gen")
-  @GenericGenerator(name = "uuid-gen",
-      strategy = "org.openlmis.cce.util.ConditionalUuidGenerator")
-  @Type(type = UUID)
-  @Getter
-  @Setter
-  protected UUID id;
+  private CatalogItemMessageKeys() {
+    throw new UnsupportedOperationException();
+  }
 }

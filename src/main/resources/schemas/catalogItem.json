@@ -1,0 +1,119 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "CatalogItem",
+  "description": "A single CCE catalog item",
+  "properties": {
+    "id": {
+      "type": "string",
+      "title": "id"
+    },
+    "fromPqsCatalog": {
+      "type": "boolean",
+      "title": "fromPqsCatalog"
+    },
+    "equipmentCode": {
+      "type": "string",
+      "title": "equipmentCode"
+    },
+    "model": {
+      "type": "string",
+      "title": "model"
+    },
+    "manufacturer": {
+      "type": "string",
+      "title": "manufacturer"
+    },
+    "energySource": {
+      "enum": [
+        "ELECTRICT",
+        "SOLAR",
+        "GASOLINE",
+        "NOT_APPLICABLE"
+      ],
+      "title": "energySource"
+    },
+    "dateOfPrequal": {
+      "type": "number",
+      "title": "dateOfPrequal"
+    },
+    "storageTemperature": {
+      "enum": [
+        "PLUS4",
+        "PLUS3",
+        "PLUS2",
+        "PLUS1",
+        "ZERO",
+        "MINUS1",
+        "MINUS2",
+        "MINUS3",
+        "MINUS",
+        "MINUS5",
+        "MINUS6",
+        "MINUS7",
+        "MINUS8",
+        "MINUS9",
+        "MINUS10",
+        "MINUS11",
+        "MINUS12",
+        "MINUS13",
+        "MINUS14",
+        "MINUS15",
+        "MINUS16",
+        "MINUS17",
+        "MINUS18",
+        "MINUS19",
+        "MINUS20"
+      ],
+      "title": "storageTemperature"
+    },
+    "maxOperatingTemp": {
+      "type": "number",
+      "title": "maxOperatingTemp"
+    },
+    "minOperatingTemp": {
+      "type": "number",
+      "title": "minOperatingTemp"
+    },
+    "energyConsumption": {
+      "type": "string",
+      "title": "energyConsumption"
+    },
+    "holdoverTime": {
+      "type": "number",
+      "title": "holdoverTime"
+    },
+    "grossVolume": {
+      "type": "number",
+      "title": "grossVolume"
+    },
+    "netVolume": {
+      "type": "number",
+      "title": "netVolume"
+    },
+    "width": {
+      "type": "number",
+      "title": "width"
+    },
+    "depth": {
+      "type": "number",
+      "title": "depth"
+    },
+    "height": {
+      "type": "number",
+      "title": "height"
+    },
+    "visibleInCatalog": {
+      "type": "boolean",
+      "title": "visibleInCatalog"
+    }
+  },
+  "required": [
+    "fromPqsCatalog",
+    "type",
+    "model",
+    "manufacturer",
+    "energySource",
+    "storageTemperature"
+  ]
+}

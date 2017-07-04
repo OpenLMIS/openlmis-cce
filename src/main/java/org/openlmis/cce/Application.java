@@ -164,6 +164,4 @@ public class Application {
             .withDateTimeProvider(customDateProvider)
             .build();
   }
-
-
 }

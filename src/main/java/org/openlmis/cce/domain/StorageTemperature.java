@@ -15,28 +15,36 @@
 
 package org.openlmis.cce.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
+public enum StorageTemperature {
+  PLUS4(4),
+  PLUS3(3),
+  PLUS2(2),
+  PLUS1(1),
+  ZERO(0),
+  MINUS1(-1),
+  MINUS2(-2),
+  MINUS3(-3),
+  MINUS4(-4),
+  MINUS5(-5),
+  MINUS6(-6),
+  MINUS7(-7),
+  MINUS8(-8),
+  MINUS9(-9),
+  MINUS10(-10),
+  MINUS11(-11),
+  MINUS12(-12),
+  MINUS13(-13),
+  MINUS14(-14),
+  MINUS15(-15),
+  MINUS16(-16),
+  MINUS17(-17),
+  MINUS18(-18),
+  MINUS19(-19),
+  MINUS20(-20);
 
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import java.util.UUID;
+  private int value;
 
-@MappedSuperclass
-public abstract class BaseEntity {
-
-  protected static final String UUID = "pg-uuid";
-  protected static final String TEXT = "text";
-
-  @Id
-  @GeneratedValue(generator = "uuid-gen")
-  @GenericGenerator(name = "uuid-gen",
-      strategy = "org.openlmis.cce.util.ConditionalUuidGenerator")
-  @Type(type = UUID)
-  @Getter
-  @Setter
-  protected UUID id;
+  StorageTemperature(int value) {
+    this.value = value;
+  }
 }
