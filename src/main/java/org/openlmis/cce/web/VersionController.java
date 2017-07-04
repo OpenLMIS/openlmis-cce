@@ -34,7 +34,7 @@ public class VersionController {
    *
    * @return {Version} Returns version read from file.
    */
-  @RequestMapping("/")
+  @RequestMapping("/cce")
   public Version display() {
     LOGGER.debug("Returning version");
     return new Version();
