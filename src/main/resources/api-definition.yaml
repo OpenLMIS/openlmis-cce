@@ -2,7 +2,8 @@
 ---
 title: OpenLMIS CCE API
 version: "@version@"
-baseUri: "http://localhost:8080"
+baseUri: "@baseUrl@"
+protocols: [ HTTP, HTTPS ]
 
 documentation:
     - title: Getting Started
@@ -31,6 +32,14 @@ schemas:
       }
 
 traits:
+    - secured:
+          queryParameters:
+              access_token:
+                  displayName: access_token
+                  description: OAuth2 access token
+                  type: string
+                  required: true
+                  repeat: false
     - paginated:
           queryParameters:
               page:
@@ -100,6 +109,50 @@ resourceTypes:
                 type: string
                 required: true
                 repeat: false
+    - collection:
+        get:
+            is: [ secured ]
+            responses:
+                200:
+                  description: Collection retrieved successfully
+                  body:
+                      application/json:
+                          schema: <<schema>>
+                404:
+                  description: Collection is empty.
+        post:
+            is: [ secured ]
+            body:
+                application/json:
+                    schema: <<schema>>
+            responses:
+                201:
+                  description: Item created successfully
+                  body:
+                      application/json:
+                          schema: <<schema>>
+    - member:
+        get:
+            is: [ secured ]
+            responses:
+                200:
+                    body:
+                        application/json:
+                            schema: <<schema>>
+        post:
+            is: [ secured ]
+            body:
+                application/json:
+                    schema: <<schema>>
+            responses:
+                200:
+                    body:
+                        application/json:
+                            schema: <<schema>>
+        delete:
+            is: [ secured ]
+            responses:
+                200:
 /:
     displayName: Version
     get:
