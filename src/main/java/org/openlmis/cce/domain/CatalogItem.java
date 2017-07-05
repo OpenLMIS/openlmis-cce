@@ -56,30 +56,30 @@ public class CatalogItem extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private EnergySource energySource;
 
-  private int dateOfPrequal;
+  private Integer dateOfPrequal;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   private StorageTemperature storageTemperature;
 
-  private int maxOperatingTemp;
+  private Integer maxOperatingTemp;
 
-  private int minOperatingTemp;
+  private Integer minOperatingTemp;
 
   @Column(columnDefinition = TEXT)
   private String energyConsumption;
 
-  private int holdoverTime;
+  private Integer holdoverTime;
 
-  private int grossVolume;
+  private Integer grossVolume;
 
-  private int netVolume;
+  private Integer netVolume;
 
-  private int width;
+  private Integer width;
 
-  private int depth;
+  private Integer depth;
 
-  private int height;
+  private Integer height;
 
   private boolean visibleInCatalog;
 
