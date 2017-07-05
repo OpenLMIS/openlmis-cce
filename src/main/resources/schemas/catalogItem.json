@@ -16,6 +16,10 @@
       "type": "string",
       "title": "equipmentCode"
     },
+    "type": {
+      "type": "string",
+      "title": "type"
+    },
     "model": {
       "type": "string",
       "title": "model"
