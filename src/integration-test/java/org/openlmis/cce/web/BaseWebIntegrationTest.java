@@ -29,7 +29,9 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.openlmis.cce.domain.BaseEntity;
 import org.openlmis.cce.dto.UserDto;
+import org.openlmis.cce.exception.PermissionMessageException;
 import org.openlmis.cce.util.AuthenticationHelper;
+import org.openlmis.cce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -47,6 +49,8 @@ import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.openlmis.cce.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 import static org.openlmis.cce.web.util.WireMockResponses.MOCK_CHECK_RESULT;
 import static org.openlmis.cce.web.util.WireMockResponses.MOCK_TOKEN_REQUEST_RESPONSE;
 import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
@@ -125,6 +129,15 @@ public abstract class BaseWebIntegrationTest {
             .withHeader(CONTENT_TYPE, APPLICATION_JSON)
             .withBody(MOCK_TOKEN_REQUEST_RESPONSE)));
 
+  }
+
+  protected PermissionMessageException mockPermissionException(String... deniedPermissions) {
+    PermissionMessageException exception = mock(PermissionMessageException.class);
+
+    Message errorMessage = new Message(ERROR_NO_FOLLOWING_PERMISSION, (Object[])deniedPermissions);
+    given(exception.asMessage()).willReturn(errorMessage);
+
+    return exception;
   }
 
   protected static class SaveAnswer<T extends BaseEntity> implements Answer<T> {

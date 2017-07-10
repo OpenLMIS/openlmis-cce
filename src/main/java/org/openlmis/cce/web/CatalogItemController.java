@@ -20,6 +20,7 @@ import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.i18n.CatalogItemMessageKeys;
 import org.openlmis.cce.repository.CatalogItemRepository;
+import org.openlmis.cce.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -29,7 +30,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -41,6 +41,9 @@ public class CatalogItemController extends BaseController {
   @Autowired
   private CatalogItemRepository catalogRepository;
 
+  @Autowired
+  private PermissionService permissionService;
+
   /**
    * Allows creating new CCE Catalog Item. If the id is specified, it will be ignored.
    *
@@ -51,6 +54,7 @@ public class CatalogItemController extends BaseController {
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public CatalogItemDto create(@RequestBody CatalogItemDto catalogItemDto) {
+    permissionService.canManageCce();
     catalogItemDto.setId(null);
     CatalogItem catalogItem = CatalogItem.newInstance(catalogItemDto);
 
@@ -67,6 +71,7 @@ public class CatalogItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public List<CatalogItemDto> getAll() {
+    permissionService.canManageCce();
     return toDto(catalogRepository.findAll());
   }
 
@@ -80,6 +85,7 @@ public class CatalogItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public CatalogItemDto getCatalogItem(@PathVariable("id") UUID catalogItemId) {
+    permissionService.canManageCce();
     CatalogItem catalogItem = catalogRepository.findOne(catalogItemId);
     if (catalogItem == null) {
       throw new NotFoundException(CatalogItemMessageKeys.ERROR_NOT_FOUND);
@@ -100,6 +106,7 @@ public class CatalogItemController extends BaseController {
   @ResponseBody
   public CatalogItemDto updateCatalogItem(@RequestBody CatalogItemDto catalogItemDto,
                                           @PathVariable("id") UUID catalogItemId) {
+    permissionService.canManageCce();
     CatalogItem catalogItem = CatalogItem.newInstance(catalogItemDto);
     catalogItem.setId(catalogItemId);
     catalogRepository.save(catalogItem);

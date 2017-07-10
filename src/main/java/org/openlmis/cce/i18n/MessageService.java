@@ -15,18 +15,19 @@
 
 package org.openlmis.cce.i18n;
 
-public abstract class MessageKeys {
-  private static final String SERVICE_PREFIX = "cce";
-  private static final String ERROR_PREFIX = SERVICE_PREFIX + ".error";
+import org.openlmis.cce.util.Message;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.i18n.LocaleContextHolder;
+import org.springframework.stereotype.Service;
 
-  public static final String ERROR_USER_NOT_FOUND = ERROR_PREFIX
-      + ".authentication.userCanNotBeFound";
-  public static final String ERROR_RIGHT_NOT_FOUND = ERROR_PREFIX
-      + ".authentication.rightCanNotBeFound";
-  public static final String ERROR_NO_FOLLOWING_PERMISSION = ERROR_PREFIX
-      + ".authentication.noFollowingPermission";
+@Service
+public class MessageService {
 
-  private MessageKeys() {
-    throw new UnsupportedOperationException();
+  @Autowired
+  private ExposedMessageSource messageSource;
+
+  public Message.LocalizedMessage localize(Message message) {
+    return message.localMessage(messageSource, LocaleContextHolder.getLocale());
   }
+
 }

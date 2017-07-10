@@ -13,20 +13,17 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.i18n;
+package org.openlmis.cce.exception;
 
-public abstract class MessageKeys {
-  private static final String SERVICE_PREFIX = "cce";
-  private static final String ERROR_PREFIX = SERVICE_PREFIX + ".error";
+import org.openlmis.cce.util.Message;
 
-  public static final String ERROR_USER_NOT_FOUND = ERROR_PREFIX
-      + ".authentication.userCanNotBeFound";
-  public static final String ERROR_RIGHT_NOT_FOUND = ERROR_PREFIX
-      + ".authentication.rightCanNotBeFound";
-  public static final String ERROR_NO_FOLLOWING_PERMISSION = ERROR_PREFIX
-      + ".authentication.noFollowingPermission";
+/**
+ * Exception for indicating that user has no permission for action. This should result
+ * in a Unauthorized api response.
+ */
+public class PermissionMessageException extends BaseMessageException {
 
-  private MessageKeys() {
-    throw new UnsupportedOperationException();
+  public PermissionMessageException(Message message) {
+    super(message);
   }
 }

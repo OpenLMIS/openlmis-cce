@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.web;
 
+import com.jayway.restassured.response.Response;
 import guru.nidi.ramltester.junit.RamlMatchers;
 import org.junit.Before;
 import org.junit.Test;
@@ -22,7 +23,11 @@ import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.EnergySource;
 import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.dto.CatalogItemDto;
+import org.openlmis.cce.i18n.MessageService;
 import org.openlmis.cce.repository.CatalogItemRepository;
+import org.openlmis.cce.service.PermissionService;
+import org.openlmis.cce.util.Message;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 
@@ -30,20 +35,32 @@ import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.openlmis.cce.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
+@SuppressWarnings("PMD.UnusedPrivateField")
 public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest {
 
   private static final String RESOURCE_URL = "/api/catalogItems";
   private static final String RESOURCE_URL_WITH_ID = RESOURCE_URL + "/{id}";
+  private static final String MESSAGE = "message";
 
   @MockBean
   private CatalogItemRepository catalogItemRepository;
 
+  @MockBean
+  private PermissionService permissionService;
+
+  @Autowired
+  private MessageService messageService;
+
   private CatalogItemDto catalogItemDto;
+  private String missingPermission = PermissionService.CCE_MANAGE;
 
   @Before
   public void setUp() {
@@ -59,13 +76,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
   @Test
   public void shouldCreateNewCatalogItem() {
-    CatalogItemDto response = restAssured
-        .given()
-        .queryParam(ACCESS_TOKEN, getToken())
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
-        .body(catalogItemDto)
-        .when()
-        .post(RESOURCE_URL)
+    CatalogItemDto response = postCatalogItem()
         .then()
         .statusCode(201)
         .extract().as(CatalogItemDto.class);
@@ -75,17 +86,25 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   }
 
   @Test
+  public void shouldReturnUnauthorizedWhenPostIfUserHasNoCceManagePermission() {
+    doThrow(mockPermissionException(missingPermission))
+        .when(permissionService).canManageCce();
+
+    postCatalogItem()
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, missingPermission)));
+
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
   public void shouldRetrieveAllCatalogItems() {
     List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);
 
     when(catalogItemRepository.findAll()).thenReturn(CatalogItem.newInstance(items));
 
-    CatalogItemDto[] response = restAssured
-        .given()
-        .queryParam(ACCESS_TOKEN, getToken())
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
-        .when()
-        .get(RESOURCE_URL)
+    CatalogItemDto[] response = getAllCatalogItems()
         .then()
         .statusCode(200)
         .extract().as(CatalogItemDto[].class);
@@ -96,17 +115,24 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   }
 
   @Test
+  public void shouldReturnUnauthorizedWhenGetAllCatalogItemsIfUserHasNoCceManagePermission() {
+    doThrow(mockPermissionException(missingPermission))
+        .when(permissionService).canManageCce();
+
+    getAllCatalogItems()
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, missingPermission)));
+
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
   public void shouldRetrieveCatalogItem() {
     when(catalogItemRepository.findOne(any(UUID.class)))
         .thenReturn(CatalogItem.newInstance(catalogItemDto));
 
-    CatalogItemDto response = restAssured
-        .given()
-        .queryParam(ACCESS_TOKEN, getToken())
-        .pathParam("id", UUID.randomUUID())
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
-        .when()
-        .get(RESOURCE_URL_WITH_ID)
+    CatalogItemDto response = getCatalogItem()
         .then()
         .statusCode(200)
         .extract().as(CatalogItemDto.class);
@@ -116,17 +142,24 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   }
 
   @Test
+  public void shouldReturnUnauthorizedWhenGetCatalogItemIfUserHasNoCceManagePermission() {
+    doThrow(mockPermissionException(missingPermission))
+        .when(permissionService).canManageCce();
+
+    getCatalogItem()
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, missingPermission)));
+
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
   public void shouldUpdateCatalogItems() {
     CatalogItemDto oldCatalogItem = new CatalogItemDto();
     oldCatalogItem.setId(UUID.randomUUID());
 
-    CatalogItemDto result = restAssured.given()
-        .queryParam(ACCESS_TOKEN, getToken())
-        .contentType(APPLICATION_JSON)
-        .pathParam("id", oldCatalogItem.getId())
-        .body(catalogItemDto)
-        .when()
-        .put(RESOURCE_URL_WITH_ID)
+    CatalogItemDto result = putCatalogItem(oldCatalogItem.getId())
         .then()
         .statusCode(200)
         .extract().as(CatalogItemDto.class);
@@ -136,5 +169,61 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     assertEquals(catalogItemDto.getEnergySource(), result.getEnergySource());
     assertEquals(catalogItemDto.getEquipmentCode(), result.getEquipmentCode());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldReturnUnauthorizedWhenPutIfUserHasNoCceManagePermission() {
+    doThrow(mockPermissionException(missingPermission))
+        .when(permissionService).canManageCce();
+
+    putCatalogItem(UUID.randomUUID())
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, missingPermission)));
+
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  private Response postCatalogItem() {
+    return restAssured
+        .given()
+        .queryParam(ACCESS_TOKEN, getToken())
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(catalogItemDto)
+        .when()
+        .post(RESOURCE_URL);
+  }
+
+  private Response getAllCatalogItems() {
+    return restAssured
+        .given()
+        .queryParam(ACCESS_TOKEN, getToken())
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .when()
+        .get(RESOURCE_URL);
+  }
+
+  private Response getCatalogItem() {
+    return restAssured
+        .given()
+        .queryParam(ACCESS_TOKEN, getToken())
+        .pathParam("id", UUID.randomUUID())
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .when()
+        .get(RESOURCE_URL_WITH_ID);
+  }
+
+  private Response putCatalogItem(UUID id) {
+    return restAssured.given()
+        .queryParam(ACCESS_TOKEN, getToken())
+        .contentType(APPLICATION_JSON)
+        .pathParam("id", id)
+        .body(catalogItemDto)
+        .when()
+        .put(RESOURCE_URL_WITH_ID);
+  }
+
+  private String getMessage(String messageKey, Object... messageParams) {
+    return messageService.localize(new Message(messageKey, messageParams)).asMessage();
   }
 }
