@@ -60,7 +60,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   private MessageService messageService;
 
   private CatalogItemDto catalogItemDto;
-  private String missingPermission = PermissionService.CCE_MANAGE;
+  private String managePermission = PermissionService.CCE_MANAGE;
 
   @Before
   public void setUp() {
@@ -87,13 +87,13 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
   @Test
   public void shouldReturnUnauthorizedWhenPostIfUserHasNoCceManagePermission() {
-    doThrow(mockPermissionException(missingPermission))
+    doThrow(mockPermissionException(managePermission))
         .when(permissionService).canManageCce();
 
     postCatalogItem()
         .then()
         .statusCode(403)
-        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, missingPermission)));
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
 
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
@@ -116,13 +116,13 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
   @Test
   public void shouldReturnUnauthorizedWhenGetAllCatalogItemsIfUserHasNoCceManagePermission() {
-    doThrow(mockPermissionException(missingPermission))
+    doThrow(mockPermissionException(managePermission))
         .when(permissionService).canManageCce();
 
     getAllCatalogItems()
         .then()
         .statusCode(403)
-        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, missingPermission)));
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
 
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
@@ -143,13 +143,13 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
   @Test
   public void shouldReturnUnauthorizedWhenGetCatalogItemIfUserHasNoCceManagePermission() {
-    doThrow(mockPermissionException(missingPermission))
+    doThrow(mockPermissionException(managePermission))
         .when(permissionService).canManageCce();
 
     getCatalogItem()
         .then()
         .statusCode(403)
-        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, missingPermission)));
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
 
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
@@ -173,13 +173,13 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
   @Test
   public void shouldReturnUnauthorizedWhenPutIfUserHasNoCceManagePermission() {
-    doThrow(mockPermissionException(missingPermission))
+    doThrow(mockPermissionException(managePermission))
         .when(permissionService).canManageCce();
 
     putCatalogItem(UUID.randomUUID())
         .then()
         .statusCode(403)
-        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, missingPermission)));
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
 
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
