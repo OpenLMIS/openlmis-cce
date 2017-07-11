@@ -81,7 +81,7 @@ public class PermissionServiceTest {
   }
 
   @Test
-  public void userClientCanManageCceHasRight() throws Exception {
+  public void userClientCanManageCceIfHasRight() throws Exception {
     hasRight(cceManageRightId);
 
     permissionService.canManageCce();
