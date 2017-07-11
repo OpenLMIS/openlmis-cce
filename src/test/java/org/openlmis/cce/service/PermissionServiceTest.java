@@ -81,14 +81,14 @@ public class PermissionServiceTest {
   }
 
   @Test
-  public void userClientCanInitRequisitionIfHasRight() throws Exception {
+  public void userClientCanManageCceHasRight() throws Exception {
     hasRight(cceManageRightId);
 
     permissionService.canManageCce();
   }
 
   @Test
-  public void userClientCannotInitRequisitionIfHasNoRight() throws Exception {
+  public void userClientCannotManageCceIfHasNoRight() throws Exception {
     exception.expect(PermissionMessageException.class);
     exception.expectMessage(
         new Message(ERROR_NO_FOLLOWING_PERMISSION, PermissionService.CCE_MANAGE).toString());
@@ -97,7 +97,7 @@ public class PermissionServiceTest {
   }
 
   @Test
-  public void trustedClientCanInitRequisition() throws Exception {
+  public void trustedClientCanManageCce() throws Exception {
     when(securityContext.getAuthentication()).thenReturn(trustedClient);
 
     permissionService.canManageCce();
