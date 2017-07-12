@@ -27,7 +27,9 @@ import org.openlmis.cce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.stereotype.Service;
 
+@Service
 public class PermissionService {
 
   public static final String CCE_MANAGE = "CCE_MANAGE";
