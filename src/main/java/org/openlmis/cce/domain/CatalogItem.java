@@ -61,7 +61,7 @@ public class CatalogItem extends BaseEntity {
   public static final String FROM_PQS_CATALOG = "From PQS catalog";
 
   @Column(nullable = false)
-  @ImportField(name = FROM_PQS_CATALOG, type = BOOLEAN_TYPE)
+  @ImportField(name = FROM_PQS_CATALOG, type = BOOLEAN_TYPE, mandatory = true)
   private boolean fromPqsCatalog;
 
   @Column(columnDefinition = TEXT)
@@ -69,20 +69,20 @@ public class CatalogItem extends BaseEntity {
   private String equipmentCode;
 
   @Column(columnDefinition = TEXT, nullable = false)
-  @ImportField(name = TYPE)
+  @ImportField(name = TYPE, mandatory = true)
   private String type;
 
   @Column(columnDefinition = TEXT, nullable = false)
-  @ImportField(name = MODEL)
+  @ImportField(name = MODEL, mandatory = true)
   private String model;
 
   @Column(columnDefinition = TEXT, nullable = false)
-  @ImportField(name = MANUFACTURER)
+  @ImportField(name = MANUFACTURER, mandatory = true)
   private String manufacturer;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  @ImportField(name = ENERGY_SOURCE, type = ENERGY_SOURCE_TYPE)
+  @ImportField(name = ENERGY_SOURCE, type = ENERGY_SOURCE_TYPE, mandatory = true)
   private EnergySource energySource;
 
   @ImportField(name = DATE_OF_PREQUAL, type = INT_FROM_DOUBLE_TYPE)
@@ -90,7 +90,7 @@ public class CatalogItem extends BaseEntity {
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  @ImportField(name = STORAGE_TEMPERATURE, type = STORAGE_TEMPERATURE_TYPE)
+  @ImportField(name = STORAGE_TEMPERATURE, type = STORAGE_TEMPERATURE_TYPE, mandatory = true)
   private StorageTemperature storageTemperature;
 
   @ImportField(name = MAX_OPERATING_TEMP_DEGREES_C, type = INT_FROM_DOUBLE_TYPE)
