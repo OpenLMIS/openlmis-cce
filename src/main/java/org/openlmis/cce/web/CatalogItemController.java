@@ -18,18 +18,27 @@ package org.openlmis.cce.web;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.exception.NotFoundException;
+import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.i18n.CatalogItemMessageKeys;
+import org.openlmis.cce.i18n.MessageKeys;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.service.PermissionService;
+import org.openlmis.cce.web.upload.CatalogItemPersistenceHandler;
+import org.openlmis.cce.web.upload.ModelClass;
+import org.openlmis.cce.web.upload.parser.CsvParser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.multipart.MultipartFile;
+import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -43,6 +52,12 @@ public class CatalogItemController extends BaseController {
 
   @Autowired
   private PermissionService permissionService;
+
+  @Autowired
+  private CatalogItemPersistenceHandler catalogItemPersistenceHandler;
+
+  @Autowired
+  private CsvParser csvParser;
 
   /**
    * Allows creating new CCE Catalog Item. If the id is specified, it will be ignored.
@@ -111,6 +126,25 @@ public class CatalogItemController extends BaseController {
     catalogItem.setId(catalogItemId);
     catalogRepository.save(catalogItem);
     return toDto(catalogItem);
+  }
+
+  /**
+   * Uploads csv file and convert to domain object.
+   *
+   * @param file File in ".csv" format to upload.
+   * @return number of uploaded records
+   */
+  @PostMapping("/catalogItems/upload")
+  @ResponseStatus(HttpStatus.OK)
+  public int upload(@RequestPart("file") MultipartFile file) {
+    validateCsvFile(file);
+    ModelClass modelClass = new ModelClass(CatalogItem.class);
+
+    try {
+      return csvParser.process(file.getInputStream(), modelClass, catalogItemPersistenceHandler);
+    } catch (IOException ex) {
+      throw new ValidationMessageException(ex, MessageKeys.ERROR_IO, ex.getMessage());
+    }
   }
 
   private CatalogItemDto toDto(CatalogItem catalogItem) {

@@ -25,6 +25,15 @@ public abstract class MessageKeys {
       + ".authentication.rightCanNotBeFound";
   public static final String ERROR_NO_FOLLOWING_PERMISSION = ERROR_PREFIX
       + ".authentication.noFollowingPermission";
+  public static final String ERROR_UPLOD_INVALID_HEADER = ERROR_PREFIX
+      + ".upload.invalid.header";
+  public static final String ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS = ERROR_PREFIX
+      + ".upload.missing.mandatory.columns";
+  public static final String ERROR_UPLOAD_HEADER_MISSING = ERROR_PREFIX
+      + ".upload.header.missing";
+  public static final String ERROR_IO = ERROR_PREFIX + ".io";
+  public static final String ERROR_FILE_IS_EMPTY = ERROR_PREFIX + ".fileIsEmpty";
+  public static final String ERROR_INCORRECT_FILE_FORMAT = ERROR_PREFIX + ".incorrectFileFormat";
 
   private MessageKeys() {
     throw new UnsupportedOperationException();

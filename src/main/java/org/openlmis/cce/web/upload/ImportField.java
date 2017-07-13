@@ -13,14 +13,37 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.repository;
+package org.openlmis.cce.web.upload;
 
-import org.openlmis.cce.domain.CatalogItem;
-import org.springframework.data.repository.CrudRepository;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-import java.util.UUID;
+/**
+ * This annotation is used to specify attributes of a field in POJO.
+ * This is used in importing data from CSV files to POJOs.
+ */
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ImportField {
+  /**
+   * indicate if field is mandatory
+   */
+  boolean mandatory() default false;
 
-public interface CatalogItemRepository extends CrudRepository<CatalogItem, UUID> {
+  /**
+   * indicate field type
+   */
+  String type() default "String";
 
-  CatalogItem findByEquipmentCode(String code);
+  /**
+   * indicate field name
+   */
+  String name() default "";
+
+  /**
+   * indicate nested field value
+   */
+  String nested() default "";
 }

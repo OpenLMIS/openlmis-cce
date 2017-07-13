@@ -13,14 +13,26 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.repository;
+package org.openlmis.cce.exception;
 
-import org.openlmis.cce.domain.CatalogItem;
-import org.springframework.data.repository.CrudRepository;
+import org.openlmis.cce.util.Message;
 
-import java.util.UUID;
+/**
+ * This class represents validation exception.
+ */
+public class ValidationMessageException extends BaseMessageException {
 
-public interface CatalogItemRepository extends CrudRepository<CatalogItem, UUID> {
+  public ValidationMessageException(Message message) {
+    super(message);
+  }
 
-  CatalogItem findByEquipmentCode(String code);
+  public ValidationMessageException(String messageKey, Object... messageParameters) {
+    super(new Message(messageKey, messageParameters));
+  }
+
+  public ValidationMessageException(Throwable cause,
+                                    String messageKey,
+                                    Object... messageParameters) {
+    super(new Message(messageKey, messageParameters), cause);
+  }
 }

@@ -13,14 +13,15 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.repository;
+package org.openlmis.cce.web.upload;
 
-import org.openlmis.cce.domain.CatalogItem;
-import org.springframework.data.repository.CrudRepository;
+import org.openlmis.cce.domain.BaseEntity;
 
-import java.util.UUID;
+/**
+ * This interface is implemented by all record handlers.
+ */
+public interface RecordHandler {
 
-public interface CatalogItemRepository extends CrudRepository<CatalogItem, UUID> {
+  void execute(BaseEntity importable);
 
-  CatalogItem findByEquipmentCode(String code);
 }

@@ -13,14 +13,30 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.repository;
+package org.openlmis.cce.web.upload;
 
+import org.openlmis.cce.domain.BaseEntity;
 import org.openlmis.cce.domain.CatalogItem;
-import org.springframework.data.repository.CrudRepository;
+import org.openlmis.cce.repository.CatalogItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
-import java.util.UUID;
+/**
+ * CatalogItemPersistenceHandler is used for uploads of Catalog Item.
+ * It uploads each catalog item record by record.
+ */
+@Component
+public class CatalogItemPersistenceHandler extends AbstractPersistenceHandler {
 
-public interface CatalogItemRepository extends CrudRepository<CatalogItem, UUID> {
+  @Autowired
+  private CatalogItemRepository catalogItemRepository;
 
-  CatalogItem findByEquipmentCode(String code);
+  protected BaseEntity getExisting(BaseEntity record) {
+    return catalogItemRepository.findByEquipmentCode(((CatalogItem)record).getEquipmentCode());
+  }
+
+  protected void save(BaseEntity record) {
+    catalogItemRepository.save((CatalogItem)record);
+  }
+
 }

@@ -15,17 +15,21 @@
 
 package org.openlmis.cce.web;
 
+import static org.openlmis.cce.i18n.MessageKeys.ERROR_FILE_IS_EMPTY;
+import static org.openlmis.cce.i18n.MessageKeys.ERROR_INCORRECT_FILE_FORMAT;
+
 import org.apache.commons.lang3.StringUtils;
 import org.javers.core.Javers;
 import org.javers.core.changelog.SimpleTextChangeLog;
 import org.javers.core.diff.Change;
 import org.javers.core.json.JsonConverter;
 import org.javers.repository.jql.QueryBuilder;
+import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Pageable;
 import org.springframework.web.bind.annotation.RequestMapping;
-
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.UUID;
 
@@ -56,6 +60,7 @@ public abstract class BaseController {
 
   /**
    * Return a list of audited changes via JSON.
+   *
    * @param type The type of class for which we wish to retrieve historical changes.
    */
   protected String getAuditLogJson(Class type) {
@@ -69,25 +74,27 @@ public abstract class BaseController {
   /**
    * Return a list of changes via JSON.
    *
-   * @param type The type of class for which we wish to retrieve historical changes.
-   * @param id The ID of class for which we wish to retrieve historical changes.
-   *           If null, entries are returned regardless of their ID.
-   * @param author The author of the changes which should be returned.
-   *               If null or empty, changes are returned regardless of author.
+   * @param type                The type of class for which we wish to retrieve historical changes.
+   * @param id                  The ID of class for which we wish to retrieve historical changes.
+   *                            If null, entries are returned regardless of their ID.
+   * @param author              The author of the changes which should be returned.
+   *                            If null or empty, changes are returned regardless of author.
    * @param changedPropertyName The name of the property about which changes should be returned.
-   *               If null or empty, changes associated with any and all properties are returned.
-   * @param page A Pageable object with PageNumber and PageSize values used for pagination.
+   *                            If null or empty, changes associated with any and all properties
+   *                            are returned.
+   * @param page                A Pageable object with PageNumber and PageSize values used for
+   *                           pagination.
    */
   protected String getAuditLogJson(Class type, UUID id, String author,
-                                     String changedPropertyName, Pageable page) {
+                                   String changedPropertyName, Pageable page) {
     List<Change> changes = getChangesByType(type, id, author, changedPropertyName, page);
     JsonConverter jsonConverter = javers.getJsonConverter();
     return jsonConverter.toJson(changes);
   }
 
-
   /**
    * Return a list of changes as a log (in other words, as a series of line entries).
+   *
    * @param type The type of class for which we wish to retrieve historical changes.
    */
   protected String getAuditLogText(Class type) {
@@ -96,9 +103,10 @@ public abstract class BaseController {
 
   /**
    * Return a list of changes as a log (in other words, as a series of line entries).
+   *
    * @param type The type of class for which we wish to retrieve historical changes.
-   * @param id The ID of class for which we wish to retrieve historical changes.
-   *           If null, entries are returned regardless of their ID.
+   * @param id   The ID of class for which we wish to retrieve historical changes.
+   *             If null, entries are returned regardless of their ID.
    */
   protected String getAuditLogText(Class type, UUID id) {
     return getAuditLogText(type, id, null, null, null);
@@ -114,6 +122,13 @@ public abstract class BaseController {
     return javers.processChangeList(changes, new SimpleTextChangeLog());
   }
 
+  void validateCsvFile(MultipartFile csvFile) {
+    if (csvFile == null || csvFile.isEmpty()) {
+      throw new ValidationMessageException(ERROR_FILE_IS_EMPTY);
+    } else if (!csvFile.getOriginalFilename().endsWith(".csv")) {
+      throw new ValidationMessageException(ERROR_INCORRECT_FILE_FORMAT);
+    }
+  }
 
   /*
     Return JaVers changes for the specified type, optionally filtered by id, author, and property.
@@ -133,10 +148,10 @@ public abstract class BaseController {
 
     queryBuilder = queryBuilder.withNewObjectChanges(true).skip(skip).limit(limit);
 
-    if ( StringUtils.isNotBlank(author) ) {
+    if (StringUtils.isNotBlank(author)) {
       queryBuilder = queryBuilder.byAuthor(author);
     }
-    if ( StringUtils.isNotBlank(changedPropertyName) ) {
+    if (StringUtils.isNotBlank(changedPropertyName)) {
       queryBuilder = queryBuilder.andProperty(changedPropertyName);
     }
 
@@ -147,7 +162,7 @@ public abstract class BaseController {
     List<Change> changes = javers.findChanges(queryBuilder.build());
 
     changes.sort((o1, o2) -> -1 * o1.getCommitMetadata().get().getCommitDate()
-                                  .compareTo(o2.getCommitMetadata().get().getCommitDate()));
+        .compareTo(o2.getCommitMetadata().get().getCommitDate()));
     return changes;
   }
 

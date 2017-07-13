@@ -13,14 +13,39 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.repository;
+package org.openlmis.cce.web.upload;
 
-import org.openlmis.cce.domain.CatalogItem;
-import org.springframework.data.repository.CrudRepository;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
-import java.util.UUID;
+/**
+ * Field corresponds to an attribute of a POJO, used in creating new POJOs from a row in csv file.
+ */
+@Data
+@NoArgsConstructor
+public class Field {
+  java.lang.reflect.Field field;
+  private boolean mandatory;
+  private String name;
+  private String nested;
+  private String type;
 
-public interface CatalogItemRepository extends CrudRepository<CatalogItem, UUID> {
+  /**
+   * Constructs new field.
+   */
+  public Field(java.lang.reflect.Field field, ImportField annotation) {
+    this.field = field;
+    this.mandatory = annotation.mandatory();
+    this.name = annotation.name().isEmpty() ? field.getName() : annotation.name();
+    this.nested = annotation.nested();
+    this.type = annotation.type();
+  }
 
-  CatalogItem findByEquipmentCode(String code);
+  /**
+   * Checks if Field name equals given name.
+   */
+  public boolean hasName(String name) {
+    return this.name.equalsIgnoreCase(name);
+  }
+
 }
