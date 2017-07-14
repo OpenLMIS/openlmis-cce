@@ -19,11 +19,12 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 /**
- * Field corresponds to an attribute of a POJO, used in creating new POJOs from a row in csv file.
+ * ModelField corresponds to an attribute of a POJO,
+ * used in creating new POJOs from a row in csv file.
  */
 @Data
 @NoArgsConstructor
-public class Field {
+public class ModelField {
   java.lang.reflect.Field field;
   private boolean mandatory;
   private String name;
@@ -33,7 +34,7 @@ public class Field {
   /**
    * Constructs new field.
    */
-  public Field(java.lang.reflect.Field field, ImportField annotation) {
+  public ModelField(java.lang.reflect.Field field, ImportField annotation) {
     this.field = field;
     this.mandatory = annotation.mandatory();
     this.name = annotation.name().isEmpty() ? field.getName() : annotation.name();
@@ -42,7 +43,7 @@ public class Field {
   }
 
   /**
-   * Checks if Field name equals given name.
+   * Checks if ModelField name equals given name.
    */
   public boolean hasName(String name) {
     return this.name.equalsIgnoreCase(name);

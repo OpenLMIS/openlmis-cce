@@ -39,7 +39,7 @@ public class ModelClass {
 
   private Class<? extends BaseEntity> clazz;
 
-  private List<Field> importFields;
+  private List<ModelField> importFields;
   private boolean acceptExtraHeaders = false;
 
   public ModelClass(Class<? extends BaseEntity> clazz) {
@@ -70,7 +70,7 @@ public class ModelClass {
   public String[] getFieldNameMappings(String[] headers) {
     List<String> fieldMappings = new ArrayList<>();
     for (String header : headers) {
-      Field importField = findImportFieldWithName(header);
+      ModelField importField = findImportFieldWithName(header);
       if (importField != null) {
         String nestedProperty = importField.getNested();
         if (nestedProperty.isEmpty()) {
@@ -92,20 +92,20 @@ public class ModelClass {
    * @param name ImportField name
    * @return import name with given name.
    */
-  public Field findImportFieldWithName(final String name) {
-    Optional<Field> fieldOptional = importFields.stream()
+  public ModelField findImportFieldWithName(final String name) {
+    Optional<ModelField> fieldOptional = importFields.stream()
         .filter(field -> field.hasName(name))
         .findAny();
 
     return fieldOptional.orElse(null);
   }
 
-  private List<Field> fieldsWithImportFieldAnnotation() {
+  private List<ModelField> fieldsWithImportFieldAnnotation() {
     List<java.lang.reflect.Field> fieldsList = Arrays.asList(clazz.getDeclaredFields());
-    List<Field> result = new ArrayList<>();
+    List<ModelField> result = new ArrayList<>();
     for (java.lang.reflect.Field field : fieldsList) {
       if (field.isAnnotationPresent(ImportField.class)) {
-        result.add(new Field(field, field.getAnnotation(ImportField.class)));
+        result.add(new ModelField(field, field.getAnnotation(ImportField.class)));
       }
     }
 
@@ -140,7 +140,7 @@ public class ModelClass {
 
   private List<String> findMissingFields(List<String> headers) {
     List<String> missingFields = new ArrayList<>();
-    for (Field field : importFields) {
+    for (ModelField field : importFields) {
       if (field.isMandatory()) {
         String fieldName = field.getName();
         if (!headers.contains(fieldName.toLowerCase())) {
@@ -161,7 +161,7 @@ public class ModelClass {
 
   private List<String> getAllImportedFieldNames() {
     List<String> outputCollection = new ArrayList<>();
-    for (Field field : importFields) {
+    for (ModelField field : importFields) {
       outputCollection.add(field.getName());
     }
     return outputCollection;

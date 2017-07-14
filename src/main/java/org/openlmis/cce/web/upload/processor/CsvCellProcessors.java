@@ -15,7 +15,7 @@
 
 package org.openlmis.cce.web.upload.processor;
 
-import org.openlmis.cce.web.upload.Field;
+import org.openlmis.cce.web.upload.ModelField;
 import org.openlmis.cce.web.upload.ModelClass;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseBigDecimal;
@@ -79,7 +79,7 @@ public class CsvCellProcessors {
   public static List<CellProcessor> getProcessors(ModelClass modelClass, List<String> headers) {
     List<CellProcessor> processors = new ArrayList<>();
     for (String header : headers) {
-      Field field = modelClass.findImportFieldWithName(header);
+      ModelField field = modelClass.findImportFieldWithName(header);
       CellProcessor processor = null;
       if (field != null) {
         processor = chainTypeProcessor(field);
@@ -89,7 +89,7 @@ public class CsvCellProcessors {
     return processors;
   }
 
-  private static CellProcessor chainTypeProcessor(Field field) {
+  private static CellProcessor chainTypeProcessor(ModelField field) {
     CellProcessor mappedProcessor = typeMappings.get(field.getType());
     return field.isMandatory() ? new NotNull(mappedProcessor) : new Optional(mappedProcessor);
   }
