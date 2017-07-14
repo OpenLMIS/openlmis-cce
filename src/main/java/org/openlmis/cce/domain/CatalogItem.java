@@ -23,6 +23,7 @@ import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.TRIPLE_1_T
 import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.TRIPLE_2_TYPE;
 import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.TRIPLE_3_TYPE;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -43,6 +44,7 @@ import javax.persistence.Table;
 @Entity
 @TypeName("Catalog")
 @Table(name = "cce_catalog")
+@EqualsAndHashCode(callSuper = true)
 public class CatalogItem extends BaseEntity {
 
   public static final String VISIBLE_IN_CATALOG = "Visible in catalog";
