@@ -20,19 +20,19 @@ import org.openlmis.cce.domain.BaseEntity;
 /**
  * AbstractPersistenceHandler is a base class used for persisting each record of the uploaded file.
  */
-public abstract class AbstractPersistenceHandler implements RecordHandler {
+public abstract class AbstractPersistenceHandler<T extends BaseEntity> implements RecordHandler {
 
   /**
    * Persists each record of the uploaded file.
    */
   public void execute(BaseEntity currentRecord) {
-    BaseEntity existing = getExisting(currentRecord);
+    BaseEntity existing = getExisting((T)currentRecord);
 
     if (existing != null) {
       currentRecord.setId(existing.getId());
     }
 
-    save(currentRecord);
+    save((T)currentRecord);
   }
 
   /**
@@ -42,7 +42,7 @@ public abstract class AbstractPersistenceHandler implements RecordHandler {
    * @param record the record an implementation should use to look for an "existing" record.
    * @return the record that exists that has the same identity as the given record.
    */
-  protected abstract BaseEntity getExisting(BaseEntity record);
+  protected abstract BaseEntity getExisting(T record);
 
-  protected abstract void save(BaseEntity record);
+  protected abstract void save(T record);
 }

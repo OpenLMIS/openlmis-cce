@@ -26,17 +26,17 @@ import org.springframework.stereotype.Component;
  * It uploads each catalog item record by record.
  */
 @Component
-public class CatalogItemPersistenceHandler extends AbstractPersistenceHandler {
+public class CatalogItemPersistenceHandler extends AbstractPersistenceHandler<CatalogItem> {
 
   @Autowired
   private CatalogItemRepository catalogItemRepository;
 
-  protected BaseEntity getExisting(BaseEntity record) {
-    return catalogItemRepository.findByEquipmentCode(((CatalogItem)record).getEquipmentCode());
+  protected BaseEntity getExisting(CatalogItem record) {
+    return catalogItemRepository.findByEquipmentCode(record.getEquipmentCode());
   }
 
-  protected void save(BaseEntity record) {
-    catalogItemRepository.save((CatalogItem)record);
+  protected void save(CatalogItem record) {
+    catalogItemRepository.save(record);
   }
 
 }
