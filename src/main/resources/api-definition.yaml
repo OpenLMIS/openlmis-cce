@@ -269,3 +269,29 @@ resourceTypes:
                       body:
                         application/json:
                           schema: localizedErrorResponse
+      /upload:
+          displayName: CSV file
+          post:
+              is: [ secured ]
+              description: Add or update catalog items through csv file.
+              body:
+                  multipart/form-data:
+                    formParameters:
+                        file:
+                           displayName: File with .csv format
+                           type: file
+                           required: false
+                           repeat: false
+              responses:
+                    200:
+                        description: Returns number of rows added/updated.
+                        body:
+                          text/plain:
+                    403:
+                        body:
+                          application/json:
+                            schema: localizedErrorResponse
+                    400:
+                        body:
+                          application/json:
+                            schema: localizedErrorResponse

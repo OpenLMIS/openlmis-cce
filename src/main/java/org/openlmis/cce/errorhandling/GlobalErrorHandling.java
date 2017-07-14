@@ -58,7 +58,7 @@ public class GlobalErrorHandling extends AbstractErrorHandling {
   @ExceptionHandler(ValidationMessageException.class)
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
-  public Message.LocalizedMessage handleValidationMessageException(PermissionMessageException ex) {
+  public Message.LocalizedMessage handleValidationMessageException(ValidationMessageException ex) {
     return getLocalizedMessage(ex);
   }
 }

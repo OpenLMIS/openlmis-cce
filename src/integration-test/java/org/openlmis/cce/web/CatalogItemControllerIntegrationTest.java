@@ -15,6 +15,17 @@
 
 package org.openlmis.cce.web;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.openlmis.cce.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
+
 import com.jayway.restassured.response.Response;
 import guru.nidi.ramltester.junit.RamlMatchers;
 import org.junit.Before;
@@ -29,25 +40,19 @@ import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
-
+import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.when;
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
-
-@SuppressWarnings("PMD.UnusedPrivateField")
+@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.TooManyMethods"})
 public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest {
 
   private static final String RESOURCE_URL = "/api/catalogItems";
   private static final String RESOURCE_URL_WITH_ID = RESOURCE_URL + "/{id}";
+  private static final String RESOURCE_URL_UPLOAD = RESOURCE_URL + "/upload";
   private static final String MESSAGE = "message";
 
   @MockBean
@@ -177,6 +182,68 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .when(permissionService).canManageCce();
 
     putCatalogItem(UUID.randomUUID())
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
+
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldUploadCsvWithMandatoryFields()
+      throws IOException {
+    ClassPathResource basicCsvToUpload =
+        new ClassPathResource("csv/catalogItems/basicCsvToUpload.csv");
+
+    restAssured.given()
+        .queryParam(ACCESS_TOKEN, getToken())
+        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+        .multiPart("file", basicCsvToUpload.getFilename(), basicCsvToUpload.getInputStream())
+        .when()
+        .post(RESOURCE_URL_UPLOAD)
+        .then()
+        .statusCode(200)
+        .body(equalTo(String.valueOf(1)));
+
+    verify(catalogItemRepository).save(any(CatalogItem.class));
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldNotUploadCsvWithoutMandatoryFields()
+      throws IOException {
+    ClassPathResource basicCsvToUpload =
+        new ClassPathResource("csv/catalogItems/wrongCsvToUpload.csv");
+
+    restAssured.given()
+        .queryParam(ACCESS_TOKEN, getToken())
+        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+        .multiPart("file", basicCsvToUpload.getFilename(), basicCsvToUpload.getInputStream())
+        .when()
+        .post(RESOURCE_URL_UPLOAD)
+        .then()
+        .statusCode(400)
+        .body(MESSAGE, equalTo(getMessage(
+            ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS, "[From PQS catalog]")));
+
+    verify(catalogItemRepository, times(0)).save(any(CatalogItem.class));
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldReturnUnauthorizedWhenUploadCsvIfUserHasNoCceManagePermission()
+      throws IOException {
+    doThrow(mockPermissionException(managePermission))
+        .when(permissionService).canManageCce();
+    ClassPathResource basicCsvToUpload =
+        new ClassPathResource("csv/catalogItems/basicCsvToUpload.csv");
+
+    restAssured.given()
+        .queryParam(ACCESS_TOKEN, getToken())
+        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+        .multiPart("file", basicCsvToUpload.getFilename(), basicCsvToUpload.getInputStream())
+        .when()
+        .post(RESOURCE_URL_UPLOAD)
         .then()
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
