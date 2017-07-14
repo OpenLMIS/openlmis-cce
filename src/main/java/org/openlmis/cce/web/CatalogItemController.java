@@ -133,7 +133,7 @@ public class CatalogItemController extends BaseController {
   }
 
   /**
-   * Uploads csv file and convert to domain object.
+   * Uploads csv file and converts to domain object.
    *
    * @param file File in ".csv" format to upload.
    * @return number of uploaded records
