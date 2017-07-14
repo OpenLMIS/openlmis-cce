@@ -18,6 +18,7 @@ package org.openlmis.cce.web.validator;
 import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOAD_HEADER_MISSING;
 import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
 import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOD_INVALID_HEADER;
+import static org.openlmis.cce.util.StringHelper.lowerCase;
 
 import org.apache.commons.collections.ListUtils;
 import org.openlmis.cce.exception.ValidationMessageException;
@@ -26,6 +27,7 @@ import org.openlmis.cce.web.upload.ModelField;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class CsvHeaderValidator {
@@ -83,19 +85,9 @@ public class CsvHeaderValidator {
     return missingFields;
   }
 
-  private List<String> lowerCase(List<String> headers) {
-    List<String> lowerCaseHeaders = new ArrayList<>();
-    for (String header : headers) {
-      lowerCaseHeaders.add(header.toLowerCase());
-    }
-    return lowerCaseHeaders;
-  }
-
   private List<String> getAllImportedFieldNames(ModelClass modelClass) {
-    List<String> outputCollection = new ArrayList<>();
-    for (ModelField field : modelClass.getImportFields()) {
-      outputCollection.add(field.getName());
-    }
-    return outputCollection;
+    return modelClass.getImportFields().stream()
+        .map(ModelField::getName)
+        .collect(Collectors.toList());
   }
 }
