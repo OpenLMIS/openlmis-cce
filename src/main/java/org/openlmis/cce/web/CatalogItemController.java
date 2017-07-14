@@ -138,6 +138,7 @@ public class CatalogItemController extends BaseController {
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
   public String upload(@RequestPart("file") MultipartFile file) {
+    permissionService.canManageCce();
     validateCsvFile(file);
     ModelClass modelClass = new ModelClass(CatalogItem.class);
 

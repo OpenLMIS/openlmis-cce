@@ -17,6 +17,7 @@ package org.openlmis.cce.errorhandling;
 
 import org.openlmis.cce.exception.AuthenticationMessageException;
 import org.openlmis.cce.exception.PermissionMessageException;
+import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.service.DataRetrievalException;
 import org.openlmis.cce.util.Message;
 import org.openlmis.util.ErrorResponse;
@@ -51,6 +52,13 @@ public class GlobalErrorHandling extends AbstractErrorHandling {
   @ResponseStatus(HttpStatus.FORBIDDEN)
   @ResponseBody
   public Message.LocalizedMessage handlePermissionException(PermissionMessageException ex) {
+    return getLocalizedMessage(ex);
+  }
+
+  @ExceptionHandler(ValidationMessageException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  public Message.LocalizedMessage handleValidationMessageException(PermissionMessageException ex) {
     return getLocalizedMessage(ex);
   }
 }
