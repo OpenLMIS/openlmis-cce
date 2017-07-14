@@ -135,13 +135,15 @@ public class CatalogItemController extends BaseController {
    * @return number of uploaded records
    */
   @PostMapping("/catalogItems/upload")
+  @ResponseBody
   @ResponseStatus(HttpStatus.OK)
-  public int upload(@RequestPart("file") MultipartFile file) {
+  public String upload(@RequestPart("file") MultipartFile file) {
     validateCsvFile(file);
     ModelClass modelClass = new ModelClass(CatalogItem.class);
 
     try {
-      return csvParser.process(file.getInputStream(), modelClass, catalogItemPersistenceHandler);
+      return Integer.toString(csvParser.process(
+              file.getInputStream(), modelClass, catalogItemPersistenceHandler));
     } catch (IOException ex) {
       throw new ValidationMessageException(ex, MessageKeys.ERROR_IO, ex.getMessage());
     }
