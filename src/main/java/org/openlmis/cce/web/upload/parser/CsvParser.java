@@ -19,6 +19,7 @@ import lombok.NoArgsConstructor;
 import org.openlmis.cce.domain.BaseEntity;
 import org.openlmis.cce.web.upload.ModelClass;
 import org.openlmis.cce.web.upload.RecordHandler;
+import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 import java.io.InputStream;
@@ -41,9 +42,10 @@ public class CsvParser {
    */
   public int process(InputStream inputStream,
                      ModelClass modelClass,
-                     RecordHandler recordHandler) throws IOException {
+                     RecordHandler recordHandler,
+                     CsvHeaderValidator csvHeaderValidator) throws IOException {
 
-    CsvBeanReader csvBeanReader = new CsvBeanReader(modelClass, inputStream);
+    CsvBeanReader csvBeanReader = new CsvBeanReader(modelClass, inputStream, csvHeaderValidator);
     csvBeanReader.validateHeaders();
 
     BaseEntity importedModel;

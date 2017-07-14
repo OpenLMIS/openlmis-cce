@@ -21,6 +21,7 @@ import lombok.Getter;
 import org.openlmis.cce.domain.BaseEntity;
 import org.openlmis.cce.web.upload.ModelClass;
 import org.openlmis.cce.web.upload.processor.CsvCellProcessors;
+import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.dozer.CsvDozerBeanReader;
 import org.supercsv.prefs.CsvPreference;
@@ -38,13 +39,17 @@ class CsvBeanReader {
 
   private ModelClass modelClass;
   private CsvDozerBeanReader dozerBeanReader;
+  private CsvHeaderValidator csvHeaderValidator;
   private CellProcessor[] processors;
 
   @Getter
   private String[] headers;
 
-  CsvBeanReader(ModelClass modelClass, InputStream inputStream) throws IOException {
+  CsvBeanReader(ModelClass modelClass,
+                InputStream inputStream,
+                CsvHeaderValidator csvHeaderValidator) throws IOException {
     this.modelClass = modelClass;
+    this.csvHeaderValidator = csvHeaderValidator;
     configureDozerBeanReader(inputStream);
     configureProcessors();
   }
@@ -58,7 +63,7 @@ class CsvBeanReader {
   }
 
   void validateHeaders() {
-    modelClass.validateHeaders(asList(headers));
+    csvHeaderValidator.validateHeaders(asList(headers), modelClass, false);
   }
 
   private void configureDozerBeanReader(InputStream inputStream) throws IOException {

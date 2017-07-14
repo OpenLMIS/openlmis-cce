@@ -26,6 +26,7 @@ import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.web.upload.CatalogItemPersistenceHandler;
 import org.openlmis.cce.web.upload.ModelClass;
 import org.openlmis.cce.web.upload.parser.CsvParser;
+import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -58,6 +59,9 @@ public class CatalogItemController extends BaseController {
 
   @Autowired
   private CsvParser csvParser;
+
+  @Autowired
+  private CsvHeaderValidator csvHeaderValidator;
 
   /**
    * Allows creating new CCE Catalog Item. If the id is specified, it will be ignored.
@@ -143,8 +147,12 @@ public class CatalogItemController extends BaseController {
     ModelClass modelClass = new ModelClass(CatalogItem.class);
 
     try {
-      return Integer.toString(csvParser.process(
-              file.getInputStream(), modelClass, catalogItemPersistenceHandler));
+      return Integer.toString(
+          csvParser.process(
+              file.getInputStream(),
+              modelClass,
+              catalogItemPersistenceHandler,
+              csvHeaderValidator));
     } catch (IOException ex) {
       throw new ValidationMessageException(ex, MessageKeys.ERROR_IO, ex.getMessage());
     }
