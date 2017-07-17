@@ -25,7 +25,6 @@ import java.util.Optional;
 
 /**
  * This class represents a Java model to which the csv row is mapped.
- * This class encapsulates validation logic.
  */
 @Data
 @NoArgsConstructor
