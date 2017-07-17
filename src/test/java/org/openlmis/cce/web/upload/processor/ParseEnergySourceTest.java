@@ -15,36 +15,40 @@
 
 package org.openlmis.cce.web.upload.processor;
 
-import org.apache.commons.lang3.EnumUtils;
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Rule;
+import org.junit.Test;
+import org.junit.rules.ExpectedException;
+import org.mockito.Mock;
 import org.openlmis.cce.domain.EnergySource;
-import org.supercsv.cellprocessor.CellProcessorAdaptor;
-import org.supercsv.cellprocessor.ift.StringCellProcessor;
 import org.supercsv.exception.SuperCsvCellProcessorException;
 import org.supercsv.util.CsvContext;
 
-/**
- * This is a custom cell processor used to parse string to enum typ.
- * This is used in CsvCellProcessors.
- */
+public class ParseEnergySourceTest {
 
-public class ParseEnergySource extends CellProcessorAdaptor implements StringCellProcessor {
+  @Rule
+  public final ExpectedException expectedEx = ExpectedException.none();
 
-  ParseEnergySource() {
-    super();
+  @Mock
+  private CsvContext csvContext;
+
+  private ParseEnergySource parseEnergySource = new ParseEnergySource();
+
+  @Test
+  public void shouldParseValidEnergySource() {
+    EnergySource solar =
+        (EnergySource) parseEnergySource.execute("SOLAR", csvContext);
+
+    assertEquals(EnergySource.SOLAR, solar);
   }
 
-  @Override
-  public Object execute(Object value, CsvContext context) {
-    validateInputNotNull(value, context);
+  @Test
+  public void shouldThrownExceptionWhenInputIsNotValidEnergySource() {
+    expectedEx.expect(SuperCsvCellProcessorException.class);
+    expectedEx.expectMessage("'not valid' could not be parsed as an EnergySource");
 
-    EnergySource result;
-    if (value instanceof String && EnumUtils.isValidEnum(EnergySource.class, (String)value)) {
-      result = EnergySource.valueOf((String)value);
-    } else  {
-      throw new SuperCsvCellProcessorException(
-          String.format("'%s' could not be parsed as an EnergySource", value), context, this);
-    }
-
-    return next.execute(result, context);
+    parseEnergySource.execute("not valid", csvContext);
   }
+
 }

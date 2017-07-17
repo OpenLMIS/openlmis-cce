@@ -40,7 +40,7 @@ public class ParseStorageTemperature extends CellProcessorAdaptor implements Str
     if (value instanceof String && EnumUtils.isValidEnum(StorageTemperature.class, (String)value)) {
       result = StorageTemperature.valueOf((String)value);
     } else  {
-      return new SuperCsvCellProcessorException(
+      throw new SuperCsvCellProcessorException(
           String.format("'%s' could not be parsed as an StorageTemperature", value), context, this);
     }
 

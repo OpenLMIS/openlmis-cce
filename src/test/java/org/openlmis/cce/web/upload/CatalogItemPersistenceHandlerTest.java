@@ -44,7 +44,7 @@ public class CatalogItemPersistenceHandlerTest {
     MockitoAnnotations.initMocks(this);
 
     catalogItem = new CatalogItem();
-    catalogItem.setEquipmentCode("eqcode");
+    catalogItem.setEquipmentCode(EQCODE);
   }
 
   @Test
