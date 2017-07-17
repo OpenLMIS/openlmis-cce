@@ -68,6 +68,9 @@ public class CsvCellProcessors {
     typeMappings.put(BIG_DECIMAL_TYPE, new ParseBigDecimal());
     typeMappings.put(ENERGY_SOURCE_TYPE, new ParseEnergySource());
     typeMappings.put(STORAGE_TEMPERATURE_TYPE, new ParseStorageTemperature());
+    typeMappings.put(TRIPLE_1_TYPE, new Trim());
+    typeMappings.put(TRIPLE_2_TYPE, new Trim());
+    typeMappings.put(TRIPLE_3_TYPE, new Trim());
   }
 
   /**
