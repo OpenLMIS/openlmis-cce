@@ -21,12 +21,14 @@ import org.supercsv.exception.SuperCsvCellProcessorException;
 import org.supercsv.util.CsvContext;
 
 /**
- * This is a custom cell processor used to parse triple to enum typ.
+ * This is a custom cell processor used to parse triple to enum typ. Uses ", " as separator
+ * for triple.
  * This is used in CsvCellProcessors.
  */
 
 public class ParseTriple extends CellProcessorAdaptor implements StringCellProcessor {
 
+  private static final String SEPARATOR = ", ";
   private int partNumber;
 
   ParseTriple(int partNumber) {
@@ -34,6 +36,7 @@ public class ParseTriple extends CellProcessorAdaptor implements StringCellProce
     this.partNumber = partNumber;
   }
 
+  @SuppressWarnings("unchecked")
   @Override
   public Object execute(Object value, CsvContext context) {
     validateInputNotNull(value, context);
@@ -41,22 +44,23 @@ public class ParseTriple extends CellProcessorAdaptor implements StringCellProce
     Integer result;
     if (value instanceof String) {
       String valueString = String.valueOf(value);
-      String[] split = valueString.split(", ");
+      String[] split = valueString.split(SEPARATOR);
       try {
-        result = Integer.valueOf(split[partNumber]);
+        result = Integer.valueOf(split[partNumber - 1]);
       } catch (final NumberFormatException ex) {
-        return getSuperCsvCellProcessorException(value, context);
+        throw getSuperCsvCellProcessorException(value, context, ex);
       }
     } else  {
-      return getSuperCsvCellProcessorException(value, context);
+      throw getSuperCsvCellProcessorException(value, context, null);
     }
 
     return next.execute(result, context);
   }
 
   private SuperCsvCellProcessorException getSuperCsvCellProcessorException(Object value,
-                                                                           CsvContext context) {
+                                                                           CsvContext context,
+                                                                           Exception cause) {
     return new SuperCsvCellProcessorException(
-        String.format("'%s' could not be parsed as an triple", value), context, this);
+        String.format("'%s' could not be parsed as an triple", value), context, this, cause);
   }
 }

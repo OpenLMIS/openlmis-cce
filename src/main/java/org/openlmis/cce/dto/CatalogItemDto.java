@@ -28,7 +28,7 @@ import org.openlmis.cce.domain.StorageTemperature;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode
+@EqualsAndHashCode(callSuper = false)
 public class CatalogItemDto extends BaseDto implements CatalogItem.Exporter, CatalogItem.Importer {
 
   private Boolean fromPqsCatalog;
