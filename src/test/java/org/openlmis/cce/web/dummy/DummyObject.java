@@ -25,8 +25,8 @@ import org.openlmis.cce.web.upload.ImportField;
 @Data
 public class DummyObject extends BaseEntity {
   public static final String MANDATORY_STRING_FIELD = "Mandatory String Field";
-  public static final String OPTIONAL_INT_FIELD = "OPTIONAL INT FIELD";
-  public static final String OPTIONAL_NESTED_FIELD = "OPTIONAL NESTED FIELD";
+  public static final String OPTIONAL_INT_FIELD = "Optional Int Field";
+  public static final String OPTIONAL_NESTED_FIELD = "Optional Nested Field";
 
   @ImportField(mandatory = true, name = MANDATORY_STRING_FIELD)
   private String mandatoryStringField;
