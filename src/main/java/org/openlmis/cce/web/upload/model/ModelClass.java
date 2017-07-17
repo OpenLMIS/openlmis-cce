@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * This class represents a Java model to which the csv row is mapped.
@@ -62,10 +63,10 @@ public class ModelClass {
   }
 
   /**
-   * Returns import name with given name.
+   * Returns import field with given name.
    *
    * @param name ImportField name
-   * @return import name with given name.
+   * @return import field with given name.
    */
   public ModelField findImportFieldWithName(final String name) {
     Optional<ModelField> fieldOptional = importFields.stream()
@@ -73,6 +74,33 @@ public class ModelClass {
         .findAny();
 
     return fieldOptional.orElse(null);
+  }
+
+  /**
+   * Returns all import fields with given name and type.
+   *
+   * @param name ImportField name
+   * @param type ImportField type
+   * @return list of import field with given name.
+   */
+  public ModelField findImportFieldWithNameAndType(final String name, final String type) {
+    Optional<ModelField> fieldOptional = importFields.stream()
+        .filter(field -> field.hasName(name) && field.hasType(type))
+        .findAny();
+
+    return fieldOptional.orElse(null);
+  }
+
+  /**
+   * Returns all import fields with given type.
+   *
+   * @param type ImportField type
+   * @return list of import field with given name.
+   */
+  public List<ModelField> findAllImportFieldsWithType(final String type) {
+    return importFields.stream()
+        .filter(field -> field.hasType(type))
+        .collect(Collectors.toList());
   }
 
   private List<ModelField> fieldsWithImportFieldAnnotation() {

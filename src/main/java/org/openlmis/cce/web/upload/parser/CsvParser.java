@@ -17,6 +17,7 @@ package org.openlmis.cce.web.upload.parser;
 
 import lombok.NoArgsConstructor;
 import org.openlmis.cce.domain.BaseEntity;
+import org.openlmis.cce.exception.ServerException;
 import org.openlmis.cce.web.upload.model.ModelClass;
 import org.openlmis.cce.web.upload.recordhandler.RecordHandler;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
@@ -31,7 +32,6 @@ import java.io.InputStream;
 @Component
 @NoArgsConstructor
 public class CsvParser {
-
   /**
    * Parses data from input stream into the corresponding model.
    *
@@ -49,8 +49,12 @@ public class CsvParser {
     csvBeanReader.validateHeaders();
 
     BaseEntity importedModel;
-    while ((importedModel = csvBeanReader.readWithCellProcessors()) != null) {
-      recordHandler.execute(importedModel);
+    try {
+      while ((importedModel = csvBeanReader.readWithCellProcessors()) != null) {
+        recordHandler.execute(importedModel);
+      }
+    } catch (NoSuchFieldException | IllegalAccessException ex) {
+      throw new ServerException(ex);
     }
     return csvBeanReader.getRowNumber() - 1;
   }

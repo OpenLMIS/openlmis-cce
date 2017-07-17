@@ -40,9 +40,7 @@ import java.util.Map;
 
 public class CsvCellProcessors {
 
-  private static final String format = "dd/MM/yyyy";
   public static final Map<String, CellProcessor> typeMappings = new HashMap<>();
-
   public static final String INT_TYPE = "int";
   public static final String LONG_TYPE = "long";
   public static final String BOOLEAN_TYPE = "boolean";
@@ -57,6 +55,8 @@ public class CsvCellProcessors {
   public static final String TRIPLE_2_TYPE = "triple2";
   public static final String TRIPLE_3_TYPE = "triple3";
 
+  private static final String format = "dd/MM/yyyy";
+
   static {
     typeMappings.put(INT_TYPE, new ParseInt());
     typeMappings.put(LONG_TYPE, new ParseLong());
@@ -68,9 +68,6 @@ public class CsvCellProcessors {
     typeMappings.put(BIG_DECIMAL_TYPE, new ParseBigDecimal());
     typeMappings.put(ENERGY_SOURCE_TYPE, new ParseEnergySource());
     typeMappings.put(STORAGE_TEMPERATURE_TYPE, new ParseStorageTemperature());
-    typeMappings.put(TRIPLE_1_TYPE, new ParseTriple(1));
-    typeMappings.put(TRIPLE_2_TYPE, new ParseTriple(2));
-    typeMappings.put(TRIPLE_3_TYPE, new ParseTriple(3));
   }
 
   /**

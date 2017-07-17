@@ -31,7 +31,7 @@ public class ParseTriple extends CellProcessorAdaptor implements StringCellProce
   private static final String SEPARATOR = ", ";
   private int partNumber;
 
-  ParseTriple(int partNumber) {
+  public ParseTriple(int partNumber) {
     super();
     this.partNumber = partNumber;
   }

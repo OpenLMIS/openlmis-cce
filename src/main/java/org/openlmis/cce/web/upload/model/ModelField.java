@@ -49,4 +49,11 @@ public class ModelField {
     return this.name.equalsIgnoreCase(name);
   }
 
+  /**
+   * Checks if ModelField type equals given type.
+   */
+  public boolean hasType(String type) {
+    return this.type.equalsIgnoreCase(type);
+  }
+
 }

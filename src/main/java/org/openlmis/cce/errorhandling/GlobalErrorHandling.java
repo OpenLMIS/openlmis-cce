@@ -17,6 +17,7 @@ package org.openlmis.cce.errorhandling;
 
 import org.openlmis.cce.exception.AuthenticationMessageException;
 import org.openlmis.cce.exception.PermissionMessageException;
+import org.openlmis.cce.exception.ServerException;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.service.DataRetrievalException;
 import org.openlmis.cce.util.Message;
@@ -39,6 +40,13 @@ public class GlobalErrorHandling extends AbstractErrorHandling {
   @ResponseBody
   public ErrorResponse handleRefDataException(DataRetrievalException ex) {
     return logErrorAndRespond("Error fetching from reference data", ex);
+  }
+
+  @ExceptionHandler(ServerException.class)
+  @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+  @ResponseBody
+  public ErrorResponse handleServerException(ServerException ex) {
+    return logErrorAndRespond("An internal error occurred", ex);
   }
 
   @ExceptionHandler(AuthenticationMessageException.class)
