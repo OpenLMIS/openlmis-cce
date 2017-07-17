@@ -24,7 +24,7 @@ import static org.openlmis.cce.web.dummy.DummyObject.OPTIONAL_INT_FIELD;
 import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.web.dummy.DummyObject;
-import org.openlmis.cce.web.upload.ModelClass;
+import org.openlmis.cce.web.upload.model.ModelClass;
 import org.springframework.util.ReflectionUtils;
 import org.supercsv.cellprocessor.CellProcessorAdaptor;
 import org.supercsv.cellprocessor.Optional;

@@ -25,6 +25,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.repository.CatalogItemRepository;
+import org.openlmis.cce.web.upload.recordhandler.CatalogItemPersistenceHandler;
 import java.util.UUID;
 
 public class CatalogItemPersistenceHandlerTest {

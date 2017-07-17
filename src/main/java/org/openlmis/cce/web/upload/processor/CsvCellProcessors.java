@@ -15,8 +15,8 @@
 
 package org.openlmis.cce.web.upload.processor;
 
-import org.openlmis.cce.web.upload.ModelField;
-import org.openlmis.cce.web.upload.ModelClass;
+import org.openlmis.cce.web.upload.model.ModelField;
+import org.openlmis.cce.web.upload.model.ModelClass;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseBigDecimal;
 import org.supercsv.cellprocessor.ParseBool;

@@ -13,37 +13,15 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload;
+package org.openlmis.cce.web.upload.recordhandler;
 
-import java.lang.annotation.ElementType;
-import java.lang.annotation.Retention;
-import java.lang.annotation.RetentionPolicy;
-import java.lang.annotation.Target;
+import org.openlmis.cce.domain.BaseEntity;
 
 /**
- * This annotation is used to specify attributes of a field in POJO.
- * This is used in importing data from CSV files to POJOs.
+ * This interface is implemented by all record handlers.
  */
-@Target(ElementType.FIELD)
-@Retention(RetentionPolicy.RUNTIME)
-public @interface ImportField {
-  /**
-   * indicate if field is mandatory
-   */
-  boolean mandatory() default false;
+public interface RecordHandler {
 
-  /**
-   * indicate field type
-   */
-  String type() default "String";
+  void execute(BaseEntity importable);
 
-  /**
-   * indicate field name
-   */
-  String name() default "";
-
-  /**
-   * indicate nested field value
-   */
-  String nested() default "";
 }

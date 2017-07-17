@@ -20,7 +20,7 @@ import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.INT_TYPE;
 
 import lombok.Data;
 import org.openlmis.cce.domain.BaseEntity;
-import org.openlmis.cce.web.upload.ImportField;
+import org.openlmis.cce.web.upload.model.ImportField;
 
 @Data
 public class DummyObject extends BaseEntity {

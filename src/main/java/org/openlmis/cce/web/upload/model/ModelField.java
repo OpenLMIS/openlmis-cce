@@ -13,30 +13,40 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload;
+package org.openlmis.cce.web.upload.model;
 
-import org.openlmis.cce.domain.BaseEntity;
-import org.openlmis.cce.domain.CatalogItem;
-import org.openlmis.cce.repository.CatalogItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Component;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
- * CatalogItemPersistenceHandler is used for uploads of Catalog Item.
- * It uploads each catalog item record by record.
+ * ModelField corresponds to an attribute of a POJO,
+ * used in creating new POJOs from a row in csv file.
  */
-@Component
-public class CatalogItemPersistenceHandler extends AbstractPersistenceHandler<CatalogItem> {
+@Data
+@NoArgsConstructor
+public class ModelField {
+  java.lang.reflect.Field field;
+  private boolean mandatory;
+  private String name;
+  private String nested;
+  private String type;
 
-  @Autowired
-  private CatalogItemRepository catalogItemRepository;
-
-  protected BaseEntity getExisting(CatalogItem record) {
-    return catalogItemRepository.findByEquipmentCode(record.getEquipmentCode());
+  /**
+   * Constructs new field.
+   */
+  public ModelField(java.lang.reflect.Field field, ImportField annotation) {
+    this.field = field;
+    this.mandatory = annotation.mandatory();
+    this.name = annotation.name().isEmpty() ? field.getName() : annotation.name();
+    this.nested = annotation.nested();
+    this.type = annotation.type();
   }
 
-  protected void save(CatalogItem record) {
-    catalogItemRepository.save(record);
+  /**
+   * Checks if ModelField name equals given name.
+   */
+  public boolean hasName(String name) {
+    return this.name.equalsIgnoreCase(name);
   }
 
 }

@@ -17,8 +17,8 @@ package org.openlmis.cce.web.upload.parser;
 
 import lombok.NoArgsConstructor;
 import org.openlmis.cce.domain.BaseEntity;
-import org.openlmis.cce.web.upload.ModelClass;
-import org.openlmis.cce.web.upload.RecordHandler;
+import org.openlmis.cce.web.upload.model.ModelClass;
+import org.openlmis.cce.web.upload.recordhandler.RecordHandler;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.springframework.stereotype.Component;
 import java.io.IOException;

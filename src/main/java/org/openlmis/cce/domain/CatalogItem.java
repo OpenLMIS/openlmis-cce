@@ -28,7 +28,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.javers.core.metamodel.annotation.TypeName;
-import org.openlmis.cce.web.upload.ImportField;
+import org.openlmis.cce.web.upload.model.ImportField;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;

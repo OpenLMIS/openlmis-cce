@@ -24,6 +24,8 @@ import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.STRING_TYP
 
 import org.junit.Test;
 import org.openlmis.cce.web.dummy.DummyObject;
+import org.openlmis.cce.web.upload.model.ModelClass;
+import org.openlmis.cce.web.upload.model.ModelField;
 import java.util.Arrays;
 import java.util.List;
 

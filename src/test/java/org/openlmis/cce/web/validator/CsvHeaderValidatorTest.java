@@ -29,7 +29,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.util.Message;
 import org.openlmis.cce.web.dummy.DummyObject;
-import org.openlmis.cce.web.upload.ModelClass;
+import org.openlmis.cce.web.upload.model.ModelClass;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;

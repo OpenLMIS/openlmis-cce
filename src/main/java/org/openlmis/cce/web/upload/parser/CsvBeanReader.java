@@ -19,7 +19,7 @@ import static java.util.Arrays.asList;
 
 import lombok.Getter;
 import org.openlmis.cce.domain.BaseEntity;
-import org.openlmis.cce.web.upload.ModelClass;
+import org.openlmis.cce.web.upload.model.ModelClass;
 import org.openlmis.cce.web.upload.processor.CsvCellProcessors;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.supercsv.cellprocessor.ift.CellProcessor;

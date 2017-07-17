@@ -13,40 +13,37 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload;
+package org.openlmis.cce.web.upload.model;
 
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
 /**
- * ModelField corresponds to an attribute of a POJO,
- * used in creating new POJOs from a row in csv file.
+ * This annotation is used to specify attributes of a field in POJO.
+ * This is used in importing data from CSV files to POJOs.
  */
-@Data
-@NoArgsConstructor
-public class ModelField {
-  java.lang.reflect.Field field;
-  private boolean mandatory;
-  private String name;
-  private String nested;
-  private String type;
+@Target(ElementType.FIELD)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface ImportField {
+  /**
+   * indicate if field is mandatory
+   */
+  boolean mandatory() default false;
 
   /**
-   * Constructs new field.
+   * indicate field type
    */
-  public ModelField(java.lang.reflect.Field field, ImportField annotation) {
-    this.field = field;
-    this.mandatory = annotation.mandatory();
-    this.name = annotation.name().isEmpty() ? field.getName() : annotation.name();
-    this.nested = annotation.nested();
-    this.type = annotation.type();
-  }
+  String type() default "String";
 
   /**
-   * Checks if ModelField name equals given name.
+   * indicate field name
    */
-  public boolean hasName(String name) {
-    return this.name.equalsIgnoreCase(name);
-  }
+  String name() default "";
 
+  /**
+   * indicate nested field value
+   */
+  String nested() default "";
 }
