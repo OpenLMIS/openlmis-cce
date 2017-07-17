@@ -18,6 +18,7 @@ package org.openlmis.cce.web.validator;
 import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOAD_HEADER_MISSING;
 import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
 import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOD_INVALID_HEADER;
+import static org.openlmis.cce.web.dummy.DummyObject.MANDATORY_STRING_FIELD;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -53,7 +54,7 @@ public class CsvHeaderValidatorTest {
   @Test
   public void shouldThrowExceptionIfHeaderDoesNotHaveCorrespondingFieldInModelWhenNotAcceptExtra() {
     List<String> headers =
-        Arrays.asList("not existing field", "mandatory string field", "mandatoryIntField");
+        Arrays.asList("not existing field", MANDATORY_STRING_FIELD, "mandatoryIntField");
 
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
@@ -66,7 +67,7 @@ public class CsvHeaderValidatorTest {
   @Test
   public void shouldNotThrowExceptionIfHeaderDoesNotHaveCorrespondingFieldInModelWhenAcceptExtra() {
     List<String> headers =
-        Arrays.asList("not existing field", "mandatory string field", "mandatoryIntField");
+        Arrays.asList("not existing field", MANDATORY_STRING_FIELD, "mandatoryIntField");
 
     ModelClass modelClass = new ModelClass(DummyObject.class);
     csvHeaderValidator.validateHeaders(headers, modelClass, true);
@@ -75,7 +76,7 @@ public class CsvHeaderValidatorTest {
   @Test
   public void shouldThrowExceptionIfHeaderIsNull() {
     List<String> headers =
-        Arrays.asList("mandatory string field", null, "mandatoryIntField");
+        Arrays.asList(MANDATORY_STRING_FIELD, null, "mandatoryIntField");
 
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(

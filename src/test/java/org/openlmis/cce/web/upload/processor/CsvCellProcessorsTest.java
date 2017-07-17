@@ -18,6 +18,8 @@ package org.openlmis.cce.web.upload.processor;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
+import static org.openlmis.cce.web.dummy.DummyObject.MANDATORY_STRING_FIELD;
+import static org.openlmis.cce.web.dummy.DummyObject.OPTIONAL_INT_FIELD;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -46,7 +48,7 @@ public class CsvCellProcessorsTest {
   @Test
   public void shouldReturnCorrectProcessorForHeaders() {
     List<String> headers =
-        Arrays.asList("mandatory string field", "mandatoryIntField", "optionalStringField");
+        Arrays.asList(MANDATORY_STRING_FIELD, "mandatoryIntField", "optionalStringField");
 
     List<CellProcessor> cellProcessors =
         CsvCellProcessors.getProcessors(dummyImportableClass, headers);
@@ -61,7 +63,7 @@ public class CsvCellProcessorsTest {
   @Test
   public void testReturnProcessorForMismatchCase() {
     List<String> headers =
-        Arrays.asList("MANDAtory String Field", "mandatoryIntFIELD");
+        Arrays.asList(MANDATORY_STRING_FIELD, "mandatoryIntFIELD");
 
     List<CellProcessor> cellProcessors =
         CsvCellProcessors.getProcessors(dummyImportableClass, headers);
@@ -74,7 +76,7 @@ public class CsvCellProcessorsTest {
   @Test
   public void shouldIgnoreNotAnnotatedHeaders() {
     List<String> headers =
-        Arrays.asList("mandatory string field", "mandatoryIntField", "nonAnnotatedField");
+        Arrays.asList(MANDATORY_STRING_FIELD, "mandatoryIntField", "nonAnnotatedField");
 
     List<CellProcessor> cellProcessors =
         CsvCellProcessors.getProcessors(dummyImportableClass, headers);
@@ -88,7 +90,7 @@ public class CsvCellProcessorsTest {
   @Test
   public void shouldReturnCorrectNextProcessorForHeaders() throws Exception {
     List<String> headers =
-        Arrays.asList("mandatory string field", "OPTIONAL INT FIELD");
+        Arrays.asList(MANDATORY_STRING_FIELD, OPTIONAL_INT_FIELD);
 
     List<CellProcessor> cellProcessors =
         CsvCellProcessors.getProcessors(dummyImportableClass, headers);

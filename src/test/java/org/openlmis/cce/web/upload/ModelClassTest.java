@@ -18,6 +18,8 @@ package org.openlmis.cce.web.upload;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.openlmis.cce.web.dummy.DummyObject.MANDATORY_STRING_FIELD;
+import static org.openlmis.cce.web.dummy.DummyObject.OPTIONAL_NESTED_FIELD;
 import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.STRING_TYPE;
 
 import org.junit.Test;
@@ -31,7 +33,7 @@ public class ModelClassTest {
   @Test
   public void shouldGetFieldNameMappingsGivenTheHeader() {
     List<String> headers =
-        Arrays.asList("mandatory string field", "mandatoryIntField", "OPTIONAL NESTED FIELD");
+        Arrays.asList(MANDATORY_STRING_FIELD, "mandatoryIntField", OPTIONAL_NESTED_FIELD);
 
     ModelClass modelClass = new ModelClass(DummyObject.class);
     final String[] mappings = modelClass.getFieldNameMappings(
@@ -44,9 +46,9 @@ public class ModelClassTest {
   @Test
   public void shouldFindImportFieldWithName() {
     ModelClass modelClass = new ModelClass(DummyObject.class);
-    ModelField importFieldWithName = modelClass.findImportFieldWithName("Mandatory String Field");
+    ModelField importFieldWithName = modelClass.findImportFieldWithName(MANDATORY_STRING_FIELD);
 
-    assertEquals(importFieldWithName.getName(), "Mandatory String Field");
+    assertEquals(importFieldWithName.getName(), MANDATORY_STRING_FIELD);
     assertEquals(importFieldWithName.getType(), STRING_TYPE);
   }
 

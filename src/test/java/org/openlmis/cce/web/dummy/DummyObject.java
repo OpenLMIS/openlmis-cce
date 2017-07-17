@@ -24,8 +24,11 @@ import org.openlmis.cce.web.upload.ImportField;
 
 @Data
 public class DummyObject extends BaseEntity {
+  public static final String MANDATORY_STRING_FIELD = "Mandatory String Field";
+  public static final String OPTIONAL_INT_FIELD = "OPTIONAL INT FIELD";
+  public static final String OPTIONAL_NESTED_FIELD = "OPTIONAL NESTED FIELD";
 
-  @ImportField(mandatory = true, name = "Mandatory String Field")
+  @ImportField(mandatory = true, name = MANDATORY_STRING_FIELD)
   private String mandatoryStringField;
 
   @ImportField(mandatory = true, type = INT_TYPE)
@@ -34,10 +37,10 @@ public class DummyObject extends BaseEntity {
   @ImportField
   private String optionalStringField;
 
-  @ImportField(type = INT_TYPE, name = "OPTIONAL INT FIELD")
+  @ImportField(type = INT_TYPE, name = OPTIONAL_INT_FIELD)
   private int optionalIntField;
 
-  @ImportField(name = "OPTIONAL NESTED FIELD", nested = "code")
+  @ImportField(name = OPTIONAL_NESTED_FIELD, nested = "code")
   private DummyNestedField dummyNestedField;
 
   private String nonAnnotatedField;
