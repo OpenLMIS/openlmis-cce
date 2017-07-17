@@ -31,6 +31,8 @@ import java.util.UUID;
 public class CatalogItemPersistenceHandlerTest {
 
   private static final String EQCODE = "eqcode";
+  public static final String SOME_TYPE = "someType";
+  public static final String SOME_MODEL = "someModel";
 
   @Mock
   private CatalogItemRepository catalogItemRepository;
@@ -49,11 +51,28 @@ public class CatalogItemPersistenceHandlerTest {
   }
 
   @Test
-  public void shouldSetIdIfExistingItemFound() {
+  public void shouldSetIdIfExistingItemFoundByCode() {
     CatalogItem existingCatalogItem = new CatalogItem();
     existingCatalogItem.setId(UUID.randomUUID());
 
     when(catalogItemRepository.findByEquipmentCode(EQCODE)).thenReturn(existingCatalogItem);
+
+    catalogItemPersistenceHandler.execute(catalogItem);
+
+    catalogItem.setId(existingCatalogItem.getId());
+    verify(catalogItemRepository).save(catalogItem);
+  }
+
+  @Test
+  public void shouldSetIdIfExistingItemFoundByTypeAndModel() {
+    CatalogItem existingCatalogItem = new CatalogItem();
+    existingCatalogItem.setId(UUID.randomUUID());
+
+    catalogItem.setEquipmentCode(EQCODE);
+    catalogItem.setType(SOME_TYPE);
+    catalogItem.setModel(SOME_MODEL);
+    when(catalogItemRepository.findByTypeAndModel(SOME_TYPE, SOME_MODEL))
+        .thenReturn(existingCatalogItem);
 
     catalogItemPersistenceHandler.execute(catalogItem);
 

@@ -32,7 +32,11 @@ public class CatalogItemPersistenceHandler extends AbstractPersistenceHandler<Ca
   private CatalogItemRepository catalogItemRepository;
 
   protected BaseEntity getExisting(CatalogItem record) {
-    return catalogItemRepository.findByEquipmentCode(record.getEquipmentCode());
+    String equipmentCode = record.getEquipmentCode();
+    if (equipmentCode != null) {
+      return catalogItemRepository.findByEquipmentCode(equipmentCode);
+    }
+    return catalogItemRepository.findByTypeAndModel(record.getType(), record.getModel());
   }
 
   protected void save(CatalogItem record) {

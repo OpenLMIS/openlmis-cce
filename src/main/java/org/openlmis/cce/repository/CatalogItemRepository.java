@@ -23,4 +23,6 @@ import java.util.UUID;
 public interface CatalogItemRepository extends CrudRepository<CatalogItem, UUID> {
 
   CatalogItem findByEquipmentCode(String code);
+
+  CatalogItem findByTypeAndModel(String type, String model);
 }
