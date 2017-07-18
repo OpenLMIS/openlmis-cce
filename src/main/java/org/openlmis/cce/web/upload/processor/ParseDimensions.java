@@ -15,6 +15,9 @@
 
 package org.openlmis.cce.web.upload.processor;
 
+import static java.lang.Integer.valueOf;
+
+import org.openlmis.cce.domain.Dimensions;
 import org.supercsv.cellprocessor.CellProcessorAdaptor;
 import org.supercsv.cellprocessor.ift.StringCellProcessor;
 import org.supercsv.exception.SuperCsvCellProcessorException;
@@ -26,27 +29,21 @@ import org.supercsv.util.CsvContext;
  * This is used in CsvCellProcessors.
  */
 
-public class ParseTriple extends CellProcessorAdaptor implements StringCellProcessor {
+public class ParseDimensions extends CellProcessorAdaptor implements StringCellProcessor {
 
   private static final String SEPARATOR = ", ";
-  private int partNumber;
-
-  public ParseTriple(int partNumber) {
-    super();
-    this.partNumber = partNumber;
-  }
 
   @SuppressWarnings("unchecked")
   @Override
   public Object execute(Object value, CsvContext context) {
     validateInputNotNull(value, context);
 
-    Integer result;
+    Dimensions result;
     if (value instanceof String) {
       String valueString = String.valueOf(value);
       String[] split = valueString.split(SEPARATOR);
       try {
-        result = Integer.valueOf(split[partNumber - 1]);
+        result = new Dimensions(valueOf(split[0]), valueOf(split[1]), valueOf(split[2]));
       } catch (final NumberFormatException ex) {
         throw getSuperCsvCellProcessorException(value, context, ex);
       }
@@ -61,6 +58,6 @@ public class ParseTriple extends CellProcessorAdaptor implements StringCellProce
                                                                            CsvContext context,
                                                                            Exception cause) {
     return new SuperCsvCellProcessorException(
-        String.format("'%s' could not be parsed as an triple", value), context, this, cause);
+        String.format("'%s' could not be parsed as an Dimensions", value), context, this, cause);
   }
 }

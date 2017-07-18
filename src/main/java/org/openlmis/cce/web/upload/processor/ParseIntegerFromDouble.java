@@ -29,10 +29,6 @@ public class ParseIntegerFromDouble extends CellProcessorAdaptor implements Stri
 
   private static final String DECIMAl_POINT = "\\.";
 
-  ParseIntegerFromDouble() {
-    super();
-  }
-
   @Override
   public Object execute(Object value, CsvContext context) {
     validateInputNotNull(value, context);

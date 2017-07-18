@@ -16,12 +16,10 @@
 package org.openlmis.cce.domain;
 
 import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.BOOLEAN_TYPE;
+import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.DIMENSIONS_TYPE;
 import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.ENERGY_SOURCE_TYPE;
 import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.INT_FROM_DOUBLE_TYPE;
 import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.STORAGE_TEMPERATURE_TYPE;
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.TRIPLE_1_TYPE;
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.TRIPLE_2_TYPE;
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.TRIPLE_3_TYPE;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -33,6 +31,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -48,7 +47,6 @@ import javax.persistence.Table;
 public class CatalogItem extends BaseEntity {
 
   public static final String VISIBLE_IN_CATALOG = "Visible in catalog";
-  public static final String DIMENSIONS = "Dimensions";
   public static final String HOLDOVER_TIME_HOURS = "Holdover time (hours)";
   public static final String ENERGY_CONSUMPTION_NA_FOR_SOLAR = "Energy consumption (NA for solar)";
   public static final String MIN_OPERATING_TEMP_DEGREES_C = "Min operating temp (degrees C)";
@@ -61,6 +59,7 @@ public class CatalogItem extends BaseEntity {
   public static final String TYPE = "Type";
   public static final String PQS_EQUIPMENT_CODE = "PQS equipment code";
   public static final String FROM_PQS_CATALOG = "From PQS catalog";
+  public static final String DIMENSIONS = "Dimensions";
 
   @Column(nullable = false)
   @ImportField(name = FROM_PQS_CATALOG, type = BOOLEAN_TYPE, mandatory = true)
@@ -112,14 +111,9 @@ public class CatalogItem extends BaseEntity {
 
   private Integer netVolume;
 
-  @ImportField(name = DIMENSIONS, type = TRIPLE_1_TYPE)
-  private Integer width;
-
-  @ImportField(name = DIMENSIONS, type = TRIPLE_2_TYPE)
-  private Integer depth;
-
-  @ImportField(name = DIMENSIONS, type = TRIPLE_3_TYPE)
-  private Integer height;
+  @Embedded
+  @ImportField(name = DIMENSIONS, type = DIMENSIONS_TYPE)
+  private Dimensions dimensions;
 
   @ImportField(name = VISIBLE_IN_CATALOG, type = BOOLEAN_TYPE)
   private boolean visibleInCatalog;
@@ -148,9 +142,7 @@ public class CatalogItem extends BaseEntity {
     catalogItem.holdoverTime = importer.getHoldoverTime();
     catalogItem.grossVolume = importer.getGrossVolume();
     catalogItem.netVolume = importer.getNetVolume();
-    catalogItem.width = importer.getWidth();
-    catalogItem.depth = importer.getDepth();
-    catalogItem.height = importer.getHeight();
+    catalogItem.dimensions = importer.getDimensions();
     catalogItem.visibleInCatalog = importer.getVisibleInCatalog();
 
     return catalogItem;
@@ -189,9 +181,7 @@ public class CatalogItem extends BaseEntity {
     exporter.setHoldoverTime(holdoverTime);
     exporter.setGrossVolume(grossVolume);
     exporter.setNetVolume(netVolume);
-    exporter.setWidth(width);
-    exporter.setDepth(depth);
-    exporter.setHeight(height);
+    exporter.setDimensions(dimensions);
     exporter.setVisibleInCatalog(visibleInCatalog);
   }
 
@@ -226,11 +216,7 @@ public class CatalogItem extends BaseEntity {
 
     void setNetVolume(Integer netVolume);
 
-    void setWidth(Integer width);
-
-    void setDepth(Integer depth);
-
-    void setHeight(Integer height);
+    void setDimensions(Dimensions width);
 
     void setVisibleInCatalog(Boolean visibleInCatalog);
   }
@@ -266,11 +252,7 @@ public class CatalogItem extends BaseEntity {
 
     Integer getNetVolume();
 
-    Integer getWidth();
-
-    Integer getDepth();
-
-    Integer getHeight();
+    Dimensions getDimensions();
 
     Boolean getVisibleInCatalog();
   }

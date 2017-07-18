@@ -21,14 +21,15 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
+import org.openlmis.cce.domain.Dimensions;
 import org.supercsv.exception.SuperCsvCellProcessorException;
 import org.supercsv.util.CsvContext;
 
-public class ParseTripleTest {
+public class ParseDimensionsTest {
 
-  public static final Integer EXPECTED_1 = 11;
-  public static final Integer EXPECTED_2 = 22;
-  public static final Integer EXPECTED_3 = 33;
+  private static final Integer EXPECTED_1 = 11;
+  private static final Integer EXPECTED_2 = 22;
+  private static final Integer EXPECTED_3 = 33;
 
   @Rule
   public final ExpectedException expectedEx = ExpectedException.none();
@@ -37,35 +38,31 @@ public class ParseTripleTest {
   private CsvContext csvContext;
 
   @Test
-  public void shouldParseValidTripleStringToIntegerForGivenPart() throws Exception {
-    int[] tripeValues = {EXPECTED_1, EXPECTED_2, EXPECTED_3};
+  public void shouldParseValidDimensions() throws Exception {
+    ParseDimensions parseDimensions = new ParseDimensions();
+    Dimensions execute = (Dimensions) parseDimensions.execute(
+        String.format("%s, %s, %s", EXPECTED_1, EXPECTED_2, EXPECTED_3), csvContext);
 
-    for (int i = 0; i < 3; i++) {
-      ParseTriple parseTriple = new ParseTriple(i + 1);
-      int execute = (int) parseTriple.execute(
-          String.format("%s, %s, %s", EXPECTED_1, EXPECTED_2, EXPECTED_3), csvContext);
-
-      assertEquals(tripeValues[i], execute);
-    }
+    assertEquals(new Dimensions(EXPECTED_1, EXPECTED_2, EXPECTED_3), execute);
   }
 
   @Test
   public void shouldThrownExceptionWhenParameterIsNotString() {
     expectedEx.expect(SuperCsvCellProcessorException.class);
-    expectedEx.expectMessage("'1' could not be parsed as an triple");
+    expectedEx.expectMessage("'1' could not be parsed as an Dimensions");
 
-    ParseTriple parseTriple = new ParseTriple(1);
-    parseTriple.execute(1, csvContext);
+    ParseDimensions parseDimensions = new ParseDimensions();
+    parseDimensions.execute(1, csvContext);
   }
 
   @Test
   public void shouldThrownExceptionWhenTriplePartIsNotAnIntegerType() {
     String invalidTriple = String.format("%s, %s, %s", "test", EXPECTED_2, EXPECTED_3);
     expectedEx.expect(SuperCsvCellProcessorException.class);
-    expectedEx.expectMessage("'" + invalidTriple + "' could not be parsed as an triple");
+    expectedEx.expectMessage("'" + invalidTriple + "' could not be parsed as an Dimensions");
 
-    ParseTriple parseTriple = new ParseTriple(1);
-    parseTriple.execute(invalidTriple, csvContext);
+    ParseDimensions parseDimensions = new ParseDimensions();
+    parseDimensions.execute(invalidTriple, csvContext);
   }
 
 }

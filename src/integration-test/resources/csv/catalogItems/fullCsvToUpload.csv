@@ -1,0 +1,2 @@
+Type, Model, Manufacturer, Energy source, Storage Temperature, From PQS catalog, PQS equipment code, Date of prequal, Max operating temp (degrees C), Min operating temp (degrees C), Energy consumption (NA for solar), Holdover time (hours), Dimensions, Visible in catalog
+sometype, somemodel, somemanuf, ELECTRICT, PLUS4, Y, eqcode, 2010, 10, -10, NA, 3, "2, 1, 5", Y

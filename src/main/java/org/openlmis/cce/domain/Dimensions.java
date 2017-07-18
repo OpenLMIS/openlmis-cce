@@ -13,54 +13,27 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.dto;
+package org.openlmis.cce.domain;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.openlmis.cce.domain.CatalogItem;
-import org.openlmis.cce.domain.Dimensions;
-import org.openlmis.cce.domain.EnergySource;
-import org.openlmis.cce.domain.StorageTemperature;
+import javax.persistence.Embeddable;
 
-@Getter
-@Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false)
-public class CatalogItemDto extends BaseDto implements CatalogItem.Exporter, CatalogItem.Importer {
+@Getter
+@Setter
+@EqualsAndHashCode
+@Embeddable
+public class Dimensions {
 
-  private Boolean fromPqsCatalog;
+  private Integer width;
 
-  private String equipmentCode;
+  private Integer depth;
 
-  private String type;
+  private Integer height;
 
-  private String model;
-
-  private String manufacturer;
-
-  private EnergySource energySource;
-
-  private Integer dateOfPrequal;
-
-  private StorageTemperature storageTemperature;
-
-  private Integer maxOperatingTemp;
-
-  private Integer minOperatingTemp;
-
-  private String energyConsumption;
-
-  private Integer holdoverTime;
-
-  private Integer grossVolume;
-
-  private Integer netVolume;
-
-  private Dimensions dimensions;
-
-  private Boolean visibleInCatalog;
 }

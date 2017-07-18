@@ -29,10 +29,6 @@ import org.supercsv.util.CsvContext;
 
 public class ParseEnergySource extends CellProcessorAdaptor implements StringCellProcessor {
 
-  ParseEnergySource() {
-    super();
-  }
-
   @Override
   public Object execute(Object value, CsvContext context) {
     validateInputNotNull(value, context);

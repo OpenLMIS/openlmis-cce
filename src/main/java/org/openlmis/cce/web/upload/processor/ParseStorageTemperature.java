@@ -28,10 +28,6 @@ import org.supercsv.util.CsvContext;
  */
 public class ParseStorageTemperature extends CellProcessorAdaptor implements StringCellProcessor {
 
-  public ParseStorageTemperature() {
-    super();
-  }
-
   @Override
   public Object execute(Object value, CsvContext context) {
     validateInputNotNull(value, context);

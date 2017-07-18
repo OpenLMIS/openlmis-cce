@@ -31,6 +31,7 @@ import guru.nidi.ramltester.junit.RamlMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.domain.CatalogItem;
+import org.openlmis.cce.domain.Dimensions;
 import org.openlmis.cce.domain.EnergySource;
 import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.dto.CatalogItemDto;
@@ -54,6 +55,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   private static final String RESOURCE_URL_WITH_ID = RESOURCE_URL + "/{id}";
   private static final String RESOURCE_URL_UPLOAD = RESOURCE_URL + "/upload";
   private static final String MESSAGE = "message";
+  private static final String FILE_PARAM_NAME = "file";
 
   @MockBean
   private CatalogItemRepository catalogItemRepository;
@@ -73,7 +75,8 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
     catalogItemDto = new CatalogItemDto(true, "equipment-code",
         "type", "model", "producent", EnergySource.ELECTRICT, 2016,
-        StorageTemperature.MINUS3, 20, -20, "LOW", 1, 1, 1, 100, 100, 100, true);
+        StorageTemperature.MINUS3, 20, -20, "LOW", 1, 1, 1,
+        new Dimensions(100, 100, 100), true);
 
     when(catalogItemRepository.save(any(CatalogItem.class)))
         .thenAnswer(new SaveAnswer<CatalogItem>());
@@ -115,7 +118,6 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .extract().as(CatalogItemDto[].class);
 
     assertEquals(response.length, 1);
-    assertEquals(response[0].getDepth(), catalogItemDto.getDepth());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -190,17 +192,11 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   }
 
   @Test
-  public void shouldUploadCsvWithMandatoryFields()
-      throws IOException {
+  public void shouldUploadCsvWithMandatoryFields() throws IOException {
     ClassPathResource basicCsvToUpload =
         new ClassPathResource("csv/catalogItems/basicCsvToUpload.csv");
 
-    restAssured.given()
-        .queryParam(ACCESS_TOKEN, getToken())
-        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-        .multiPart("file", basicCsvToUpload.getFilename(), basicCsvToUpload.getInputStream())
-        .when()
-        .post(RESOURCE_URL_UPLOAD)
+    upload(basicCsvToUpload)
         .then()
         .statusCode(200)
         .body(equalTo(String.valueOf(1)));
@@ -210,17 +206,25 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   }
 
   @Test
-  public void shouldNotUploadCsvWithoutMandatoryFields()
-      throws IOException {
+  public void shouldUploadCsvWithAllPossibleFields() throws IOException {
+    ClassPathResource fullCsvToUpload =
+        new ClassPathResource("csv/catalogItems/fullCsvToUpload.csv");
+
+    upload(fullCsvToUpload)
+        .then()
+        .statusCode(200)
+        .body(equalTo(String.valueOf(1)));
+
+    verify(catalogItemRepository).save(any(CatalogItem.class));
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldNotUploadCsvWithoutMandatoryFields() throws IOException {
     ClassPathResource basicCsvToUpload =
         new ClassPathResource("csv/catalogItems/wrongCsvToUpload.csv");
 
-    restAssured.given()
-        .queryParam(ACCESS_TOKEN, getToken())
-        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-        .multiPart("file", basicCsvToUpload.getFilename(), basicCsvToUpload.getInputStream())
-        .when()
-        .post(RESOURCE_URL_UPLOAD)
+    upload(basicCsvToUpload)
         .then()
         .statusCode(400)
         .body(MESSAGE, equalTo(getMessage(
@@ -238,12 +242,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     ClassPathResource basicCsvToUpload =
         new ClassPathResource("csv/catalogItems/basicCsvToUpload.csv");
 
-    restAssured.given()
-        .queryParam(ACCESS_TOKEN, getToken())
-        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-        .multiPart("file", basicCsvToUpload.getFilename(), basicCsvToUpload.getInputStream())
-        .when()
-        .post(RESOURCE_URL_UPLOAD)
+    upload(basicCsvToUpload)
         .then()
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
@@ -288,6 +287,17 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .body(catalogItemDto)
         .when()
         .put(RESOURCE_URL_WITH_ID);
+  }
+
+  private Response upload(ClassPathResource basicCsvToUpload) throws IOException {
+    return restAssured.given()
+        .queryParam(ACCESS_TOKEN, getToken())
+        .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
+        .multiPart(FILE_PARAM_NAME,
+            basicCsvToUpload.getFilename(),
+            basicCsvToUpload.getInputStream())
+        .when()
+        .post(RESOURCE_URL_UPLOAD);
   }
 
   private String getMessage(String messageKey, Object... messageParams) {

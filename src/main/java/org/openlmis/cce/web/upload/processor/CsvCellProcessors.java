@@ -51,9 +51,7 @@ public class CsvCellProcessors {
   public static final String BIG_DECIMAL_TYPE = "BigDecimal";
   public static final String ENERGY_SOURCE_TYPE = "EnergySource";
   public static final String STORAGE_TEMPERATURE_TYPE = "StorageTemperature";
-  public static final String TRIPLE_1_TYPE = "triple1";
-  public static final String TRIPLE_2_TYPE = "triple2";
-  public static final String TRIPLE_3_TYPE = "triple3";
+  public static final String DIMENSIONS_TYPE = "triple";
 
   private static final String format = "dd/MM/yyyy";
 
@@ -68,9 +66,7 @@ public class CsvCellProcessors {
     typeMappings.put(BIG_DECIMAL_TYPE, new ParseBigDecimal());
     typeMappings.put(ENERGY_SOURCE_TYPE, new ParseEnergySource());
     typeMappings.put(STORAGE_TEMPERATURE_TYPE, new ParseStorageTemperature());
-    typeMappings.put(TRIPLE_1_TYPE, new Trim());
-    typeMappings.put(TRIPLE_2_TYPE, new Trim());
-    typeMappings.put(TRIPLE_3_TYPE, new Trim());
+    typeMappings.put(DIMENSIONS_TYPE, new ParseDimensions());
   }
 
   /**
