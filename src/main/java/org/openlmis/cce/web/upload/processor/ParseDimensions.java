@@ -31,7 +31,7 @@ import org.supercsv.util.CsvContext;
 
 public class ParseDimensions extends CellProcessorAdaptor implements StringCellProcessor {
 
-  private static final String SEPARATOR = ", ";
+  private static final String SEPARATOR = ",";
 
   @SuppressWarnings("unchecked")
   @Override
@@ -42,8 +42,10 @@ public class ParseDimensions extends CellProcessorAdaptor implements StringCellP
     if (value instanceof String) {
       String valueString = String.valueOf(value);
       String[] split = valueString.split(SEPARATOR);
+
       try {
-        result = new Dimensions(valueOf(split[0]), valueOf(split[1]), valueOf(split[2]));
+        result = new Dimensions(
+            valueOf(split[0].trim()), valueOf(split[1].trim()), valueOf(split[2].trim()));
       } catch (final NumberFormatException ex) {
         throw getSuperCsvCellProcessorException(value, context, ex);
       }
