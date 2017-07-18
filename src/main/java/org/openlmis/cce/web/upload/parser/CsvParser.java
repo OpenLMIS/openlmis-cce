@@ -49,12 +49,8 @@ public class CsvParser {
     csvBeanReader.validateHeaders();
 
     BaseEntity importedModel;
-    try {
-      while ((importedModel = csvBeanReader.readWithCellProcessors()) != null) {
-        recordHandler.execute(importedModel);
-      }
-    } catch (NoSuchFieldException | IllegalAccessException ex) {
-      throw new ServerException(ex);
+    while ((importedModel = csvBeanReader.readWithCellProcessors()) != null) {
+      recordHandler.execute(importedModel);
     }
     return csvBeanReader.getRowNumber() - 1;
   }
