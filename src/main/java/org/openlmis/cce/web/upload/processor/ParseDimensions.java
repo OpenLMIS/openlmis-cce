@@ -60,6 +60,6 @@ public class ParseDimensions extends CellProcessorAdaptor implements StringCellP
                                                                            CsvContext context,
                                                                            Exception cause) {
     return new SuperCsvCellProcessorException(
-        String.format("'%s' could not be parsed as a Dimensions", value), context, this, cause);
+        String.format("'%s' could not be parsed as Dimensions", value), context, this, cause);
   }
 }

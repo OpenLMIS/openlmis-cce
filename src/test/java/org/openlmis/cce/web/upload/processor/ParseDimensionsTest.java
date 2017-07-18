@@ -49,7 +49,7 @@ public class ParseDimensionsTest {
   @Test
   public void shouldThrownExceptionWhenParameterIsNotString() {
     expectedEx.expect(SuperCsvCellProcessorException.class);
-    expectedEx.expectMessage("'1' could not be parsed as a Dimensions");
+    expectedEx.expectMessage("'1' could not be parsed as Dimensions");
 
     ParseDimensions parseDimensions = new ParseDimensions();
     parseDimensions.execute(1, csvContext);
@@ -59,7 +59,7 @@ public class ParseDimensionsTest {
   public void shouldThrownExceptionWhenTriplePartIsNotAnIntegerType() {
     String invalidTriple = String.format("%s, %s, %s", "test", EXPECTED_2, EXPECTED_3);
     expectedEx.expect(SuperCsvCellProcessorException.class);
-    expectedEx.expectMessage("'" + invalidTriple + "' could not be parsed as a Dimensions");
+    expectedEx.expectMessage("'" + invalidTriple + "' could not be parsed as Dimensions");
 
     ParseDimensions parseDimensions = new ParseDimensions();
     parseDimensions.execute(invalidTriple, csvContext);
