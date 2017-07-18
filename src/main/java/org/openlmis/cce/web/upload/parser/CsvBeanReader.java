@@ -54,8 +54,7 @@ class CsvBeanReader {
     configureProcessors();
   }
 
-  BaseEntity readWithCellProcessors() throws IOException, NoSuchFieldException,
-      IllegalAccessException {
+  BaseEntity readWithCellProcessors() throws IOException {
     return dozerBeanReader.read(modelClass.getClazz(), processors);
   }
 
