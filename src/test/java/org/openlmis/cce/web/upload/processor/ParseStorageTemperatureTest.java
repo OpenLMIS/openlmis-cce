@@ -45,7 +45,7 @@ public class ParseStorageTemperatureTest {
   @Test
   public void shouldThrownExceptionWhenInputIsNotValidStorageTemperature() {
     expectedEx.expect(SuperCsvCellProcessorException.class);
-    expectedEx.expectMessage("'not valid' could not be parsed as an StorageTemperature");
+    expectedEx.expectMessage("'not valid' could not be parsed as a StorageTemperature");
 
     parseStorageTemperature.execute("not valid", csvContext);
   }
