@@ -37,7 +37,7 @@ public class ParseStorageTemperature extends CellProcessorAdaptor implements Str
       result = StorageTemperature.valueOf((String)value);
     } else  {
       throw new SuperCsvCellProcessorException(
-          String.format("'%s' could not be parsed as an StorageTemperature", value), context, this);
+          String.format("'%s' could not be parsed as a StorageTemperature", value), context, this);
     }
 
     return next.execute(result, context);
