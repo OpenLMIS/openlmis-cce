@@ -16,7 +16,7 @@
 package org.openlmis.cce.domain;
 
 public enum EnergySource {
-  ELECTRICT,
+  ELECTRIC,
   SOLAR,
   GASOLINE,
   NOT_APPLICABLE

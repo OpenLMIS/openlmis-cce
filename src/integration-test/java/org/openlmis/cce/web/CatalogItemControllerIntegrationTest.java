@@ -74,7 +74,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     mockUserAuthenticated();
 
     catalogItemDto = new CatalogItemDto(true, "equipment-code",
-        "type", "model", "producent", EnergySource.ELECTRICT, 2016,
+        "type", "model", "producent", EnergySource.ELECTRIC, 2016,
         StorageTemperature.MINUS3, 20, -20, "LOW", 1, 1, 1,
         new Dimensions(100, 100, 100), true);
 
