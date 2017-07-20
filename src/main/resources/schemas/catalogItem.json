@@ -30,7 +30,7 @@
     },
     "energySource": {
       "enum": [
-        "ELECTRICT",
+        "ELECTRIC",
         "SOLAR",
         "GASOLINE",
         "NOT_APPLICABLE"
