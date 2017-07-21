@@ -28,7 +28,7 @@ schemas:
   - catalogItemArray: |
         {
             "type": "array",
-            "items": { "type": "object", "$ref":"schemas/catalogItem.json" }
+            "items": { "type": "object", "$ref": "schemas/catalogItem.json" }
         }
 
   - inventoryItem: !include schemas/inventoryItem.json
@@ -36,7 +36,7 @@ schemas:
   - inventoryItemArray: |
         {
             "type": "array",
-            "items": { "type": "object", "$ref":"schemas/inventoryItem.json" }
+            "items": { "type": "object", "$ref": "schemas/inventoryItem.json" }
         }
 
   - auditLogEntry: !include schemas/auditLogEntry.json
