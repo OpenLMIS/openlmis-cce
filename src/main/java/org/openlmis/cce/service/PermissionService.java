@@ -44,7 +44,7 @@ public class PermissionService {
 
   /**
    * Checks if current user has permission to manage CCE.
-   * @throws PermissionMessageException if the current user has not a permission.
+   * @throws PermissionMessageException if the current user doesn't have the permission.
    */
   public void canManageCce() {
     checkPermission(CCE_MANAGE);
@@ -52,7 +52,7 @@ public class PermissionService {
 
   /**
    * Checks if current user has permission to view CCE inventory.
-   * @throws PermissionMessageException if the current user has not a permission.
+   * @throws PermissionMessageException if the current user doesn't have the permission.
    */
   public void canViewInventory() {
     checkPermission(CCE_INVENTORY_VIEW);
@@ -60,7 +60,7 @@ public class PermissionService {
 
   /**
    * Checks if current user has permission to edit CCE inventory.
-   * @throws PermissionMessageException if the current user has not a permission.
+   * @throws PermissionMessageException if the current user doesn't have the permission.
    */
   public void canEditInventory() {
     checkPermission(CCE_INVENTORY_EDIT);
