@@ -33,6 +33,7 @@ import java.io.InputStream;
 @Component
 @NoArgsConstructor
 public class CsvParser {
+
   /**
    * Parses data from input stream into the corresponding model.
    *
