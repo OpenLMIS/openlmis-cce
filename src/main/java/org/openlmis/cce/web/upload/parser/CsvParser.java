@@ -15,12 +15,14 @@
 
 package org.openlmis.cce.web.upload.parser;
 
-import lombok.NoArgsConstructor;
-import org.openlmis.cce.domain.BaseEntity;
+import org.openlmis.cce.dto.BaseDto;
 import org.openlmis.cce.web.upload.model.ModelClass;
 import org.openlmis.cce.web.upload.recordhandler.RecordHandler;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.springframework.stereotype.Component;
+
+import lombok.NoArgsConstructor;
+
 import java.io.IOException;
 import java.io.InputStream;
 
@@ -39,15 +41,14 @@ public class CsvParser {
    * @param recordHandler record persistance handler
    * @return number of uploaded records
    */
-  public int process(InputStream inputStream,
-                     ModelClass modelClass,
-                     RecordHandler recordHandler,
-                     CsvHeaderValidator csvHeaderValidator) throws IOException {
+  public int process(
+      InputStream inputStream, ModelClass modelClass, RecordHandler recordHandler,
+      CsvHeaderValidator csvHeaderValidator) throws IOException {
 
     CsvBeanReader csvBeanReader = new CsvBeanReader(modelClass, inputStream, csvHeaderValidator);
     csvBeanReader.validateHeaders();
 
-    BaseEntity importedModel;
+    BaseDto importedModel;
     while ((importedModel = csvBeanReader.readWithCellProcessors()) != null) {
       recordHandler.execute(importedModel);
     }

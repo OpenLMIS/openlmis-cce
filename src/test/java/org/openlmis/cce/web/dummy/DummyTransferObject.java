@@ -13,26 +13,37 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
 package org.openlmis.cce.web.dummy;
 
-import org.openlmis.cce.domain.BaseEntity;
+import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.INT_TYPE;
+
+import org.openlmis.cce.dto.BaseDto;
+import org.openlmis.cce.web.upload.model.ImportField;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class DummyObject extends BaseEntity {
+public class DummyTransferObject extends BaseDto {
+  public static final String MANDATORY_STRING_FIELD = "Mandatory String Field";
+  public static final String OPTIONAL_INT_FIELD = "Optional Int Field";
+  public static final String OPTIONAL_NESTED_FIELD = "Optional Nested Field";
+
+  @ImportField(mandatory = true, name = MANDATORY_STRING_FIELD)
   private String mandatoryStringField;
 
+  @ImportField(mandatory = true, type = INT_TYPE)
   private int mandatoryIntField;
 
+  @ImportField
   private String optionalStringField;
+
+  @ImportField(type = INT_TYPE, name = OPTIONAL_INT_FIELD)
   private int optionalIntField;
 
+  @ImportField(name = OPTIONAL_NESTED_FIELD, nested = "code")
   private DummyNestedField dummyNestedField;
 
   private String nonAnnotatedField;
-
 }

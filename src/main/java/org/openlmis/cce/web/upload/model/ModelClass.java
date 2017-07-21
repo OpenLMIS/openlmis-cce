@@ -15,9 +15,11 @@
 
 package org.openlmis.cce.web.upload.model;
 
+import org.openlmis.cce.dto.BaseDto;
+
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.openlmis.cce.domain.BaseEntity;
+
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -30,11 +32,11 @@ import java.util.Optional;
 @NoArgsConstructor
 public class ModelClass {
 
-  private Class<? extends BaseEntity> clazz;
+  private Class<? extends BaseDto> clazz;
 
   private List<ModelField> importFields;
 
-  public ModelClass(Class<? extends BaseEntity> clazz) {
+  public ModelClass(Class<? extends BaseDto> clazz) {
     this.clazz = clazz;
     importFields = fieldsWithImportFieldAnnotation();
   }

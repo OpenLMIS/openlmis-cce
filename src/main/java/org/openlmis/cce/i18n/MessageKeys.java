@@ -33,7 +33,7 @@ public abstract class MessageKeys {
       + ".upload.header.missing";
   public static final String ERROR_IO = ERROR_PREFIX + ".io";
   public static final String ERROR_FILE_IS_EMPTY = ERROR_PREFIX + ".file.empty";
-  public static final String ERROR_INCORRECT_FILE_FORMAT = ERROR_PREFIX + ".file.incorrectFormat";
+  public static final String ERROR_INCORRECT_FILE_FORMAT = ERROR_PREFIX + ".file.format.incorrect";
 
   private MessageKeys() {
     throw new UnsupportedOperationException();

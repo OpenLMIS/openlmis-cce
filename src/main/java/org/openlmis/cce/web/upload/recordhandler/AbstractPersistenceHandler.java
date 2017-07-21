@@ -16,23 +16,33 @@
 package org.openlmis.cce.web.upload.recordhandler;
 
 import org.openlmis.cce.domain.BaseEntity;
+import org.openlmis.cce.dto.BaseDto;
 
 /**
  * AbstractPersistenceHandler is a base class used for persisting each record of the uploaded file.
  */
-public abstract class AbstractPersistenceHandler<T extends BaseEntity> implements RecordHandler {
+public abstract class AbstractPersistenceHandler<M extends BaseEntity, T extends BaseDto>
+    implements RecordHandler {
 
   /**
    * Persists each record of the uploaded file.
    */
   public void execute(BaseEntity currentRecord) {
-    BaseEntity existing = getExisting((T)currentRecord);
+    BaseEntity existing = getExisting((M)currentRecord);
 
     if (existing != null) {
       currentRecord.setId(existing.getId());
     }
 
-    save((T)currentRecord);
+    save((M)currentRecord);
+  }
+
+  /**
+   * Persists a record based on it's transfer representation.
+   */
+  public void execute(BaseDto currentRecord) {
+    M record = importDto((T)currentRecord);
+    execute(record);
   }
 
   /**
@@ -42,7 +52,15 @@ public abstract class AbstractPersistenceHandler<T extends BaseEntity> implement
    * @param record the record an implementation should use to look for an "existing" record.
    * @return the record that exists that has the same identity as the given record.
    */
-  protected abstract BaseEntity getExisting(T record);
+  protected abstract BaseEntity getExisting(M record);
 
-  protected abstract void save(T record);
+  /**
+   * Implementations should return a valid entity based on data transfer object.
+   *
+   * @param record the transfer object that will be used to create an entity.
+   * @return the entity based on given object.
+   */
+  protected abstract M importDto(T record);
+
+  protected abstract void save(M record);
 }

@@ -16,6 +16,7 @@
 package org.openlmis.cce.web.upload.recordhandler;
 
 import org.openlmis.cce.domain.BaseEntity;
+import org.openlmis.cce.dto.BaseDto;
 
 /**
  * This interface is implemented by all record handlers.
@@ -23,5 +24,7 @@ import org.openlmis.cce.domain.BaseEntity;
 public interface RecordHandler {
 
   void execute(BaseEntity importable);
+
+  void execute(BaseDto importable);
 
 }

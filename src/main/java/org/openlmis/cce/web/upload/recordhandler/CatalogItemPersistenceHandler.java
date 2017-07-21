@@ -17,6 +17,7 @@ package org.openlmis.cce.web.upload.recordhandler;
 
 import org.openlmis.cce.domain.BaseEntity;
 import org.openlmis.cce.domain.CatalogItem;
+import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,11 +27,13 @@ import org.springframework.stereotype.Component;
  * It uploads each catalog item record by record.
  */
 @Component
-public class CatalogItemPersistenceHandler extends AbstractPersistenceHandler<CatalogItem> {
+public class CatalogItemPersistenceHandler
+    extends AbstractPersistenceHandler<CatalogItem, CatalogItemDto> {
 
   @Autowired
   private CatalogItemRepository catalogItemRepository;
 
+  @Override
   protected BaseEntity getExisting(CatalogItem record) {
     String equipmentCode = record.getEquipmentCode();
     if (equipmentCode != null) {
@@ -39,6 +42,12 @@ public class CatalogItemPersistenceHandler extends AbstractPersistenceHandler<Ca
     return catalogItemRepository.findByTypeAndModel(record.getType(), record.getModel());
   }
 
+  @Override
+  protected CatalogItem importDto(CatalogItemDto record) {
+    return CatalogItem.newInstance(record);
+  }
+
+  @Override
   protected void save(CatalogItem record) {
     catalogItemRepository.save(record);
   }

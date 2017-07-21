@@ -18,12 +18,12 @@ package org.openlmis.cce.web.upload.processor;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.openlmis.cce.web.dummy.DummyObject.MANDATORY_STRING_FIELD;
-import static org.openlmis.cce.web.dummy.DummyObject.OPTIONAL_INT_FIELD;
+import static org.openlmis.cce.web.dummy.DummyTransferObject.MANDATORY_STRING_FIELD;
+import static org.openlmis.cce.web.dummy.DummyTransferObject.OPTIONAL_INT_FIELD;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openlmis.cce.web.dummy.DummyObject;
+import org.openlmis.cce.web.dummy.DummyTransferObject;
 import org.openlmis.cce.web.upload.model.ModelClass;
 import org.springframework.util.ReflectionUtils;
 import org.supercsv.cellprocessor.CellProcessorAdaptor;
@@ -32,6 +32,7 @@ import org.supercsv.cellprocessor.ParseInt;
 import org.supercsv.cellprocessor.Trim;
 import org.supercsv.cellprocessor.constraint.NotNull;
 import org.supercsv.cellprocessor.ift.CellProcessor;
+
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.List;
@@ -42,7 +43,7 @@ public class CsvCellProcessorsTest {
 
   @Before
   public void setUp() throws Exception {
-    dummyImportableClass = new ModelClass(DummyObject.class);
+    dummyImportableClass = new ModelClass(DummyTransferObject.class);
   }
 
   @Test

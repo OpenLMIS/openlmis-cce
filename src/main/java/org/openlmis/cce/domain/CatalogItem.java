@@ -15,21 +15,17 @@
 
 package org.openlmis.cce.domain;
 
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.BOOLEAN_TYPE;
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.DIMENSIONS_TYPE;
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.ENERGY_SOURCE_TYPE;
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.INT_FROM_DOUBLE_TYPE;
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.STORAGE_TEMPERATURE_TYPE;
+import org.javers.core.metamodel.annotation.TypeName;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.javers.core.metamodel.annotation.TypeName;
-import org.openlmis.cce.web.upload.model.ImportField;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -46,65 +42,38 @@ import javax.persistence.Table;
 @EqualsAndHashCode(callSuper = true)
 public class CatalogItem extends BaseEntity {
 
-  public static final String VISIBLE_IN_CATALOG = "Visible in catalog";
-  public static final String HOLDOVER_TIME_HOURS = "Holdover time (hours)";
-  public static final String ENERGY_CONSUMPTION_NA_FOR_SOLAR = "Energy consumption (NA for solar)";
-  public static final String MIN_OPERATING_TEMP_DEGREES_C = "Min operating temp (degrees C)";
-  public static final String MAX_OPERATING_TEMP_DEGREES_C = "Max operating temp (degrees C)";
-  public static final String STORAGE_TEMPERATURE = "Storage Temperature";
-  public static final String DATE_OF_PREQUAL = "Date of prequal";
-  public static final String ENERGY_SOURCE = "Energy source";
-  public static final String MANUFACTURER = "Manufacturer";
-  public static final String MODEL = "Model";
-  public static final String TYPE = "Type";
-  public static final String PQS_EQUIPMENT_CODE = "PQS equipment code";
-  public static final String FROM_PQS_CATALOG = "From PQS catalog";
-  public static final String DIMENSIONS = "Dimensions";
-
   @Column(nullable = false)
-  @ImportField(name = FROM_PQS_CATALOG, type = BOOLEAN_TYPE, mandatory = true)
   private boolean fromPqsCatalog;
 
   @Column(columnDefinition = TEXT)
-  @ImportField(name = PQS_EQUIPMENT_CODE)
   private String equipmentCode;
 
   @Column(columnDefinition = TEXT, nullable = false)
-  @ImportField(name = TYPE, mandatory = true)
   private String type;
 
   @Column(columnDefinition = TEXT, nullable = false)
-  @ImportField(name = MODEL, mandatory = true)
   private String model;
 
   @Column(columnDefinition = TEXT, nullable = false)
-  @ImportField(name = MANUFACTURER, mandatory = true)
   private String manufacturer;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  @ImportField(name = ENERGY_SOURCE, type = ENERGY_SOURCE_TYPE, mandatory = true)
   private EnergySource energySource;
 
-  @ImportField(name = DATE_OF_PREQUAL, type = INT_FROM_DOUBLE_TYPE)
   private Integer dateOfPrequal;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  @ImportField(name = STORAGE_TEMPERATURE, type = STORAGE_TEMPERATURE_TYPE, mandatory = true)
   private StorageTemperature storageTemperature;
 
-  @ImportField(name = MAX_OPERATING_TEMP_DEGREES_C, type = INT_FROM_DOUBLE_TYPE)
   private Integer maxOperatingTemp;
 
-  @ImportField(name = MIN_OPERATING_TEMP_DEGREES_C, type = INT_FROM_DOUBLE_TYPE)
   private Integer minOperatingTemp;
 
   @Column(columnDefinition = TEXT)
-  @ImportField(name = ENERGY_CONSUMPTION_NA_FOR_SOLAR)
   private String energyConsumption;
 
-  @ImportField(name = HOLDOVER_TIME_HOURS, type = INT_FROM_DOUBLE_TYPE)
   private Integer holdoverTime;
 
   private Integer grossVolume;
@@ -112,11 +81,9 @@ public class CatalogItem extends BaseEntity {
   private Integer netVolume;
 
   @Embedded
-  @ImportField(name = DIMENSIONS, type = DIMENSIONS_TYPE)
   private Dimensions dimensions;
 
-  @ImportField(name = VISIBLE_IN_CATALOG, type = BOOLEAN_TYPE)
-  private boolean visibleInCatalog;
+  private Boolean visibleInCatalog;
 
   /**
    * Creates new instance based on data from {@link Importer}

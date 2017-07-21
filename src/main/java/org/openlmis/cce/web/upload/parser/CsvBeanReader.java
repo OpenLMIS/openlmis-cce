@@ -17,14 +17,16 @@ package org.openlmis.cce.web.upload.parser;
 
 import static java.util.Arrays.asList;
 
-import lombok.Getter;
-import org.openlmis.cce.domain.BaseEntity;
+import org.openlmis.cce.dto.BaseDto;
 import org.openlmis.cce.web.upload.model.ModelClass;
 import org.openlmis.cce.web.upload.processor.CsvCellProcessors;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.dozer.CsvDozerBeanReader;
 import org.supercsv.prefs.CsvPreference;
+
+import lombok.Getter;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -54,7 +56,7 @@ class CsvBeanReader {
     configureProcessors();
   }
 
-  BaseEntity readWithCellProcessors() throws IOException {
+  BaseDto readWithCellProcessors() throws IOException {
     return dozerBeanReader.read(modelClass.getClazz(), processors);
   }
 

@@ -144,7 +144,7 @@ public class CatalogItemController extends BaseController {
   public String upload(@RequestPart("file") MultipartFile file) {
     permissionService.canManageCce();
     validateCsvFile(file);
-    ModelClass modelClass = new ModelClass(CatalogItem.class);
+    ModelClass modelClass = new ModelClass(CatalogItemDto.class);
 
     try {
       return Integer.toString(
