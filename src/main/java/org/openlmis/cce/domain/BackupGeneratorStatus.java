@@ -15,10 +15,9 @@
 
 package org.openlmis.cce.domain;
 
-public enum VoltageRegulator {
+public enum BackupGeneratorStatus {
   YES,
   NO,
   UNKNOWN,
-  NOT_APPLICABLE,
-  NA
+  NOT_APPLICABLE
 }

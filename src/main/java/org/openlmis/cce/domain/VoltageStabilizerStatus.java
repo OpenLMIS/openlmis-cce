@@ -15,7 +15,7 @@
 
 package org.openlmis.cce.domain;
 
-public enum VoltageStabilizer {
+public enum VoltageStabilizerStatus {
   YES,
   NO,
   UNKNOWN,

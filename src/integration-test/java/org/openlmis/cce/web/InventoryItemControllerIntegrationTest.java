@@ -27,14 +27,14 @@ import com.jayway.restassured.response.Response;
 import guru.nidi.ramltester.junit.RamlMatchers;
 import org.junit.Before;
 import org.junit.Test;
-import org.openlmis.cce.domain.BackupGenerator;
+import org.openlmis.cce.domain.BackupGeneratorStatus;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.domain.ManualTemperatureGauge;
+import org.openlmis.cce.domain.ManualTemperatureGaugeType;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
 import org.openlmis.cce.domain.Utilization;
-import org.openlmis.cce.domain.VoltageRegulator;
-import org.openlmis.cce.domain.VoltageStabilizer;
+import org.openlmis.cce.domain.VoltageRegulatorStatus;
+import org.openlmis.cce.domain.VoltageStabilizerStatus;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.PermissionService;
@@ -67,8 +67,9 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     inventoryItemDto = new InventoryItemDto(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
         "someUniqueId", "eqTrackingId", "abc123", 2010, 2020, "some source",
         FunctionalStatus.FUNCTIONING, true, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
-        Utilization.ACTIVE, VoltageStabilizer.UNKNOWN, BackupGenerator.YES, VoltageRegulator.NO,
-        ManualTemperatureGauge.BUILD_IN, "someMonitorId", "example notes");
+        Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
+        VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
+        "someMonitorId", "example notes");
 
     when(inventoryItemRepository.save(any(InventoryItem.class)))
         .thenAnswer(new SaveAnswer<InventoryItem>());

@@ -85,19 +85,19 @@ public class InventoryItem extends BaseEntity {
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  private VoltageStabilizer voltageStabilizer;
+  private VoltageStabilizerStatus voltageStabilizer;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  private BackupGenerator backupGenerator;
+  private BackupGeneratorStatus backupGenerator;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  private VoltageRegulator voltageRegulator;
+  private VoltageRegulatorStatus voltageRegulator;
 
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
-  private ManualTemperatureGauge manualTemperatureGauge;
+  private ManualTemperatureGaugeType manualTemperatureGauge;
 
   @Column(columnDefinition = TEXT)
   private String remoteTemperatureMonitorId;
@@ -206,13 +206,13 @@ public class InventoryItem extends BaseEntity {
 
     void setUtilization(Utilization utilization);
 
-    void setVoltageStabilizer(VoltageStabilizer voltageStabilizer);
+    void setVoltageStabilizer(VoltageStabilizerStatus voltageStabilizer);
 
-    void setBackupGenerator(BackupGenerator backupGenerator);
+    void setBackupGenerator(BackupGeneratorStatus backupGenerator);
 
-    void setVoltageRegulator(VoltageRegulator voltageRegulator);
+    void setVoltageRegulator(VoltageRegulatorStatus voltageRegulator);
 
-    void setManualTemperatureGauge(ManualTemperatureGauge manualTemperatureGauge);
+    void setManualTemperatureGauge(ManualTemperatureGaugeType manualTemperatureGauge);
 
     void setRemoteTemperatureMonitorId(String remoteTemperatureMonitorId);
 
@@ -248,13 +248,13 @@ public class InventoryItem extends BaseEntity {
 
     Utilization getUtilization();
 
-    VoltageStabilizer getVoltageStabilizer();
+    VoltageStabilizerStatus getVoltageStabilizer();
 
-    BackupGenerator getBackupGenerator();
+    BackupGeneratorStatus getBackupGenerator();
 
-    VoltageRegulator getVoltageRegulator();
+    VoltageRegulatorStatus getVoltageRegulator();
 
-    ManualTemperatureGauge getManualTemperatureGauge();
+    ManualTemperatureGaugeType getManualTemperatureGauge();
 
     String getRemoteTemperatureMonitorId();
 

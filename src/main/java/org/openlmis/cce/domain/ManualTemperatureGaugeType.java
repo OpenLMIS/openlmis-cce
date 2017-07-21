@@ -15,7 +15,7 @@
 
 package org.openlmis.cce.domain;
 
-public enum ManualTemperatureGauge {
+public enum ManualTemperatureGaugeType {
   BUILD_IN,
   PAIRED,
   NO_GAUGE

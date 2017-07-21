@@ -20,14 +20,14 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.openlmis.cce.domain.BackupGenerator;
+import org.openlmis.cce.domain.BackupGeneratorStatus;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.domain.ManualTemperatureGauge;
+import org.openlmis.cce.domain.ManualTemperatureGaugeType;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
 import org.openlmis.cce.domain.Utilization;
-import org.openlmis.cce.domain.VoltageRegulator;
-import org.openlmis.cce.domain.VoltageStabilizer;
+import org.openlmis.cce.domain.VoltageRegulatorStatus;
+import org.openlmis.cce.domain.VoltageStabilizerStatus;
 import java.util.UUID;
 
 @Setter
@@ -64,13 +64,13 @@ public class InventoryItemDto extends BaseDto
 
   private Utilization utilization;
 
-  private VoltageStabilizer voltageStabilizer;
+  private VoltageStabilizerStatus voltageStabilizer;
 
-  private BackupGenerator backupGenerator;
+  private BackupGeneratorStatus backupGenerator;
 
-  private VoltageRegulator voltageRegulator;
+  private VoltageRegulatorStatus voltageRegulator;
 
-  private ManualTemperatureGauge manualTemperatureGauge;
+  private ManualTemperatureGaugeType manualTemperatureGauge;
 
   private String remoteTemperatureMonitorId;
 
