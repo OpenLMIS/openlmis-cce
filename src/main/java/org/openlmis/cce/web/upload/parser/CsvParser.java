@@ -15,11 +15,17 @@
 
 package org.openlmis.cce.web.upload.parser;
 
+import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_RECORD_INVALID;
+
 import org.openlmis.cce.dto.BaseDto;
+import org.openlmis.cce.exception.ValidationMessageException;
+import org.openlmis.cce.util.Message;
 import org.openlmis.cce.web.upload.model.ModelClass;
 import org.openlmis.cce.web.upload.recordhandler.RecordHandler;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.springframework.stereotype.Component;
+import org.supercsv.exception.SuperCsvException;
+import org.supercsv.util.CsvContext;
 
 import lombok.NoArgsConstructor;
 
@@ -49,11 +55,23 @@ public class CsvParser {
     CsvBeanReader csvBeanReader = new CsvBeanReader(modelClass, inputStream, csvHeaderValidator);
     csvBeanReader.validateHeaders();
 
-    BaseDto importedModel;
-    while ((importedModel = csvBeanReader.readWithCellProcessors()) != null) {
-      recordHandler.execute(importedModel);
+    try {
+      BaseDto importedModel;
+      while ((importedModel = csvBeanReader.readWithCellProcessors()) != null) {
+        recordHandler.execute(importedModel);
+      }
+    } catch (SuperCsvException err) {
+      Message message = getCsvRowErrorMessage(err);
+      throw new ValidationMessageException(err, message);
     }
+
     return csvBeanReader.getRowNumber() - 1;
+  }
+
+  private Message getCsvRowErrorMessage(SuperCsvException err) {
+    CsvContext context = err.getCsvContext();
+    int row = context.getRowNumber() - 1;
+    return new Message(ERROR_UPLOAD_RECORD_INVALID, row, err.getMessage());
   }
 
 }

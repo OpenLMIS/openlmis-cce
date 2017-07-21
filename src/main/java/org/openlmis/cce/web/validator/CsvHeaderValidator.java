@@ -15,9 +15,9 @@
 
 package org.openlmis.cce.web.validator;
 
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOAD_HEADER_MISSING;
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOD_INVALID_HEADER;
+import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_HEADER_MISSING;
+import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_HEADER_INVALID;
+import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
 import static org.openlmis.cce.util.StringHelper.lowerCase;
 
 import org.apache.commons.collections.ListUtils;
@@ -68,7 +68,7 @@ public class CsvHeaderValidator {
     List<String> fieldNames = getAllImportedFieldNames(modelClass);
     List invalidHeaders = ListUtils.subtract(headers, lowerCase(fieldNames));
     if (!invalidHeaders.isEmpty()) {
-      throw new ValidationMessageException(ERROR_UPLOD_INVALID_HEADER, invalidHeaders.toString());
+      throw new ValidationMessageException(ERROR_UPLOAD_HEADER_INVALID, invalidHeaders.toString());
     }
   }
 

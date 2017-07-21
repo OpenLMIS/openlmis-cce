@@ -15,16 +15,17 @@
 
 package org.openlmis.cce.i18n;
 
-public abstract class MessageKeys {
-  private static final String SERVICE_PREFIX = "cce";
-  static final String SERVICE_ERROR_PREFIX = SERVICE_PREFIX + ".error";
+public class CsvUploadMessageKeys extends MessageKeys {
+  private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".upload";
 
-  public static final String ERROR_IO = SERVICE_ERROR_PREFIX + ".io";
-  public static final String ERROR_FILE_IS_EMPTY = SERVICE_ERROR_PREFIX + ".file.empty";
-  public static final String ERROR_INCORRECT_FILE_FORMAT = SERVICE_ERROR_PREFIX
-      + ".file.format.incorrect";
+  public static final String ERROR_UPLOAD_HEADER_INVALID = ERROR_PREFIX + ".header.invalid";
+  public static final String ERROR_UPLOAD_HEADER_MISSING = ERROR_PREFIX + ".header.missing";
+  public static final String ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS = ERROR_PREFIX
+      + ".mandatory.columns.missing";
 
-  MessageKeys() {
+  public static final String ERROR_UPLOAD_RECORD_INVALID = ERROR_PREFIX + ".record.invalid";
+
+  private CsvUploadMessageKeys() {
     throw new UnsupportedOperationException();
   }
 }

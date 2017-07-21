@@ -20,14 +20,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
+import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_RECORD_INVALID;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
 
 import com.jayway.restassured.response.Response;
-import guru.nidi.ramltester.junit.RamlMatchers;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.domain.CatalogItem;
@@ -40,6 +41,9 @@ import org.openlmis.cce.service.PermissionService;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.http.MediaType;
+
+import guru.nidi.ramltester.junit.RamlMatchers;
+
 import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
@@ -187,7 +191,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   @Test
   public void shouldUploadCsvWithMandatoryFields() throws IOException {
     ClassPathResource basicCsvToUpload =
-        new ClassPathResource("csv/catalogItems/basicCsvToUpload.csv");
+        new ClassPathResource("csv/catalogItems/csvWithBasicColumns.csv");
 
     upload(basicCsvToUpload)
         .then()
@@ -201,7 +205,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   @Test
   public void shouldUploadCsvWithAllPossibleFields() throws IOException {
     ClassPathResource fullCsvToUpload =
-        new ClassPathResource("csv/catalogItems/fullCsvToUpload.csv");
+        new ClassPathResource("csv/catalogItems/csvWithBasicAndOptionalColumns.csv");
 
     upload(fullCsvToUpload)
         .then()
@@ -215,7 +219,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   @Test
   public void shouldNotUploadCsvWithoutMandatoryFields() throws IOException {
     ClassPathResource basicCsvToUpload =
-        new ClassPathResource("csv/catalogItems/wrongCsvToUpload.csv");
+        new ClassPathResource("csv/catalogItems/csvWithMissingMandatoryColumns.csv");
 
     upload(basicCsvToUpload)
         .then()
@@ -223,7 +227,28 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .body(MESSAGE, equalTo(getMessage(
             ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS, "[From PQS catalog]")));
 
-    verify(catalogItemRepository, times(0)).save(any(CatalogItem.class));
+    verify(catalogItemRepository, never()).save(any(CatalogItem.class));
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldNotUploadCsvWithInvalidColumnValues() throws IOException {
+    // givne
+    ClassPathResource basicCsvToUpload =
+        new ClassPathResource("csv/catalogItems/csvWithInvalidColumnValues.csv");
+
+    // Error message based on invalid value in given csv file
+    String errorMsg = getMessage(
+        ERROR_UPLOAD_RECORD_INVALID, 1, "'ELECTRICITY' could not be parsed as an EnergySource");
+
+    // when
+    upload(basicCsvToUpload)
+        .then()
+        .statusCode(400)
+        .body(MESSAGE, equalTo(errorMsg));
+
+    // then
+    verify(catalogItemRepository, never()).save(any(CatalogItem.class));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -233,7 +258,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     doThrow(mockPermissionException(managePermission))
         .when(permissionService).canManageCce();
     ClassPathResource basicCsvToUpload =
-        new ClassPathResource("csv/catalogItems/basicCsvToUpload.csv");
+        new ClassPathResource("csv/catalogItems/csvWithBasicColumns.csv");
 
     upload(basicCsvToUpload)
         .then()

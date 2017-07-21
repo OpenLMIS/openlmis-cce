@@ -15,9 +15,9 @@
 
 package org.openlmis.cce.web.validator;
 
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOAD_HEADER_MISSING;
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOD_INVALID_HEADER;
+import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_HEADER_MISSING;
+import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_HEADER_INVALID;
+import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
 import static org.openlmis.cce.web.dummy.DummyTransferObject.MANDATORY_STRING_FIELD;
 
 import org.junit.Rule;
@@ -59,7 +59,7 @@ public class CsvHeaderValidatorTest {
 
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_UPLOD_INVALID_HEADER, "[not existing field]").toString());
+        new Message(ERROR_UPLOAD_HEADER_INVALID, "[not existing field]").toString());
 
     ModelClass modelClass = new ModelClass(DummyTransferObject.class);
     csvHeaderValidator.validateHeaders(headers, modelClass, false);
