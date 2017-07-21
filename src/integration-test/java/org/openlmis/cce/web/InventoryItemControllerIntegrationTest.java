@@ -20,7 +20,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_NOT_FOUND;
 import static org.openlmis.cce.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
 import com.jayway.restassured.response.Response;
@@ -59,6 +62,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private InventoryItemDto inventoryItemDto;
   private String editPermission = PermissionService.CCE_INVENTORY_EDIT;
   private String viewPermission = PermissionService.CCE_INVENTORY_VIEW;
+  private UUID inventoryId = UUID.randomUUID();
 
   @Before
   public void setUp() {
@@ -142,6 +146,16 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   }
 
   @Test
+  public void shouldReturn404WhenGetOneIfInventoryItemNotFound() {
+    deleteInventoryItem()
+        .then()
+        .statusCode(404)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NOT_FOUND)));
+
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
   public void shouldReturnUnauthorizedWhenGetOneIfUserHasNoViewInventoryPermission() {
     doThrow(mockPermissionException(viewPermission))
         .when(permissionService).canViewInventory();
@@ -164,7 +178,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .statusCode(200)
         .extract().as(InventoryItemDto.class);
 
-    // then
     assertEquals(oldItem.getId(), response.getId());
     assertEquals(response, inventoryItemDto);
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
@@ -183,6 +196,45 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
+  @Test
+  public void shouldDeleteInventoryItemWhenFoundById() {
+    when(inventoryItemRepository.findOne(inventoryId))
+        .thenReturn(InventoryItem.newInstance(inventoryItemDto));
+
+    deleteInventoryItem()
+        .then()
+        .statusCode(204);
+
+    verify(inventoryItemRepository).delete(any(InventoryItem.class));
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldReturn404WhenDeleteIfInventoryItemNotFound() {
+    deleteInventoryItem()
+        .then()
+        .statusCode(404)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NOT_FOUND)));
+
+    verify(inventoryItemRepository, times(0)).delete(any(InventoryItem.class));
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldReturnUnauthorizedWhenDeleteIfUserHasNoEditInventoryPermission() {
+    doThrow(mockPermissionException(editPermission))
+        .when(permissionService).canEditInventory();
+
+    deleteInventoryItem()
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, editPermission)));
+
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+
+
   private Response postInventoryItem() {
     return restAssured
         .given()
@@ -197,7 +249,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     return restAssured
         .given()
         .queryParam(ACCESS_TOKEN, getToken())
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
         .when()
         .get(RESOURCE_URL);
   }
@@ -207,7 +258,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .given()
         .queryParam(ACCESS_TOKEN, getToken())
         .pathParam("id", UUID.randomUUID())
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
         .when()
         .get(RESOURCE_URL_WITH_ID);
   }
@@ -220,5 +270,14 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .body(inventoryItemDto)
         .when()
         .put(RESOURCE_URL_WITH_ID);
+  }
+
+  private Response deleteInventoryItem() {
+    return restAssured
+        .given()
+        .queryParam(ACCESS_TOKEN, getToken())
+        .pathParam("id", inventoryId)
+        .when()
+        .delete(RESOURCE_URL_WITH_ID);
   }
 }

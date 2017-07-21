@@ -113,6 +113,22 @@ public class InventoryItemController extends BaseController {
     return toDto(inventoryItem);
   }
 
+  /**
+   * Deletes CCE Inventory item with the given id.
+   */
+  @RequestMapping(value = "/inventoryItems/{id}", method = RequestMethod.DELETE)
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  public void deleteInventoryItem(@PathVariable("id") UUID id) {
+    permissionService.canEditInventory();
+
+    InventoryItem inventoryItem = inventoryRepository.findOne(id);
+    if (inventoryItem == null) {
+      throw new NotFoundException(ERROR_NOT_FOUND);
+    }
+
+    inventoryRepository.delete(inventoryItem);
+  }
+
   private InventoryItemDto toDto(InventoryItem inventoryItem) {
     InventoryItemDto dto = new InventoryItemDto();
     inventoryItem.export(dto);

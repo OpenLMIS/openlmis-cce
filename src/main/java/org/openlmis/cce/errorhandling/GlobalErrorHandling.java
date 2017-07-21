@@ -16,6 +16,7 @@
 package org.openlmis.cce.errorhandling;
 
 import org.openlmis.cce.exception.AuthenticationMessageException;
+import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.exception.PermissionMessageException;
 import org.openlmis.cce.exception.ServerException;
 import org.openlmis.cce.exception.ValidationMessageException;
@@ -67,6 +68,13 @@ public class GlobalErrorHandling extends AbstractErrorHandling {
   @ResponseStatus(HttpStatus.BAD_REQUEST)
   @ResponseBody
   public Message.LocalizedMessage handleValidationMessageException(ValidationMessageException ex) {
+    return getLocalizedMessage(ex);
+  }
+
+  @ExceptionHandler(NotFoundException.class)
+  @ResponseStatus(HttpStatus.NOT_FOUND)
+  @ResponseBody
+  public Message.LocalizedMessage handleNotFoundException(NotFoundException ex) {
     return getLocalizedMessage(ex);
   }
 }
