@@ -64,10 +64,10 @@ public class PermissionServiceTest {
   private UserDto user;
 
   @Mock
-  private OAuth2Authentication userClient;
+  private OAuth2Authentication userAuthentication;
 
   @Mock
-  private OAuth2Authentication trustedClient;
+  private OAuth2Authentication clientAuthentication;
 
   @InjectMocks
   private PermissionService permissionService;
@@ -100,14 +100,14 @@ public class PermissionServiceTest {
   }
 
   @Test
-  public void userClientCanManageCceIfHasRight() throws Exception {
+  public void userCanManageCceIfHasRight() throws Exception {
     stubHasRight(cceManageRightId);
 
     permissionService.canManageCce();
   }
 
   @Test
-  public void userClientCannotManageCceIfHasNoRight() throws Exception {
+  public void userCannotManageCceIfHasNoRight() throws Exception {
     exception.expect(PermissionMessageException.class);
     exception.expectMessage(
         new Message(ERROR_NO_FOLLOWING_PERMISSION, PermissionService.CCE_MANAGE).toString());
@@ -116,21 +116,21 @@ public class PermissionServiceTest {
   }
 
   @Test
-  public void trustedClientCanManageCce() throws Exception {
-    when(securityContext.getAuthentication()).thenReturn(trustedClient);
+  public void clientAppCanManageCce() throws Exception {
+    when(securityContext.getAuthentication()).thenReturn(clientAuthentication);
 
     permissionService.canManageCce();
   }
 
   @Test
-  public void userClientCanViewInventoryIfHasRight() throws Exception {
+  public void userCanViewInventoryIfHasRight() throws Exception {
     stubHasRight(viewInventoryRightId);
 
     permissionService.canViewInventory();
   }
 
   @Test
-  public void userClientCannotViewInventoryIfHasNoRight() throws Exception {
+  public void userCannotViewInventoryIfHasNoRight() throws Exception {
     exception.expect(PermissionMessageException.class);
     exception.expectMessage(
         new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_VIEW).toString());
@@ -139,21 +139,21 @@ public class PermissionServiceTest {
   }
 
   @Test
-  public void trustedClientCanViewInventory() throws Exception {
-    when(securityContext.getAuthentication()).thenReturn(trustedClient);
+  public void clientAppCanViewInventory() throws Exception {
+    when(securityContext.getAuthentication()).thenReturn(clientAuthentication);
 
     permissionService.canViewInventory();
   }
 
   @Test
-  public void userClientCanEditInventoryIfHasRight() throws Exception {
+  public void userCanEditInventoryIfHasRight() throws Exception {
     stubHasRight(editInventoryRightId);
 
     permissionService.canEditInventory();
   }
 
   @Test
-  public void userClientCannotEditInventoryIfHasNoRight() throws Exception {
+  public void userCannotEditInventoryIfHasNoRight() throws Exception {
     exception.expect(PermissionMessageException.class);
     exception.expectMessage(
         new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_EDIT).toString());
@@ -162,8 +162,8 @@ public class PermissionServiceTest {
   }
 
   @Test
-  public void trustedClientCanEditInventory() throws Exception {
-    when(securityContext.getAuthentication()).thenReturn(trustedClient);
+  public void clientAppCanEditInventory() throws Exception {
+    when(securityContext.getAuthentication()).thenReturn(clientAuthentication);
 
     permissionService.canEditInventory();
   }
@@ -171,9 +171,9 @@ public class PermissionServiceTest {
   private void initSecurityContext() {
     securityContext = mock(SecurityContext.class);
     SecurityContextHolder.setContext(securityContext);
-    when(securityContext.getAuthentication()).thenReturn(userClient);
-    when(userClient.isClientOnly()).thenReturn(false);
-    when(trustedClient.isClientOnly()).thenReturn(true);
+    when(securityContext.getAuthentication()).thenReturn(userAuthentication);
+    when(userAuthentication.isClientOnly()).thenReturn(false);
+    when(clientAuthentication.isClientOnly()).thenReturn(true);
   }
 
   private void stubHasRight(UUID rightId) {
