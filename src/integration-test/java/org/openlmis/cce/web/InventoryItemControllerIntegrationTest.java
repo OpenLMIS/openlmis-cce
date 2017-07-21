@@ -115,13 +115,14 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     InventoryItemDto oldItem = new InventoryItemDto();
     oldItem.setId(UUID.randomUUID());
 
-    InventoryItemDto result = putInventoryItem(oldItem.getId())
+    InventoryItemDto response = putInventoryItem(oldItem.getId())
         .then()
         .statusCode(200)
         .extract().as(InventoryItemDto.class);
 
     // then
-    assertEquals(oldItem.getId(), result.getId());
+    assertEquals(oldItem.getId(), response.getId());
+    assertEquals(response, inventoryItemDto);
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
