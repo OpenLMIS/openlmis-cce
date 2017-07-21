@@ -101,7 +101,7 @@ public class PermissionServiceTest {
 
   @Test
   public void userClientCanManageCceIfHasRight() throws Exception {
-    hasRight(cceManageRightId);
+    stubHasRight(cceManageRightId);
 
     permissionService.canManageCce();
   }
@@ -124,7 +124,7 @@ public class PermissionServiceTest {
 
   @Test
   public void userClientCanViewInventoryIfHasRight() throws Exception {
-    hasRight(viewInventoryRightId);
+    stubHasRight(viewInventoryRightId);
 
     permissionService.canViewInventory();
   }
@@ -147,7 +147,7 @@ public class PermissionServiceTest {
 
   @Test
   public void userClientCanEditInventoryIfHasRight() throws Exception {
-    hasRight(editInventoryRightId);
+    stubHasRight(editInventoryRightId);
 
     permissionService.canEditInventory();
   }
@@ -176,7 +176,7 @@ public class PermissionServiceTest {
     when(trustedClient.isClientOnly()).thenReturn(true);
   }
 
-  private void hasRight(UUID rightId) {
+  private void stubHasRight(UUID rightId) {
     when(userReferenceDataService.hasRight(userId, rightId))
         .thenReturn(new ResultDto<>(true));
   }
