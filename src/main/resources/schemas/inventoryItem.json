@@ -1,7 +1,7 @@
 {
   "type": "object",
   "$schema": "http://json-schema.org/draft-04/schema",
-  "title": "CatalogItem",
+  "title": "InventoryItem",
   "description": "A single CCE Inventory item",
   "properties": {
     "id": {
