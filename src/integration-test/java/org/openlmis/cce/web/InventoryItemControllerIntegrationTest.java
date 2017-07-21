@@ -23,11 +23,11 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_NOT_FOUND;
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
 import com.jayway.restassured.response.Response;
-import guru.nidi.ramltester.junit.RamlMatchers;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.domain.BackupGeneratorStatus;
@@ -43,6 +43,9 @@ import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.PermissionService;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+
+import guru.nidi.ramltester.junit.RamlMatchers;
+
 import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
@@ -150,7 +153,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     deleteInventoryItem()
         .then()
         .statusCode(404)
-        .body(MESSAGE, equalTo(getMessage(ERROR_NOT_FOUND)));
+        .body(MESSAGE, equalTo(getMessage(ERROR_ITEM_NOT_FOUND)));
 
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
@@ -214,7 +217,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     deleteInventoryItem()
         .then()
         .statusCode(404)
-        .body(MESSAGE, equalTo(getMessage(ERROR_NOT_FOUND)));
+        .body(MESSAGE, equalTo(getMessage(ERROR_ITEM_NOT_FOUND)));
 
     verify(inventoryItemRepository, times(0)).delete(any(InventoryItem.class));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());

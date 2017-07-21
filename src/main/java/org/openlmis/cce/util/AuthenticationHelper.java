@@ -15,8 +15,8 @@
 
 package org.openlmis.cce.util;
 
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_RIGHT_NOT_FOUND;
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_USER_NOT_FOUND;
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_RIGHT_NOT_FOUND;
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_USER_NOT_FOUND;
 
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.UserDto;

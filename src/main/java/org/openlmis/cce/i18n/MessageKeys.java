@@ -17,25 +17,21 @@ package org.openlmis.cce.i18n;
 
 public abstract class MessageKeys {
   private static final String SERVICE_PREFIX = "cce";
-  private static final String ERROR_PREFIX = SERVICE_PREFIX + ".error";
+  static final String SERVICE_ERROR_PREFIX = SERVICE_PREFIX + ".error";
 
-  public static final String ERROR_USER_NOT_FOUND = ERROR_PREFIX
-      + ".authentication.userCanNotBeFound";
-  public static final String ERROR_RIGHT_NOT_FOUND = ERROR_PREFIX
-      + ".authentication.rightCanNotBeFound";
-  public static final String ERROR_NO_FOLLOWING_PERMISSION = ERROR_PREFIX
-      + ".authentication.noFollowingPermission";
-  public static final String ERROR_UPLOD_INVALID_HEADER = ERROR_PREFIX
+  public static final String ERROR_UPLOD_INVALID_HEADER = SERVICE_ERROR_PREFIX
       + ".upload.header.invalid";
-  public static final String ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS = ERROR_PREFIX
+  public static final String ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS = SERVICE_ERROR_PREFIX
       + ".upload.mandatory.columns.missing";
-  public static final String ERROR_UPLOAD_HEADER_MISSING = ERROR_PREFIX
+  public static final String ERROR_UPLOAD_HEADER_MISSING = SERVICE_ERROR_PREFIX
       + ".upload.header.missing";
-  public static final String ERROR_IO = ERROR_PREFIX + ".io";
-  public static final String ERROR_FILE_IS_EMPTY = ERROR_PREFIX + ".file.empty";
-  public static final String ERROR_INCORRECT_FILE_FORMAT = ERROR_PREFIX + ".file.format.incorrect";
 
-  private MessageKeys() {
+  public static final String ERROR_IO = SERVICE_ERROR_PREFIX + ".io";
+  public static final String ERROR_FILE_IS_EMPTY = SERVICE_ERROR_PREFIX + ".file.empty";
+  public static final String ERROR_INCORRECT_FILE_FORMAT = SERVICE_ERROR_PREFIX
+      + ".file.format.incorrect";
+
+  MessageKeys() {
     throw new UnsupportedOperationException();
   }
 }

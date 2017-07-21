@@ -15,7 +15,8 @@
 
 package org.openlmis.cce.service;
 
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
 import org.openlmis.cce.dto.ResultDto;
 import org.openlmis.cce.dto.RightDto;

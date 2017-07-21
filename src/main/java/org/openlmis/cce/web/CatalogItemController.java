@@ -107,7 +107,7 @@ public class CatalogItemController extends BaseController {
     permissionService.canManageCce();
     CatalogItem catalogItem = catalogRepository.findOne(catalogItemId);
     if (catalogItem == null) {
-      throw new NotFoundException(CatalogItemMessageKeys.ERROR_NOT_FOUND);
+      throw new NotFoundException(CatalogItemMessageKeys.ERROR_ITEM_NOT_FOUND);
     } else {
       return toDto(catalogItem);
     }

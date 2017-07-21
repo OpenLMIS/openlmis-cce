@@ -15,12 +15,15 @@
 
 package org.openlmis.cce.i18n;
 
-public class CatalogItemMessageKeys extends MessageKeys {
-  private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".catalog";
+public class PermissionMessageKeys extends MessageKeys {
+  private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".authentication";
 
-  public static final String ERROR_ITEM_NOT_FOUND = ERROR_PREFIX + ".item.notFound";
+  public static final String ERROR_USER_NOT_FOUND = ERROR_PREFIX + ".user.notFound";
+  public static final String ERROR_RIGHT_NOT_FOUND = ERROR_PREFIX + ".right.notFound";
+  public static final String ERROR_NO_FOLLOWING_PERMISSION = ERROR_PREFIX
+      + ".noFollowingPermission";
 
-  private CatalogItemMessageKeys() {
+  private PermissionMessageKeys() {
     throw new UnsupportedOperationException();
   }
 }

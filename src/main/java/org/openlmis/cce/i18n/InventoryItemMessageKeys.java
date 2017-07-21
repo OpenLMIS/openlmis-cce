@@ -15,13 +15,10 @@
 
 package org.openlmis.cce.i18n;
 
-public class InventoryItemMessageKeys {
-  private static final String SERVICE_PREFIX = "cce";
-  private static final String ERROR_PREFIX = SERVICE_PREFIX + ".error";
-  private static final String INVENTORY_PREFIX = ERROR_PREFIX + ".inventory";
+public class InventoryItemMessageKeys extends MessageKeys {
+  private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".inventory";
 
-  public static final String ERROR_NOT_FOUND = INVENTORY_PREFIX
-      + ".itemNotFound";
+  public static final String ERROR_ITEM_NOT_FOUND = ERROR_PREFIX + ".item.notFound";
 
   private InventoryItemMessageKeys() {
     throw new UnsupportedOperationException();

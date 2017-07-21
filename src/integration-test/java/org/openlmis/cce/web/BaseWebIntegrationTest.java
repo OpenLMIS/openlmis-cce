@@ -15,14 +15,23 @@
 
 package org.openlmis.cce.web;
 
+import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
+import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Mockito.mock;
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.cce.web.util.WireMockResponses.MOCK_CHECK_RESULT;
+import static org.openlmis.cce.web.util.WireMockResponses.MOCK_TOKEN_REQUEST_RESPONSE;
+import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.config.ObjectMapperConfig;
 import com.jayway.restassured.config.RestAssuredConfig;
-import guru.nidi.ramltester.RamlDefinition;
-import guru.nidi.ramltester.RamlLoaders;
-import guru.nidi.ramltester.restassured.RestAssuredClient;
+
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
@@ -42,19 +51,13 @@ import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import javax.annotation.PostConstruct;
+import guru.nidi.ramltester.RamlDefinition;
+import guru.nidi.ramltester.RamlLoaders;
+import guru.nidi.ramltester.restassured.RestAssuredClient;
+
 import java.util.UUID;
 
-import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
-import static com.github.tomakehurst.wiremock.client.WireMock.post;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
-import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Mockito.mock;
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
-import static org.openlmis.cce.web.util.WireMockResponses.MOCK_CHECK_RESULT;
-import static org.openlmis.cce.web.util.WireMockResponses.MOCK_TOKEN_REQUEST_RESPONSE;
-import static org.springframework.boot.test.context.SpringBootTest.WebEnvironment.RANDOM_PORT;
+import javax.annotation.PostConstruct;
 
 
 @RunWith(SpringRunner.class)

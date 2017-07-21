@@ -15,7 +15,7 @@
 
 package org.openlmis.cce.web;
 
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_NOT_FOUND;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
 
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
@@ -88,7 +88,7 @@ public class InventoryItemController extends BaseController {
     permissionService.canViewInventory();
     InventoryItem inventoryItem = inventoryRepository.findOne(inventoryItemId);
     if (inventoryItem == null) {
-      throw new NotFoundException(ERROR_NOT_FOUND);
+      throw new NotFoundException(ERROR_ITEM_NOT_FOUND);
     } else {
       return toDto(inventoryItem);
     }

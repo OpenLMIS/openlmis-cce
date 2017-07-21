@@ -17,7 +17,7 @@ package org.openlmis.cce.service;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 
@@ -38,6 +38,7 @@ import org.openlmis.cce.util.Message;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+
 import java.util.UUID;
 
 @SuppressWarnings("PMD.TooManyMethods")

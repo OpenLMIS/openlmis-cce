@@ -23,7 +23,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.openlmis.cce.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 import static org.openlmis.cce.i18n.MessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
 
 import com.jayway.restassured.response.Response;
