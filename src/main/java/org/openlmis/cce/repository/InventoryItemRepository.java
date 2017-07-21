@@ -13,29 +13,11 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.domain;
+package org.openlmis.cce.repository;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
+import org.openlmis.cce.domain.InventoryItem;
+import org.springframework.data.repository.CrudRepository;
 import java.util.UUID;
 
-@MappedSuperclass
-public abstract class BaseEntity {
-  protected static final String UUID = "pg-uuid";
-  protected static final String TEXT = "text";
-
-  @Id
-  @GeneratedValue(generator = "uuid-gen")
-  @GenericGenerator(name = "uuid-gen",
-      strategy = "org.openlmis.cce.util.ConditionalUuidGenerator")
-  @Type(type = UUID)
-  @Getter
-  @Setter
-  protected UUID id;
+public interface InventoryItemRepository extends CrudRepository<InventoryItem, UUID> {
 }

@@ -1,0 +1,139 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "CatalogItem",
+  "description": "A single CCE Inventory item",
+  "properties": {
+    "id": {
+      "type": "string",
+      "title": "id"
+    },
+    "facilityId": {
+      "type": "string",
+      "title": "facilityId"
+    },
+    "catalogItemId": {
+      "type": "string",
+      "title": "catalogItemId"
+    },
+    "programId": {
+      "type": "string",
+      "title": "programId"
+    },
+    "uniqueId": {
+      "type": "string",
+      "title": "uniqueId"
+    },
+    "equipmentTrackingId": {
+      "type": "string",
+      "title": "equipmentTrackingId"
+    },
+    "barCode": {
+      "type": "string",
+      "title": "barCode"
+    },
+    "yearOfInstallation": {
+      "type": "integer",
+      "title": "yearOfInstallation"
+    },
+    "yearOfWarrantyExpiry": {
+      "type": "integer",
+      "title": "yearOfWarrantyExpiry"
+    },
+    "source": {
+      "type": "string",
+      "title": "source"
+    },
+    "functionalStatus": {
+      "enum": [
+        "FUNCTIONING",
+        "NON_FUNCTIONG",
+        "AWAITING_REPAIR",
+        "UNSERVICABLE",
+        "OBSOLETE"
+      ],
+      "title": "functionalStatus"
+    },
+    "requiresAttention": {
+      "type": "boolean",
+      "title": "requiresAttention"
+    },
+    "reasonNotWorkingOrNotInUse": {
+      "enum": [
+        "NEEDS_SPARE_PARTS",
+        "NO_FINANCE",
+        "NO_FUEL",
+        "SURPLUS",
+        "DEAD",
+        "NOT_APPLICABLE"
+      ],
+      "title": "reasonNotWorkingOrNotInUse"
+    },
+    "utilization": {
+      "enum": [
+        "ACTIVE",
+        "NOT_IN_USE",
+        "IN_STORE_FOR_ALLOCATION"
+      ],
+      "title": "utilization"
+    },
+    "voltageStabilizer": {
+      "enum": [
+        "YES",
+        "NO",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "title": "voltageStabilizer"
+    },
+    "backupGenerator": {
+      "enum": [
+        "YES",
+        "NO",
+        "UNKNOWN",
+        "NOT_APPLICABLE"
+      ],
+      "title": "backupGenerator"
+    },
+    "voltageRegulator": {
+      "enum": [
+        "YES",
+        "NO",
+        "UNKNOWN",
+        "NOT_APPLICABLE",
+        "NA"
+      ],
+      "title": "voltageRegulator"
+    },
+    "manualTemperatureGauge": {
+      "enum": [
+        "BUILD_IN",
+        "PAIRED",
+        "NO_GAUGE"
+      ],
+      "title": "manualTemperatureGauge"
+    },
+    "remoteTemperatureMonitorId": {
+      "type": "string",
+      "title": "remoteTemperatureMonitorId"
+    },
+    "additionalNotes": {
+      "type": "string",
+      "title": "additionalNotes"
+    }
+  },
+  "required": [
+    "facilityId",
+    "catalogItemId",
+    "programId",
+    "uniqueId",
+    "yearOfInstallation",
+    "functionalStatus",
+    "requiresAttention",
+    "utilization",
+    "voltageStabilizer",
+    "backupGenerator",
+    "voltageRegulator",
+    "manualTemperatureGauge"
+  ]
+}

@@ -1,0 +1,22 @@
+CREATE TABLE cce_inventory (
+    id uuid NOT NULL,
+    facilityId uuid NOT NULL,
+    catalogItemId uuid NOT NULL,
+    programId uuid NOT NULL,
+    uniqueId text NOT NULL,
+    equipmentTrackingId text NOT NULL,
+    barCode text,
+    yearOfInstallation integer NOT NULL,
+    yearOfWarrantyExpiry integer,
+    source text,
+    functionalStatus text NOT NULL,
+    requiresAttention boolean NOT NULL,
+    reasonNotWorkingOrNotInUse text,
+    utilization text NOT NULL,
+    voltageStabilizer text NOT NULL,
+    backupGenerator text NOT NULL,
+    voltageRegulator text NOT NULL,
+    manualTemperatureGauge text NOT NULL,
+    remoteTemperatureMonitorId text,
+    additionalNotes text
+);

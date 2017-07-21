@@ -15,27 +15,11 @@
 
 package org.openlmis.cce.domain;
 
-import lombok.Getter;
-import lombok.Setter;
-import org.hibernate.annotations.GenericGenerator;
-import org.hibernate.annotations.Type;
-
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.MappedSuperclass;
-import java.util.UUID;
-
-@MappedSuperclass
-public abstract class BaseEntity {
-  protected static final String UUID = "pg-uuid";
-  protected static final String TEXT = "text";
-
-  @Id
-  @GeneratedValue(generator = "uuid-gen")
-  @GenericGenerator(name = "uuid-gen",
-      strategy = "org.openlmis.cce.util.ConditionalUuidGenerator")
-  @Type(type = UUID)
-  @Getter
-  @Setter
-  protected UUID id;
+public enum ReasonNotWorkingOrNotInUse {
+  NEEDS_SPARE_PARTS,
+  NO_FINANCE,
+  NO_FUEL,
+  SURPLUS,
+  DEAD,
+  NOT_APPLICABLE,
 }
