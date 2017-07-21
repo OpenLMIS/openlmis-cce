@@ -31,6 +31,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
@@ -123,7 +124,7 @@ public class InventoryItemController extends BaseController {
 
     InventoryItem inventoryItem = inventoryRepository.findOne(id);
     if (inventoryItem == null) {
-      throw new NotFoundException(ERROR_NOT_FOUND);
+      throw new NotFoundException(ERROR_ITEM_NOT_FOUND);
     }
 
     inventoryRepository.delete(inventoryItem);
