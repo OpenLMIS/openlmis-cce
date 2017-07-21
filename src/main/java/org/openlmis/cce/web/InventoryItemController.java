@@ -21,7 +21,7 @@ import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.repository.InventoryItemRepository;
-import org.openlmis.cce.web.BaseController;
+import org.openlmis.cce.service.PermissionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -42,6 +42,9 @@ public class InventoryItemController extends BaseController {
   @Autowired
   private InventoryItemRepository inventoryRepository;
 
+  @Autowired
+  private PermissionService permissionService;
+
   /**
    * Allows creating new CCE Inventory item. If the id is specified, it will be ignored.
    *
@@ -52,6 +55,7 @@ public class InventoryItemController extends BaseController {
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public InventoryItemDto create(@RequestBody InventoryItemDto inventoryItemDto) {
+    permissionService.canEditInventory();
     inventoryItemDto.setId(null);
     InventoryItem inventoryItem = InventoryItem.newInstance(inventoryItemDto);
 
@@ -67,6 +71,7 @@ public class InventoryItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public List<InventoryItemDto> getAll() {
+    permissionService.canViewInventory();
     return toDto(inventoryRepository.findAll());
   }
 
@@ -80,6 +85,7 @@ public class InventoryItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public InventoryItemDto getInventoryItem(@PathVariable("id") UUID inventoryItemId) {
+    permissionService.canViewInventory();
     InventoryItem inventoryItem = inventoryRepository.findOne(inventoryItemId);
     if (inventoryItem == null) {
       throw new NotFoundException(ERROR_NOT_FOUND);
@@ -100,6 +106,7 @@ public class InventoryItemController extends BaseController {
   @ResponseBody
   public InventoryItemDto updateInventoryItem(@RequestBody InventoryItemDto inventoryItemDto,
                                             @PathVariable("id") UUID inventoryItemId) {
+    permissionService.canEditInventory();
     InventoryItem inventoryItem = InventoryItem.newInstance(inventoryItemDto);
     inventoryItem.setId(inventoryItemId);
     inventoryRepository.save(inventoryItem);

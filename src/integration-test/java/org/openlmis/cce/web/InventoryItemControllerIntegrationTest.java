@@ -15,10 +15,13 @@
 
 package org.openlmis.cce.web;
 
+import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
+import static org.openlmis.cce.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
 import com.jayway.restassured.response.Response;
 import guru.nidi.ramltester.junit.RamlMatchers;
@@ -33,9 +36,8 @@ import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulator;
 import org.openlmis.cce.domain.VoltageStabilizer;
 import org.openlmis.cce.dto.InventoryItemDto;
-import org.openlmis.cce.i18n.MessageService;
 import org.openlmis.cce.repository.InventoryItemRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.openlmis.cce.service.PermissionService;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import java.util.Collections;
@@ -51,10 +53,12 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @MockBean
   private InventoryItemRepository inventoryItemRepository;
 
-  @Autowired
-  private MessageService messageService;
+  @MockBean
+  private PermissionService permissionService;
 
   private InventoryItemDto inventoryItemDto;
+  private String editPermission = PermissionService.CCE_INVENTORY_EDIT;
+  private String viewPermission = PermissionService.CCE_INVENTORY_VIEW;
 
   @Before
   public void setUp() {
@@ -82,6 +86,19 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   }
 
   @Test
+  public void shouldReturnUnauthorizedWhenPostIfUserHasNoEditInventoryPermission() {
+    doThrow(mockPermissionException(editPermission))
+        .when(permissionService).canEditInventory();
+
+    postInventoryItem()
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, editPermission)));
+
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
   public void shouldRetrieveAllInventoryItems() {
     List<InventoryItemDto> items = Collections.singletonList(inventoryItemDto);
 
@@ -93,6 +110,19 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .extract().as(InventoryItemDto[].class);
 
     assertEquals(response.length, 1);
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldReturnUnauthorizedWhenGetAllIfUserHasNoViewInventoryPermission() {
+    doThrow(mockPermissionException(viewPermission))
+        .when(permissionService).canViewInventory();
+
+    getAllInventoryItems()
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, viewPermission)));
+
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -111,6 +141,19 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   }
 
   @Test
+  public void shouldReturnUnauthorizedWhenGetOneIfUserHasNoViewInventoryPermission() {
+    doThrow(mockPermissionException(viewPermission))
+        .when(permissionService).canViewInventory();
+
+    getInventoryItem()
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, viewPermission)));
+
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
   public void shouldUpdateInventoryItems() {
     InventoryItemDto oldItem = new InventoryItemDto();
     oldItem.setId(UUID.randomUUID());
@@ -123,6 +166,19 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     // then
     assertEquals(oldItem.getId(), response.getId());
     assertEquals(response, inventoryItemDto);
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldReturnUnauthorizedWhenPutIfUserHasNoEditInventoryPermission() {
+    doThrow(mockPermissionException(editPermission))
+        .when(permissionService).canEditInventory();
+
+    putInventoryItem(UUID.randomUUID())
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, editPermission)));
+
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 

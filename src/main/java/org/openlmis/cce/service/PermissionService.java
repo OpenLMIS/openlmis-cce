@@ -33,6 +33,8 @@ import org.springframework.stereotype.Service;
 public class PermissionService {
 
   public static final String CCE_MANAGE = "CCE_MANAGE";
+  public static final String CCE_INVENTORY_VIEW = "CCE_INVENTORY_VIEW";
+  public static final String CCE_INVENTORY_EDIT = "CCE_INVENTORY_EDIT";
 
   @Autowired
   private AuthenticationHelper authenticationHelper;
@@ -46,6 +48,22 @@ public class PermissionService {
    */
   public void canManageCce() {
     checkPermission(CCE_MANAGE);
+  }
+
+  /**
+   * Checks if current user has permission to view CCE inventory.
+   * @throws PermissionMessageException if the current user has not a permission.
+   */
+  public void canViewInventory() {
+    checkPermission(CCE_INVENTORY_VIEW);
+  }
+
+  /**
+   * Checks if current user has permission to edit CCE inventory.
+   * @throws PermissionMessageException if the current user has not a permission.
+   */
+  public void canEditInventory() {
+    checkPermission(CCE_INVENTORY_EDIT);
   }
 
   private void checkPermission(String rightName) {

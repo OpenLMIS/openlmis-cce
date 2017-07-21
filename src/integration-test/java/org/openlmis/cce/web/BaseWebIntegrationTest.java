@@ -30,6 +30,7 @@ import org.mockito.stubbing.Answer;
 import org.openlmis.cce.domain.BaseEntity;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.exception.PermissionMessageException;
+import org.openlmis.cce.i18n.MessageService;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -63,6 +64,7 @@ import static org.springframework.boot.test.context.SpringBootTest.WebEnvironmen
 @SuppressWarnings("PMD.TooManyMethods")
 public abstract class BaseWebIntegrationTest {
 
+  protected static final String MESSAGE = "message";
   protected static final String BASE_URL = System.getenv("BASE_URL");
   protected static final String CONTENT_TYPE = "Content-Type";
   protected static final String ACCESS_TOKEN = "access_token";
@@ -75,6 +77,9 @@ public abstract class BaseWebIntegrationTest {
 
   @MockBean
   protected AuthenticationHelper authenticationHelper;
+
+  @Autowired
+  protected MessageService messageService;
 
   protected RestAssuredClient restAssured;
 
@@ -138,6 +143,11 @@ public abstract class BaseWebIntegrationTest {
     given(exception.asMessage()).willReturn(errorMessage);
 
     return exception;
+  }
+
+
+  protected String getMessage(String messageKey, Object... messageParams) {
+    return messageService.localize(new Message(messageKey, messageParams)).asMessage();
   }
 
   protected static class SaveAnswer<T extends BaseEntity> implements Answer<T> {

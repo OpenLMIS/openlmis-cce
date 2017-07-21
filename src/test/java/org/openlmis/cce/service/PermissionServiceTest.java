@@ -18,6 +18,8 @@ package org.openlmis.cce.service;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.openlmis.cce.i18n.MessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
+import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -38,6 +40,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import java.util.UUID;
 
+@SuppressWarnings("PMD.TooManyMethods")
 public class PermissionServiceTest {
   @Rule
   public final ExpectedException exception = ExpectedException.none();
@@ -50,6 +53,12 @@ public class PermissionServiceTest {
 
   @Mock
   private RightDto cceManageRight;
+
+  @Mock
+  private RightDto viewInventoryRight;
+
+  @Mock
+  private RightDto editInventoryRight;
 
   @Mock
   private UserDto user;
@@ -66,6 +75,8 @@ public class PermissionServiceTest {
   private SecurityContext securityContext;
   private UUID userId = UUID.randomUUID();
   private UUID cceManageRightId = UUID.randomUUID();
+  private UUID viewInventoryRightId = UUID.randomUUID();
+  private UUID editInventoryRightId = UUID.randomUUID();
 
   @Before
   public void setUp() {
@@ -78,6 +89,14 @@ public class PermissionServiceTest {
     when(authenticationHelper.getRight(PermissionService.CCE_MANAGE))
         .thenReturn(cceManageRight);
     when(cceManageRight.getId()).thenReturn(cceManageRightId);
+
+    when(authenticationHelper.getRight(CCE_INVENTORY_VIEW))
+        .thenReturn(viewInventoryRight);
+    when(viewInventoryRight.getId()).thenReturn(viewInventoryRightId);
+
+    when(authenticationHelper.getRight(CCE_INVENTORY_EDIT))
+        .thenReturn(editInventoryRight);
+    when(editInventoryRight.getId()).thenReturn(editInventoryRightId);
   }
 
   @Test
@@ -101,6 +120,52 @@ public class PermissionServiceTest {
     when(securityContext.getAuthentication()).thenReturn(trustedClient);
 
     permissionService.canManageCce();
+  }
+
+  @Test
+  public void userClientCanViewInventoryIfHasRight() throws Exception {
+    hasRight(viewInventoryRightId);
+
+    permissionService.canViewInventory();
+  }
+
+  @Test
+  public void userClientCannotViewInventoryIfHasNoRight() throws Exception {
+    exception.expect(PermissionMessageException.class);
+    exception.expectMessage(
+        new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_VIEW).toString());
+
+    permissionService.canViewInventory();
+  }
+
+  @Test
+  public void trustedClientCanViewInventory() throws Exception {
+    when(securityContext.getAuthentication()).thenReturn(trustedClient);
+
+    permissionService.canViewInventory();
+  }
+
+  @Test
+  public void userClientCanEditInventoryIfHasRight() throws Exception {
+    hasRight(editInventoryRightId);
+
+    permissionService.canEditInventory();
+  }
+
+  @Test
+  public void userClientCannotEditInventoryIfHasNoRight() throws Exception {
+    exception.expect(PermissionMessageException.class);
+    exception.expectMessage(
+        new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_EDIT).toString());
+
+    permissionService.canEditInventory();
+  }
+
+  @Test
+  public void trustedClientCanEditInventory() throws Exception {
+    when(securityContext.getAuthentication()).thenReturn(trustedClient);
+
+    permissionService.canEditInventory();
   }
 
   private void initSecurityContext() {
