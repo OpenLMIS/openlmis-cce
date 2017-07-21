@@ -55,7 +55,7 @@ public class InventoryItem extends BaseEntity {
   @Column(columnDefinition = TEXT, nullable = false)
   private String uniqueId;
 
-  @Column(columnDefinition = TEXT, nullable = false)
+  @Column(columnDefinition = TEXT)
   private String equipmentTrackingId;
 
   @Column(columnDefinition = TEXT)

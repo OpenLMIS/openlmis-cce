@@ -4,7 +4,7 @@ CREATE TABLE cce_inventory (
     catalogItemId uuid NOT NULL,
     programId uuid NOT NULL,
     uniqueId text NOT NULL,
-    equipmentTrackingId text NOT NULL,
+    equipmentTrackingId text,
     barCode text,
     yearOfInstallation integer NOT NULL,
     yearOfWarrantyExpiry integer,
