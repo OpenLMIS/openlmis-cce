@@ -91,10 +91,9 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         FunctionalStatus.FUNCTIONING, true, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
         Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
         VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
-        "someMonitorId", "example notes");
+        "someMonitorId", "example notes", null, USER_ID);
 
-    inventoryItem = InventoryItem.newInstance(inventoryItemDto);
-
+    inventoryItem = InventoryItem.newInstance(inventoryItemDto, null);
 
     when(inventoryItemRepository.save(any(InventoryItem.class)))
         .thenAnswer(new SaveAnswer<InventoryItem>());
@@ -127,7 +126,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @Test
   public void shouldRetrieveInventoryItem() {
     when(inventoryItemRepository.findOne(inventoryId))
-        .thenReturn(InventoryItem.newInstance(inventoryItemDto));
+        .thenReturn(InventoryItem.newInstance(inventoryItemDto, USER_ID));
 
     InventoryItemDto response = getInventoryItem()
         .then()
@@ -190,9 +189,9 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         "some other source", FunctionalStatus.NON_FUNCTIONING, false,
         ReasonNotWorkingOrNotInUse.DEAD, Utilization.NOT_IN_USE, VoltageStabilizerStatus.UNKNOWN,
         BackupGeneratorStatus.NOT_APPLICABLE, VoltageRegulatorStatus.NOT_APPLICABLE,
-        ManualTemperatureGaugeType.NO_GAUGE, "someMonitorId2", "other example notes");
+        ManualTemperatureGaugeType.NO_GAUGE, "someMonitorId2", "other example notes", null, null);
 
-    InventoryItem existingItem = InventoryItem.newInstance(existing);
+    InventoryItem existingItem = InventoryItem.newInstance(existing, null);
     when(inventoryItemRepository.findOne(inventoryId)).thenReturn(existingItem);
 
     InventoryItemDto response = putInventoryItem(inventoryId)
@@ -254,7 +253,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @Test
   public void shouldDeleteInventoryItemWhenFoundById() {
     when(inventoryItemRepository.findOne(inventoryId))
-        .thenReturn(InventoryItem.newInstance(inventoryItemDto));
+        .thenReturn(InventoryItem.newInstance(inventoryItemDto, null));
 
     deleteInventoryItem()
         .then()

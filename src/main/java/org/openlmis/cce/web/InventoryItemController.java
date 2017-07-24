@@ -80,7 +80,7 @@ public class InventoryItemController extends BaseController {
     permissionService.canEditInventory(
         inventoryItemDto.getProgramId(), inventoryItemDto.getFacilityId());
     inventoryItemDto.setId(null);
-    InventoryItem inventoryItem = InventoryItem.newInstance(inventoryItemDto);
+    InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
 
     return toDto(inventoryRepository.save(inventoryItem));
   }
@@ -155,7 +155,8 @@ public class InventoryItemController extends BaseController {
           inventoryItemDto.getProgramId(), inventoryItemDto.getFacilityId());
     }
 
-    InventoryItem inventoryItem = InventoryItem.newInstance(inventoryItemDto);
+    InventoryItem inventoryItem =
+        InventoryItem.newInstance(inventoryItemDto, authenticationHelper.getCurrentUser().getId());
     inventoryItem.setId(inventoryItemId);
     inventoryItem.setInvariants(existingInventory);
     inventoryRepository.save(inventoryItem);
@@ -176,6 +177,11 @@ public class InventoryItemController extends BaseController {
     permissionService.canEditInventory(inventoryItem);
 
     inventoryRepository.delete(inventoryItem);
+  }
+
+  private InventoryItem newInventoryItem(InventoryItemDto inventoryItemDto) {
+    return InventoryItem.newInstance(inventoryItemDto,
+        authenticationHelper.getCurrentUser().getId());
   }
 
   private InventoryItemDto toDto(InventoryItem inventoryItem) {

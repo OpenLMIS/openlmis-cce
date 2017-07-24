@@ -15,12 +15,15 @@
 
 package org.openlmis.cce.domain;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.javers.core.metamodel.annotation.TypeName;
+import org.openlmis.util.View;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
@@ -29,6 +32,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @NoArgsConstructor
@@ -105,15 +110,22 @@ public class InventoryItem extends BaseEntity {
   @Column(columnDefinition = TEXT)
   private String additionalNotes;
 
+  @Column(columnDefinition = "timestamp with time zone")
+  private ZonedDateTime modifiedDate;
+
+  @Type(type = UUID)
+  private UUID lastModifier;
+
   /**
    * Creates list of new instances based on data from {@link Importer} list
    *
    * @param importers {@link Importer} list
    * @return list of new Inventory instances.
    */
-  public static List<InventoryItem> newInstance(Collection<? extends Importer> importers) {
+  public static List<InventoryItem> newInstance(Collection<? extends Importer> importers,
+                                                UUID lastModifier) {
     return importers.stream()
-        .map(InventoryItem::newInstance)
+        .map(i -> newInstance(i, lastModifier))
         .collect(Collectors.toList());
   }
 
@@ -123,7 +135,7 @@ public class InventoryItem extends BaseEntity {
    * @param importer instance of {@link Importer}
    * @return new instance of Inventory.
    */
-  public static InventoryItem newInstance(Importer importer) {
+  public static InventoryItem newInstance(Importer importer, UUID lastModifier) {
     InventoryItem inventoryItem = new InventoryItem();
     inventoryItem.id = importer.getId();
     inventoryItem.facilityId = importer.getFacilityId();
@@ -145,6 +157,7 @@ public class InventoryItem extends BaseEntity {
     inventoryItem.manualTemperatureGauge = importer.getManualTemperatureGauge();
     inventoryItem.remoteTemperatureMonitorId = importer.getRemoteTemperatureMonitorId();
     inventoryItem.additionalNotes = importer.getAdditionalNotes();
+    inventoryItem.lastModifier = lastModifier;
 
     return inventoryItem;
   }
@@ -189,6 +202,14 @@ public class InventoryItem extends BaseEntity {
     exporter.setManualTemperatureGauge(manualTemperatureGauge);
     exporter.setRemoteTemperatureMonitorId(remoteTemperatureMonitorId);
     exporter.setAdditionalNotes(additionalNotes);
+    exporter.setModifiedDate(modifiedDate);
+    exporter.setLastModifier(lastModifier);
+  }
+
+  @PreUpdate
+  @PrePersist
+  public void updateModifiedDate() {
+    modifiedDate = ZonedDateTime.now();
   }
 
   public interface Exporter {
@@ -231,6 +252,10 @@ public class InventoryItem extends BaseEntity {
     void setRemoteTemperatureMonitorId(String remoteTemperatureMonitorId);
 
     void setAdditionalNotes(String additionalNotes);
+
+    void setModifiedDate(ZonedDateTime modifiedDate);
+
+    void setLastModifier(UUID lastModifier);
   }
 
   public interface Importer {
@@ -273,5 +298,6 @@ public class InventoryItem extends BaseEntity {
     String getRemoteTemperatureMonitorId();
 
     String getAdditionalNotes();
+
   }
 }

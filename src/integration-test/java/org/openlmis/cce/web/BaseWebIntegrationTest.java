@@ -74,6 +74,7 @@ public abstract class BaseWebIntegrationTest {
   protected static final String APPLICATION_JSON = MediaType.APPLICATION_JSON_VALUE;
   protected static final String RAML_ASSERT_MESSAGE =
       "HTTP request/response should match RAML definition.";
+  protected static final UUID USER_ID = UUID.randomUUID();
 
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(80);
@@ -112,7 +113,7 @@ public abstract class BaseWebIntegrationTest {
 
   protected void mockUserAuthenticated() {
     UserDto user = new UserDto();
-    user.setId(UUID.randomUUID());
+    user.setId(USER_ID);
     user.setFirstName("admin");
     user.setLastName("strator");
     user.setEmail("admin@openlmis.org");
