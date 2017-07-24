@@ -22,6 +22,7 @@ import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.PermissionService;
+import org.openlmis.cce.util.AuthenticationHelper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
@@ -48,6 +49,9 @@ public class InventoryItemController extends BaseController {
   @Autowired
   private PermissionService permissionService;
 
+  @Autowired
+  private AuthenticationHelper authenticationHelper;
+
   /**
    * Allows creating new CCE Inventory item. If the id is specified, it will be ignored.
    *
@@ -61,7 +65,7 @@ public class InventoryItemController extends BaseController {
     permissionService.canEditInventory(
         inventoryItemDto.getProgramId(), inventoryItemDto.getFacilityId());
     inventoryItemDto.setId(null);
-    InventoryItem inventoryItem = InventoryItem.newInstance(inventoryItemDto);
+    InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
 
     return toDto(inventoryRepository.save(inventoryItem));
   }
@@ -106,7 +110,8 @@ public class InventoryItemController extends BaseController {
           inventoryItemDto.getProgramId(), inventoryItemDto.getFacilityId());
     }
 
-    InventoryItem inventoryItem = InventoryItem.newInstance(inventoryItemDto);
+    InventoryItem inventoryItem =
+        InventoryItem.newInstance(inventoryItemDto, authenticationHelper.getCurrentUser().getId());
     inventoryItem.setId(inventoryItemId);
     if (existingInventory != null) {
       inventoryItem.setProgramId(existingInventory.getProgramId());
@@ -132,6 +137,11 @@ public class InventoryItemController extends BaseController {
     permissionService.canEditInventory(inventoryItem);
 
     inventoryRepository.delete(inventoryItem);
+  }
+
+  private InventoryItem newInventoryItem(InventoryItemDto inventoryItemDto) {
+    return InventoryItem.newInstance(inventoryItemDto,
+        authenticationHelper.getCurrentUser().getId());
   }
 
   private InventoryItemDto toDto(InventoryItem inventoryItem) {

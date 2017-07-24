@@ -74,7 +74,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         FunctionalStatus.FUNCTIONING, true, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
         Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
         VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
-        "someMonitorId", "example notes");
+        "someMonitorId", "example notes", null, null);
 
     when(inventoryItemRepository.save(any(InventoryItem.class)))
         .thenAnswer(new SaveAnswer<InventoryItem>());

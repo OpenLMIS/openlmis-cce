@@ -18,5 +18,7 @@ CREATE TABLE cce_inventory (
     voltageRegulator text NOT NULL,
     manualTemperatureGauge text NOT NULL,
     remoteTemperatureMonitorId text,
-    additionalNotes text
+    additionalNotes text,
+    modifieddate timestamp with time zone,
+    lastModifier uuid
 );

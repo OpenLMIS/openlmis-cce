@@ -15,9 +15,11 @@
 
 package org.openlmis.cce.repository;
 
+import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.openlmis.cce.domain.InventoryItem;
 import org.springframework.data.repository.CrudRepository;
 import java.util.UUID;
 
+@JaversSpringDataAuditable
 public interface InventoryItemRepository extends CrudRepository<InventoryItem, UUID> {
 }
