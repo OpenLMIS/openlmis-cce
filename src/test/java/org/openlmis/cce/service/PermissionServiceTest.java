@@ -28,6 +28,7 @@ import org.junit.rules.ExpectedException;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
+import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.ResultDto;
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.UserDto;
@@ -69,6 +70,9 @@ public class PermissionServiceTest {
 
   @Mock
   private OAuth2Authentication clientAuthentication;
+
+  @Mock
+  private InventoryItem inventoryItem;
 
   @InjectMocks
   private PermissionService permissionService;
@@ -125,48 +129,57 @@ public class PermissionServiceTest {
 
   @Test
   public void userCanViewInventoryIfHasRight() throws Exception {
-    stubHasRight(viewInventoryRightId);
+    stubProgramAndFacilityInInventoryItem();
+    stubHasRight(viewInventoryRightId, inventoryItem.getProgramId(), inventoryItem.getFacilityId());
 
-    permissionService.canViewInventory();
+    permissionService.canViewInventory(inventoryItem);
   }
 
   @Test
   public void userCannotViewInventoryIfHasNoRight() throws Exception {
+    stubProgramAndFacilityInInventoryItem();
     exception.expect(PermissionMessageException.class);
     exception.expectMessage(
         new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_VIEW).toString());
 
-    permissionService.canViewInventory();
+    permissionService.canViewInventory(inventoryItem);
   }
 
   @Test
   public void clientAppCanViewInventory() throws Exception {
     when(securityContext.getAuthentication()).thenReturn(clientAuthentication);
 
-    permissionService.canViewInventory();
+    permissionService.canViewInventory(inventoryItem);
   }
 
   @Test
   public void userCanEditInventoryIfHasRight() throws Exception {
-    stubHasRight(editInventoryRightId);
+    stubProgramAndFacilityInInventoryItem();
+    stubHasRight(editInventoryRightId, inventoryItem.getProgramId(), inventoryItem.getFacilityId());
 
-    permissionService.canEditInventory();
+    permissionService.canEditInventory(inventoryItem);
   }
 
   @Test
   public void userCannotEditInventoryIfHasNoRight() throws Exception {
+    stubProgramAndFacilityInInventoryItem();
     exception.expect(PermissionMessageException.class);
     exception.expectMessage(
         new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_EDIT).toString());
 
-    permissionService.canEditInventory();
+    permissionService.canEditInventory(inventoryItem);
   }
 
   @Test
   public void clientAppCanEditInventory() throws Exception {
     when(securityContext.getAuthentication()).thenReturn(clientAuthentication);
 
-    permissionService.canEditInventory();
+    permissionService.canEditInventory(inventoryItem);
+  }
+
+  private void stubProgramAndFacilityInInventoryItem() {
+    when(inventoryItem.getProgramId()).thenReturn(UUID.randomUUID());
+    when(inventoryItem.getFacilityId()).thenReturn(UUID.randomUUID());
   }
 
   private void initSecurityContext() {
@@ -178,7 +191,12 @@ public class PermissionServiceTest {
   }
 
   private void stubHasRight(UUID rightId) {
-    when(userReferenceDataService.hasRight(userId, rightId))
+    when(userReferenceDataService.hasRight(userId, rightId, null, null, null))
+        .thenReturn(new ResultDto<>(true));
+  }
+
+  private void stubHasRight(UUID rightId, UUID programId, UUID faciliyId) {
+    when(userReferenceDataService.hasRight(userId, rightId, programId, faciliyId, null))
         .thenReturn(new ResultDto<>(true));
   }
 

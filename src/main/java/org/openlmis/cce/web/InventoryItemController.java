@@ -58,24 +58,12 @@ public class InventoryItemController extends BaseController {
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public InventoryItemDto create(@RequestBody InventoryItemDto inventoryItemDto) {
-    permissionService.canEditInventory();
+    permissionService.canEditInventory(
+        inventoryItemDto.getProgramId(), inventoryItemDto.getFacilityId());
     inventoryItemDto.setId(null);
     InventoryItem inventoryItem = InventoryItem.newInstance(inventoryItemDto);
 
     return toDto(inventoryRepository.save(inventoryItem));
-  }
-
-  /**
-   * Get all CCE Inventory items.
-   *
-   * @return CCE Inventory items.
-   */
-  @RequestMapping(value = "/inventoryItems", method = RequestMethod.GET)
-  @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
-  public List<InventoryItemDto> getAll() {
-    permissionService.canViewInventory();
-    return toDto(inventoryRepository.findAll());
   }
 
   /**
@@ -88,13 +76,14 @@ public class InventoryItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public InventoryItemDto getInventoryItem(@PathVariable("id") UUID inventoryItemId) {
-    permissionService.canViewInventory();
     InventoryItem inventoryItem = inventoryRepository.findOne(inventoryItemId);
     if (inventoryItem == null) {
       throw new NotFoundException(ERROR_ITEM_NOT_FOUND);
-    } else {
-      return toDto(inventoryItem);
     }
+
+    permissionService.canViewInventory(inventoryItem);
+
+    return toDto(inventoryItem);
   }
 
   /**
@@ -108,10 +97,23 @@ public class InventoryItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public InventoryItemDto updateInventoryItem(@RequestBody InventoryItemDto inventoryItemDto,
-                                            @PathVariable("id") UUID inventoryItemId) {
-    permissionService.canEditInventory();
+                                              @PathVariable("id") UUID inventoryItemId) {
+    InventoryItem existingInventory = inventoryRepository.findOne(inventoryItemId);
+    if (existingInventory != null) {
+      permissionService.canEditInventory(existingInventory);
+    } else {
+      permissionService.canEditInventory(
+          inventoryItemDto.getProgramId(), inventoryItemDto.getFacilityId());
+    }
+
     InventoryItem inventoryItem = InventoryItem.newInstance(inventoryItemDto);
     inventoryItem.setId(inventoryItemId);
+    if (existingInventory != null) {
+      inventoryItem.setProgramId(existingInventory.getProgramId());
+      inventoryItem.setFacilityId(existingInventory.getFacilityId());
+      inventoryItem.setCatalogItemId(existingInventory.getCatalogItemId());
+      inventoryItem.setUniqueId(existingInventory.getUniqueId());
+    }
     inventoryRepository.save(inventoryItem);
     return toDto(inventoryItem);
   }
@@ -122,12 +124,12 @@ public class InventoryItemController extends BaseController {
   @RequestMapping(value = "/inventoryItems/{id}", method = RequestMethod.DELETE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteInventoryItem(@PathVariable("id") UUID id) {
-    permissionService.canEditInventory();
-
     InventoryItem inventoryItem = inventoryRepository.findOne(id);
     if (inventoryItem == null) {
       throw new NotFoundException(ERROR_ITEM_NOT_FOUND);
     }
+
+    permissionService.canEditInventory(inventoryItem);
 
     inventoryRepository.delete(inventoryItem);
   }

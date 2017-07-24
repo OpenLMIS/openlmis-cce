@@ -46,8 +46,6 @@ import org.springframework.http.MediaType;
 
 import guru.nidi.ramltester.junit.RamlMatchers;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.UUID;
 
 @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.TooManyMethods"})
@@ -96,7 +94,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @Test
   public void shouldReturnUnauthorizedWhenPostIfUserHasNoEditInventoryPermission() {
     doThrow(mockPermissionException(editPermission))
-        .when(permissionService).canEditInventory();
+        .when(permissionService).canEditInventory(any(UUID.class), any(UUID.class));
 
     postInventoryItem()
         .then()
@@ -107,36 +105,8 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   }
 
   @Test
-  public void shouldRetrieveAllInventoryItems() {
-    List<InventoryItemDto> items = Collections.singletonList(inventoryItemDto);
-
-    when(inventoryItemRepository.findAll()).thenReturn(InventoryItem.newInstance(items));
-
-    InventoryItemDto[] response = getAllInventoryItems()
-        .then()
-        .statusCode(200)
-        .extract().as(InventoryItemDto[].class);
-
-    assertEquals(response.length, 1);
-    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
-  }
-
-  @Test
-  public void shouldReturnUnauthorizedWhenGetAllIfUserHasNoViewInventoryPermission() {
-    doThrow(mockPermissionException(viewPermission))
-        .when(permissionService).canViewInventory();
-
-    getAllInventoryItems()
-        .then()
-        .statusCode(403)
-        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, viewPermission)));
-
-    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
-  }
-
-  @Test
   public void shouldRetrieveInventoryItem() {
-    when(inventoryItemRepository.findOne(any(UUID.class)))
+    when(inventoryItemRepository.findOne(inventoryId))
         .thenReturn(InventoryItem.newInstance(inventoryItemDto));
 
     InventoryItemDto response = getInventoryItem()
@@ -160,8 +130,11 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldReturnUnauthorizedWhenGetOneIfUserHasNoViewInventoryPermission() {
+    InventoryItem existingItem = InventoryItem.newInstance(inventoryItemDto);
+    when(inventoryItemRepository.findOne(inventoryId))
+        .thenReturn(existingItem);
     doThrow(mockPermissionException(viewPermission))
-        .when(permissionService).canViewInventory();
+        .when(permissionService).canViewInventory(existingItem);
 
     getInventoryItem()
         .then()
@@ -172,16 +145,38 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   }
 
   @Test
-  public void shouldUpdateInventoryItems() {
-    InventoryItemDto oldItem = new InventoryItemDto();
-    oldItem.setId(UUID.randomUUID());
+  public void shouldNotUpdateSomeInventoryItemsFieldsIfInventoryExists() {
+    InventoryItemDto existing = new InventoryItemDto(UUID.randomUUID(), UUID.randomUUID(),
+        UUID.randomUUID(), "otherUniqueId", "eqTrackingId2", "zxc321", 2005, 2025,
+        "some other source", FunctionalStatus.NON_FUNCTIONING, false,
+        ReasonNotWorkingOrNotInUse.DEAD, Utilization.NOT_IN_USE, VoltageStabilizerStatus.UNKNOWN,
+        BackupGeneratorStatus.NOT_APPLICABLE, VoltageRegulatorStatus.NOT_APPLICABLE,
+        ManualTemperatureGaugeType.NO_GAUGE, "someMonitorId2", "other example notes");
 
-    InventoryItemDto response = putInventoryItem(oldItem.getId())
+    InventoryItem existingItem = InventoryItem.newInstance(existing);
+    when(inventoryItemRepository.findOne(inventoryId)).thenReturn(existingItem);
+
+    InventoryItemDto response = putInventoryItem(inventoryId)
         .then()
         .statusCode(200)
         .extract().as(InventoryItemDto.class);
 
-    assertEquals(oldItem.getId(), response.getId());
+    assertEquals(inventoryId, response.getId());
+    assertEquals(existing.getFacilityId(), response.getFacilityId());
+    assertEquals(existing.getProgramId(), response.getProgramId());
+    assertEquals(existing.getCatalogItemId(), response.getCatalogItemId());
+    assertEquals(existing.getUniqueId(), response.getUniqueId());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldUpdateInventoryItems() {
+    InventoryItemDto response = putInventoryItem(inventoryId)
+        .then()
+        .statusCode(200)
+        .extract().as(InventoryItemDto.class);
+
+    assertEquals(inventoryId, response.getId());
     assertEquals(response, inventoryItemDto);
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
@@ -189,9 +184,27 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @Test
   public void shouldReturnUnauthorizedWhenPutIfUserHasNoEditInventoryPermission() {
     doThrow(mockPermissionException(editPermission))
-        .when(permissionService).canEditInventory();
+        .when(permissionService)
+        .canEditInventory(inventoryItemDto.getProgramId(), inventoryItemDto.getFacilityId());
 
     putInventoryItem(UUID.randomUUID())
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, editPermission)));
+
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldReturnUnauthorizedWhenPutIfUserHasNoEditInventoryPermissionForExistingItem() {
+    InventoryItem existingItem = InventoryItem.newInstance(inventoryItemDto);
+    when(inventoryItemRepository.findOne(inventoryId)).thenReturn(existingItem);
+
+    doThrow(mockPermissionException(editPermission))
+        .when(permissionService)
+        .canEditInventory(existingItem);
+
+    putInventoryItem(inventoryId)
         .then()
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, editPermission)));
@@ -225,8 +238,12 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldReturnUnauthorizedWhenDeleteIfUserHasNoEditInventoryPermission() {
+    InventoryItem existingItem = InventoryItem.newInstance(inventoryItemDto);
+    when(inventoryItemRepository.findOne(inventoryId))
+        .thenReturn(existingItem);
     doThrow(mockPermissionException(editPermission))
-        .when(permissionService).canEditInventory();
+        .when(permissionService)
+        .canEditInventory(existingItem);
 
     deleteInventoryItem()
         .then()
@@ -235,8 +252,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
-
-
 
   private Response postInventoryItem() {
     return restAssured
@@ -260,7 +275,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     return restAssured
         .given()
         .queryParam(ACCESS_TOKEN, getToken())
-        .pathParam("id", UUID.randomUUID())
+        .pathParam("id", inventoryId)
         .when()
         .get(RESOURCE_URL_WITH_ID);
   }

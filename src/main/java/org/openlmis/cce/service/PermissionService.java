@@ -16,12 +16,16 @@
 package org.openlmis.cce.service;
 
 
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
+import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.ResultDto;
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.UserDto;
+import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.exception.PermissionMessageException;
+import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Message;
@@ -29,6 +33,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
+import java.util.UUID;
 
 @Service
 public class PermissionService {
@@ -43,6 +48,9 @@ public class PermissionService {
   @Autowired
   private UserReferenceDataService userReferenceDataService;
 
+  @Autowired
+  private InventoryItemRepository inventoryItemRepository;
+
   /**
    * Checks if current user has permission to manage CCE.
    * @throws PermissionMessageException if the current user doesn't have the permission.
@@ -55,16 +63,38 @@ public class PermissionService {
    * Checks if current user has permission to view CCE inventory.
    * @throws PermissionMessageException if the current user doesn't have the permission.
    */
-  public void canViewInventory() {
-    checkPermission(CCE_INVENTORY_VIEW);
+  public void canViewInventory(UUID inventoryId) {
+    checkPermission(CCE_INVENTORY_VIEW, inventoryId);
+  }
+
+  /**
+   * Checks if current user has permission to view CCE inventory.
+   * @throws PermissionMessageException if the current user doesn't have the permission.
+   */
+  public void canViewInventory(InventoryItem inventory) {
+    if (!hasPermission(CCE_INVENTORY_VIEW, inventory.getProgramId(), inventory.getFacilityId())) {
+      throw new PermissionMessageException(
+          new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_VIEW));
+    }
   }
 
   /**
    * Checks if current user has permission to edit CCE inventory.
    * @throws PermissionMessageException if the current user doesn't have the permission.
    */
-  public void canEditInventory() {
-    checkPermission(CCE_INVENTORY_EDIT);
+  public void canEditInventory(InventoryItem inventoryItem) {
+    canEditInventory(inventoryItem.getProgramId(), inventoryItem.getFacilityId());
+  }
+
+  /**
+   * Checks if current user has permission to edit CCE inventory.
+   * @throws PermissionMessageException if the current user doesn't have the permission.
+   */
+  public void canEditInventory(UUID programId, UUID facilityId) {
+    if (!hasPermission(CCE_INVENTORY_EDIT, programId, facilityId)) {
+      throw new PermissionMessageException(
+          new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_EDIT));
+    }
   }
 
   private void checkPermission(String rightName) {
@@ -73,13 +103,31 @@ public class PermissionService {
     }
   }
 
+  private void checkPermission(String rightName, UUID inventoryId) {
+    InventoryItem inventory = inventoryItemRepository.findOne(inventoryId);
+
+    if (inventory != null) {
+      if (!hasPermission(rightName, inventory.getProgramId(), inventory.getFacilityId())) {
+        throw new PermissionMessageException(new Message(ERROR_NO_FOLLOWING_PERMISSION, rightName));
+      }
+    } else {
+      throw new NotFoundException(ERROR_ITEM_NOT_FOUND);
+    }
+
+  }
+
   private Boolean hasPermission(String rightName) {
+    return hasPermission(rightName, null, null);
+  }
+
+  private Boolean hasPermission(String rightName, UUID program, UUID facility) {
     if (isClientOnly()) {
       return true;
     }
     UserDto user = authenticationHelper.getCurrentUser();
     RightDto right = authenticationHelper.getRight(rightName);
-    ResultDto<Boolean> result = userReferenceDataService.hasRight(user.getId(), right.getId());
+    ResultDto<Boolean> result =
+        userReferenceDataService.hasRight(user.getId(), right.getId(), program, facility, null);
     return null != result && result.getResult();
   }
 
