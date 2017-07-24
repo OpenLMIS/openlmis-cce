@@ -15,14 +15,12 @@
 
 package org.openlmis.cce.domain;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.javers.core.metamodel.annotation.TypeName;
-import org.openlmis.util.View;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
