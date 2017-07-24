@@ -157,12 +157,7 @@ public class InventoryItemController extends BaseController {
 
     InventoryItem inventoryItem = InventoryItem.newInstance(inventoryItemDto);
     inventoryItem.setId(inventoryItemId);
-    if (existingInventory != null) {
-      inventoryItem.setProgramId(existingInventory.getProgramId());
-      inventoryItem.setFacilityId(existingInventory.getFacilityId());
-      inventoryItem.setCatalogItemId(existingInventory.getCatalogItemId());
-      inventoryItem.setUniqueId(existingInventory.getUniqueId());
-    }
+    inventoryItem.setInvariants(existingInventory);
     inventoryRepository.save(inventoryItem);
     return toDto(inventoryItem);
   }

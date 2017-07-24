@@ -150,6 +150,20 @@ public class InventoryItem extends BaseEntity {
   }
 
   /**
+   * Set invariant fields based on other InventoryItem.
+   *
+   * @param item InventoryItem to set from
+   */
+  public void setInvariants(InventoryItem item) {
+    if (item != null) {
+      programId = item.getProgramId();
+      facilityId = item.getFacilityId();
+      catalogItemId = item.getCatalogItemId();
+      uniqueId = item.getUniqueId();
+    }
+  }
+
+  /**
    * Export this object to the specified exporter (DTO).
    *
    * @param exporter exporter to export to
