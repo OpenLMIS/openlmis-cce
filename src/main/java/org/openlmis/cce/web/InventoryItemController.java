@@ -16,13 +16,22 @@
 package org.openlmis.cce.web;
 
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
+import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 
 import org.openlmis.cce.domain.InventoryItem;
+import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
+import org.openlmis.cce.dto.ProgramDto;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.PermissionService;
+import org.openlmis.cce.service.referencedata.UserSupervisedFacilitiesReferenceDataService;
+import org.openlmis.cce.service.referencedata.UserSupervisedProgramsReferenceDataService;
+import org.openlmis.cce.util.AuthenticationHelper;
+import org.openlmis.cce.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -32,11 +41,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-
+import java.util.Collection;
+import java.util.LinkedHashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 @Controller
 @Transactional
@@ -46,7 +56,16 @@ public class InventoryItemController extends BaseController {
   private InventoryItemRepository inventoryRepository;
 
   @Autowired
+  private UserSupervisedProgramsReferenceDataService supervisedProgramsReferenceDataService;
+
+  @Autowired
+  private UserSupervisedFacilitiesReferenceDataService supervisedFacilitiesReferenceDataService;
+
+  @Autowired
   private PermissionService permissionService;
+
+  @Autowired
+  private AuthenticationHelper authenticationHelper;
 
   /**
    * Allows creating new CCE Inventory item. If the id is specified, it will be ignored.
@@ -84,6 +103,36 @@ public class InventoryItemController extends BaseController {
     permissionService.canViewInventory(inventoryItem);
 
     return toDto(inventoryItem);
+  }
+
+  /**
+   * Get all CCE Inventory items that user has right for.
+   *
+   * @return CCE Inventory items.
+   */
+  @RequestMapping(value = "/inventoryItems", method = RequestMethod.GET)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public Page<InventoryItemDto> getAll(Pageable pageable) {
+    UUID userId = authenticationHelper.getCurrentUser().getId();
+    UUID rightId = authenticationHelper.getRight(CCE_INVENTORY_VIEW).getId();
+    Collection<ProgramDto> programs = supervisedProgramsReferenceDataService
+        .getProgramsSupervisedByUser(userId);
+
+    Set<FacilityDto> facilities = new LinkedHashSet<>();
+    for (ProgramDto program : programs) {
+      facilities.addAll(supervisedFacilitiesReferenceDataService
+          .getFacilitiesSupervisedByUser(userId, program.getId(), rightId));
+    }
+
+    Set<InventoryItem> inventoryItems = new LinkedHashSet<>();
+    for (ProgramDto program : programs) {
+      for (FacilityDto facility : facilities) {
+        inventoryItems.addAll(
+            inventoryRepository.findByFacilityIdAndProgramId(facility.getId(), program.getId()));
+      }
+    }
+    return Pagination.getPage(toDto(inventoryItems), pageable);
   }
 
   /**
@@ -140,9 +189,9 @@ public class InventoryItemController extends BaseController {
     return dto;
   }
 
-  private List<InventoryItemDto> toDto(Iterable<InventoryItem> inventoryItems) {
-    return StreamSupport
-        .stream(inventoryItems.spliterator(), false)
+  private List<InventoryItemDto> toDto(Collection<InventoryItem> inventoryItems) {
+    return inventoryItems
+        .stream()
         .map(this::toDto)
         .collect(Collectors.toList());
   }

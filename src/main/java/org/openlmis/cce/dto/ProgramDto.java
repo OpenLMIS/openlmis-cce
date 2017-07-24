@@ -13,14 +13,24 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.repository;
+package org.openlmis.cce.dto;
 
-import org.openlmis.cce.domain.InventoryItem;
-import org.springframework.data.repository.CrudRepository;
-import java.util.List;
-import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 
-public interface InventoryItemRepository extends CrudRepository<InventoryItem, UUID> {
-
-  List<InventoryItem> findByFacilityIdAndProgramId(UUID facilityId, UUID programId);
+@NoArgsConstructor
+@AllArgsConstructor
+@Getter
+@Setter
+@EqualsAndHashCode(callSuper = false)
+public class ProgramDto extends BaseDto {
+  private String code;
+  private String name;
+  private String description;
+  private Boolean active;
+  private Boolean periodsSkippable;
+  private Boolean showNonFullSupplyTab;
 }

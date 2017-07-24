@@ -33,11 +33,7 @@ schemas:
 
   - inventoryItem: !include schemas/inventoryItem.json
 
-  - inventoryItemArray: |
-        {
-            "type": "array",
-            "items": { "type": "object", "$ref": "schemas/inventoryItem.json" }
-        }
+  - inventoryItemPage: !include schemas/inventoryItemPage.json
 
   - auditLogEntry: !include schemas/auditLogEntry.json
 
@@ -306,13 +302,13 @@ resourceTypes:
   /inventoryItems:
       displayName: CCE Inventory item
       get:
-          is: [ secured ]
+          is: [ secured, paginated ]
           description: Get all CCE Inventory items.
           responses:
               "200":
                   body:
                     application/json:
-                      schema: inventoryItemArray
+                      schema: inventoryItemPage
               "403":
                   body:
                     application/json:
