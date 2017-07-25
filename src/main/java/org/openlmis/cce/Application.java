@@ -37,19 +37,18 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
-import org.springframework.boot.orm.jpa.EntityScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
 import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
-
 import java.util.Locale;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 
-@SpringBootApplication
-@ImportResource("applicationContext.xml")
-@EntityScan(basePackageClasses = BaseEntity.class, basePackages = "org.openlmis.util.converter")
+@SpringBootApplication(scanBasePackages = "org.openlmis")
+@ImportResource("classpath*:/applicationContext.xml")
+@EntityScan(basePackageClasses = BaseEntity.class)
 public class Application {
 
   private Logger logger = LoggerFactory.getLogger(Application.class);

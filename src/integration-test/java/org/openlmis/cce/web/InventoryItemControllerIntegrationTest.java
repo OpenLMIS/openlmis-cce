@@ -48,7 +48,6 @@ import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.service.referencedata.UserSupervisedFacilitiesReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserSupervisedProgramsReferenceDataService;
-import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.PageImplRepresentation;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
@@ -72,9 +71,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @MockBean
   private UserSupervisedFacilitiesReferenceDataService supervisedFacilitiesReferenceDataService;
-
-  @MockBean
-  private AuthenticationHelper authenticationHelper;
 
   private InventoryItemDto inventoryItemDto;
   private InventoryItem inventoryItem;
