@@ -120,6 +120,14 @@
     "additionalNotes": {
       "type": "string",
       "title": "additionalNotes"
+    },
+    "modifiedDate": {
+      "type": ["string", "null"],
+      "title": "modifiedDate"
+    },
+    "lastModifier": {
+      "type": ["string", "null"],
+      "title": "lastModifier"
     }
   },
   "required": [
