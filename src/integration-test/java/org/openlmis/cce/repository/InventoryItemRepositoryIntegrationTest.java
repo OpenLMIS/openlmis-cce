@@ -15,6 +15,9 @@
 
 package org.openlmis.cce.repository;
 
+import org.junit.Assert;
+import org.junit.Before;
+import org.junit.Test;
 import org.openlmis.cce.domain.BackupGeneratorStatus;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
@@ -25,6 +28,7 @@ import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+import java.time.ZonedDateTime;
 import java.util.UUID;
 
 public class InventoryItemRepositoryIntegrationTest
@@ -32,6 +36,8 @@ public class InventoryItemRepositoryIntegrationTest
 
   @Autowired
   private InventoryItemRepository repository;
+
+  private InventoryItem item;
 
   @Override
   CrudRepository<InventoryItem, UUID> getRepository() {
@@ -46,5 +52,28 @@ public class InventoryItemRepositoryIntegrationTest
         Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
         VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
         "someMonitorId", "example notes", null, UUID.randomUUID());
+  }
+
+  @Before
+  public void setUp() throws Exception {
+    item = generateInstance();
+
+  }
+
+  @Test
+  public void shouldSaveWithModifiedDate() throws Exception {
+    item.setModifiedDate(null);
+    InventoryItem savedItem = repository.save(item);
+
+    Assert.assertNotNull(savedItem.getModifiedDate());
+  }
+
+  @Test
+  public void shouldUpdateModifiedDate() throws Exception {
+    ZonedDateTime modifiedDate = ZonedDateTime.now().minusHours(1);
+    item.setModifiedDate(modifiedDate);
+    InventoryItem newSavedItem = repository.save(item);
+
+    Assert.assertTrue(newSavedItem.getModifiedDate().isAfter(modifiedDate));
   }
 }
