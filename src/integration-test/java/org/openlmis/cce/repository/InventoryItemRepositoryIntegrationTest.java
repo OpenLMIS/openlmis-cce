@@ -45,7 +45,7 @@ public class InventoryItemRepositoryIntegrationTest
   }
 
   @Override
-  InventoryItem generateInstance() throws Exception {
+  InventoryItem generateInstance() {
     return new InventoryItem(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
         "uniqueId" + getNextInstanceNumber(), "eqTrackingId", "abc123", 2010, 2020, "some source",
         FunctionalStatus.FUNCTIONING, true, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
@@ -55,13 +55,13 @@ public class InventoryItemRepositoryIntegrationTest
   }
 
   @Before
-  public void setUp() throws Exception {
+  public void setUp() {
     item = generateInstance();
 
   }
 
   @Test
-  public void shouldSaveWithModifiedDate() throws Exception {
+  public void shouldSaveWithModifiedDate() {
     item.setModifiedDate(null);
     InventoryItem savedItem = repository.save(item);
 
@@ -69,7 +69,7 @@ public class InventoryItemRepositoryIntegrationTest
   }
 
   @Test
-  public void shouldUpdateModifiedDate() throws Exception {
+  public void shouldUpdateModifiedDate() {
     ZonedDateTime modifiedDate = ZonedDateTime.now().minusHours(1);
     item.setModifiedDate(modifiedDate);
     InventoryItem newSavedItem = repository.save(item);
