@@ -50,6 +50,8 @@ dependencies {
     compile 'net.sf.supercsv:super-csv:2.4.0'
     compile 'net.sf.supercsv:super-csv-dozer:2.4.0'
     compile 'org.hibernate:hibernate-java8'
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
+    compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate4"
 
     testCompile "com.jayway.restassured:rest-assured:2.7.0"
     testCompile "junit:junit"
