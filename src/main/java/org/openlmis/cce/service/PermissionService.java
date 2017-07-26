@@ -16,16 +16,13 @@
 package org.openlmis.cce.service;
 
 
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.ResultDto;
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.UserDto;
-import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.exception.PermissionMessageException;
-import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Message;
@@ -48,23 +45,12 @@ public class PermissionService {
   @Autowired
   private UserReferenceDataService userReferenceDataService;
 
-  @Autowired
-  private InventoryItemRepository inventoryItemRepository;
-
   /**
    * Checks if current user has permission to manage CCE.
    * @throws PermissionMessageException if the current user doesn't have the permission.
    */
   public void canManageCce() {
     checkPermission(CCE_MANAGE);
-  }
-
-  /**
-   * Checks if current user has permission to view CCE inventory.
-   * @throws PermissionMessageException if the current user doesn't have the permission.
-   */
-  public void canViewInventory(UUID inventoryId) {
-    checkPermission(CCE_INVENTORY_VIEW, inventoryId);
   }
 
   /**
@@ -101,19 +87,6 @@ public class PermissionService {
     if (!hasPermission(rightName)) {
       throw new PermissionMessageException(new Message(ERROR_NO_FOLLOWING_PERMISSION, rightName));
     }
-  }
-
-  private void checkPermission(String rightName, UUID inventoryId) {
-    InventoryItem inventory = inventoryItemRepository.findOne(inventoryId);
-
-    if (inventory != null) {
-      if (!hasPermission(rightName, inventory.getProgramId(), inventory.getFacilityId())) {
-        throw new PermissionMessageException(new Message(ERROR_NO_FOLLOWING_PERMISSION, rightName));
-      }
-    } else {
-      throw new NotFoundException(ERROR_ITEM_NOT_FOUND);
-    }
-
   }
 
   private Boolean hasPermission(String rightName) {
