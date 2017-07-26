@@ -206,8 +206,8 @@ public class InventoryItem extends BaseEntity {
     exporter.setLastModifier(lastModifier);
   }
 
-  @PreUpdate
   @PrePersist
+  @PreUpdate
   public void updateModifiedDate() {
     modifiedDate = ZonedDateTime.now();
   }

@@ -158,8 +158,7 @@ public class InventoryItemController extends BaseController {
     InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
     inventoryItem.setId(inventoryItemId);
     inventoryItem.setInvariants(existingInventory);
-    inventoryRepository.save(inventoryItem);
-    return toDto(inventoryItem);
+    return toDto(inventoryRepository.save(inventoryItem));
   }
 
   /**
