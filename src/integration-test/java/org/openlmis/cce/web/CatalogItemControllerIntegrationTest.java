@@ -40,6 +40,7 @@ import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.service.PermissionService;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 import guru.nidi.ramltester.junit.RamlMatchers;
@@ -271,7 +272,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   private Response postCatalogItem() {
     return restAssured
         .given()
-        .queryParam(ACCESS_TOKEN, getToken())
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .body(catalogItemDto)
         .when()
@@ -281,7 +282,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   private Response getAllCatalogItems() {
     return restAssured
         .given()
-        .queryParam(ACCESS_TOKEN, getToken())
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .when()
         .get(RESOURCE_URL);
@@ -290,7 +291,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   private Response getCatalogItem() {
     return restAssured
         .given()
-        .queryParam(ACCESS_TOKEN, getToken())
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .pathParam("id", UUID.randomUUID())
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .when()
@@ -299,7 +300,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
   private Response putCatalogItem(UUID id) {
     return restAssured.given()
-        .queryParam(ACCESS_TOKEN, getToken())
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .contentType(APPLICATION_JSON)
         .pathParam("id", id)
         .body(catalogItemDto)
@@ -309,7 +310,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
   private Response upload(ClassPathResource basicCsvToUpload) throws IOException {
     return restAssured.given()
-        .queryParam(ACCESS_TOKEN, getToken())
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
         .multiPart(FILE_PARAM_NAME,
             basicCsvToUpload.getFilename(),

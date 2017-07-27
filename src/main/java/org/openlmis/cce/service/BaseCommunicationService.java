@@ -15,7 +15,7 @@
 
 package org.openlmis.cce.service;
 
-import static org.openlmis.cce.service.AuthService.ACCESS_TOKEN;
+import static org.openlmis.cce.util.RequestHelper.createEntity;
 import static org.openlmis.cce.util.RequestHelper.createUri;
 
 import org.openlmis.cce.dto.ResultDto;
@@ -26,7 +26,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -89,12 +88,14 @@ public abstract class BaseCommunicationService<T> {
 
     RequestParameters params = RequestParameters
         .init()
-        .setAll(parameters)
-        .set(ACCESS_TOKEN, authService.obtainAccessToken());
+        .setAll(parameters);
 
     try {
       return restTemplate
-          .getForEntity(createUri(url, params), type)
+          .exchange(createUri(url, params),
+                    HttpMethod.GET,
+                    createEntity(authService.obtainAccessToken()),
+                    type)
           .getBody();
     } catch (HttpStatusCodeException ex) {
       // rest template will handle 404 as an exception, instead of returning null
@@ -157,19 +158,15 @@ public abstract class BaseCommunicationService<T> {
 
     RequestParameters params = RequestParameters
         .init()
-        .setAll(parameters)
-        .set(ACCESS_TOKEN, authService.obtainAccessToken());
+        .setAll(parameters);
 
     try {
-      ResponseEntity<P[]> response;
-
-      if (HttpMethod.GET == method) {
-        response = restTemplate
-            .getForEntity(createUri(url, params), type);
-      } else {
-        response = restTemplate
-            .postForEntity(createUri(url, params), payload, type);
-      }
+      ResponseEntity<P[]> response = restTemplate.exchange(
+            createUri(url, params),
+            method,
+            createEntity(authService.obtainAccessToken(), payload),
+            type
+      );
 
       return Stream.of(response.getBody()).collect(Collectors.toList());
     } catch (HttpStatusCodeException ex) {
@@ -198,14 +195,13 @@ public abstract class BaseCommunicationService<T> {
     String url = getServiceUrl() + getUrl() + resourceUrl;
     RequestParameters params = RequestParameters
         .init()
-        .setAll(parameters)
-        .set(ACCESS_TOKEN, authService.obtainAccessToken());
+        .setAll(parameters);
 
     try {
       ResponseEntity<PageImplRepresentation<P>> response = restTemplate.exchange(
               createUri(url, params),
               method,
-              (payload != null) ? new HttpEntity<>(payload) : null,
+              createEntity(authService.obtainAccessToken(), payload),
               new DynamicPageTypeReference<>(type)
       );
       return response.getBody();
@@ -220,13 +216,12 @@ public abstract class BaseCommunicationService<T> {
     String url = getServiceUrl() + getUrl() + resourceUrl;
     RequestParameters params = RequestParameters
         .init()
-        .setAll(parameters)
-        .set(ACCESS_TOKEN, authService.obtainAccessToken());
+        .setAll(parameters);
 
     ResponseEntity<ResultDto<P>> response = restTemplate.exchange(
         createUri(url, params),
         HttpMethod.GET,
-        null,
+        createEntity(authService.obtainAccessToken()),
         new DynamicResultDtoTypeReference<>(type)
     );
 

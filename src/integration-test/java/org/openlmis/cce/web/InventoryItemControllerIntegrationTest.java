@@ -50,6 +50,7 @@ import org.openlmis.cce.service.referencedata.UserSupervisedFacilitiesReferenceD
 import org.openlmis.cce.service.referencedata.UserSupervisedProgramsReferenceDataService;
 import org.openlmis.cce.util.PageImplRepresentation;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import java.util.Collections;
 import java.util.UUID;
@@ -323,7 +324,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private Response postInventoryItem() {
     return restAssured
         .given()
-        .queryParam(ACCESS_TOKEN, getToken())
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .body(inventoryItemDto)
         .when()
@@ -333,7 +334,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private Response getAllInventoryItems() {
     return restAssured
         .given()
-        .queryParam(ACCESS_TOKEN, getToken())
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .when()
         .get(RESOURCE_URL);
   }
@@ -341,7 +342,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private Response getInventoryItem() {
     return restAssured
         .given()
-        .queryParam(ACCESS_TOKEN, getToken())
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .pathParam("id", inventoryId)
         .when()
         .get(RESOURCE_URL_WITH_ID);
@@ -349,7 +350,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   private Response putInventoryItem(UUID id) {
     return restAssured.given()
-        .queryParam(ACCESS_TOKEN, getToken())
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .contentType(APPLICATION_JSON)
         .pathParam("id", id)
         .body(inventoryItemDto)
@@ -360,7 +361,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private Response deleteInventoryItem() {
     return restAssured
         .given()
-        .queryParam(ACCESS_TOKEN, getToken())
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .pathParam("id", inventoryId)
         .when()
         .delete(RESOURCE_URL_WITH_ID);
