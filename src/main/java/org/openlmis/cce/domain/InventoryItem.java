@@ -31,8 +31,6 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 
 @NoArgsConstructor
@@ -204,12 +202,6 @@ public class InventoryItem extends BaseEntity {
     exporter.setAdditionalNotes(additionalNotes);
     exporter.setModifiedDate(modifiedDate);
     exporter.setLastModifier(lastModifier);
-  }
-
-  @PrePersist
-  @PreUpdate
-  public void updateModifiedDate() {
-    modifiedDate = ZonedDateTime.now();
   }
 
   public interface Exporter {

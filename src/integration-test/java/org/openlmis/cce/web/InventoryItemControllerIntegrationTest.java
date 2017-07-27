@@ -17,6 +17,7 @@ package org.openlmis.cce.web;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -103,8 +104,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .statusCode(201)
         .extract().as(InventoryItemDto.class);
 
-    assertEquals(inventoryItemDto, response);
-    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    checkResponseAndRaml(response);
   }
 
   @Test
@@ -212,8 +212,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .extract().as(InventoryItemDto.class);
 
     assertEquals(inventoryId, response.getId());
-    assertEquals(response, inventoryItemDto);
-    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    checkResponseAndRaml(response);
   }
 
   @Test
@@ -285,6 +284,13 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, editPermission)));
 
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  private void checkResponseAndRaml(InventoryItemDto response) {
+    assertNotNull(response.getModifiedDate());
+    inventoryItemDto.setModifiedDate(response.getModifiedDate());
+    assertEquals(inventoryItemDto, response);
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 

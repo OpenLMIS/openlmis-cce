@@ -41,6 +41,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -82,7 +83,7 @@ public class InventoryItemController extends BaseController {
     inventoryItemDto.setId(null);
     InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
 
-    return toDto(inventoryRepository.save(inventoryItem));
+    return saveInventory(inventoryItem);
   }
 
   /**
@@ -158,7 +159,7 @@ public class InventoryItemController extends BaseController {
     InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
     inventoryItem.setId(inventoryItemId);
     inventoryItem.setInvariants(existingInventory);
-    return toDto(inventoryRepository.save(inventoryItem));
+    return saveInventory(inventoryItem);
   }
 
   /**
@@ -180,6 +181,11 @@ public class InventoryItemController extends BaseController {
   private InventoryItem newInventoryItem(InventoryItemDto inventoryItemDto) {
     return InventoryItem.newInstance(inventoryItemDto,
         authenticationHelper.getCurrentUser().getId());
+  }
+
+  private InventoryItemDto saveInventory(InventoryItem inventoryItem) {
+    inventoryItem.setModifiedDate(ZonedDateTime.now());
+    return toDto(inventoryRepository.save(inventoryItem));
   }
 
   private InventoryItemDto toDto(InventoryItem inventoryItem) {
