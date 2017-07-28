@@ -32,14 +32,20 @@ import com.jayway.restassured.response.Response;
 import guru.nidi.ramltester.junit.RamlMatchers;
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.internal.stubbing.answers.Returns;
 import org.openlmis.cce.domain.BackupGeneratorStatus;
+import org.openlmis.cce.domain.CatalogItem;
+import org.openlmis.cce.domain.EnergySource;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.domain.ManualTemperatureGaugeType;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
+import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
+import org.openlmis.cce.dto.BasicFacilityDto;
+import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ProgramDto;
@@ -47,6 +53,8 @@ import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.PermissionService;
+import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
+import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserSupervisedFacilitiesReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserSupervisedProgramsReferenceDataService;
 import org.openlmis.cce.util.PageImplRepresentation;
@@ -66,6 +74,12 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private InventoryItemRepository inventoryItemRepository;
 
   @MockBean
+  private FacilityReferenceDataService facilityReferenceDataService;
+
+  @MockBean
+  private UserReferenceDataService userReferenceDataService;
+
+  @MockBean
   private PermissionService permissionService;
 
   @MockBean
@@ -79,22 +93,43 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private String editPermission = PermissionService.CCE_INVENTORY_EDIT;
   private String viewPermission = PermissionService.CCE_INVENTORY_VIEW;
   private UUID inventoryId = UUID.randomUUID();
+  private BasicFacilityDto facility = new BasicFacilityDto();
+  private UserDto userDto = new UserDto();
+  private CatalogItemDto catalogItemDto = new CatalogItemDto();
 
   @Before
   public void setUp() {
     mockUserAuthenticated();
 
-    inventoryItemDto = new InventoryItemDto(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
-        "someUniqueId", "eqTrackingId", "abc123", 2010, 2020, "some source",
-        FunctionalStatus.FUNCTIONING, true, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
-        Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
-        VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
-        "someMonitorId", "example notes", null, USER_ID);
+    userDto.setId(USER_ID);
+    facility.setId(UUID.randomUUID());
+
+    CatalogItem catalogItem = new CatalogItem();
+    catalogItem.setFromPqsCatalog(true);
+    catalogItem.setType("type");
+    catalogItem.setModel("model");
+    catalogItem.setManufacturer("manufacturer");
+    catalogItem.setEnergySource(EnergySource.ELECTRIC);
+    catalogItem.setStorageTemperature(StorageTemperature.MINUS10);
+
+    catalogItemDto = new CatalogItemDto();
+    catalogItem.export(catalogItemDto);
+
+    inventoryItemDto = new InventoryItemDto(facility, catalogItemDto, UUID.randomUUID(),
+    "someUniqueId", "eqTrackingId", "abc123", 2010, 2020, "some source",
+    FunctionalStatus.FUNCTIONING, true, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
+    Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
+    VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
+    "someMonitorId", "example notes", null, userDto);
 
     inventoryItem = InventoryItem.newInstance(inventoryItemDto, null);
 
     when(inventoryItemRepository.save(any(InventoryItem.class)))
         .thenAnswer(new SaveAnswer<InventoryItem>());
+    when(facilityReferenceDataService.findOne(any(UUID.class)))
+        .thenAnswer(new Returns(facility));
+    when(userReferenceDataService.findOne(any(UUID.class)))
+        .thenAnswer(new Returns(userDto));
   }
 
   @Test
@@ -181,7 +216,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldNotUpdateInvariantInventoryItemsFieldsIfInventoryExists() {
-    InventoryItemDto existing = new InventoryItemDto(UUID.randomUUID(), UUID.randomUUID(),
+    InventoryItemDto existing = new InventoryItemDto(facility, catalogItemDto,
         UUID.randomUUID(), "otherUniqueId", "eqTrackingId2", "zxc321", 2005, 2025,
         "some other source", FunctionalStatus.NON_FUNCTIONING, false,
         ReasonNotWorkingOrNotInUse.DEAD, Utilization.NOT_IN_USE, VoltageStabilizerStatus.UNKNOWN,
@@ -197,9 +232,9 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .extract().as(InventoryItemDto.class);
 
     assertEquals(inventoryId, response.getId());
-    assertEquals(existing.getFacilityId(), response.getFacilityId());
+    assertEquals(existing.getFacility().getId(), response.getFacility().getId());
     assertEquals(existing.getProgramId(), response.getProgramId());
-    assertEquals(existing.getCatalogItemId(), response.getCatalogItemId());
+    assertEquals(existing.getCatalogItem(), response.getCatalogItem());
     assertEquals(existing.getUniqueId(), response.getUniqueId());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
@@ -219,7 +254,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   public void shouldReturnUnauthorizedWhenPutIfUserHasNoEditInventoryPermission() {
     doThrow(mockPermissionException(editPermission))
         .when(permissionService)
-        .canEditInventory(inventoryItemDto.getProgramId(), inventoryItemDto.getFacilityId());
+        .canEditInventory(inventoryItemDto.getProgramId(), inventoryItemDto.getFacility().getId());
 
     putInventoryItem(UUID.randomUUID())
         .then()

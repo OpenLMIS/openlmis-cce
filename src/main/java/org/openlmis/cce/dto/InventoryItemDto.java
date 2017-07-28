@@ -21,6 +21,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.openlmis.cce.domain.BackupGeneratorStatus;
+import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.domain.ManualTemperatureGaugeType;
@@ -39,9 +40,9 @@ import java.util.UUID;
 public class InventoryItemDto extends BaseDto
     implements InventoryItem.Exporter, InventoryItem.Importer {
 
-  private UUID facilityId;
+  private BasicFacilityDto facility;
 
-  private UUID catalogItemId;
+  private CatalogItemDto catalogItem;
 
   private UUID programId;
 
@@ -79,6 +80,12 @@ public class InventoryItemDto extends BaseDto
 
   private ZonedDateTime modifiedDate;
 
-  private UUID lastModifier;
+  private UserDto lastModifier;
+
+  @Override
+  public void setCatalogItem(CatalogItem catalogItem) {
+    this.catalogItem = new CatalogItemDto();
+    catalogItem.export(this.catalogItem);
+  }
 
 }

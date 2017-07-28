@@ -22,6 +22,9 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.javers.core.metamodel.annotation.TypeName;
+import org.openlmis.cce.dto.BasicFacilityDto;
+import org.openlmis.cce.dto.UserDto;
+
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -31,6 +34,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 @NoArgsConstructor
@@ -47,9 +52,10 @@ public class InventoryItem extends BaseEntity {
   @Column(nullable = false)
   private UUID facilityId;
 
+  @ManyToOne
   @Type(type = UUID)
-  @Column(nullable = false)
-  private UUID catalogItemId;
+  @JoinColumn(name = "catalogItemId", nullable = false)
+  private CatalogItem catalogItem;
 
   @Type(type = UUID)
   @Column(nullable = false)
@@ -136,8 +142,12 @@ public class InventoryItem extends BaseEntity {
   public static InventoryItem newInstance(Importer importer, UUID lastModifier) {
     InventoryItem inventoryItem = new InventoryItem();
     inventoryItem.id = importer.getId();
-    inventoryItem.facilityId = importer.getFacilityId();
-    inventoryItem.catalogItemId = importer.getCatalogItemId();
+    inventoryItem.facilityId = importer.getFacility().getId();
+
+    if (importer.getCatalogItem() != null) {
+      inventoryItem.setCatalogItem(CatalogItem.newInstance(importer.getCatalogItem()));
+    }
+
     inventoryItem.programId = importer.getProgramId();
     inventoryItem.uniqueId = importer.getUniqueId();
     inventoryItem.equipmentTrackingId = importer.getEquipmentTrackingId();
@@ -169,7 +179,7 @@ public class InventoryItem extends BaseEntity {
     if (item != null) {
       programId = item.getProgramId();
       facilityId = item.getFacilityId();
-      catalogItemId = item.getCatalogItemId();
+      catalogItem = item.getCatalogItem();
       uniqueId = item.getUniqueId();
     }
   }
@@ -181,8 +191,7 @@ public class InventoryItem extends BaseEntity {
    */
   public void export(Exporter exporter) {
     exporter.setId(id);
-    exporter.setFacilityId(facilityId);
-    exporter.setCatalogItemId(catalogItemId);
+    exporter.setCatalogItem(catalogItem);
     exporter.setProgramId(programId);
     exporter.setUniqueId(uniqueId);
     exporter.setEquipmentTrackingId(equipmentTrackingId);
@@ -201,15 +210,12 @@ public class InventoryItem extends BaseEntity {
     exporter.setRemoteTemperatureMonitorId(remoteTemperatureMonitorId);
     exporter.setAdditionalNotes(additionalNotes);
     exporter.setModifiedDate(modifiedDate);
-    exporter.setLastModifier(lastModifier);
   }
 
   public interface Exporter {
     void setId(java.util.UUID id);
 
-    void setFacilityId(UUID facilityId);
-
-    void setCatalogItemId(UUID catalogItemId);
+    void setCatalogItem(CatalogItem catalogItemId);
 
     void setProgramId(UUID programId);
 
@@ -246,16 +252,14 @@ public class InventoryItem extends BaseEntity {
     void setAdditionalNotes(String additionalNotes);
 
     void setModifiedDate(ZonedDateTime modifiedDate);
-
-    void setLastModifier(UUID lastModifier);
   }
 
   public interface Importer {
     UUID getId();
 
-    UUID getFacilityId();
+    BasicFacilityDto getFacility();
 
-    UUID getCatalogItemId();
+    CatalogItem.Importer getCatalogItem();
 
     UUID getProgramId();
 
@@ -291,5 +295,6 @@ public class InventoryItem extends BaseEntity {
 
     String getAdditionalNotes();
 
+    UserDto getLastModifier();
   }
 }

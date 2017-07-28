@@ -44,10 +44,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.LinkedHashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 @Transactional
@@ -68,6 +66,9 @@ public class InventoryItemController extends BaseController {
   @Autowired
   private AuthenticationHelper authenticationHelper;
 
+  @Autowired
+  private InventoryItemDtoBuilder inventoryItemDtoBuilder;
+
   /**
    * Allows creating new CCE Inventory item. If the id is specified, it will be ignored.
    *
@@ -79,7 +80,7 @@ public class InventoryItemController extends BaseController {
   @ResponseBody
   public InventoryItemDto create(@RequestBody InventoryItemDto inventoryItemDto) {
     permissionService.canEditInventory(
-        inventoryItemDto.getProgramId(), inventoryItemDto.getFacilityId());
+        inventoryItemDto.getProgramId(), inventoryItemDto.getFacility().getId());
     inventoryItemDto.setId(null);
     InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
 
@@ -103,7 +104,7 @@ public class InventoryItemController extends BaseController {
 
     permissionService.canViewInventory(inventoryItem);
 
-    return toDto(inventoryItem);
+    return inventoryItemDtoBuilder.build(inventoryItem);
   }
 
   /**
@@ -133,7 +134,7 @@ public class InventoryItemController extends BaseController {
             inventoryRepository.findByFacilityIdAndProgramId(facility.getId(), program.getId()));
       }
     }
-    return Pagination.getPage(toDto(inventoryItems), pageable);
+    return Pagination.getPage(inventoryItemDtoBuilder.build(inventoryItems), pageable);
   }
 
   /**
@@ -153,7 +154,7 @@ public class InventoryItemController extends BaseController {
       permissionService.canEditInventory(existingInventory);
     } else {
       permissionService.canEditInventory(
-          inventoryItemDto.getProgramId(), inventoryItemDto.getFacilityId());
+          inventoryItemDto.getProgramId(), inventoryItemDto.getFacility().getId());
     }
 
     InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
@@ -185,19 +186,6 @@ public class InventoryItemController extends BaseController {
 
   private InventoryItemDto saveInventory(InventoryItem inventoryItem) {
     inventoryItem.setModifiedDate(ZonedDateTime.now());
-    return toDto(inventoryRepository.save(inventoryItem));
-  }
-
-  private InventoryItemDto toDto(InventoryItem inventoryItem) {
-    InventoryItemDto dto = new InventoryItemDto();
-    inventoryItem.export(dto);
-    return dto;
-  }
-
-  private List<InventoryItemDto> toDto(Collection<InventoryItem> inventoryItems) {
-    return inventoryItems
-        .stream()
-        .map(this::toDto)
-        .collect(Collectors.toList());
+    return inventoryItemDtoBuilder.build(inventoryRepository.save(inventoryItem));
   }
 }

@@ -16,10 +16,13 @@
 package org.openlmis.cce.repository;
 
 import org.openlmis.cce.domain.BackupGeneratorStatus;
+import org.openlmis.cce.domain.CatalogItem;
+import org.openlmis.cce.domain.EnergySource;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.domain.ManualTemperatureGaugeType;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
+import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
@@ -33,6 +36,9 @@ public class InventoryItemRepositoryIntegrationTest
   @Autowired
   private InventoryItemRepository repository;
 
+  @Autowired
+  private CatalogItemRepository catalogItemRepository;
+
   @Override
   CrudRepository<InventoryItem, UUID> getRepository() {
     return repository;
@@ -40,7 +46,16 @@ public class InventoryItemRepositoryIntegrationTest
 
   @Override
   InventoryItem generateInstance() {
-    return new InventoryItem(UUID.randomUUID(), UUID.randomUUID(), UUID.randomUUID(),
+    CatalogItem catalogItem = new CatalogItem();
+    catalogItem.setFromPqsCatalog(true);
+    catalogItem.setType("type");
+    catalogItem.setModel("model");
+    catalogItem.setManufacturer("manufacturer");
+    catalogItem.setEnergySource(EnergySource.ELECTRIC);
+    catalogItem.setStorageTemperature(StorageTemperature.MINUS10);
+    catalogItem = catalogItemRepository.save(catalogItem);
+
+    return new InventoryItem(UUID.randomUUID(), catalogItem, UUID.randomUUID(),
         "uniqueId" + getNextInstanceNumber(), "eqTrackingId", "abc123", 2010, 2020, "some source",
         FunctionalStatus.FUNCTIONING, true, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
         Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,

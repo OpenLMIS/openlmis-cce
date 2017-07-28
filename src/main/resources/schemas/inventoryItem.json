@@ -8,13 +8,14 @@
       "type": "string",
       "title": "id"
     },
-    "facilityId": {
-      "type": "string",
-      "title": "facilityId"
+    "facility": {
+      "type": "object",
+      "title": "facility"
     },
-    "catalogItemId": {
-      "type": "string",
-      "title": "catalogItemId"
+    "catalogItem": {
+      "type": "object",
+      "$ref": "catalogItem.json",
+      "title": "catalogItem"
     },
     "programId": {
       "type": "string",
@@ -126,13 +127,11 @@
       "title": "modifiedDate"
     },
     "lastModifier": {
-      "type": ["string", "null"],
+      "type": ["object", "null"],
       "title": "lastModifier"
     }
   },
   "required": [
-    "facilityId",
-    "catalogItemId",
     "programId",
     "uniqueId",
     "yearOfInstallation",
