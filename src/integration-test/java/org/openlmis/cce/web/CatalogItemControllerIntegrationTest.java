@@ -36,6 +36,7 @@ import org.openlmis.cce.domain.Dimensions;
 import org.openlmis.cce.domain.EnergySource;
 import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.dto.CatalogItemDto;
+import org.openlmis.cce.dto.UploadResultDto;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.service.PermissionService;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -194,12 +195,13 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     ClassPathResource basicCsvToUpload =
         new ClassPathResource("csv/catalogItems/csvWithBasicColumns.csv");
 
-    upload(basicCsvToUpload)
+    UploadResultDto result = upload(basicCsvToUpload)
         .then()
         .statusCode(200)
-        .body(equalTo(String.valueOf(1)));
+        .extract().as(UploadResultDto.class);
 
     verify(catalogItemRepository).save(any(CatalogItem.class));
+    assertEquals(1, result.getAmount().intValue());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -208,12 +210,13 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     ClassPathResource fullCsvToUpload =
         new ClassPathResource("csv/catalogItems/csvWithBasicAndOptionalColumns.csv");
 
-    upload(fullCsvToUpload)
+    UploadResultDto result = upload(fullCsvToUpload)
         .then()
         .statusCode(200)
-        .body(equalTo(String.valueOf(1)));
+        .extract().as(UploadResultDto.class);
 
     verify(catalogItemRepository).save(any(CatalogItem.class));
+    assertEquals(1, result.getAmount().intValue());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 

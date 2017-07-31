@@ -17,6 +17,7 @@ package org.openlmis.cce.web;
 
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.dto.CatalogItemDto;
+import org.openlmis.cce.dto.UploadResultDto;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.i18n.CatalogItemMessageKeys;
@@ -143,18 +144,15 @@ public class CatalogItemController extends BaseController {
   @PostMapping("/catalogItems/upload")
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
-  public String upload(@RequestPart("file") MultipartFile file) {
+  public UploadResultDto upload(@RequestPart("file") MultipartFile file) {
     permissionService.canManageCce();
     validateCsvFile(file);
     ModelClass modelClass = new ModelClass(CatalogItemDto.class);
 
     try {
-      return Integer.toString(
-          csvParser.process(
-              file.getInputStream(),
-              modelClass,
-              catalogItemPersistenceHandler,
-              csvHeaderValidator));
+      int result = csvParser.process(
+          file.getInputStream(), modelClass, catalogItemPersistenceHandler, csvHeaderValidator);
+      return new UploadResultDto(result);
     } catch (IOException ex) {
       throw new ValidationMessageException(ex, MessageKeys.ERROR_IO, ex.getMessage());
     }

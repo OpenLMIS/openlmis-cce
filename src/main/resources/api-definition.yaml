@@ -23,6 +23,8 @@ schemas:
             "required": ["messageKey"]
         }
 
+  - uploadResult: !include schemas/uploadResult.json
+
   - catalogItem: !include schemas/catalogItem.json
 
   - catalogItemArray: |
@@ -297,7 +299,8 @@ resourceTypes:
                     200:
                         description: Returns number of rows added/updated.
                         body:
-                          text/plain:
+                          application/json:
+                            schema: uploadResult
                     403:
                         body:
                           application/json:
