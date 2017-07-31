@@ -88,4 +88,20 @@ public class InventoryItemDto extends BaseDto
     catalogItem.export(this.catalogItem);
   }
 
+  @Override
+  public void setFacilityId(UUID facilityId) {
+    this.facility = new BasicFacilityDto();
+    this.facility.setId(facilityId);
+  }
+
+  @Override
+  public void setLastModifierId(UUID lastModifierId) {
+    this.lastModifier = new UserDto();
+    this.lastModifier.setId(lastModifierId);
+  }
+
+  @Override
+  public UUID getFacilityId() {
+    return facility.getId();
+  }
 }

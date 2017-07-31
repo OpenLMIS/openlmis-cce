@@ -132,6 +132,8 @@
     }
   },
   "required": [
+    "catalogItem",
+    "facility",
     "programId",
     "uniqueId",
     "yearOfInstallation",

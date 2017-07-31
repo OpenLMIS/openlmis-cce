@@ -46,7 +46,7 @@ public class InventoryItemDtoBuilder {
   }
 
   /**
-   * Create a new instance of InventoryItemDtoDto based on data from {@link InventoryItem}.
+   * Create a new instance of {@link InventoryItemDto} based on data from {@link InventoryItem}.
    *
    * @param inventoryItem instance used to create {@link InventoryItemDto} (can be {@code null})
    * @return new instance of {@link InventoryItemDto}. {@code null} if passed argument is {@code
@@ -63,9 +63,9 @@ public class InventoryItemDtoBuilder {
     inventoryItemDto.setFacility(facilityReferenceDataService
         .findOne(inventoryItem.getFacilityId()));
 
-    if (inventoryItem.getLastModifier() != null) {
+    if (inventoryItem.getLastModifierId() != null) {
       inventoryItemDto.setLastModifier(userReferenceDataService
-          .findOne(inventoryItem.getLastModifier()));
+          .findOne(inventoryItem.getLastModifierId()));
     }
 
     return inventoryItemDto;

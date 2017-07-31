@@ -22,8 +22,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Type;
 import org.javers.core.metamodel.annotation.TypeName;
-import org.openlmis.cce.dto.BasicFacilityDto;
-import org.openlmis.cce.dto.UserDto;
 
 import java.time.ZonedDateTime;
 import java.util.Collection;
@@ -118,7 +116,7 @@ public class InventoryItem extends BaseEntity {
   private ZonedDateTime modifiedDate;
 
   @Type(type = UUID)
-  private UUID lastModifier;
+  private UUID lastModifierId;
 
   /**
    * Creates list of new instances based on data from {@link Importer} list
@@ -139,15 +137,11 @@ public class InventoryItem extends BaseEntity {
    * @param importer instance of {@link Importer}
    * @return new instance of Inventory.
    */
-  public static InventoryItem newInstance(Importer importer, UUID lastModifier) {
+  public static InventoryItem newInstance(Importer importer, UUID lastModifierId) {
     InventoryItem inventoryItem = new InventoryItem();
     inventoryItem.id = importer.getId();
-    inventoryItem.facilityId = importer.getFacility().getId();
-
-    if (importer.getCatalogItem() != null) {
-      inventoryItem.setCatalogItem(CatalogItem.newInstance(importer.getCatalogItem()));
-    }
-
+    inventoryItem.facilityId = importer.getFacilityId();
+    inventoryItem.setCatalogItem(CatalogItem.newInstance(importer.getCatalogItem()));
     inventoryItem.programId = importer.getProgramId();
     inventoryItem.uniqueId = importer.getUniqueId();
     inventoryItem.equipmentTrackingId = importer.getEquipmentTrackingId();
@@ -165,7 +159,7 @@ public class InventoryItem extends BaseEntity {
     inventoryItem.manualTemperatureGauge = importer.getManualTemperatureGauge();
     inventoryItem.remoteTemperatureMonitorId = importer.getRemoteTemperatureMonitorId();
     inventoryItem.additionalNotes = importer.getAdditionalNotes();
-    inventoryItem.lastModifier = lastModifier;
+    inventoryItem.lastModifierId = lastModifierId;
 
     return inventoryItem;
   }
@@ -191,6 +185,7 @@ public class InventoryItem extends BaseEntity {
    */
   public void export(Exporter exporter) {
     exporter.setId(id);
+    exporter.setFacilityId(facilityId);
     exporter.setCatalogItem(catalogItem);
     exporter.setProgramId(programId);
     exporter.setUniqueId(uniqueId);
@@ -210,10 +205,13 @@ public class InventoryItem extends BaseEntity {
     exporter.setRemoteTemperatureMonitorId(remoteTemperatureMonitorId);
     exporter.setAdditionalNotes(additionalNotes);
     exporter.setModifiedDate(modifiedDate);
+    exporter.setLastModifierId(lastModifierId);
   }
 
   public interface Exporter {
     void setId(java.util.UUID id);
+
+    void setFacilityId(UUID facilityId);
 
     void setCatalogItem(CatalogItem catalogItemId);
 
@@ -252,12 +250,14 @@ public class InventoryItem extends BaseEntity {
     void setAdditionalNotes(String additionalNotes);
 
     void setModifiedDate(ZonedDateTime modifiedDate);
+
+    void setLastModifierId(UUID lastModifierId);
   }
 
   public interface Importer {
     UUID getId();
 
-    BasicFacilityDto getFacility();
+    UUID getFacilityId();
 
     CatalogItem.Importer getCatalogItem();
 
@@ -294,7 +294,5 @@ public class InventoryItem extends BaseEntity {
     String getRemoteTemperatureMonitorId();
 
     String getAdditionalNotes();
-
-    UserDto getLastModifier();
   }
 }
