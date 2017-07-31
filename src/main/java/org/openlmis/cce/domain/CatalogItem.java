@@ -43,7 +43,7 @@ import javax.persistence.Table;
 public class CatalogItem extends BaseEntity {
 
   @Column(nullable = false)
-  private boolean fromPqsCatalog;
+  private Boolean fromPqsCatalog;
 
   @Column(columnDefinition = TEXT)
   private String equipmentCode;
