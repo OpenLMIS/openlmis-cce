@@ -13,17 +13,30 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.i18n;
+package org.openlmis.cce.web.validator;
 
-public class InventoryItemMessageKeys extends MessageKeys {
-  private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".inventory";
+import org.openlmis.cce.dto.InventoryItemDto;
+import org.openlmis.cce.exception.ValidationMessageException;
+import org.openlmis.cce.i18n.InventoryItemMessageKeys;
+import org.springframework.stereotype.Component;
+import org.springframework.validation.ValidationUtils;
 
-  public static final String ERROR_ITEM_NOT_FOUND = ERROR_PREFIX + ".item.notFound";
-  public static final String ERROR_NULL = join(ERROR_PREFIX, NULL);
-  public static final String ERROR_CATALOG_ITEM_REQUIRED =
-      join(ERROR_PREFIX, "catalogItem", REQUIRED);
+/**
+ * A validator for {@link InventoryItemDto} object.
+ */
+@Component
+public class InventoryItemValidator {
 
-  private InventoryItemMessageKeys() {
-    throw new UnsupportedOperationException();
+  /**
+   * Validates the {@code inventoryItem} object.
+   * The method checks if the object has a value in {@code catalogItem} property.
+   *
+   * @param inventoryItem the object that will be validated
+   * @see ValidationUtils
+   */
+  public void validate(InventoryItemDto inventoryItem) {
+    if (inventoryItem.getCatalogItem() == null) {
+      throw new ValidationMessageException(InventoryItemMessageKeys.ERROR_CATALOG_ITEM_REQUIRED);
+    }
   }
 }

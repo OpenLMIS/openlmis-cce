@@ -15,28 +15,11 @@
 
 package org.openlmis.cce.i18n;
 
-import java.util.Arrays;
+public abstract class ValidationMessageKeys extends MessageKeys {
+  private static final String ERROR = join(SERVICE_ERROR_PREFIX, VALIDATION);
+  private static final String CONTEXTUAL_STATE = "contextualState";
+  private static final String IS_INVARIANT = "isInvariant";
 
-public abstract class MessageKeys {
-  private static final String DELIMITER = ".";
-
-  private static final String SERVICE_PREFIX = "cce";
-  static final String SERVICE_ERROR_PREFIX = join(SERVICE_PREFIX, "error");
-
-  protected static final String VALIDATION = "validation";
-  protected static final String NULL = "null";
-  protected static final String REQUIRED = "required";
-
-  public static final String ERROR_IO = SERVICE_ERROR_PREFIX + ".io";
-  public static final String ERROR_FILE_IS_EMPTY = SERVICE_ERROR_PREFIX + ".file.empty";
-  public static final String ERROR_INCORRECT_FILE_FORMAT = SERVICE_ERROR_PREFIX
-      + ".file.format.incorrect";
-
-  protected static String join(String... params) {
-    return String.join(DELIMITER, Arrays.asList(params));
-  }
-
-  MessageKeys() {
-    throw new UnsupportedOperationException();
-  }
+  public static final String ERROR_CONTEXTUAL_STATE_NULL = join(ERROR, CONTEXTUAL_STATE, NULL);
+  public static final String ERROR_IS_INVARIANT = join(ERROR, IS_INVARIANT);
 }

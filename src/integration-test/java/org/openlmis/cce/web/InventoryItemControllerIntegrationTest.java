@@ -215,7 +215,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   }
 
   @Test
-  public void shouldNotUpdateInvariantInventoryItemsFieldsIfInventoryExists() {
+  public void shouldNotUpdateInvariantInventoryItemFieldsIfInventoryExists() {
     InventoryItemDto existing = new InventoryItemDto(facility, catalogItemDto,
         UUID.randomUUID(), "otherUniqueId", "eqTrackingId2", "zxc321", 2005, 2025,
         "some other source", FunctionalStatus.NON_FUNCTIONING, false,

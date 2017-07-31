@@ -29,12 +29,14 @@ import org.openlmis.cce.service.referencedata.UserSupervisedFacilitiesReferenceD
 import org.openlmis.cce.service.referencedata.UserSupervisedProgramsReferenceDataService;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Pagination;
+import org.openlmis.cce.web.validator.InventoryItemValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -69,6 +71,9 @@ public class InventoryItemController extends BaseController {
   @Autowired
   private InventoryItemDtoBuilder inventoryItemDtoBuilder;
 
+  @Autowired
+  private InventoryItemValidator validator;
+
   /**
    * Allows creating new CCE Inventory item. If the id is specified, it will be ignored.
    *
@@ -78,9 +83,11 @@ public class InventoryItemController extends BaseController {
   @RequestMapping(value = "/inventoryItems", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-  public InventoryItemDto create(@RequestBody InventoryItemDto inventoryItemDto) {
+  public InventoryItemDto create(@RequestBody InventoryItemDto inventoryItemDto,
+                                 BindingResult bindingResult) {
     permissionService.canEditInventory(
         inventoryItemDto.getProgramId(), inventoryItemDto.getFacility().getId());
+    validator.validate(inventoryItemDto);
     inventoryItemDto.setId(null);
     InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
 
@@ -148,7 +155,8 @@ public class InventoryItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public InventoryItemDto updateInventoryItem(@RequestBody InventoryItemDto inventoryItemDto,
-                                              @PathVariable("id") UUID inventoryItemId) {
+                                              @PathVariable("id") UUID inventoryItemId,
+                                              BindingResult bindingResult) {
     InventoryItem existingInventory = inventoryRepository.findOne(inventoryItemId);
     if (existingInventory != null) {
       permissionService.canEditInventory(existingInventory);
@@ -156,6 +164,7 @@ public class InventoryItemController extends BaseController {
       permissionService.canEditInventory(
           inventoryItemDto.getProgramId(), inventoryItemDto.getFacility().getId());
     }
+    validator.validate(inventoryItemDto);
 
     InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
     inventoryItem.setId(inventoryItemId);
