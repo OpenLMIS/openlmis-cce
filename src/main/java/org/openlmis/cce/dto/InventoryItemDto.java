@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.dto;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -40,7 +41,7 @@ import java.util.UUID;
 public class InventoryItemDto extends BaseDto
     implements InventoryItem.Exporter, InventoryItem.Importer {
 
-  private BasicFacilityDto facility;
+  private FacilityDto facility;
 
   private CatalogItemDto catalogItem;
 
@@ -94,7 +95,7 @@ public class InventoryItemDto extends BaseDto
 
   @Override
   public void setFacilityId(UUID facilityId) {
-    this.facility = new BasicFacilityDto();
+    this.facility = new FacilityDto();
     this.facility.setId(facilityId);
   }
 
@@ -104,6 +105,7 @@ public class InventoryItemDto extends BaseDto
     this.lastModifier.setId(lastModifierId);
   }
 
+  @JsonIgnore
   @Override
   public UUID getFacilityId() {
     return facility.getId();

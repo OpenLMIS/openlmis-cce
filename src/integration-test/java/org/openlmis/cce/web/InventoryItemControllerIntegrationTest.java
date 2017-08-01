@@ -44,7 +44,6 @@ import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
-import org.openlmis.cce.dto.BasicFacilityDto;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
@@ -93,7 +92,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private String editPermission = PermissionService.CCE_INVENTORY_EDIT;
   private String viewPermission = PermissionService.CCE_INVENTORY_VIEW;
   private UUID inventoryId = UUID.randomUUID();
-  private BasicFacilityDto facility = new BasicFacilityDto();
+  private FacilityDto facility = new FacilityDto();
   private UserDto userDto = new UserDto();
   private CatalogItemDto catalogItemDto = new CatalogItemDto();
 

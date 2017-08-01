@@ -29,8 +29,8 @@ import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
-import org.openlmis.cce.dto.BasicFacilityDto;
 import org.openlmis.cce.dto.CatalogItemDto;
+import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.util.Message;
@@ -64,14 +64,14 @@ public class InventoryItemValidatorTest {
 
   private CatalogItemDto catalogItemDto;
 
-  private BasicFacilityDto facility;
+  private FacilityDto facility;
 
   @Before
   public void before() {
     catalogItemDto = new CatalogItemDto();
     catalogItemDto.setId(UUID.randomUUID());
 
-    facility = new BasicFacilityDto();
+    facility = new FacilityDto();
     facility.setId(UUID.randomUUID());
 
     inventoryItemDto = new InventoryItemDto(facility, catalogItemDto, UUID.randomUUID(),

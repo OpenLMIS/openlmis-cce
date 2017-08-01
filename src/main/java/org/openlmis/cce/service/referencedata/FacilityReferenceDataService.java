@@ -15,11 +15,11 @@
 
 package org.openlmis.cce.service.referencedata;
 
-import org.openlmis.cce.dto.BasicFacilityDto;
+import org.openlmis.cce.dto.FacilityDto;
 import org.springframework.stereotype.Service;
 
 @Service
-public class FacilityReferenceDataService extends BaseReferenceDataService<BasicFacilityDto> {
+public class FacilityReferenceDataService extends BaseReferenceDataService<FacilityDto> {
 
   @Override
   protected String getUrl() {
@@ -27,12 +27,12 @@ public class FacilityReferenceDataService extends BaseReferenceDataService<Basic
   }
 
   @Override
-  protected Class<BasicFacilityDto> getResultClass() {
-    return BasicFacilityDto.class;
+  protected Class<FacilityDto> getResultClass() {
+    return FacilityDto.class;
   }
 
   @Override
-  protected Class<BasicFacilityDto[]> getArrayResultClass() {
-    return BasicFacilityDto[].class;
+  protected Class<FacilityDto[]> getArrayResultClass() {
+    return FacilityDto[].class;
   }
 }
