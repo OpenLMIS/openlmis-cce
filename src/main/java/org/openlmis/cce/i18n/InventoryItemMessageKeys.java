@@ -19,9 +19,30 @@ public class InventoryItemMessageKeys extends MessageKeys {
   private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".inventory";
 
   public static final String ERROR_ITEM_NOT_FOUND = ERROR_PREFIX + ".item.notFound";
-  public static final String ERROR_NULL = join(ERROR_PREFIX, NULL);
   public static final String ERROR_CATALOG_ITEM_REQUIRED =
       join(ERROR_PREFIX, "catalogItem", REQUIRED);
+  public static final String ERROR_FACILITY_REQUIRED =
+      join(ERROR_PREFIX, "facility", REQUIRED);
+  public static final String ERROR_PROGRAM_ID_REQUIRED =
+      join(ERROR_PREFIX, "programId", REQUIRED);
+  public static final String ERROR_UNIQUE_ID_REQUIRED =
+      join(ERROR_PREFIX, "uniqueId", REQUIRED);
+  public static final String ERROR_YEAR_OF_INSTALLATION_REQUIRED =
+      join(ERROR_PREFIX, "yearOfInstallation", REQUIRED);
+  public static final String ERROR_FUNCTIONAL_STATUS_REQUIRED =
+      join(ERROR_PREFIX, "functionalStatus", REQUIRED);
+  public static final String ERROR_REQUIRES_ATTENTION_REQUIRED =
+      join(ERROR_PREFIX, "requiresAttention", REQUIRED);
+  public static final String ERROR_UTILIZATION_REQUIRED =
+      join(ERROR_PREFIX, "utilization", REQUIRED);
+  public static final String ERROR_VOLTAGE_STABILIZER_REQUIRED =
+      join(ERROR_PREFIX, "voltageStabilizer", REQUIRED);
+  public static final String ERROR_BACKUP_GENERATOR_REQUIRED =
+      join(ERROR_PREFIX, "backupGenerator", REQUIRED);
+  public static final String ERROR_VOLTAGE_REGULATOR_REQUIRED =
+      join(ERROR_PREFIX, "voltageRegulator", REQUIRED);
+  public static final String ERROR_MANUAL_TEMPERATURE_GAUGE_REQUIRED =
+      join(ERROR_PREFIX, "manualTemperatureGauge", REQUIRED);
 
   private InventoryItemMessageKeys() {
     throw new UnsupportedOperationException();

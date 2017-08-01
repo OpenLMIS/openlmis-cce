@@ -29,14 +29,41 @@ public class InventoryItemValidator {
 
   /**
    * Validates the {@code inventoryItem} object.
-   * The method checks if the object has a value in {@code catalogItem} property.
+   * The method checks if the object has values in all required properties.
    *
    * @param inventoryItem the object that will be validated
    * @see ValidationUtils
    */
   public void validate(InventoryItemDto inventoryItem) {
-    if (inventoryItem.getCatalogItem() == null) {
-      throw new ValidationMessageException(InventoryItemMessageKeys.ERROR_CATALOG_ITEM_REQUIRED);
+    validateNotNull(inventoryItem.getCatalogItem(),
+        InventoryItemMessageKeys.ERROR_CATALOG_ITEM_REQUIRED);
+    validateNotNull(inventoryItem.getFacility(),
+        InventoryItemMessageKeys.ERROR_FACILITY_REQUIRED);
+    validateNotNull(inventoryItem.getProgramId(),
+        InventoryItemMessageKeys.ERROR_PROGRAM_ID_REQUIRED);
+    validateNotNull(inventoryItem.getUniqueId(),
+        InventoryItemMessageKeys.ERROR_UNIQUE_ID_REQUIRED);
+    validateNotNull(inventoryItem.getYearOfInstallation(),
+        InventoryItemMessageKeys.ERROR_YEAR_OF_INSTALLATION_REQUIRED);
+    validateNotNull(inventoryItem.getFunctionalStatus(),
+        InventoryItemMessageKeys.ERROR_FUNCTIONAL_STATUS_REQUIRED);
+    validateNotNull(inventoryItem.getRequiresAttention(),
+        InventoryItemMessageKeys.ERROR_REQUIRES_ATTENTION_REQUIRED);
+    validateNotNull(inventoryItem.getUtilization(),
+        InventoryItemMessageKeys.ERROR_UTILIZATION_REQUIRED);
+    validateNotNull(inventoryItem.getVoltageStabilizer(),
+        InventoryItemMessageKeys.ERROR_VOLTAGE_STABILIZER_REQUIRED);
+    validateNotNull(inventoryItem.getBackupGenerator(),
+        InventoryItemMessageKeys.ERROR_BACKUP_GENERATOR_REQUIRED);
+    validateNotNull(inventoryItem.getVoltageRegulator(),
+        InventoryItemMessageKeys.ERROR_VOLTAGE_REGULATOR_REQUIRED);
+    validateNotNull(inventoryItem.getManualTemperatureGauge(),
+        InventoryItemMessageKeys.ERROR_MANUAL_TEMPERATURE_GAUGE_REQUIRED);
+  }
+
+  private void validateNotNull(Object field, String errorMessage) {
+    if (field == null) {
+      throw new ValidationMessageException(errorMessage);
     }
   }
 }

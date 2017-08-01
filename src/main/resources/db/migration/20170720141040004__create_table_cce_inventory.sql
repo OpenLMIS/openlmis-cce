@@ -20,5 +20,5 @@ CREATE TABLE cce_inventory (
     remoteTemperatureMonitorId text,
     additionalNotes text,
     modifieddate timestamp with time zone,
-    lastModifierId uuid
+    lastModifier uuid
 );

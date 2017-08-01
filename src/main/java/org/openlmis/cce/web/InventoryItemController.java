@@ -36,7 +36,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -83,8 +82,7 @@ public class InventoryItemController extends BaseController {
   @RequestMapping(value = "/inventoryItems", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
-  public InventoryItemDto create(@RequestBody InventoryItemDto inventoryItemDto,
-                                 BindingResult bindingResult) {
+  public InventoryItemDto create(@RequestBody InventoryItemDto inventoryItemDto) {
     permissionService.canEditInventory(
         inventoryItemDto.getProgramId(), inventoryItemDto.getFacility().getId());
     validator.validate(inventoryItemDto);
@@ -155,8 +153,7 @@ public class InventoryItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public InventoryItemDto updateInventoryItem(@RequestBody InventoryItemDto inventoryItemDto,
-                                              @PathVariable("id") UUID inventoryItemId,
-                                              BindingResult bindingResult) {
+                                              @PathVariable("id") UUID inventoryItemId) {
     InventoryItem existingInventory = inventoryRepository.findOne(inventoryItemId);
     if (existingInventory != null) {
       permissionService.canEditInventory(existingInventory);
