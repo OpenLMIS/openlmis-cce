@@ -83,17 +83,17 @@ public class InventoryItemValidatorTest {
   }
 
   @Test
+  public void shouldNotThrowExceptionIfRequiredFieldsAreNotNull() {
+    inventoryItemValidator.validate(inventoryItemDto);
+  }
+
+  @Test
   public void shouldThrowExceptionIfCatalogItemIsNull() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
         new Message(ERROR_CATALOG_ITEM_REQUIRED, "").toString());
 
-    inventoryItemDto = new InventoryItemDto(facility, null, UUID.randomUUID(),
-        "someUniqueId", "eqTrackingId", "abc123", 2010, 2020, "some source",
-        FunctionalStatus.FUNCTIONING, true, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
-        Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
-        VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
-        "someMonitorId", "example notes", null, null);
+    inventoryItemDto.setCatalogItem(null);
 
     inventoryItemValidator.validate(inventoryItemDto);
   }

@@ -84,8 +84,12 @@ public class InventoryItemDto extends BaseDto
 
   @Override
   public void setCatalogItem(CatalogItem catalogItem) {
-    this.catalogItem = new CatalogItemDto();
-    catalogItem.export(this.catalogItem);
+    if (catalogItem == null) {
+      this.catalogItem = null;
+    } else {
+      this.catalogItem = new CatalogItemDto();
+      catalogItem.export(this.catalogItem);
+    }
   }
 
   @Override
