@@ -16,11 +16,7 @@
 package org.openlmis.cce.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+
 import org.openlmis.cce.domain.BackupGeneratorStatus;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.FunctionalStatus;
@@ -30,6 +26,13 @@ import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
+
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -50,6 +53,10 @@ public class InventoryItemDto extends BaseDto
   private String uniqueId;
 
   private String equipmentTrackingId;
+
+  private String serialNumber;
+
+  private String referenceName;
 
   private String barCode;
 

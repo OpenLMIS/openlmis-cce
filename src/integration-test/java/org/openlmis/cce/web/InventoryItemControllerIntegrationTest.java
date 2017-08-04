@@ -29,7 +29,7 @@ import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PER
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 
 import com.jayway.restassured.response.Response;
-import guru.nidi.ramltester.junit.RamlMatchers;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.stubbing.answers.Returns;
@@ -60,6 +60,9 @@ import org.openlmis.cce.util.PageImplRepresentation;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+
+import guru.nidi.ramltester.junit.RamlMatchers;
+
 import java.util.Collections;
 import java.util.UUID;
 
@@ -114,12 +117,14 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     catalogItemDto = new CatalogItemDto();
     catalogItem.export(catalogItemDto);
 
-    inventoryItemDto = new InventoryItemDto(facility, catalogItemDto, UUID.randomUUID(),
-    "someUniqueId", "eqTrackingId", "abc123", 2010, 2020, "some source",
-    FunctionalStatus.FUNCTIONING, true, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
-    Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
-    VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
-    "someMonitorId", "example notes", null, userDto);
+    inventoryItemDto = new InventoryItemDto(
+      facility, catalogItemDto, UUID.randomUUID(), "someUniqueId", "eqTrackingId",
+      "some-serial-number", "Some Reference Name", "abc123", 2010, 2020, "some source",
+      FunctionalStatus.FUNCTIONING, true,  ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
+      Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
+      VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
+      "someMonitorId", "example notes", null, userDto
+    );
 
     inventoryItem = InventoryItem.newInstance(inventoryItemDto, null);
 
@@ -215,12 +220,14 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldNotUpdateInvariantInventoryItemFieldsIfInventoryExists() {
-    InventoryItemDto existing = new InventoryItemDto(facility, catalogItemDto,
-        UUID.randomUUID(), "otherUniqueId", "eqTrackingId2", "zxc321", 2005, 2025,
-        "some other source", FunctionalStatus.NON_FUNCTIONING, false,
-        ReasonNotWorkingOrNotInUse.DEAD, Utilization.NOT_IN_USE, VoltageStabilizerStatus.UNKNOWN,
+    InventoryItemDto existing = new InventoryItemDto(
+        facility, catalogItemDto, UUID.randomUUID(), "otherUniqueId", "eqTrackingId2",
+        "some-serial-number", "Some Reference Name", "zxc321", 2005, 2025, "some other source",
+        FunctionalStatus.NON_FUNCTIONING, false, ReasonNotWorkingOrNotInUse.DEAD,
+        Utilization.NOT_IN_USE, VoltageStabilizerStatus.UNKNOWN,
         BackupGeneratorStatus.NOT_APPLICABLE, VoltageRegulatorStatus.NOT_APPLICABLE,
-        ManualTemperatureGaugeType.NO_GAUGE, "someMonitorId2", "other example notes", null, null);
+        ManualTemperatureGaugeType.NO_GAUGE, "someMonitorId2", "other example notes", null, null
+    );
 
     InventoryItem existingItem = InventoryItem.newInstance(existing, null);
     when(inventoryItemRepository.findOne(inventoryId)).thenReturn(existingItem);

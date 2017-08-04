@@ -15,19 +15,21 @@
 
 package org.openlmis.cce.domain;
 
+import org.hibernate.annotations.Type;
+import org.javers.core.metamodel.annotation.TypeName;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.hibernate.annotations.Type;
-import org.javers.core.metamodel.annotation.TypeName;
 
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -64,6 +66,12 @@ public class InventoryItem extends BaseEntity {
 
   @Column(columnDefinition = TEXT)
   private String equipmentTrackingId;
+
+  @Column(columnDefinition = TEXT, nullable = false)
+  private String serialNumber;
+
+  @Column(columnDefinition = TEXT, nullable = false)
+  private String referenceName;
 
   @Column(columnDefinition = TEXT)
   private String barCode;
@@ -145,6 +153,8 @@ public class InventoryItem extends BaseEntity {
     inventoryItem.programId = importer.getProgramId();
     inventoryItem.uniqueId = importer.getUniqueId();
     inventoryItem.equipmentTrackingId = importer.getEquipmentTrackingId();
+    inventoryItem.serialNumber = importer.getSerialNumber();
+    inventoryItem.referenceName = importer.getReferenceName();
     inventoryItem.barCode = importer.getBarCode();
     inventoryItem.yearOfInstallation = importer.getYearOfInstallation();
     inventoryItem.yearOfWarrantyExpiry = importer.getYearOfWarrantyExpiry();
@@ -190,6 +200,8 @@ public class InventoryItem extends BaseEntity {
     exporter.setProgramId(programId);
     exporter.setUniqueId(uniqueId);
     exporter.setEquipmentTrackingId(equipmentTrackingId);
+    exporter.setSerialNumber(serialNumber);
+    exporter.setReferenceName(referenceName);
     exporter.setBarCode(barCode);
     exporter.setYearOfInstallation(yearOfInstallation);
     exporter.setYearOfWarrantyExpiry(yearOfWarrantyExpiry);
@@ -220,6 +232,10 @@ public class InventoryItem extends BaseEntity {
     void setUniqueId(String uniqueId);
 
     void setEquipmentTrackingId(String equipmentTrackingId);
+
+    void setSerialNumber(String serialNumber);
+
+    void setReferenceName(String referenceName);
 
     void setBarCode(String barCode);
 
@@ -266,6 +282,10 @@ public class InventoryItem extends BaseEntity {
     String getUniqueId();
 
     String getEquipmentTrackingId();
+
+    String getSerialNumber();
+
+    String getReferenceName();
 
     String getBarCode();
 

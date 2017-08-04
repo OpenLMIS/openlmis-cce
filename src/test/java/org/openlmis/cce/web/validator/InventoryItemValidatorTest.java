@@ -15,6 +15,19 @@
 
 package org.openlmis.cce.web.validator;
 
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_BACKUP_GENERATOR_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_CATALOG_ITEM_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_FACILITY_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_FUNCTIONAL_STATUS_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_MANUAL_TEMPERATURE_GAUGE_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_PROGRAM_ID_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REQUIRES_ATTENTION_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_UNIQUE_ID_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_UTILIZATION_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_VOLTAGE_REGULATOR_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_VOLTAGE_STABILIZER_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_YEAR_OF_INSTALLATION_REQUIRED;
+
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -36,19 +49,6 @@ import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.util.Message;
 
 import java.util.UUID;
-
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_BACKUP_GENERATOR_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_CATALOG_ITEM_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_FACILITY_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_FUNCTIONAL_STATUS_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_MANUAL_TEMPERATURE_GAUGE_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_PROGRAM_ID_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REQUIRES_ATTENTION_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_UNIQUE_ID_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_UTILIZATION_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_VOLTAGE_REGULATOR_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_VOLTAGE_STABILIZER_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_YEAR_OF_INSTALLATION_REQUIRED;
 
 @RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings({"PMD.TooManyMethods"})
@@ -75,7 +75,8 @@ public class InventoryItemValidatorTest {
     facility.setId(UUID.randomUUID());
 
     inventoryItemDto = new InventoryItemDto(facility, catalogItemDto, UUID.randomUUID(),
-        "someUniqueId", "eqTrackingId", "abc123", 2010, 2020, "some source",
+        "someUniqueId", "eqTrackingId","some-serial-number", "Some Reference Name", "abc123",
+        2010, 2020, "some source",
         FunctionalStatus.FUNCTIONING, true, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
         Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
         VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
