@@ -289,7 +289,7 @@ resourceTypes:
       /search:
           post:
               is: [ secured, paginated ]
-              description: Returns a paginated list of catalog items given Archived.
+              description: Returns a paginated list of catalog items given archived, type and visibleInCatalog.
               body:
                 application/json:
                   schema: catalogItemQueryDto
