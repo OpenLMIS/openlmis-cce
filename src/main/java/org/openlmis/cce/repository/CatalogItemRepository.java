@@ -16,13 +16,19 @@
 package org.openlmis.cce.repository;
 
 import org.openlmis.cce.domain.CatalogItem;
-import org.springframework.data.repository.CrudRepository;
-
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 import java.util.UUID;
 
-public interface CatalogItemRepository extends CrudRepository<CatalogItem, UUID> {
+public interface CatalogItemRepository extends PagingAndSortingRepository<CatalogItem, UUID> {
 
   CatalogItem findByEquipmentCode(String code);
 
   CatalogItem findByTypeAndModel(String type, String model);
+
+  Page<CatalogItem> findByArchivedAndTypeAndVisibleInCatalog(Boolean archived,
+                                                             String type,
+                                                             Boolean visibleInCatalog,
+                                                             Pageable pageable);
 }

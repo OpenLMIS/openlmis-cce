@@ -21,17 +21,16 @@ import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.ENERGY_SOU
 import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.INT_FROM_DOUBLE_TYPE;
 import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.STORAGE_TEMPERATURE_TYPE;
 
-import org.openlmis.cce.domain.CatalogItem;
-import org.openlmis.cce.domain.Dimensions;
-import org.openlmis.cce.domain.EnergySource;
-import org.openlmis.cce.domain.StorageTemperature;
-import org.openlmis.cce.web.upload.model.ImportField;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.openlmis.cce.domain.CatalogItem;
+import org.openlmis.cce.domain.Dimensions;
+import org.openlmis.cce.domain.EnergySource;
+import org.openlmis.cce.domain.StorageTemperature;
+import org.openlmis.cce.web.upload.model.ImportField;
 
 @Getter
 @Setter
@@ -54,6 +53,7 @@ public class CatalogItemDto extends BaseDto implements CatalogItem.Exporter, Cat
   public static final String PQS_EQUIPMENT_CODE = "PQS equipment code";
   public static final String FROM_PQS_CATALOG = "From PQS catalog";
   public static final String DIMENSIONS = "Dimensions";
+  public static final String ARCHIVED = "Archived";
 
   @ImportField(name = FROM_PQS_CATALOG, type = BOOLEAN_TYPE, mandatory = true)
   private Boolean fromPqsCatalog;
@@ -100,4 +100,8 @@ public class CatalogItemDto extends BaseDto implements CatalogItem.Exporter, Cat
 
   @ImportField(name = VISIBLE_IN_CATALOG, type = BOOLEAN_TYPE)
   private Boolean visibleInCatalog;
+
+  @ImportField(name = ARCHIVED, type = BOOLEAN_TYPE, mandatory = true)
+  private Boolean archived;
+
 }

@@ -110,6 +110,10 @@
     "visibleInCatalog": {
       "type": "boolean",
       "title": "visibleInCatalog"
+    },
+    "archived": {
+      "type": "boolean",
+      "title": "archived"
     }
   },
   "required": [
@@ -118,6 +122,7 @@
     "model",
     "manufacturer",
     "energySource",
-    "storageTemperature"
+    "storageTemperature",
+    "archived"
   ]
 }

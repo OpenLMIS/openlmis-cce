@@ -1,0 +1,20 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "CatalogItem Query DTO",
+  "description": "A DTO to search for catalog items",
+  "properties": {
+    "archived": {
+      "type": "boolean",
+      "title": "archived"
+    },
+    "visibleInCatalog": {
+      "type": "boolean",
+      "title": "visibleInCatalog"
+    },
+    "type": {
+      "type": "string",
+      "title": "type"
+    }
+  }
+}

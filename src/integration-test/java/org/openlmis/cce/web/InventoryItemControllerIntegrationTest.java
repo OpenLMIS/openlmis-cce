@@ -113,6 +113,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     catalogItem.setManufacturer("manufacturer");
     catalogItem.setEnergySource(EnergySource.ELECTRIC);
     catalogItem.setStorageTemperature(StorageTemperature.MINUS10);
+    catalogItem.setArchived(false);
 
     catalogItemDto = new CatalogItemDto();
     catalogItem.export(catalogItemDto);

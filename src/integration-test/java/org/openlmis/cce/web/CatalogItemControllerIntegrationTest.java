@@ -28,7 +28,7 @@ import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_RECORD_INV
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
 import com.jayway.restassured.response.Response;
-
+import guru.nidi.ramltester.junit.RamlMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.domain.CatalogItem;
@@ -38,17 +38,20 @@ import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.UploadResultDto;
 import org.openlmis.cce.repository.CatalogItemRepository;
+import org.openlmis.cce.service.CatalogItemService;
 import org.openlmis.cce.service.PermissionService;
+import org.openlmis.cce.util.PageImplRepresentation;
+import org.openlmis.cce.util.Pagination;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-
-import guru.nidi.ramltester.junit.RamlMatchers;
-
 import java.io.IOException;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.TooManyMethods"})
@@ -57,6 +60,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   private static final String RESOURCE_URL = "/api/catalogItems";
   private static final String RESOURCE_URL_WITH_ID = RESOURCE_URL + "/{id}";
   private static final String RESOURCE_URL_UPLOAD = RESOURCE_URL + "/upload";
+  private static final String SEARCH = RESOURCE_URL + "/search";
   private static final String FILE_PARAM_NAME = "file";
 
   @MockBean
@@ -64,6 +68,9 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
   @MockBean
   private PermissionService permissionService;
+
+  @MockBean
+  private CatalogItemService catalogItemService;
 
   private CatalogItemDto catalogItemDto;
   private String managePermission = PermissionService.CCE_MANAGE;
@@ -75,7 +82,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     catalogItemDto = new CatalogItemDto(true, "equipment-code",
         "type", "model", "producent", EnergySource.ELECTRIC, 2016,
         StorageTemperature.MINUS3, 20, -20, "LOW", 1, 1, 1,
-        new Dimensions(100, 100, 100), true);
+        new Dimensions(100, 100, 100), true, false);
 
     when(catalogItemRepository.save(any(CatalogItem.class)))
         .thenAnswer(new SaveAnswer<CatalogItem>());
@@ -126,6 +133,39 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .when(permissionService).canManageCce();
 
     getAllCatalogItems()
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
+
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldFindCatalogItemsWithGivenParameters() throws IOException {
+    List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);
+    when(catalogItemService.search(any(Map.class), any(Pageable.class)))
+        .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), null, 1));
+
+    Map<String, Object> requestBody = new HashMap<>();
+    requestBody.put("page", 1);
+    requestBody.put("size", 10);
+    requestBody.put("archived", true);
+
+    PageImplRepresentation response = searchCatalogItems(requestBody)
+        .then()
+        .statusCode(200)
+        .extract().as(PageImplRepresentation.class);
+
+    assertEquals(1, response.getNumberOfElements());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldReturnUnauthorizedWhenSearchCatalogItemsIfUserHasNoCceManagePermission() {
+    doThrow(mockPermissionException(managePermission))
+        .when(permissionService).canManageCce();
+
+    searchCatalogItems(Collections.EMPTY_MAP)
         .then()
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
@@ -229,7 +269,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .then()
         .statusCode(400)
         .body(MESSAGE, equalTo(getMessage(
-            ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS, "[From PQS catalog]")));
+            ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS, "[From PQS catalog, Archived]")));
 
     verify(catalogItemRepository, never()).save(any(CatalogItem.class));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
@@ -289,6 +329,16 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .contentType(MediaType.APPLICATION_JSON_VALUE)
         .when()
         .get(RESOURCE_URL);
+  }
+
+  private Response searchCatalogItems(Map<String, Object> requestBody) {
+    return restAssured
+        .given()
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
+        .contentType(MediaType.APPLICATION_JSON_VALUE)
+        .body(requestBody)
+        .when()
+        .post(SEARCH);
   }
 
   private Response getCatalogItem() {

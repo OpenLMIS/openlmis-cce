@@ -19,6 +19,8 @@ public class CatalogItemMessageKeys extends MessageKeys {
   private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".catalog";
 
   public static final String ERROR_ITEM_NOT_FOUND = ERROR_PREFIX + ".item.notFound";
+  public static final String ERROR_SEARCH_LACKS_PARAMS =
+      join(ERROR_PREFIX, SEARCH, LACKS_PARAMETERS);
 
   private CatalogItemMessageKeys() {
     throw new UnsupportedOperationException();

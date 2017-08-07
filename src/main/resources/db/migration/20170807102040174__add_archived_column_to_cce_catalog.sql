@@ -1,0 +1,1 @@
+ALTER TABLE ONLY cce_catalog ADD COLUMN archived boolean NOT NULL;

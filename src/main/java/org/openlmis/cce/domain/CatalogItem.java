@@ -85,6 +85,9 @@ public class CatalogItem extends BaseEntity {
 
   private Boolean visibleInCatalog;
 
+  @Column(nullable = false)
+  private Boolean archived;
+
   /**
    * Creates new instance based on data from {@link Importer}
    *
@@ -111,6 +114,7 @@ public class CatalogItem extends BaseEntity {
     catalogItem.netVolume = importer.getNetVolume();
     catalogItem.dimensions = importer.getDimensions();
     catalogItem.visibleInCatalog = importer.getVisibleInCatalog();
+    catalogItem.archived = importer.getArchived();
 
     return catalogItem;
   }
@@ -150,6 +154,7 @@ public class CatalogItem extends BaseEntity {
     exporter.setNetVolume(netVolume);
     exporter.setDimensions(dimensions);
     exporter.setVisibleInCatalog(visibleInCatalog);
+    exporter.setArchived(archived);
   }
 
   public interface Exporter {
@@ -186,6 +191,8 @@ public class CatalogItem extends BaseEntity {
     void setDimensions(Dimensions width);
 
     void setVisibleInCatalog(Boolean visibleInCatalog);
+
+    void setArchived(Boolean archived);
   }
 
   public interface Importer {
@@ -222,5 +229,7 @@ public class CatalogItem extends BaseEntity {
     Dimensions getDimensions();
 
     Boolean getVisibleInCatalog();
+
+    Boolean getArchived();
   }
 }

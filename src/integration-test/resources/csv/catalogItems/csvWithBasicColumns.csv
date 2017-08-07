@@ -1,2 +1,2 @@
-Type, Model, Manufacturer, Energy source, Storage Temperature, From PQS catalog
-sometype, somemodel, somemanuf, ELECTRIC, PLUS4, Y
+Type, Model, Manufacturer, Energy source, Storage Temperature, From PQS catalog, Archived
+sometype, somemodel, somemanuf, ELECTRIC, PLUS4, Y, N

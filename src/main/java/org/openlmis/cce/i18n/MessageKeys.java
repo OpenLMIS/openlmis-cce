@@ -23,9 +23,9 @@ public abstract class MessageKeys {
   private static final String SERVICE_PREFIX = "cce";
   static final String SERVICE_ERROR_PREFIX = join(SERVICE_PREFIX, "error");
 
-  protected static final String VALIDATION = "validation";
-  protected static final String NULL = "null";
   protected static final String REQUIRED = "required";
+  protected static final String SEARCH = "search";
+  protected static final String LACKS_PARAMETERS = "lacksParameters";
 
   public static final String ERROR_IO = SERVICE_ERROR_PREFIX + ".io";
   public static final String ERROR_FILE_IS_EMPTY = SERVICE_ERROR_PREFIX + ".file.empty";

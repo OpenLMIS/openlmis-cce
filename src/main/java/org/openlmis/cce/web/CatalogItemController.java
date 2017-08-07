@@ -23,12 +23,16 @@ import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.i18n.CatalogItemMessageKeys;
 import org.openlmis.cce.i18n.MessageKeys;
 import org.openlmis.cce.repository.CatalogItemRepository;
+import org.openlmis.cce.service.CatalogItemService;
 import org.openlmis.cce.service.PermissionService;
+import org.openlmis.cce.util.Pagination;
 import org.openlmis.cce.web.upload.recordhandler.CatalogItemPersistenceHandler;
 import org.openlmis.cce.web.upload.model.ModelClass;
 import org.openlmis.cce.web.upload.parser.CsvParser;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -43,6 +47,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -65,6 +70,9 @@ public class CatalogItemController extends BaseController {
 
   @Autowired
   private CsvHeaderValidator csvHeaderValidator;
+
+  @Autowired
+  private CatalogItemService catalogItemService;
 
   /**
    * Allows creating new CCE Catalog Item. If the id is specified, it will be ignored.
@@ -95,6 +103,24 @@ public class CatalogItemController extends BaseController {
   public List<CatalogItemDto> getAll() {
     permissionService.canManageCce();
     return toDto(catalogRepository.findAll());
+  }
+
+  /**
+   * Retrieves all CCE Catalog items with specified query params.
+   *
+   * @param queryParams request parameters (archived, type, visibleInCatalog).
+   * @param pageable object used to encapsulate the pagination related values: page and size.
+   * @return List of wanted catalog items matching query parameters.
+   */
+  @RequestMapping(value = "/catalogItems/search", method = RequestMethod.POST)
+  @ResponseStatus(HttpStatus.OK)
+  @ResponseBody
+  public Page<CatalogItemDto> searchCatalogItems(@RequestBody Map<String, Object> queryParams,
+                                                 Pageable pageable) {
+    permissionService.canManageCce();
+
+    Page<CatalogItem> itemsPage = catalogItemService.search(queryParams, pageable);
+    return Pagination.getPage(toDto(itemsPage), pageable, itemsPage.getTotalElements());
   }
 
   /**

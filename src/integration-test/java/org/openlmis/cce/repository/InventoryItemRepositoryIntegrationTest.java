@@ -53,6 +53,7 @@ public class InventoryItemRepositoryIntegrationTest
     catalogItem.setManufacturer("manufacturer");
     catalogItem.setEnergySource(EnergySource.ELECTRIC);
     catalogItem.setStorageTemperature(StorageTemperature.MINUS10);
+    catalogItem.setArchived(false);
     catalogItem = catalogItemRepository.save(catalogItem);
 
     return new InventoryItem(UUID.randomUUID(), catalogItem, UUID.randomUUID(),
