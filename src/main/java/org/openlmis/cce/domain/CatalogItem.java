@@ -16,17 +16,14 @@
 package org.openlmis.cce.domain;
 
 import lombok.AllArgsConstructor;
-import org.javers.core.metamodel.annotation.TypeName;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import org.javers.core.metamodel.annotation.TypeName;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
