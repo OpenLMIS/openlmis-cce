@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.domain;
 
+import lombok.AllArgsConstructor;
 import org.javers.core.metamodel.annotation.TypeName;
 
 import lombok.EqualsAndHashCode;
@@ -34,6 +35,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.Table;
 
 @NoArgsConstructor
+@AllArgsConstructor
 @Getter
 @Setter
 @Entity
