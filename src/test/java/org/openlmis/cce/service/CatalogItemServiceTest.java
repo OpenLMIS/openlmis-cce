@@ -69,7 +69,23 @@ public class CatalogItemServiceTest {
   }
 
   @Test
-  public void shouldFindCatalogItemsForGivenQueryParam() {
+  public void shouldFindCatalogItemsWhenTypeInQueryMapIsNull() {
+    List<CatalogItem> foundCatalogItems = Collections.singletonList(item);
+    when(catalogRepository
+        .findByArchivedAndVisibleInCatalog(
+            false, true, pageable))
+        .thenReturn(Pagination.getPage(foundCatalogItems, null, 1));
+
+    Map<String, Object> searchParams = new HashMap<>();
+    searchParams.put("archived", false);
+    searchParams.put("visibleInCatalog", true);
+
+    Page<CatalogItem> actual = catalogItemService.search(searchParams, pageable);
+    assertEquals(foundCatalogItems, actual.getContent());
+  }
+
+  @Test
+  public void shouldFindCatalogItemsForAllQueryParams() {
     String type = "some-type";
     List<CatalogItem> foundCatalogItems = Collections.singletonList(item);
     when(catalogRepository

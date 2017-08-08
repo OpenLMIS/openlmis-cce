@@ -60,19 +60,25 @@ public class CatalogItemRepositoryIntegrationTest
 
     when(pageable.getPageSize()).thenReturn(10);
     when(pageable.getPageNumber()).thenReturn(0);
-  }
 
-  @Test
-  public void shouldFindCatalogItemBasedOnGivenParams() {
     CatalogItem itemArchived = new CatalogItem(true, "equipment-code2",
         "type2", "model2", "producent2", EnergySource.GASOLINE, 2017,
         StorageTemperature.PLUS1, 10, -10, "HIGH", 2, 2, 2,
         new Dimensions(10, 20, 30), false, true);
-
     repository.save(itemArchived);
+  }
 
+  @Test
+  public void shouldFindCatalogItemBasedOnGivenParams() {
     Page<CatalogItem> foundItem =
         repository.findByArchivedAndTypeAndVisibleInCatalog(false, "type", true, pageable);
+    assertEquals(Collections.singletonList(catalogItem), foundItem.getContent());
+  }
+
+  @Test
+  public void shouldFindCatalogItemBasedOnArchivedAndVisibleInCatalog() {
+    Page<CatalogItem> foundItem =
+        repository.findByArchivedAndVisibleInCatalog(false, true, pageable);
     assertEquals(Collections.singletonList(catalogItem), foundItem.getContent());
   }
 }
