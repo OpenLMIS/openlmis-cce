@@ -108,7 +108,7 @@ public class CatalogItemController extends BaseController {
   /**
    * Retrieves all CCE Catalog items with specified query params.
    *
-   * @param queryParams request parameters (archived, type, visibleInCatalog).
+   * @param queryParams request parameters: archived, type (optional), visibleInCatalog.
    * @param pageable object used to encapsulate the pagination related values: page and size.
    * @return List of wanted catalog items matching query parameters.
    */

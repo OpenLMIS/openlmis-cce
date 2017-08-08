@@ -31,4 +31,8 @@ public interface CatalogItemRepository extends PagingAndSortingRepository<Catalo
                                                              String type,
                                                              Boolean visibleInCatalog,
                                                              Pageable pageable);
+
+  Page<CatalogItem> findByArchivedAndVisibleInCatalog(Boolean archived,
+                                                      Boolean visibleInCatalog,
+                                                      Pageable pageable);
 }

@@ -56,8 +56,11 @@ public class CatalogItemService {
           CatalogItemMessageKeys.ERROR_SEARCH_LACKS_PARAMS);
     }
 
-    return catalogRepository.findByArchivedAndTypeAndVisibleInCatalog(
-        archived, type, visibleInCatalog, pageable);
+    if (type != null) {
+      return catalogRepository.findByArchivedAndTypeAndVisibleInCatalog(
+          archived, type, visibleInCatalog, pageable);
+    }
+    return catalogRepository.findByArchivedAndVisibleInCatalog(
+        archived, visibleInCatalog, pageable);
   }
-
 }
