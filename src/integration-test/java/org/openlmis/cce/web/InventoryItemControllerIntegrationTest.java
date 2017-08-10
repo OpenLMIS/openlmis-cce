@@ -40,6 +40,7 @@ import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.domain.ManualTemperatureGaugeType;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
+import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
 import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
@@ -120,11 +121,11 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
     inventoryItemDto = new InventoryItemDto(
       facility, catalogItemDto, UUID.randomUUID(), "someUniqueId", "eqTrackingId",
-      "some-serial-number", "Some Reference Name", "abc123", 2010, 2020, "some source",
+      "Some Reference Name", "abc123", 2010, 2020, "some source",
       FunctionalStatus.FUNCTIONING, true,  ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
       Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
       VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
-      "someMonitorId", "example notes", null, userDto
+      RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId", "example notes", null, null, userDto
     );
 
     inventoryItem = InventoryItem.newInstance(inventoryItemDto, null);
@@ -223,11 +224,12 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   public void shouldNotUpdateInvariantInventoryItemFieldsIfInventoryExists() {
     InventoryItemDto existing = new InventoryItemDto(
         facility, catalogItemDto, UUID.randomUUID(), "otherUniqueId", "eqTrackingId2",
-        "some-serial-number", "Some Reference Name", "zxc321", 2005, 2025, "some other source",
+        "Some Reference Name", "zxc321", 2005, 2025, "some other source",
         FunctionalStatus.NON_FUNCTIONING, false, ReasonNotWorkingOrNotInUse.DEAD,
         Utilization.NOT_IN_USE, VoltageStabilizerStatus.UNKNOWN,
         BackupGeneratorStatus.NOT_APPLICABLE, VoltageRegulatorStatus.NOT_APPLICABLE,
-        ManualTemperatureGaugeType.NO_GAUGE, "someMonitorId2", "other example notes", null, null
+        ManualTemperatureGaugeType.NO_GAUGE, RemoteTemperatureMonitorType.BUILD_IN,
+        "someMonitorId2", "other example notes", null, null, null
     );
 
     InventoryItem existingItem = InventoryItem.newInstance(existing, null);

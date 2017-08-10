@@ -22,6 +22,7 @@ import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.domain.ManualTemperatureGaugeType;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
+import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
 import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
@@ -57,11 +58,11 @@ public class InventoryItemRepositoryIntegrationTest
     catalogItem = catalogItemRepository.save(catalogItem);
 
     return new InventoryItem(UUID.randomUUID(), catalogItem, UUID.randomUUID(),
-        "uniqueId" + getNextInstanceNumber(), "eqTrackingId", "abc123","some-serial-number",
-        "Some Reference Name",  2010, 2020, "some source", FunctionalStatus.FUNCTIONING, true,
+        "uniqueId" + getNextInstanceNumber(), "eqTrackingId", "abc123", "Some Reference Name",
+        2010, 2020,  "some source", FunctionalStatus.FUNCTIONING, true,
         ReasonNotWorkingOrNotInUse.NOT_APPLICABLE, Utilization.ACTIVE,
         VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,
-        ManualTemperatureGaugeType.BUILD_IN, "someMonitorId", "example notes", null,
-        UUID.randomUUID());
+        ManualTemperatureGaugeType.BUILD_IN, RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId",
+        "example notes", null, null, UUID.randomUUID());
   }
 }

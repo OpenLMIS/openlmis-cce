@@ -23,6 +23,7 @@ import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.domain.ManualTemperatureGaugeType;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
+import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
@@ -33,6 +34,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -53,8 +55,6 @@ public class InventoryItemDto extends BaseDto
   private String uniqueId;
 
   private String equipmentTrackingId;
-
-  private String serialNumber;
 
   private String referenceName;
 
@@ -82,9 +82,13 @@ public class InventoryItemDto extends BaseDto
 
   private ManualTemperatureGaugeType manualTemperatureGauge;
 
+  private RemoteTemperatureMonitorType remoteTemperatureMonitor;
+
   private String remoteTemperatureMonitorId;
 
   private String additionalNotes;
+
+  private LocalDate decommissionDate;
 
   private ZonedDateTime modifiedDate;
 

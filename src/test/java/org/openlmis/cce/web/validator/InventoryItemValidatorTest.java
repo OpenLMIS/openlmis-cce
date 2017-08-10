@@ -17,10 +17,13 @@ package org.openlmis.cce.web.validator;
 
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_BACKUP_GENERATOR_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_CATALOG_ITEM_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_DECOMMISSION_DATE_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_FACILITY_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_FUNCTIONAL_STATUS_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_MANUAL_TEMPERATURE_GAUGE_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_PROGRAM_ID_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REFERENCE_NAME_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REQUIRES_ATTENTION_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_UNIQUE_ID_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_UTILIZATION_REQUIRED;
@@ -39,6 +42,7 @@ import org.openlmis.cce.domain.BackupGeneratorStatus;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.ManualTemperatureGaugeType;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
+import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
@@ -75,12 +79,12 @@ public class InventoryItemValidatorTest {
     facility.setId(UUID.randomUUID());
 
     inventoryItemDto = new InventoryItemDto(facility, catalogItemDto, UUID.randomUUID(),
-        "someUniqueId", "eqTrackingId","some-serial-number", "Some Reference Name", "abc123",
-        2010, 2020, "some source",
-        FunctionalStatus.FUNCTIONING, true, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
-        Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
-        VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
-        "someMonitorId", "example notes", null, null);
+        "someUniqueId", "eqTrackingId", "Some Reference Name", "abc123", 2010, 2020,
+        "some source", FunctionalStatus.FUNCTIONING, true,
+        ReasonNotWorkingOrNotInUse.NOT_APPLICABLE, Utilization.ACTIVE,
+        VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,
+        ManualTemperatureGaugeType.BUILD_IN, RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId",
+        "example notes", null, null, null);
   }
 
   @Test
@@ -216,6 +220,40 @@ public class InventoryItemValidatorTest {
         new Message(ERROR_MANUAL_TEMPERATURE_GAUGE_REQUIRED, "").toString());
 
     inventoryItemDto.setManualTemperatureGauge(null);
+
+    inventoryItemValidator.validate(inventoryItemDto);
+  }
+
+  @Test
+  public void shouldThrowExceptionIfReferenceNameIsNull() {
+    expectedEx.expect(ValidationMessageException.class);
+    expectedEx.expectMessage(
+        new Message(ERROR_REFERENCE_NAME_REQUIRED, "").toString());
+
+    inventoryItemDto.setReferenceName(null);
+
+    inventoryItemValidator.validate(inventoryItemDto);
+  }
+
+  @Test
+  public void shouldThrowExceptionIfStatusIsObsoleteAndDecommissionDateIsNull() {
+    expectedEx.expect(ValidationMessageException.class);
+    expectedEx.expectMessage(
+        new Message(ERROR_DECOMMISSION_DATE_REQUIRED, "").toString());
+
+    inventoryItemDto.setFunctionalStatus(FunctionalStatus.OBSOLETE);
+    inventoryItemDto.setDecommissionDate(null);
+
+    inventoryItemValidator.validate(inventoryItemDto);
+  }
+
+  @Test
+  public void shouldThrowExceptionIfRemoteTemperatureMonitorTypeIsNull() {
+    expectedEx.expect(ValidationMessageException.class);
+    expectedEx.expectMessage(
+        new Message(ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED, "").toString());
+
+    inventoryItemDto.setRemoteTemperatureMonitor(null);
 
     inventoryItemValidator.validate(inventoryItemDto);
   }

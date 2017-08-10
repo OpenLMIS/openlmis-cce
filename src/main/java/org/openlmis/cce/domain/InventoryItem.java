@@ -24,6 +24,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -66,9 +67,6 @@ public class InventoryItem extends BaseEntity {
 
   @Column(columnDefinition = TEXT)
   private String equipmentTrackingId;
-
-  @Column(columnDefinition = TEXT, nullable = false)
-  private String serialNumber;
 
   @Column(columnDefinition = TEXT, nullable = false)
   private String referenceName;
@@ -114,11 +112,17 @@ public class InventoryItem extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private ManualTemperatureGaugeType manualTemperatureGauge;
 
+  @Column(nullable = false)
+  @Enumerated(EnumType.STRING)
+  private RemoteTemperatureMonitorType remoteTemperatureMonitor;
+
   @Column(columnDefinition = TEXT)
   private String remoteTemperatureMonitorId;
 
   @Column(columnDefinition = TEXT)
   private String additionalNotes;
+
+  private LocalDate decommissionDate;
 
   @Column(columnDefinition = "timestamp with time zone")
   private ZonedDateTime modifiedDate;
@@ -153,7 +157,6 @@ public class InventoryItem extends BaseEntity {
     inventoryItem.programId = importer.getProgramId();
     inventoryItem.uniqueId = importer.getUniqueId();
     inventoryItem.equipmentTrackingId = importer.getEquipmentTrackingId();
-    inventoryItem.serialNumber = importer.getSerialNumber();
     inventoryItem.referenceName = importer.getReferenceName();
     inventoryItem.barCode = importer.getBarCode();
     inventoryItem.yearOfInstallation = importer.getYearOfInstallation();
@@ -166,8 +169,10 @@ public class InventoryItem extends BaseEntity {
     inventoryItem.voltageStabilizer = importer.getVoltageStabilizer();
     inventoryItem.backupGenerator = importer.getBackupGenerator();
     inventoryItem.voltageRegulator = importer.getVoltageRegulator();
+    inventoryItem.remoteTemperatureMonitor = importer.getRemoteTemperatureMonitor();
     inventoryItem.manualTemperatureGauge = importer.getManualTemperatureGauge();
     inventoryItem.remoteTemperatureMonitorId = importer.getRemoteTemperatureMonitorId();
+    inventoryItem.decommissionDate = importer.getDecommissionDate();
     inventoryItem.additionalNotes = importer.getAdditionalNotes();
     inventoryItem.lastModifierId = lastModifierId;
 
@@ -200,7 +205,6 @@ public class InventoryItem extends BaseEntity {
     exporter.setProgramId(programId);
     exporter.setUniqueId(uniqueId);
     exporter.setEquipmentTrackingId(equipmentTrackingId);
-    exporter.setSerialNumber(serialNumber);
     exporter.setReferenceName(referenceName);
     exporter.setBarCode(barCode);
     exporter.setYearOfInstallation(yearOfInstallation);
@@ -215,7 +219,9 @@ public class InventoryItem extends BaseEntity {
     exporter.setVoltageRegulator(voltageRegulator);
     exporter.setManualTemperatureGauge(manualTemperatureGauge);
     exporter.setRemoteTemperatureMonitorId(remoteTemperatureMonitorId);
+    exporter.setRemoteTemperatureMonitor(remoteTemperatureMonitor);
     exporter.setAdditionalNotes(additionalNotes);
+    exporter.setDecommissionDate(decommissionDate);
     exporter.setModifiedDate(modifiedDate);
     exporter.setLastModifierId(lastModifierId);
   }
@@ -232,8 +238,6 @@ public class InventoryItem extends BaseEntity {
     void setUniqueId(String uniqueId);
 
     void setEquipmentTrackingId(String equipmentTrackingId);
-
-    void setSerialNumber(String serialNumber);
 
     void setReferenceName(String referenceName);
 
@@ -263,7 +267,11 @@ public class InventoryItem extends BaseEntity {
 
     void setRemoteTemperatureMonitorId(String remoteTemperatureMonitorId);
 
+    void setRemoteTemperatureMonitor(RemoteTemperatureMonitorType remoteTemperatureMonitor);
+
     void setAdditionalNotes(String additionalNotes);
+
+    void setDecommissionDate(LocalDate decommissionDate);
 
     void setModifiedDate(ZonedDateTime modifiedDate);
 
@@ -282,8 +290,6 @@ public class InventoryItem extends BaseEntity {
     String getUniqueId();
 
     String getEquipmentTrackingId();
-
-    String getSerialNumber();
 
     String getReferenceName();
 
@@ -310,6 +316,10 @@ public class InventoryItem extends BaseEntity {
     VoltageRegulatorStatus getVoltageRegulator();
 
     ManualTemperatureGaugeType getManualTemperatureGauge();
+
+    RemoteTemperatureMonitorType getRemoteTemperatureMonitor();
+
+    LocalDate getDecommissionDate();
 
     String getRemoteTemperatureMonitorId();
 

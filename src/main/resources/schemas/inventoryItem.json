@@ -30,10 +30,6 @@
       "type": "string",
       "title": "equipmentTrackingId"
     },
-    "serialNumber": {
-      "type": "string",
-      "title": "serialNumber"
-    },
     "referenceName": {
       "type": "string",
       "title": "referenceName"
@@ -123,6 +119,14 @@
       ],
       "title": "manualTemperatureGauge"
     },
+    "remoteTemperatureMonitor": {
+      "enum": [
+        "BUILD_IN",
+        "PAIRED",
+        "NO_RTM"
+      ],
+      "title": "remoteTemperatureMonitor"
+    },
     "remoteTemperatureMonitorId": {
       "type": "string",
       "title": "remoteTemperatureMonitorId"
@@ -130,6 +134,10 @@
     "additionalNotes": {
       "type": "string",
       "title": "additionalNotes"
+    },
+    "decommissionDate": {
+      "type": ["string", "null"],
+      "title": "decommissionDate"
     },
     "modifiedDate": {
       "type": ["string", "null"],
@@ -147,11 +155,13 @@
     "uniqueId",
     "yearOfInstallation",
     "functionalStatus",
+    "referenceName",
     "requiresAttention",
     "utilization",
     "voltageStabilizer",
     "backupGenerator",
     "voltageRegulator",
-    "manualTemperatureGauge"
+    "manualTemperatureGauge",
+    "remoteTemperatureMonitor"
   ]
 }

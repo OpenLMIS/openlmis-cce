@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.web.validator;
 
+import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.i18n.InventoryItemMessageKeys;
@@ -59,6 +60,15 @@ public class InventoryItemValidator {
         InventoryItemMessageKeys.ERROR_VOLTAGE_REGULATOR_REQUIRED);
     validateNotNull(inventoryItem.getManualTemperatureGauge(),
         InventoryItemMessageKeys.ERROR_MANUAL_TEMPERATURE_GAUGE_REQUIRED);
+    validateNotNull(inventoryItem.getReferenceName(),
+        InventoryItemMessageKeys.ERROR_REFERENCE_NAME_REQUIRED);
+    validateNotNull(inventoryItem.getRemoteTemperatureMonitor(),
+        InventoryItemMessageKeys.ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED);
+
+    if (inventoryItem.getFunctionalStatus().equals(FunctionalStatus.OBSOLETE)) {
+      validateNotNull(inventoryItem.getDecommissionDate(),
+          InventoryItemMessageKeys.ERROR_DECOMMISSION_DATE_REQUIRED);
+    }
   }
 
   private void validateNotNull(Object field, String errorMessage) {
