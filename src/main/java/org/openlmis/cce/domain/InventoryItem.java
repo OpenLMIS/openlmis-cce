@@ -38,6 +38,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 @NoArgsConstructor
 @AllArgsConstructor
@@ -45,7 +46,9 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @TypeName("Inventory")
-@Table(name = "cce_inventory_items")
+@Table(name = "cce_inventory_items", uniqueConstraints =
+    @UniqueConstraint(name = "unq_inventory_catalog_eqid",
+          columnNames = { "catalogitemid", "equipmenttrackingid" }))
 @EqualsAndHashCode(callSuper = true)
 public class InventoryItem extends BaseEntity {
 
