@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.repository;
 
+import org.junit.Test;
 import org.openlmis.cce.domain.BackupGeneratorStatus;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.EnergySource;
@@ -29,6 +30,9 @@ import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.repository.CrudRepository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import java.util.UUID;
 
 public class InventoryItemRepositoryIntegrationTest
@@ -40,6 +44,9 @@ public class InventoryItemRepositoryIntegrationTest
   @Autowired
   private CatalogItemRepository catalogItemRepository;
 
+  @Autowired
+  private EntityManager entityManager;
+
   @Override
   CrudRepository<InventoryItem, UUID> getRepository() {
     return repository;
@@ -47,15 +54,24 @@ public class InventoryItemRepositoryIntegrationTest
 
   @Override
   InventoryItem generateInstance() {
-    CatalogItem catalogItem = new CatalogItem();
-    catalogItem.setFromPqsCatalog(true);
-    catalogItem.setType("type");
-    catalogItem.setModel("model");
-    catalogItem.setManufacturer("manufacturer");
-    catalogItem.setEnergySource(EnergySource.ELECTRIC);
-    catalogItem.setStorageTemperature(StorageTemperature.MINUS10);
-    catalogItem.setArchived(false);
-    catalogItem = catalogItemRepository.save(catalogItem);
+    return generateInstance(null);
+  }
+
+  InventoryItem generateInstance(CatalogItem catalogItemToUse) {
+    CatalogItem catalogItem;
+    if (catalogItemToUse == null) {
+      catalogItem = new CatalogItem();
+      catalogItem.setFromPqsCatalog(true);
+      catalogItem.setType("type");
+      catalogItem.setModel("model");
+      catalogItem.setManufacturer("manufacturer");
+      catalogItem.setEnergySource(EnergySource.ELECTRIC);
+      catalogItem.setStorageTemperature(StorageTemperature.MINUS10);
+      catalogItem.setArchived(false);
+      catalogItem = catalogItemRepository.save(catalogItem);
+    } else {
+      catalogItem = catalogItemToUse;
+    }
 
     return new InventoryItem(UUID.randomUUID(), catalogItem, UUID.randomUUID(),
         "eqTrackingId", "abc123", "Some Reference Name",
@@ -64,5 +80,19 @@ public class InventoryItemRepositoryIntegrationTest
         VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,
         ManualTemperatureGaugeType.BUILD_IN, RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId",
         "example notes", null, null, UUID.randomUUID());
+  }
+
+  @Test(expected = PersistenceException.class)
+  public void shouldNotAllowItemsWithSameEquipmentIdAndCatalogItem() {
+    InventoryItem item = generateInstance();
+    InventoryItem item2 = generateInstance(item.getCatalogItem());
+
+    item.setEquipmentTrackingId("SAME_ID");
+    item2.setEquipmentTrackingId("SAME_ID");
+
+    repository.save(item);
+    repository.save(item2);
+
+    entityManager.flush();
   }
 }

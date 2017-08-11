@@ -45,7 +45,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @TypeName("Inventory")
-@Table(name = "cce_inventory")
+@Table(name = "cce_inventory_items")
 @EqualsAndHashCode(callSuper = true)
 public class InventoryItem extends BaseEntity {
 

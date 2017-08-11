@@ -37,7 +37,7 @@ import javax.persistence.Table;
 @Setter
 @Entity
 @TypeName("Catalog")
-@Table(name = "cce_catalog")
+@Table(name = "cce_catalog_items")
 @EqualsAndHashCode(callSuper = true)
 public class CatalogItem extends BaseEntity {
 
