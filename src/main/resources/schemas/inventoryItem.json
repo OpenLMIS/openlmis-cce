@@ -22,10 +22,6 @@
       "type": "string",
       "title": "programId"
     },
-    "uniqueId": {
-      "type": "string",
-      "title": "uniqueId"
-    },
     "equipmentTrackingId": {
       "type": "string",
       "title": "equipmentTrackingId"
@@ -152,7 +148,6 @@
     "catalogItem",
     "facility",
     "programId",
-    "uniqueId",
     "yearOfInstallation",
     "functionalStatus",
     "referenceName",

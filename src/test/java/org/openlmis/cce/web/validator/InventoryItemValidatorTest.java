@@ -25,7 +25,6 @@ import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_PROGRAM_ID_RE
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REFERENCE_NAME_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REQUIRES_ATTENTION_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_UNIQUE_ID_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_UTILIZATION_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_VOLTAGE_REGULATOR_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_VOLTAGE_STABILIZER_REQUIRED;
@@ -79,7 +78,7 @@ public class InventoryItemValidatorTest {
     facility.setId(UUID.randomUUID());
 
     inventoryItemDto = new InventoryItemDto(facility, catalogItemDto, UUID.randomUUID(),
-        "someUniqueId", "eqTrackingId", "Some Reference Name", "abc123", 2010, 2020,
+        "eqTrackingId", "Some Reference Name", "abc123", 2010, 2020,
         "some source", FunctionalStatus.FUNCTIONING, true,
         ReasonNotWorkingOrNotInUse.NOT_APPLICABLE, Utilization.ACTIVE,
         VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,
@@ -121,17 +120,6 @@ public class InventoryItemValidatorTest {
         new Message(ERROR_PROGRAM_ID_REQUIRED, "").toString());
 
     inventoryItemDto.setProgramId(null);
-
-    inventoryItemValidator.validate(inventoryItemDto);
-  }
-
-  @Test
-  public void shouldThrowExceptionIfUniqueIdIsNull() {
-    expectedEx.expect(ValidationMessageException.class);
-    expectedEx.expectMessage(
-        new Message(ERROR_UNIQUE_ID_REQUIRED, "").toString());
-
-    inventoryItemDto.setUniqueId(null);
 
     inventoryItemValidator.validate(inventoryItemDto);
   }

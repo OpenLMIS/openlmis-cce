@@ -58,7 +58,7 @@ public class InventoryItemRepositoryIntegrationTest
     catalogItem = catalogItemRepository.save(catalogItem);
 
     return new InventoryItem(UUID.randomUUID(), catalogItem, UUID.randomUUID(),
-        "uniqueId" + getNextInstanceNumber(), "eqTrackingId", "abc123", "Some Reference Name",
+        "eqTrackingId", "abc123", "Some Reference Name",
         2010, 2020,  "some source", FunctionalStatus.FUNCTIONING, true,
         ReasonNotWorkingOrNotInUse.NOT_APPLICABLE, Utilization.ACTIVE,
         VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,

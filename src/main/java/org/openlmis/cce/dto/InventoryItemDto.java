@@ -52,8 +52,6 @@ public class InventoryItemDto extends BaseDto
 
   private UUID programId;
 
-  private String uniqueId;
-
   private String equipmentTrackingId;
 
   private String referenceName;

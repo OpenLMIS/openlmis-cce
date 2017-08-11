@@ -42,8 +42,6 @@ public class InventoryItemValidator {
         InventoryItemMessageKeys.ERROR_FACILITY_REQUIRED);
     validateNotNull(inventoryItem.getProgramId(),
         InventoryItemMessageKeys.ERROR_PROGRAM_ID_REQUIRED);
-    validateNotNull(inventoryItem.getUniqueId(),
-        InventoryItemMessageKeys.ERROR_UNIQUE_ID_REQUIRED);
     validateNotNull(inventoryItem.getYearOfInstallation(),
         InventoryItemMessageKeys.ERROR_YEAR_OF_INSTALLATION_REQUIRED);
     validateNotNull(inventoryItem.getFunctionalStatus(),

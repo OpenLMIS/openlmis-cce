@@ -62,9 +62,6 @@ public class InventoryItem extends BaseEntity {
   @Column(nullable = false)
   private UUID programId;
 
-  @Column(columnDefinition = TEXT, nullable = false)
-  private String uniqueId;
-
   @Column(columnDefinition = TEXT)
   private String equipmentTrackingId;
 
@@ -155,7 +152,6 @@ public class InventoryItem extends BaseEntity {
     inventoryItem.facilityId = importer.getFacilityId();
     inventoryItem.setCatalogItem(CatalogItem.newInstance(importer.getCatalogItem()));
     inventoryItem.programId = importer.getProgramId();
-    inventoryItem.uniqueId = importer.getUniqueId();
     inventoryItem.equipmentTrackingId = importer.getEquipmentTrackingId();
     inventoryItem.referenceName = importer.getReferenceName();
     inventoryItem.barCode = importer.getBarCode();
@@ -189,7 +185,6 @@ public class InventoryItem extends BaseEntity {
       programId = item.getProgramId();
       facilityId = item.getFacilityId();
       catalogItem = item.getCatalogItem();
-      uniqueId = item.getUniqueId();
     }
   }
 
@@ -203,7 +198,6 @@ public class InventoryItem extends BaseEntity {
     exporter.setFacilityId(facilityId);
     exporter.setCatalogItem(catalogItem);
     exporter.setProgramId(programId);
-    exporter.setUniqueId(uniqueId);
     exporter.setEquipmentTrackingId(equipmentTrackingId);
     exporter.setReferenceName(referenceName);
     exporter.setBarCode(barCode);
@@ -234,8 +228,6 @@ public class InventoryItem extends BaseEntity {
     void setCatalogItem(CatalogItem catalogItemId);
 
     void setProgramId(UUID programId);
-
-    void setUniqueId(String uniqueId);
 
     void setEquipmentTrackingId(String equipmentTrackingId);
 
@@ -286,8 +278,6 @@ public class InventoryItem extends BaseEntity {
     CatalogItem.Importer getCatalogItem();
 
     UUID getProgramId();
-
-    String getUniqueId();
 
     String getEquipmentTrackingId();
 

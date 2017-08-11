@@ -120,7 +120,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     catalogItem.export(catalogItemDto);
 
     inventoryItemDto = new InventoryItemDto(
-      facility, catalogItemDto, UUID.randomUUID(), "someUniqueId", "eqTrackingId",
+      facility, catalogItemDto, UUID.randomUUID(), "eqTrackingId",
       "Some Reference Name", "abc123", 2010, 2020, "some source",
       FunctionalStatus.FUNCTIONING, true,  ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
       Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
@@ -223,7 +223,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @Test
   public void shouldNotUpdateInvariantInventoryItemFieldsIfInventoryExists() {
     InventoryItemDto existing = new InventoryItemDto(
-        facility, catalogItemDto, UUID.randomUUID(), "otherUniqueId", "eqTrackingId2",
+        facility, catalogItemDto, UUID.randomUUID(), "eqTrackingId2",
         "Some Reference Name", "zxc321", 2005, 2025, "some other source",
         FunctionalStatus.NON_FUNCTIONING, false, ReasonNotWorkingOrNotInUse.DEAD,
         Utilization.NOT_IN_USE, VoltageStabilizerStatus.UNKNOWN,
@@ -244,7 +244,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     assertEquals(existing.getFacility().getId(), response.getFacility().getId());
     assertEquals(existing.getProgramId(), response.getProgramId());
     assertEquals(existing.getCatalogItem(), response.getCatalogItem());
-    assertEquals(existing.getUniqueId(), response.getUniqueId());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
