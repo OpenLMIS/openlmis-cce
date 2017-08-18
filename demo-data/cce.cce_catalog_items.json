@@ -37,6 +37,23 @@
     "archived": "false"
   },
   {
+    "id": "16276e25-ad2f-4f0d-ac24-f1955f0a503e",
+    "fromPqsCatalog": "true",
+    "equipmentCode": "E003/023",
+    "type": "Freezer",
+    "model": "MF 314*",
+    "manufacturer": "Vestfrost",
+    "energySource": "ELECTRIC",
+    "dateOfPrequal": "2011",
+    "storageTemperature": "MINUS12",
+    "maxOperatingTemp": 43,
+    "energyConsumption": "4.23kW/day",
+    "holdoverTime": 4,
+    "grossVolume": 281,
+    "visibleInCatalog": "true",
+    "archived": "false"
+  },
+  {
     "id": "a4a83bb8-8ad1-416f-a2e1-831477565820",
     "fromPqsCatalog": "true",
     "equipmentCode": "E003/005",
@@ -52,6 +69,6 @@
     "holdoverTime": 27,
     "netVolume": 45,
     "visibleInCatalog": "true",
-    "archived": "false"
+    "archived": "true"
   }
 ]
