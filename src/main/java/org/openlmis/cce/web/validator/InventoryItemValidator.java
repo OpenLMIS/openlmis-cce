@@ -64,7 +64,7 @@ public class InventoryItemValidator {
         InventoryItemMessageKeys.ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED);
 
     if (inventoryItem.getFunctionalStatus().equals(FunctionalStatus.OBSOLETE)) {
-      validateNotNull(inventoryItem.getDecommissionDate(),
+      validateNotNull(inventoryItem.getDecommissionYear(),
           InventoryItemMessageKeys.ERROR_DECOMMISSION_DATE_REQUIRED);
     }
   }

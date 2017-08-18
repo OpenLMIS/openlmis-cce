@@ -24,7 +24,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.Collection;
 import java.util.List;
@@ -122,7 +121,7 @@ public class InventoryItem extends BaseEntity {
   @Column(columnDefinition = TEXT)
   private String additionalNotes;
 
-  private LocalDate decommissionDate;
+  private Integer decommissionYear;
 
   @Column(columnDefinition = "timestamp with time zone")
   private ZonedDateTime modifiedDate;
@@ -171,7 +170,7 @@ public class InventoryItem extends BaseEntity {
     inventoryItem.remoteTemperatureMonitor = importer.getRemoteTemperatureMonitor();
     inventoryItem.manualTemperatureGauge = importer.getManualTemperatureGauge();
     inventoryItem.remoteTemperatureMonitorId = importer.getRemoteTemperatureMonitorId();
-    inventoryItem.decommissionDate = importer.getDecommissionDate();
+    inventoryItem.decommissionYear = importer.getDecommissionYear();
     inventoryItem.additionalNotes = importer.getAdditionalNotes();
     inventoryItem.lastModifierId = lastModifierId;
 
@@ -218,7 +217,7 @@ public class InventoryItem extends BaseEntity {
     exporter.setRemoteTemperatureMonitorId(remoteTemperatureMonitorId);
     exporter.setRemoteTemperatureMonitor(remoteTemperatureMonitor);
     exporter.setAdditionalNotes(additionalNotes);
-    exporter.setDecommissionDate(decommissionDate);
+    exporter.setDecommissionYear(decommissionYear);
     exporter.setModifiedDate(modifiedDate);
     exporter.setLastModifierId(lastModifierId);
   }
@@ -266,7 +265,7 @@ public class InventoryItem extends BaseEntity {
 
     void setAdditionalNotes(String additionalNotes);
 
-    void setDecommissionDate(LocalDate decommissionDate);
+    void setDecommissionYear(Integer decommissionYear);
 
     void setModifiedDate(ZonedDateTime modifiedDate);
 
@@ -312,7 +311,7 @@ public class InventoryItem extends BaseEntity {
 
     RemoteTemperatureMonitorType getRemoteTemperatureMonitor();
 
-    LocalDate getDecommissionDate();
+    Integer getDecommissionYear();
 
     String getRemoteTemperatureMonitorId();
 

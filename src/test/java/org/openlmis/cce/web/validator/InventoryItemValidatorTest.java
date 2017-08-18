@@ -230,7 +230,7 @@ public class InventoryItemValidatorTest {
         new Message(ERROR_DECOMMISSION_DATE_REQUIRED, "").toString());
 
     inventoryItemDto.setFunctionalStatus(FunctionalStatus.OBSOLETE);
-    inventoryItemDto.setDecommissionDate(null);
+    inventoryItemDto.setDecommissionYear(null);
 
     inventoryItemValidator.validate(inventoryItemDto);
   }

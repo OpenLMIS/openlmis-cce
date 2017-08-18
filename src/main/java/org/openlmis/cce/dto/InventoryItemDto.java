@@ -34,7 +34,6 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
@@ -86,7 +85,7 @@ public class InventoryItemDto extends BaseDto
 
   private String additionalNotes;
 
-  private LocalDate decommissionDate;
+  private Integer decommissionYear;
 
   private ZonedDateTime modifiedDate;
 

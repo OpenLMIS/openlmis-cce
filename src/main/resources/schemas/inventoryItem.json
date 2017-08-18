@@ -49,9 +49,9 @@
     "functionalStatus": {
       "enum": [
         "FUNCTIONING",
-        "NON_FUNCTIONG",
+        "NON_FUNCTIONING",
         "AWAITING_REPAIR",
-        "UNSERVICABLE",
+        "UNSERVICEABLE",
         "OBSOLETE"
       ],
       "title": "functionalStatus"
