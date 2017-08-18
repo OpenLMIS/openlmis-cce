@@ -26,6 +26,20 @@ services:
     environment:
       GRADLE_OPTS: '-Dorg.gradle.daemon=false $SONAR_LOGIN $SONAR_PASSWORD'
     env_file: .env
+  demo-data:
+    image: openlmis/dev:3
+    links:
+      - db
+      - log
+    volumes:
+      - '.:/app'
+    entrypoint:
+      - 'gradle'
+    command:
+      - 'demoDataSeed'
+    environment:
+      GRADLE_OPTS: '-Dorg.gradle.daemon=false'
+    env_file: .env
   image:
     build: .
     image: openlmis/cce

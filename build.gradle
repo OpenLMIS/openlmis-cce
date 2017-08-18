@@ -158,6 +158,12 @@ task checkApiIsRaml(type:Exec) {
     args "src/main/resources/api-definition.yaml"
 }
 
+
+task demoDataSeed(type:Exec) {
+    executable "./demo-data/demo_seed.sh"
+    args "demo-data", "build/demo-data", "demo-data/generator.js"
+}
+
 configure(checkApiIsRaml) {
     group = JavaBasePlugin.VERIFICATION_GROUP
     description = 'Verify that the api-specification is valid RAML'
@@ -254,4 +260,5 @@ check {
 build {
     dependsOn jacocoTestReport
     dependsOn check
+    dependsOn demoDataSeed
 }

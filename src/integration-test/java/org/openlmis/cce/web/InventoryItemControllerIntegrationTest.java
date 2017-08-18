@@ -121,7 +121,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
     inventoryItemDto = new InventoryItemDto(
       facility, catalogItemDto, UUID.randomUUID(), "eqTrackingId",
-      "Some Reference Name", "abc123", 2010, 2020, "some source",
+      "Some Reference Name", 2010, 2020, "some source",
       FunctionalStatus.FUNCTIONING, true,  ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
       Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
       VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
@@ -224,7 +224,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   public void shouldNotUpdateInvariantInventoryItemFieldsIfInventoryExists() {
     InventoryItemDto existing = new InventoryItemDto(
         facility, catalogItemDto, UUID.randomUUID(), "eqTrackingId2",
-        "Some Reference Name", "zxc321", 2005, 2025, "some other source",
+        "Some Reference Name", 2005, 2025, "some other source",
         FunctionalStatus.NON_FUNCTIONING, false, ReasonNotWorkingOrNotInUse.DEAD,
         Utilization.NOT_IN_USE, VoltageStabilizerStatus.UNKNOWN,
         BackupGeneratorStatus.NOT_APPLICABLE, VoltageRegulatorStatus.NOT_APPLICABLE,

@@ -70,9 +70,6 @@ public class InventoryItem extends BaseEntity {
   @Column(columnDefinition = TEXT, nullable = false)
   private String referenceName;
 
-  @Column(columnDefinition = TEXT)
-  private String barCode;
-
   @Column(nullable = false)
   private Integer yearOfInstallation;
 
@@ -156,7 +153,6 @@ public class InventoryItem extends BaseEntity {
     inventoryItem.programId = importer.getProgramId();
     inventoryItem.equipmentTrackingId = importer.getEquipmentTrackingId();
     inventoryItem.referenceName = importer.getReferenceName();
-    inventoryItem.barCode = importer.getBarCode();
     inventoryItem.yearOfInstallation = importer.getYearOfInstallation();
     inventoryItem.yearOfWarrantyExpiry = importer.getYearOfWarrantyExpiry();
     inventoryItem.source = importer.getSource();
@@ -202,7 +198,6 @@ public class InventoryItem extends BaseEntity {
     exporter.setProgramId(programId);
     exporter.setEquipmentTrackingId(equipmentTrackingId);
     exporter.setReferenceName(referenceName);
-    exporter.setBarCode(barCode);
     exporter.setYearOfInstallation(yearOfInstallation);
     exporter.setYearOfWarrantyExpiry(yearOfWarrantyExpiry);
     exporter.setSource(source);
@@ -234,8 +229,6 @@ public class InventoryItem extends BaseEntity {
     void setEquipmentTrackingId(String equipmentTrackingId);
 
     void setReferenceName(String referenceName);
-
-    void setBarCode(String barCode);
 
     void setYearOfInstallation(Integer yearOfInstallation);
 
@@ -284,8 +277,6 @@ public class InventoryItem extends BaseEntity {
     String getEquipmentTrackingId();
 
     String getReferenceName();
-
-    String getBarCode();
 
     Integer getYearOfInstallation();
 

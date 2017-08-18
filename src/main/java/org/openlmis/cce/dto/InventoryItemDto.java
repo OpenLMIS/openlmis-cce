@@ -55,8 +55,6 @@ public class InventoryItemDto extends BaseDto
 
   private String referenceName;
 
-  private String barCode;
-
   private Integer yearOfInstallation;
 
   private Integer yearOfWarrantyExpiry;
