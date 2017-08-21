@@ -16,7 +16,9 @@
 package org.openlmis.cce.domain;
 
 public enum ReasonNotWorkingOrNotInUse {
+  AWAITING_REPAIR,
   NEEDS_SPARE_PARTS,
+  UNSERVICEABLE,
   NO_FINANCE,
   NO_FUEL,
   SURPLUS,

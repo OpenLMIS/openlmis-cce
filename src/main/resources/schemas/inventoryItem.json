@@ -46,8 +46,6 @@
       "enum": [
         "FUNCTIONING",
         "NON_FUNCTIONING",
-        "AWAITING_REPAIR",
-        "UNSERVICEABLE",
         "OBSOLETE"
       ],
       "title": "functionalStatus"
@@ -58,7 +56,9 @@
     },
     "reasonNotWorkingOrNotInUse": {
       "enum": [
+        "AWAITING_REPAIR",
         "NEEDS_SPARE_PARTS",
+        "UNSERVICEABLE",
         "NO_FINANCE",
         "NO_FUEL",
         "SURPLUS",
