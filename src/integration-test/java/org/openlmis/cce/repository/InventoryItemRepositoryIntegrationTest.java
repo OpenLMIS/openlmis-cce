@@ -33,6 +33,7 @@ import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import java.time.LocalDate;
 import java.util.UUID;
 
 public class InventoryItemRepositoryIntegrationTest
@@ -79,7 +80,7 @@ public class InventoryItemRepositoryIntegrationTest
         ReasonNotWorkingOrNotInUse.NOT_APPLICABLE, Utilization.ACTIVE,
         VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,
         ManualTemperatureGaugeType.BUILD_IN, RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId",
-        "example notes", 2015, null, UUID.randomUUID());
+        "example notes", LocalDate.of(2017, 1, 1), null, UUID.randomUUID());
   }
 
   @Test(expected = PersistenceException.class)
