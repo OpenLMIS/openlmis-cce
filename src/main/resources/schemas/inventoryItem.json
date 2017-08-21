@@ -50,10 +50,6 @@
       ],
       "title": "functionalStatus"
     },
-    "requiresAttention": {
-      "type": "boolean",
-      "title": "requiresAttention"
-    },
     "reasonNotWorkingOrNotInUse": {
       "enum": [
         "AWAITING_REPAIR",
@@ -147,7 +143,6 @@
     "yearOfInstallation",
     "functionalStatus",
     "referenceName",
-    "requiresAttention",
     "utilization",
     "voltageStabilizer",
     "backupGenerator",

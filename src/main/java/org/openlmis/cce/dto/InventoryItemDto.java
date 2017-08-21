@@ -64,8 +64,6 @@ public class InventoryItemDto extends BaseDto
 
   private FunctionalStatus functionalStatus;
 
-  private Boolean requiresAttention;
-
   private ReasonNotWorkingOrNotInUse reasonNotWorkingOrNotInUse;
 
   private Utilization utilization;

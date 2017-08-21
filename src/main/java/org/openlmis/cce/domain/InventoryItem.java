@@ -83,9 +83,6 @@ public class InventoryItem extends BaseEntity {
   @Enumerated(EnumType.STRING)
   private FunctionalStatus functionalStatus;
 
-  @Column(nullable = false)
-  private Boolean requiresAttention;
-
   @Enumerated(EnumType.STRING)
   private ReasonNotWorkingOrNotInUse reasonNotWorkingOrNotInUse;
 
@@ -158,7 +155,6 @@ public class InventoryItem extends BaseEntity {
     inventoryItem.yearOfWarrantyExpiry = importer.getYearOfWarrantyExpiry();
     inventoryItem.source = importer.getSource();
     inventoryItem.functionalStatus = importer.getFunctionalStatus();
-    inventoryItem.requiresAttention = importer.getRequiresAttention();
     inventoryItem.reasonNotWorkingOrNotInUse = importer.getReasonNotWorkingOrNotInUse();
     inventoryItem.utilization = importer.getUtilization();
     inventoryItem.voltageStabilizer = importer.getVoltageStabilizer();
@@ -203,7 +199,6 @@ public class InventoryItem extends BaseEntity {
     exporter.setYearOfWarrantyExpiry(yearOfWarrantyExpiry);
     exporter.setSource(source);
     exporter.setFunctionalStatus(functionalStatus);
-    exporter.setRequiresAttention(requiresAttention);
     exporter.setReasonNotWorkingOrNotInUse(reasonNotWorkingOrNotInUse);
     exporter.setUtilization(utilization);
     exporter.setVoltageStabilizer(voltageStabilizer);
@@ -238,8 +233,6 @@ public class InventoryItem extends BaseEntity {
     void setSource(String source);
 
     void setFunctionalStatus(FunctionalStatus functionalStatus);
-
-    void setRequiresAttention(Boolean requiresAttention);
 
     void setReasonNotWorkingOrNotInUse(ReasonNotWorkingOrNotInUse reasonNotWorkingOrNotInUse);
 
@@ -286,8 +279,6 @@ public class InventoryItem extends BaseEntity {
     String getSource();
 
     FunctionalStatus getFunctionalStatus();
-
-    Boolean getRequiresAttention();
 
     ReasonNotWorkingOrNotInUse getReasonNotWorkingOrNotInUse();
 

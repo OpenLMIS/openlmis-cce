@@ -122,7 +122,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     inventoryItemDto = new InventoryItemDto(
       facility, catalogItemDto, UUID.randomUUID(), "eqTrackingId",
       "Some Reference Name", 2010, 2020, "some source",
-      FunctionalStatus.FUNCTIONING, true,  ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
+      FunctionalStatus.FUNCTIONING,  ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
       Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
       VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
       RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId", "example notes", null, null, userDto
@@ -225,7 +225,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     InventoryItemDto existing = new InventoryItemDto(
         facility, catalogItemDto, UUID.randomUUID(), "eqTrackingId2",
         "Some Reference Name", 2005, 2025, "some other source",
-        FunctionalStatus.NON_FUNCTIONING, false, ReasonNotWorkingOrNotInUse.DEAD,
+        FunctionalStatus.NON_FUNCTIONING, ReasonNotWorkingOrNotInUse.DEAD,
         Utilization.NOT_IN_USE, VoltageStabilizerStatus.UNKNOWN,
         BackupGeneratorStatus.NOT_APPLICABLE, VoltageRegulatorStatus.NOT_APPLICABLE,
         ManualTemperatureGaugeType.NO_GAUGE, RemoteTemperatureMonitorType.BUILD_IN,

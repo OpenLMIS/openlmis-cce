@@ -46,8 +46,6 @@ public class InventoryItemValidator {
         InventoryItemMessageKeys.ERROR_YEAR_OF_INSTALLATION_REQUIRED);
     validateNotNull(inventoryItem.getFunctionalStatus(),
         InventoryItemMessageKeys.ERROR_FUNCTIONAL_STATUS_REQUIRED);
-    validateNotNull(inventoryItem.getRequiresAttention(),
-        InventoryItemMessageKeys.ERROR_REQUIRES_ATTENTION_REQUIRED);
     validateNotNull(inventoryItem.getUtilization(),
         InventoryItemMessageKeys.ERROR_UTILIZATION_REQUIRED);
     validateNotNull(inventoryItem.getVoltageStabilizer(),

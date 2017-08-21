@@ -76,7 +76,7 @@ public class InventoryItemRepositoryIntegrationTest
 
     return new InventoryItem(UUID.randomUUID(), catalogItem, UUID.randomUUID(),
         "eqTrackingId", "Some Reference Name",
-        2010, 2020,  "some source", FunctionalStatus.FUNCTIONING, true,
+        2010, 2020,  "some source", FunctionalStatus.FUNCTIONING,
         ReasonNotWorkingOrNotInUse.NOT_APPLICABLE, Utilization.ACTIVE,
         VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,
         ManualTemperatureGaugeType.BUILD_IN, RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId",

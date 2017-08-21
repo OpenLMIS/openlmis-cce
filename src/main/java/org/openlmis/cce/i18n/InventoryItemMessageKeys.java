@@ -25,14 +25,10 @@ public class InventoryItemMessageKeys extends MessageKeys {
       join(ERROR_PREFIX, "facility", REQUIRED);
   public static final String ERROR_PROGRAM_ID_REQUIRED =
       join(ERROR_PREFIX, "programId", REQUIRED);
-  public static final String ERROR_UNIQUE_ID_REQUIRED =
-      join(ERROR_PREFIX, "uniqueId", REQUIRED);
   public static final String ERROR_YEAR_OF_INSTALLATION_REQUIRED =
       join(ERROR_PREFIX, "yearOfInstallation", REQUIRED);
   public static final String ERROR_FUNCTIONAL_STATUS_REQUIRED =
       join(ERROR_PREFIX, "functionalStatus", REQUIRED);
-  public static final String ERROR_REQUIRES_ATTENTION_REQUIRED =
-      join(ERROR_PREFIX, "requiresAttention", REQUIRED);
   public static final String ERROR_UTILIZATION_REQUIRED =
       join(ERROR_PREFIX, "utilization", REQUIRED);
   public static final String ERROR_VOLTAGE_STABILIZER_REQUIRED =

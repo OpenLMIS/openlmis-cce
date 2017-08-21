@@ -24,7 +24,6 @@ import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_MANUAL_TEMPER
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_PROGRAM_ID_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REFERENCE_NAME_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REQUIRES_ATTENTION_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_UTILIZATION_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_VOLTAGE_REGULATOR_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_VOLTAGE_STABILIZER_REQUIRED;
@@ -79,7 +78,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto = new InventoryItemDto(facility, catalogItemDto, UUID.randomUUID(),
         "eqTrackingId", "Some Reference Name", 2010, 2020,
-        "some source", FunctionalStatus.FUNCTIONING, true,
+        "some source", FunctionalStatus.FUNCTIONING,
         ReasonNotWorkingOrNotInUse.NOT_APPLICABLE, Utilization.ACTIVE,
         VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,
         ManualTemperatureGaugeType.BUILD_IN, RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId",
@@ -142,17 +141,6 @@ public class InventoryItemValidatorTest {
         new Message(ERROR_FUNCTIONAL_STATUS_REQUIRED, "").toString());
 
     inventoryItemDto.setFunctionalStatus(null);
-
-    inventoryItemValidator.validate(inventoryItemDto);
-  }
-
-  @Test
-  public void shouldThrowExceptionIfRequiresAttentionIsNull() {
-    expectedEx.expect(ValidationMessageException.class);
-    expectedEx.expectMessage(
-        new Message(ERROR_REQUIRES_ATTENTION_REQUIRED, "").toString());
-
-    inventoryItemDto.setRequiresAttention(null);
 
     inventoryItemValidator.validate(inventoryItemDto);
   }
