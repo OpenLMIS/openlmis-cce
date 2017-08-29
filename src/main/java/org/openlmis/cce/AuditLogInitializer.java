@@ -16,7 +16,6 @@
 package org.openlmis.cce;
 
 import static org.openlmis.cce.util.Pagination.DEFAULT_PAGE_NUMBER;
-import static org.openlmis.cce.util.Pagination.DEFAULT_PAGE_SIZE;
 
 import org.javers.core.Javers;
 import org.javers.core.metamodel.object.CdoSnapshot;
@@ -74,7 +73,7 @@ public class AuditLogInitializer implements CommandLineRunner {
   }
 
   private void createSnapshots(PagingAndSortingRepository<?, ?> repository) {
-    Pageable pageable = new PageRequest(DEFAULT_PAGE_NUMBER, DEFAULT_PAGE_SIZE);
+    Pageable pageable = new PageRequest(DEFAULT_PAGE_NUMBER, 2000);
 
     while (true) {
       Page<?> page = repository.findAll(pageable);
