@@ -15,11 +15,14 @@
 
 package org.openlmis.cce.web.upload;
 
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -29,6 +32,9 @@ import org.openlmis.cce.web.upload.recordhandler.CatalogItemPersistenceHandler;
 import java.util.UUID;
 
 public class CatalogItemPersistenceHandlerTest {
+
+  @Captor
+  private ArgumentCaptor<CatalogItem> catalogItemCaptor;
 
   private static final String EQCODE = "eqcode";
   public static final String SOME_TYPE = "someType";
@@ -59,8 +65,8 @@ public class CatalogItemPersistenceHandlerTest {
 
     catalogItemPersistenceHandler.execute(catalogItem);
 
-    catalogItem.setId(existingCatalogItem.getId());
-    verify(catalogItemRepository).save(catalogItem);
+    verify(catalogItemRepository).save(catalogItemCaptor.capture());
+    assertEquals(existingCatalogItem.getId(), catalogItemCaptor.getValue().getId());
   }
 
   @Test
@@ -68,7 +74,7 @@ public class CatalogItemPersistenceHandlerTest {
     CatalogItem existingCatalogItem = new CatalogItem();
     existingCatalogItem.setId(UUID.randomUUID());
 
-    catalogItem.setEquipmentCode(EQCODE);
+    catalogItem.setEquipmentCode(null);
     catalogItem.setType(SOME_TYPE);
     catalogItem.setModel(SOME_MODEL);
     when(catalogItemRepository.findByTypeAndModel(SOME_TYPE, SOME_MODEL))
@@ -76,8 +82,8 @@ public class CatalogItemPersistenceHandlerTest {
 
     catalogItemPersistenceHandler.execute(catalogItem);
 
-    catalogItem.setId(existingCatalogItem.getId());
-    verify(catalogItemRepository).save(catalogItem);
+    verify(catalogItemRepository).save(catalogItemCaptor.capture());
+    assertEquals(existingCatalogItem.getId(), catalogItemCaptor.getValue().getId());
   }
 
   @Test
