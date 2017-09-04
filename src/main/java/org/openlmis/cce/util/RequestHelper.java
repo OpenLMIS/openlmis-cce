@@ -44,14 +44,17 @@ public final class RequestHelper {
   public static URI createUri(String url, RequestParameters parameters) {
     UriComponentsBuilder builder = UriComponentsBuilder.newInstance().uri(URI.create(url));
 
-    parameters.forEach(e -> {
-      try {
-        builder.queryParam(e.getKey(),
-            UriUtils.encodeQueryParam(String.valueOf(e.getValue()), StandardCharsets.UTF_8.name()));
-      } catch (UnsupportedEncodingException ex) {
-        throw new EncodingException(ex);
-      }
-    });
+    if (parameters != null) {
+      parameters.forEach(e -> {
+        try {
+          builder.queryParam(e.getKey(),
+              UriUtils.encodeQueryParam(
+                  String.valueOf(e.getValue()), StandardCharsets.UTF_8.name()));
+        } catch (UnsupportedEncodingException ex) {
+          throw new EncodingException(ex);
+        }
+      });
+    }
 
     return builder.build(true).toUri();
   }
@@ -73,12 +76,12 @@ public final class RequestHelper {
   }
 
   /**
-   * Creates an {@link HttpEntity} and adds an authorizatior header with the provided token.
+   * Creates an {@link HttpEntity} and adds an authorization header with the provided token.
    * @param token the token to put into the authorization header
    * @return the {@link HttpEntity} to use
    */
-  public static HttpEntity createEntity(String token) {
-    return new HttpEntity(createHeadersWithAuth(token));
+  public static <E> HttpEntity<E> createEntity(String token) {
+    return new HttpEntity<>(createHeadersWithAuth(token));
   }
 
   private static HttpHeaders createHeadersWithAuth(String token) {

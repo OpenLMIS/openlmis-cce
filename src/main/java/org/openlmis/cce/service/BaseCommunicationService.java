@@ -186,7 +186,7 @@ public abstract class BaseCommunicationService<T> {
    * @param payload     body to include with the outgoing request.
    * @return Page of reference data T objects.
    */
-  protected Page<T> getPage(String resourceUrl, RequestParameters parameters, Object payload) {
+  public Page<T> getPage(String resourceUrl, RequestParameters parameters, Object payload) {
     return getPage(resourceUrl, parameters, payload, HttpMethod.POST, getResultClass());
   }
 

@@ -71,8 +71,4 @@ public class AuthService {
     return ((Map<String, String>) response.getBody()).get(ACCESS_TOKEN);
   }
 
-  void setRestTemplate(RestOperations restTemplate) {
-    this.restTemplate = restTemplate;
-  }
-  
 }

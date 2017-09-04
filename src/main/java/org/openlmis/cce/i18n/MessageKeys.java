@@ -20,11 +20,12 @@ import java.util.Arrays;
 public abstract class MessageKeys {
   private static final String DELIMITER = ".";
 
-  private static final String SERVICE_PREFIX = "cce";
+  protected static final String SERVICE_PREFIX = "cce";
   static final String SERVICE_ERROR_PREFIX = join(SERVICE_PREFIX, "error");
 
   protected static final String REQUIRED = "required";
   protected static final String SEARCH = "search";
+  protected static final String INVALID = "invalid";
   protected static final String LACKS_PARAMETERS = "lacksParameters";
 
   public static final String ERROR_IO = SERVICE_ERROR_PREFIX + ".io";

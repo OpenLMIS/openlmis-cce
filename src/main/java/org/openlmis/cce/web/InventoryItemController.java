@@ -24,6 +24,7 @@ import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ProgramDto;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.repository.InventoryItemRepository;
+import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.service.referencedata.UserSupervisedFacilitiesReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserSupervisedProgramsReferenceDataService;
@@ -72,6 +73,9 @@ public class InventoryItemController extends BaseController {
 
   @Autowired
   private InventoryItemValidator validator;
+
+  @Autowired
+  private InventoryStatusProcessor inventoryStatusProcessor;
 
   /**
    * Allows creating new CCE Inventory item. If the id is specified, it will be ignored.
@@ -163,10 +167,7 @@ public class InventoryItemController extends BaseController {
     }
     validator.validate(inventoryItemDto);
 
-    InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
-    inventoryItem.setId(inventoryItemId);
-    inventoryItem.setInvariants(existingInventory);
-    return saveInventory(inventoryItem);
+    return updateInventory(inventoryItemDto, inventoryItemId, existingInventory);
   }
 
   /**
@@ -183,6 +184,20 @@ public class InventoryItemController extends BaseController {
     permissionService.canEditInventory(inventoryItem);
 
     inventoryRepository.delete(inventoryItem);
+  }
+
+  private InventoryItemDto updateInventory(InventoryItemDto inventoryItemDto,
+                                           UUID inventoryItemId,
+                                           InventoryItem existingInventory) {
+    InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
+    inventoryItem.setId(inventoryItemId);
+    inventoryItem.setInvariants(existingInventory);
+    InventoryItemDto itemDto = saveInventory(inventoryItem);
+    if (existingInventory == null
+        || existingInventory.getFunctionalStatus() != inventoryItem.getFunctionalStatus()) {
+      inventoryStatusProcessor.functionalStatusChange(inventoryItem);
+    }
+    return itemDto;
   }
 
   private InventoryItem newInventoryItem(InventoryItemDto inventoryItemDto) {

@@ -21,6 +21,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -52,6 +53,7 @@ import org.openlmis.cce.dto.ProgramDto;
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
+import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
@@ -79,7 +81,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @MockBean
   private FacilityReferenceDataService facilityReferenceDataService;
 
-  @MockBean
+  @MockBean(name = "userReferenceDataService")
   private UserReferenceDataService userReferenceDataService;
 
   @MockBean
@@ -90,6 +92,9 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @MockBean
   private UserSupervisedFacilitiesReferenceDataService supervisedFacilitiesReferenceDataService;
+
+  @MockBean
+  private InventoryStatusProcessor inventoryStatusProcessor;
 
   private InventoryItemDto inventoryItemDto;
   private InventoryItem inventoryItem;
@@ -256,6 +261,40 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
     assertEquals(inventoryId, response.getId());
     checkResponseAndRaml(response);
+
+    verify(inventoryStatusProcessor, times(1)).functionalStatusChange(any());
+  }
+
+  @Test
+  public void shouldCallStatusProcessorIfFunctionalStatusDifferWhenUpdateInventoryItems() {
+    InventoryItem existing = new InventoryItem();
+    existing.setFunctionalStatus(FunctionalStatus.FUNCTIONING);
+    when(inventoryItemRepository.findOne(any(UUID.class)))
+        .thenReturn(existing);
+
+    inventoryItemDto.setFunctionalStatus(FunctionalStatus.NON_FUNCTIONING);
+
+    putInventoryItem(inventoryId)
+        .then()
+        .statusCode(200);
+
+    verify(inventoryStatusProcessor, times(1)).functionalStatusChange(any());
+  }
+
+  @Test
+  public void shouldNotCallStatusProcessorIfFunctionalStatusSameWhenUpdateInventoryItems() {
+    InventoryItem existing = new InventoryItem();
+    existing.setFunctionalStatus(FunctionalStatus.FUNCTIONING);
+    when(inventoryItemRepository.findOne(any(UUID.class)))
+        .thenReturn(existing);
+
+    inventoryItemDto.setFunctionalStatus(FunctionalStatus.FUNCTIONING);
+
+    putInventoryItem(inventoryId)
+        .then()
+        .statusCode(200);
+
+    verify(inventoryStatusProcessor, never()).functionalStatusChange(any());
   }
 
   @Test

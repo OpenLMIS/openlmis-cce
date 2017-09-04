@@ -45,6 +45,15 @@ public class InventoryItemMessageKeys extends MessageKeys {
       join(ERROR_PREFIX, "decommissionDate", REQUIRED);
   public static final String ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED =
       join(ERROR_PREFIX, "remoteTemperatureMonitor", REQUIRED);
+  public static final String ERROR_USER_INVALID =
+      join(ERROR_PREFIX, "userId", INVALID);
+
+  //notifications
+  public static final String EMAIL_NONFUNCTIONAL_CCE_SUBJECT
+      = SERVICE_PREFIX + ".email.nonfunctionalCce.subject";
+  public static final String EMAIL_NONFUNCTIONAL_CCE_CONTENT
+      = SERVICE_PREFIX + ".email.nonfunctionalCce.content";
+
 
   private InventoryItemMessageKeys() {
     throw new UnsupportedOperationException();
