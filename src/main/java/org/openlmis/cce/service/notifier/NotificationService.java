@@ -55,12 +55,16 @@ public class NotificationService {
     NotificationRequest request = new NotificationRequest(
         from, user.getEmail(), subject, content
     );
-    
+    logger.debug("Sending request:"
+        + "\n subject:" + request.getSubject()
+        + "\n content:" + request.getContent()
+        + "\n from: " + request.getFrom()
+        + "\n to: " + request.getTo());
+
     try {
       restTemplate.postForObject(
           RequestHelper.createUri(notificationUrl),
-          RequestHelper.createEntity(authService.obtainAccessToken(),
-              request),
+          RequestHelper.createEntity(authService.obtainAccessToken(), request),
           Object.class);
     } catch (RestClientException ex) {
       logger.error("Can not send notification ", ex);

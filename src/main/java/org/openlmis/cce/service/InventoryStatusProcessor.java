@@ -18,11 +18,15 @@ package org.openlmis.cce.service;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.service.notifier.NonfunctionalCceNotifier;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
 public class InventoryStatusProcessor {
+
+  protected final Logger logger = LoggerFactory.getLogger(getClass());
 
   @Autowired
   private NonfunctionalCceNotifier nonfunctionalCceNotifier;
@@ -32,6 +36,7 @@ public class InventoryStatusProcessor {
    * @param inventoryItem a inventoryItem that has just changed its status
    */
   public void functionalStatusChange(InventoryItem inventoryItem) {
+    logger.debug("Status processor called with: " + inventoryItem);
     if (inventoryItem.getFunctionalStatus() == FunctionalStatus.NON_FUNCTIONING) {
       nonfunctionalCceNotifier.notify(inventoryItem);
     }

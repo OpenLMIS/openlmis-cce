@@ -20,15 +20,14 @@ import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
-import static org.mockito.Matchers.refEq;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.spy;
 
+import com.google.common.collect.ImmutableMap;
 import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.dto.SupervisoryNodeDto;
-import org.openlmis.cce.service.RequestParameters;
 import org.openlmis.cce.testutil.DummyPage;
 import java.util.Arrays;
 import java.util.Collections;
@@ -38,8 +37,10 @@ import java.util.UUID;
 public class SupervisoryNodeReferenceDataServiceTest {
 
   private static final String FACILITY_ID = "facilityId";
+  private static final String PROGRAM_ID = "programId";
   private static final String SEARCH_URI = "search";
   private UUID facility = UUID.randomUUID();
+  private UUID program = UUID.randomUUID();
   private SupervisoryNodeDto supervisoryNode = mock(SupervisoryNodeDto.class);
   private SupervisoryNodeReferenceDataService spy;
 
@@ -55,9 +56,9 @@ public class SupervisoryNodeReferenceDataServiceTest {
         .getPage(
             eq(SEARCH_URI),
             any(),
-            refEq(RequestParameters.init().set(FACILITY_ID, facility)));
+            eq(ImmutableMap.of(PROGRAM_ID, program, FACILITY_ID, facility)));
 
-    assertNull(spy.findSupervisoryNode(facility));
+    assertNull(spy.findSupervisoryNode(facility, program));
   }
 
   @Test
@@ -68,9 +69,9 @@ public class SupervisoryNodeReferenceDataServiceTest {
         .getPage(
             eq(SEARCH_URI),
             any(),
-            refEq(RequestParameters.init().set(FACILITY_ID, facility)));
+            eq(ImmutableMap.of(PROGRAM_ID, program, FACILITY_ID, facility)));
 
-    SupervisoryNodeDto foundNode = spy.findSupervisoryNode(facility);
+    SupervisoryNodeDto foundNode = spy.findSupervisoryNode(facility, program);
 
     assertEquals(supervisoryNode, foundNode);
   }
@@ -85,9 +86,9 @@ public class SupervisoryNodeReferenceDataServiceTest {
         .getPage(
             eq(SEARCH_URI),
             any(),
-            refEq(RequestParameters.init().set(FACILITY_ID, facility)));
+            eq(ImmutableMap.of(PROGRAM_ID, program, FACILITY_ID, facility)));
 
-    SupervisoryNodeDto foundNode = spy.findSupervisoryNode(facility);
+    SupervisoryNodeDto foundNode = spy.findSupervisoryNode(facility, program);
 
     assertEquals(supervisoryNode, foundNode);
     assertNotEquals(secondNode, foundNode);

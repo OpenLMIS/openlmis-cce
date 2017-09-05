@@ -18,7 +18,9 @@ package org.openlmis.cce.service.referencedata;
 import org.openlmis.cce.dto.SupervisoryNodeDto;
 import org.openlmis.cce.service.RequestParameters;
 import org.springframework.stereotype.Service;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -43,9 +45,10 @@ public class SupervisoryNodeReferenceDataService
   /**
    * Find a correct supervisory node by the provided facility and program.
    */
-  public SupervisoryNodeDto findSupervisoryNode( UUID facility) {
-    RequestParameters requestBody = RequestParameters.init()
-        .set("facilityId", facility);
+  public SupervisoryNodeDto findSupervisoryNode(UUID facility, UUID program) {
+    Map<String, Object> requestBody = new HashMap<>();
+    requestBody.put("facilityId", facility);
+    requestBody.put("programId", program);
 
     List<SupervisoryNodeDto> content =
         getPage("search", RequestParameters.init(), requestBody).getContent();

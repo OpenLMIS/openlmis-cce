@@ -15,17 +15,18 @@
 
 package org.openlmis.cce.service.notifier;
 
-//import static org.openlmis.cce.i18n.InventoryItemMessageKeys.EMAIL_NONFUNCTIONAL_CCE_CONTENT;
-//import static org.openlmis.cce.i18n.InventoryItemMessageKeys.EMAIL_NONFUNCTIONAL_CCE_SUBJECT;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.EMAIL_NONFUNCTIONAL_CCE_CONTENT;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.EMAIL_NONFUNCTIONAL_CCE_SUBJECT;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_USER_INVALID;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 
-//import org.apache.commons.lang3.text.StrSubstitutor;
+import org.apache.commons.lang3.text.StrSubstitutor;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.SupervisoryNodeDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.exception.ValidationMessageException;
+import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.service.referencedata.RightReferenceDataService;
 import org.openlmis.cce.service.referencedata.SupervisingUsersReferenceDataService;
@@ -52,14 +53,17 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
   @Autowired
   private SupervisoryNodeReferenceDataService supervisoryNodeReferenceDataService;
 
-  //@Autowired
-  //private NotificationService notificationService;
+  @Autowired
+  private NotificationService notificationService;
 
   @Autowired
   private FacilityReferenceDataService facilityReferenceDataService;
 
   @Autowired
   private UserReferenceDataService userReferenceDataService;
+
+  @Autowired
+  private CatalogItemRepository catalogItemRepository;
 
   @Value("${email.urlToViewCce}")
   private String urlToViewCce;
@@ -70,62 +74,68 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
    * @param inventoryItem InventoryItem that became non functional
    */
   public void notify(InventoryItem inventoryItem) {
-    //    Collection<UserDto> recipients = getRecipients(inventoryItem);
-    //
-    //    String subject = getMessage(EMAIL_NONFUNCTIONAL_CCE_SUBJECT);
-    //    String content = getMessage(EMAIL_NONFUNCTIONAL_CCE_CONTENT);
-    //
-    //    Map<String, String> valuesMap = getValuesMap(inventoryItem);
-    //    StrSubstitutor sub = new StrSubstitutor(valuesMap);
-    //    for (UserDto recipient : recipients) {
-    //      if (recipient.getHomeFacility().getId().equals(inventoryItem.getFacilityId())
-    //          && canBeNotified(recipient)) {
-    //        valuesMap.put("username", recipient.getUsername());
-    //        notificationService.notify(recipient, sub.replace(subject), sub.replace(content));
-    //      }
-    //    }
+    Collection<UserDto> recipients = getRecipients(inventoryItem);
+    logger.debug("Found recipients to send notification to: " + recipients);
+
+    String subject = getMessage(EMAIL_NONFUNCTIONAL_CCE_SUBJECT);
+    String content = getMessage(EMAIL_NONFUNCTIONAL_CCE_CONTENT);
+
+    Map<String, String> valuesMap = getValuesMap(inventoryItem);
+    StrSubstitutor sub = new StrSubstitutor(valuesMap);
+    for (UserDto recipient : recipients) {
+      if (recipient.getHomeFacility().getId().equals(inventoryItem.getFacilityId())
+          && canBeNotified(recipient)) {
+        valuesMap.put("username", recipient.getUsername());
+        logger.debug("Sending notification to: " + recipient.getUsername());
+        notificationService.notify(recipient, sub.replace(subject), sub.replace(content));
+      }
+    }
   }
 
   private Collection<UserDto> getRecipients(InventoryItem inventoryItem) {
-    RightDto right = rightReferenceDataService.findRight(CCE_INVENTORY_EDIT);
     SupervisoryNodeDto supervisoryNode = supervisoryNodeReferenceDataService
-        .findSupervisoryNode(inventoryItem.getFacilityId());
-
+        .findSupervisoryNode(inventoryItem.getFacilityId(), inventoryItem.getProgramId());
     if (supervisoryNode == null) {
       throw new IllegalArgumentException(
               String.format("There is no supervisory node for program %s and facility %s",
               inventoryItem.getProgramId(), inventoryItem.getFacilityId()));
     }
+    logger.debug("Supervisory node found: " + supervisoryNode.getName());
 
+    RightDto right = rightReferenceDataService.findRight(CCE_INVENTORY_EDIT);
     return supervisingUsersReferenceDataService
         .findAll(supervisoryNode.getId(), right.getId(), inventoryItem.getProgramId());
   }
 
   private Map<String, String> getValuesMap(InventoryItem inventoryItem) {
     Map<String, String> valuesMap = new HashMap<>();
-    valuesMap.put("equipmentType", inventoryItem.getCatalogItem().getType());
+    valuesMap.put("equipmentType", getType(inventoryItem));
     valuesMap.put("facilityName", getFacilityName(inventoryItem.getFacilityId()));
     valuesMap.put("functionalStatus", inventoryItem.getFunctionalStatus().toString());
     valuesMap.put("referenceName", inventoryItem.getReferenceName());
     valuesMap.put("reasonForNonFunctionalStatus",
         inventoryItem.getReasonNotWorkingOrNotInUse().toString());
-    valuesMap.put("SaveUser", getUsername(inventoryItem.getLastModifierId()));
+    valuesMap.put("saveUser", getUsername(inventoryItem.getLastModifierId()));
     valuesMap.put("saveDate", getDateFormatter().format(inventoryItem.getModifiedDate()));
-    valuesMap.put("urlToViewCce", urlToViewCce);
+    valuesMap.put("urlToViewCceList", urlToViewCce);
     return valuesMap;
   }
 
-  private String  getUsername(UUID userId) {
+  private String getType(InventoryItem inventoryItem) {
+    return catalogItemRepository.findOne(inventoryItem.getCatalogItem().getId()).getType();
+  }
+
+  private String getFacilityName(UUID facilityId) {
+    return facilityReferenceDataService.findOne(facilityId).getName();
+  }
+
+  private String getUsername(UUID userId) {
     UserDto one = userReferenceDataService.findOne(userId);
     if (one == null ) {
       throw new ValidationMessageException(
           new Message(ERROR_USER_INVALID, userId));
     }
     return one.getUsername();
-  }
-
-  private String getFacilityName(UUID facilityId) {
-    return facilityReferenceDataService.findOne(facilityId).getName();
   }
 
 }

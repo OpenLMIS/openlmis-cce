@@ -18,6 +18,7 @@ package org.openlmis.cce.web;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 
+import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
@@ -192,9 +193,12 @@ public class InventoryItemController extends BaseController {
     InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
     inventoryItem.setId(inventoryItemId);
     inventoryItem.setInvariants(existingInventory);
+    FunctionalStatus oldStatus = null;
+    if (existingInventory != null) {
+      oldStatus = existingInventory.getFunctionalStatus();
+    }
     InventoryItemDto itemDto = saveInventory(inventoryItem);
-    if (existingInventory == null
-        || existingInventory.getFunctionalStatus() != inventoryItem.getFunctionalStatus()) {
+    if (oldStatus == null || oldStatus != inventoryItem.getFunctionalStatus()) {
       inventoryStatusProcessor.functionalStatusChange(inventoryItem);
     }
     return itemDto;

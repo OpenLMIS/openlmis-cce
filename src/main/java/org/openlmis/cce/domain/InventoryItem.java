@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.domain;
 
+import lombok.ToString;
 import org.hibernate.annotations.Type;
 import org.javers.core.metamodel.annotation.TypeName;
 
@@ -50,6 +51,7 @@ import javax.persistence.UniqueConstraint;
     @UniqueConstraint(name = "unq_inventory_catalog_eqid",
           columnNames = { "catalogitemid", "equipmenttrackingid" }))
 @EqualsAndHashCode(callSuper = true)
+@ToString
 public class InventoryItem extends BaseEntity {
 
   @Type(type = UUID)
