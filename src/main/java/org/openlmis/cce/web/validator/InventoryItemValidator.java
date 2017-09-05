@@ -65,6 +65,10 @@ public class InventoryItemValidator {
       validateNotNull(inventoryItem.getDecommissionDate(),
           InventoryItemMessageKeys.ERROR_DECOMMISSION_DATE_REQUIRED);
     }
+    if (inventoryItem.getFunctionalStatus().equals(FunctionalStatus.NON_FUNCTIONING)) {
+      validateNotNull(inventoryItem.getReasonNotWorkingOrNotInUse(),
+          InventoryItemMessageKeys.ERROR_REASON_REQUIRED);
+    }
   }
 
   private void validateNotNull(Object field, String errorMessage) {

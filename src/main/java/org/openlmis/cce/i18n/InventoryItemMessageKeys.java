@@ -43,6 +43,8 @@ public class InventoryItemMessageKeys extends MessageKeys {
       join(ERROR_PREFIX, "referenceName", REQUIRED);
   public static final String ERROR_DECOMMISSION_DATE_REQUIRED =
       join(ERROR_PREFIX, "decommissionDate", REQUIRED);
+  public static final String ERROR_REASON_REQUIRED =
+      join(ERROR_PREFIX, "reasonNotWorkingOrNotInUse", REQUIRED);
   public static final String ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED =
       join(ERROR_PREFIX, "remoteTemperatureMonitor", REQUIRED);
   public static final String ERROR_USER_INVALID =
