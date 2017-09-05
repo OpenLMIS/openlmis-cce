@@ -22,6 +22,7 @@ import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_FACILITY_REQU
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_FUNCTIONAL_STATUS_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_MANUAL_TEMPERATURE_GAUGE_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_PROGRAM_ID_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REASON_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REFERENCE_NAME_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_UTILIZATION_REQUIRED;
@@ -219,6 +220,18 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setFunctionalStatus(FunctionalStatus.OBSOLETE);
     inventoryItemDto.setDecommissionDate(null);
+
+    inventoryItemValidator.validate(inventoryItemDto);
+  }
+
+  @Test
+  public void shouldThrowExceptionIfStatusIsNonFunctioningAndReasonIsNull() {
+    expectedEx.expect(ValidationMessageException.class);
+    expectedEx.expectMessage(
+        new Message(ERROR_REASON_REQUIRED, "").toString());
+
+    inventoryItemDto.setFunctionalStatus(FunctionalStatus.NON_FUNCTIONING);
+    inventoryItemDto.setReasonNotWorkingOrNotInUse(null);
 
     inventoryItemValidator.validate(inventoryItemDto);
   }
