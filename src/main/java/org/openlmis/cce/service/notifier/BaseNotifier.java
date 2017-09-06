@@ -39,8 +39,7 @@ public class BaseNotifier {
    * Check if user wants notifications: (active, verified, allowNotify all true).
    */
   protected static boolean canBeNotified(UserDto user) {
-    return user != null && user.allowNotify()
-        && user.activeAndVerified() && user.getEmail() != null;
+    return user.allowNotify() && user.activeAndVerified() && user.getEmail() != null;
   }
 
   protected String getMessage(String key) {
@@ -49,11 +48,11 @@ public class BaseNotifier {
         .asMessage();
   }
 
-  protected DateTimeFormatter getDateFormatter() {
+  protected DateTimeFormatter getDateTimeFormatter() {
     Locale locale = LocaleContextHolder.getLocale();
 
     String datePattern = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
-        FormatStyle.MEDIUM, null, Chronology.ofLocale(locale), locale);
+        FormatStyle.MEDIUM, FormatStyle.MEDIUM, Chronology.ofLocale(locale), locale);
     return DateTimeFormatter.ofPattern(datePattern);
   }
 }
