@@ -333,6 +333,24 @@ resourceTypes:
                         body:
                           application/json:
                             schema: localizedErrorResponse
+      /download:
+          displayName: CSV file
+          get:
+              is: [ secured ]
+              description: Download all catalog items in .csv format.
+              responses:
+                    200:
+                        description: Returns csv file with catalog items.
+                        body:
+                          text/csv:
+                    403:
+                        body:
+                          application/json:
+                            schema: localizedErrorResponse
+                    400:
+                        body:
+                          application/json:
+                            schema: localizedErrorResponse
   /inventoryItems:
       displayName: CCE Inventory item
       get:
