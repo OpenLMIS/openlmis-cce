@@ -13,9 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.processor;
-
-import static org.junit.Assert.assertEquals;
+package org.openlmis.cce.web.csv.processor;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -24,6 +22,8 @@ import org.junit.rules.ExpectedException;
 import org.mockito.Mock;
 import org.supercsv.exception.SuperCsvCellProcessorException;
 import org.supercsv.util.CsvContext;
+
+import static org.junit.Assert.assertEquals;
 
 public class ParseIntegerFromDoubleTest {
 

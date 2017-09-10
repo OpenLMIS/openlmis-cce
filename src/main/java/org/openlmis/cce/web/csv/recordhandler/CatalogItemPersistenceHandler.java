@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.recordhandler;
+package org.openlmis.cce.web.csv.recordhandler;
 
 import org.openlmis.cce.domain.BaseEntity;
 import org.openlmis.cce.domain.CatalogItem;

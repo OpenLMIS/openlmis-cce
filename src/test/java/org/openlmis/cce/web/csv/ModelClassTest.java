@@ -13,19 +13,19 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload;
+package org.openlmis.cce.web.csv;
 
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.openlmis.cce.web.dummy.DummyTransferObject.MANDATORY_STRING_FIELD;
 import static org.openlmis.cce.web.dummy.DummyTransferObject.OPTIONAL_NESTED_FIELD;
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.STRING_TYPE;
+import static org.openlmis.cce.web.csv.processor.CsvCellProcessors.STRING_TYPE;
 
 import org.junit.Test;
 import org.openlmis.cce.web.dummy.DummyTransferObject;
-import org.openlmis.cce.web.upload.model.ModelClass;
-import org.openlmis.cce.web.upload.model.ModelField;
+import org.openlmis.cce.web.csv.model.ModelClass;
+import org.openlmis.cce.web.csv.model.ModelField;
 
 import java.util.Arrays;
 import java.util.List;

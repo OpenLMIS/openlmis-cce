@@ -15,10 +15,10 @@
 
 package org.openlmis.cce.web.dummy;
 
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.INT_TYPE;
+import static org.openlmis.cce.web.csv.processor.CsvCellProcessors.INT_TYPE;
 
 import org.openlmis.cce.dto.BaseDto;
-import org.openlmis.cce.web.upload.model.ImportField;
+import org.openlmis.cce.web.csv.model.ImportField;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

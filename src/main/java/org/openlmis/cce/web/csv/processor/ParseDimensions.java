@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.processor;
+package org.openlmis.cce.web.csv.processor;
 
 import static java.lang.Integer.valueOf;
 

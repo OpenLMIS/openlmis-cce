@@ -13,34 +13,53 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.processor;
+package org.openlmis.cce.web.csv.processor;
 
-import org.apache.commons.lang3.EnumUtils;
-import org.openlmis.cce.domain.EnergySource;
+import org.openlmis.cce.domain.Dimensions;
 import org.supercsv.cellprocessor.CellProcessorAdaptor;
 import org.supercsv.cellprocessor.ift.StringCellProcessor;
 import org.supercsv.exception.SuperCsvCellProcessorException;
 import org.supercsv.util.CsvContext;
 
 /**
- * This is a custom cell processor used to parse string to enum typ.
+ * This is a custom cell processor used to format Dimension object to triple.
+ * Uses ", " as separator for triple.
  * This is used in CsvCellProcessors.
  */
 
-public class ParseEnergySource extends CellProcessorAdaptor implements StringCellProcessor {
+public class FormatDimensions extends CellProcessorAdaptor implements StringCellProcessor {
 
+  private static final String SEPARATOR = ",";
+
+  @SuppressWarnings("unchecked")
   @Override
   public Object execute(Object value, CsvContext context) {
     validateInputNotNull(value, context);
 
-    EnergySource result;
-    if (value instanceof String && EnumUtils.isValidEnum(EnergySource.class, (String)value)) {
-      result = EnergySource.valueOf((String)value);
+    String result;
+    if (value instanceof Dimensions) {
+      Dimensions dimensions = (Dimensions) value;
+
+      if (dimensions.getDepth() == null
+          || dimensions.getHeight() == null
+          || dimensions.getWidth() == null) {
+        throw getSuperCsvCellProcessorException(dimensions, context);
+      }
+
+      result = dimensions.getWidth() + SEPARATOR
+          + dimensions.getDepth() + SEPARATOR
+          + dimensions.getHeight();
     } else  {
-      throw new SuperCsvCellProcessorException(
-          String.format("'%s' could not be parsed as an EnergySource", value), context, this);
+      throw getSuperCsvCellProcessorException(value, context);
     }
 
     return next.execute(result, context);
+  }
+
+  private SuperCsvCellProcessorException getSuperCsvCellProcessorException(Object value,
+                                                                           CsvContext context) {
+    return new SuperCsvCellProcessorException(
+        String.format("'%s' could not be formatted to triple.", value.toString()),
+        context, this);
   }
 }

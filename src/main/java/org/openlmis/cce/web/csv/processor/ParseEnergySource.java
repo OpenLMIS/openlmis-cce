@@ -13,10 +13,10 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.processor;
+package org.openlmis.cce.web.csv.processor;
 
 import org.apache.commons.lang3.EnumUtils;
-import org.openlmis.cce.domain.StorageTemperature;
+import org.openlmis.cce.domain.EnergySource;
 import org.supercsv.cellprocessor.CellProcessorAdaptor;
 import org.supercsv.cellprocessor.ift.StringCellProcessor;
 import org.supercsv.exception.SuperCsvCellProcessorException;
@@ -26,18 +26,19 @@ import org.supercsv.util.CsvContext;
  * This is a custom cell processor used to parse string to enum typ.
  * This is used in CsvCellProcessors.
  */
-public class ParseStorageTemperature extends CellProcessorAdaptor implements StringCellProcessor {
+
+public class ParseEnergySource extends CellProcessorAdaptor implements StringCellProcessor {
 
   @Override
   public Object execute(Object value, CsvContext context) {
     validateInputNotNull(value, context);
 
-    StorageTemperature result;
-    if (value instanceof String && EnumUtils.isValidEnum(StorageTemperature.class, (String)value)) {
-      result = StorageTemperature.valueOf((String)value);
+    EnergySource result;
+    if (value instanceof String && EnumUtils.isValidEnum(EnergySource.class, (String)value)) {
+      result = EnergySource.valueOf((String)value);
     } else  {
       throw new SuperCsvCellProcessorException(
-          String.format("'%s' could not be parsed as a StorageTemperature", value), context, this);
+          String.format("'%s' could not be parsed as an EnergySource", value), context, this);
     }
 
     return next.execute(result, context);

@@ -13,13 +13,16 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.export;
+package org.openlmis.cce.web.csv.parser;
 
-import static org.openlmis.cce.i18n.CsvExportMessageKeys.ERROR_EXPORT_RECORD_INVALID;
+import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_RECORD_INVALID;
 
+import org.openlmis.cce.dto.BaseDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.util.Message;
-import org.openlmis.cce.web.upload.model.ModelClass;
+import org.openlmis.cce.web.csv.model.ModelClass;
+import org.openlmis.cce.web.csv.recordhandler.RecordHandler;
+import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.springframework.stereotype.Component;
 import org.supercsv.exception.SuperCsvException;
 import org.supercsv.util.CsvContext;
@@ -27,8 +30,7 @@ import org.supercsv.util.CsvContext;
 import lombok.NoArgsConstructor;
 
 import java.io.IOException;
-import java.io.OutputStream;
-import java.util.List;
+import java.io.InputStream;
 
 /**
  * This class has logic to invoke corresponding respective record handler to parse data from
@@ -36,32 +38,40 @@ import java.util.List;
  */
 @Component
 @NoArgsConstructor
-public class CsvExporter {
+public class CsvParser {
 
   /**
    * Parses data from input stream into the corresponding model.
    *
-   * @param outputStream   input stream of csv file
+   * @param inputStream   input stream of csv file
    * @param modelClass    java model to which the csv row will be mapped
+   * @param recordHandler record persistance handler
+   * @return number of uploaded records
    */
-  public void process(OutputStream outputStream,
-                      ModelClass modelClass,
-                      List dtos) throws IOException {
+  public int process(
+      InputStream inputStream, ModelClass modelClass, RecordHandler recordHandler,
+      CsvHeaderValidator csvHeaderValidator) throws IOException {
 
-    CsvBeanWriter csvBeanWriter = new CsvBeanWriter(modelClass, outputStream);
+    CsvBeanReader csvBeanReader = new CsvBeanReader(modelClass, inputStream, csvHeaderValidator);
+    csvBeanReader.validateHeaders();
 
     try {
-      csvBeanWriter.writeWithCellProcessors(dtos);
+      BaseDto importedModel;
+      while ((importedModel = csvBeanReader.readWithCellProcessors()) != null) {
+        recordHandler.execute(importedModel);
+      }
     } catch (SuperCsvException err) {
       Message message = getCsvRowErrorMessage(err);
       throw new ValidationMessageException(err, message);
     }
+
+    return csvBeanReader.getRowNumber() - 1;
   }
 
   private Message getCsvRowErrorMessage(SuperCsvException err) {
     CsvContext context = err.getCsvContext();
     int row = context.getRowNumber() - 1;
-    return new Message(ERROR_EXPORT_RECORD_INVALID, row, err.getMessage());
+    return new Message(ERROR_UPLOAD_RECORD_INVALID, row, err.getMessage());
   }
 
 }

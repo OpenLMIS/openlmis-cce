@@ -13,9 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.processor;
-
-import static org.junit.Assert.assertEquals;
+package org.openlmis.cce.web.csv.processor;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -24,6 +22,8 @@ import org.mockito.Mock;
 import org.openlmis.cce.domain.Dimensions;
 import org.supercsv.exception.SuperCsvCellProcessorException;
 import org.supercsv.util.CsvContext;
+
+import static org.junit.Assert.assertEquals;
 
 public class ParseDimensionsTest {
 
@@ -64,5 +64,4 @@ public class ParseDimensionsTest {
     ParseDimensions parseDimensions = new ParseDimensions();
     parseDimensions.execute(invalidTriple, csvContext);
   }
-
 }

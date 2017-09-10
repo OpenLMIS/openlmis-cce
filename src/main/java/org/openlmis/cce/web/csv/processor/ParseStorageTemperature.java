@@ -13,41 +13,33 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.processor;
+package org.openlmis.cce.web.csv.processor;
 
-import static org.junit.Assert.assertEquals;
-
-import org.junit.Rule;
-import org.junit.Test;
-import org.junit.rules.ExpectedException;
-import org.mockito.Mock;
+import org.apache.commons.lang3.EnumUtils;
 import org.openlmis.cce.domain.StorageTemperature;
+import org.supercsv.cellprocessor.CellProcessorAdaptor;
+import org.supercsv.cellprocessor.ift.StringCellProcessor;
 import org.supercsv.exception.SuperCsvCellProcessorException;
 import org.supercsv.util.CsvContext;
 
-public class ParseStorageTemperatureTest {
+/**
+ * This is a custom cell processor used to parse string to enum typ.
+ * This is used in CsvCellProcessors.
+ */
+public class ParseStorageTemperature extends CellProcessorAdaptor implements StringCellProcessor {
 
-  @Rule
-  public final ExpectedException expectedEx = ExpectedException.none();
+  @Override
+  public Object execute(Object value, CsvContext context) {
+    validateInputNotNull(value, context);
 
-  @Mock
-  private CsvContext csvContext;
-  private ParseStorageTemperature parseStorageTemperature = new ParseStorageTemperature();
+    StorageTemperature result;
+    if (value instanceof String && EnumUtils.isValidEnum(StorageTemperature.class, (String)value)) {
+      result = StorageTemperature.valueOf((String)value);
+    } else  {
+      throw new SuperCsvCellProcessorException(
+          String.format("'%s' could not be parsed as a StorageTemperature", value), context, this);
+    }
 
-  @Test
-  public void shouldParseValidStorageTemperature() {
-    StorageTemperature minus20 =
-        (StorageTemperature) parseStorageTemperature.execute("MINUS20", csvContext);
-
-    assertEquals(StorageTemperature.MINUS20, minus20);
+    return next.execute(result, context);
   }
-
-  @Test
-  public void shouldThrownExceptionWhenInputIsNotValidStorageTemperature() {
-    expectedEx.expect(SuperCsvCellProcessorException.class);
-    expectedEx.expectMessage("'not valid' could not be parsed as a StorageTemperature");
-
-    parseStorageTemperature.execute("not valid", csvContext);
-  }
-
 }

@@ -21,6 +21,9 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
+
 import javax.persistence.Embeddable;
 
 @AllArgsConstructor
@@ -37,4 +40,8 @@ public class Dimensions {
 
   private Integer height;
 
+  @Override
+  public String toString() {
+    return StringUtils.join(ArrayUtils.toArray(width, depth, height), ",");
+  }
 }

@@ -13,7 +13,6 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-
 package org.openlmis.cce.i18n;
 
 import static org.openlmis.cce.i18n.MessageKeys.SERVICE_ERROR_PREFIX;

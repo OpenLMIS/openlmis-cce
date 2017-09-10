@@ -26,10 +26,10 @@ import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.service.CatalogItemService;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.util.Pagination;
-import org.openlmis.cce.web.upload.export.CsvExporter;
-import org.openlmis.cce.web.upload.recordhandler.CatalogItemPersistenceHandler;
-import org.openlmis.cce.web.upload.model.ModelClass;
-import org.openlmis.cce.web.upload.parser.CsvParser;
+import org.openlmis.cce.web.csv.format.CsvFormatter;
+import org.openlmis.cce.web.csv.recordhandler.CatalogItemPersistenceHandler;
+import org.openlmis.cce.web.csv.model.ModelClass;
+import org.openlmis.cce.web.csv.parser.CsvParser;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -76,7 +76,7 @@ public class CatalogItemController extends BaseController {
   private CsvParser csvParser;
 
   @Autowired
-  private CsvExporter csvExporter;
+  private CsvFormatter csvFormatter;
 
   @Autowired
   private CsvHeaderValidator csvHeaderValidator;
@@ -210,7 +210,7 @@ public class CatalogItemController extends BaseController {
         DISPOSITION_BASE + "catalog_items.csv");
 
     try {
-      csvExporter.process(
+      csvFormatter.process(
           response.getOutputStream(), new ModelClass(CatalogItemDto.class), catalogItems);
     } catch (IOException ex) {
       throw new ValidationMessageException(ex, MessageKeys.ERROR_IO, ex.getMessage());

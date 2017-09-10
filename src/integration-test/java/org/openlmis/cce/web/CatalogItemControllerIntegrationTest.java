@@ -48,6 +48,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 import java.io.IOException;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -60,6 +61,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   private static final String RESOURCE_URL = "/api/catalogItems";
   private static final String RESOURCE_URL_WITH_ID = RESOURCE_URL + "/{id}";
   private static final String RESOURCE_URL_UPLOAD = RESOURCE_URL + "/upload";
+  private static final String RESOURCE_URL_DOWNLOAD = RESOURCE_URL + "/download";
   private static final String SEARCH = RESOURCE_URL + "/search";
   private static final String FILE_PARAM_NAME = "file";
 
@@ -312,6 +314,40 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
+  @Test
+  public void shouldDownloadCsvWithAllPossibleFields() throws IOException {
+    when(catalogItemRepository.findAll())
+        .thenReturn(Arrays.asList(CatalogItem.newInstance(catalogItemDto)));
+
+    String csvContent = download()
+        .then()
+        .statusCode(200)
+        .extract().body().asString();
+
+    verify(catalogItemRepository).findAll();
+    assertEquals("From PQS catalog,PQS equipment code,Type,Model,Manufacturer,"
+        + "Energy source,Date of prequal,Storage Temperature,Max operating temp (degrees C),"
+        + "Min operating temp (degrees C),Energy consumption (NA for solar),"
+        + "Holdover time (hours),Dimensions,Visible in catalog,Archived\r\n"
+        + "Y,equipment-code,type,model,producent,ELECTRIC,2016,MINUS3,20,-20,LOW,1,"
+        + "\"100,100,100\",Y,N\r\n", csvContent);
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldReturnUnauthorizedWhenDownloadCsvIfUserHasNoCceManagePermission()
+      throws IOException {
+    doThrow(mockPermissionException(managePermission))
+        .when(permissionService).canManageCce();
+
+    download()
+        .then()
+        .statusCode(403)
+        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
+
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
   private Response postCatalogItem() {
     return restAssured
         .given()
@@ -359,6 +395,14 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .body(catalogItemDto)
         .when()
         .put(RESOURCE_URL_WITH_ID);
+  }
+
+  private Response download() {
+    return restAssured.given()
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
+        .contentType("text/csv")
+        .when()
+        .get(RESOURCE_URL_DOWNLOAD);
   }
 
   private Response upload(ClassPathResource basicCsvToUpload) throws IOException {

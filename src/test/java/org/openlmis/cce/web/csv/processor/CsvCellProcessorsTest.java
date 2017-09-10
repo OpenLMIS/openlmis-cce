@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.processor;
+package org.openlmis.cce.web.csv.processor;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -24,7 +24,7 @@ import static org.openlmis.cce.web.dummy.DummyTransferObject.OPTIONAL_INT_FIELD;
 import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.web.dummy.DummyTransferObject;
-import org.openlmis.cce.web.upload.model.ModelClass;
+import org.openlmis.cce.web.csv.model.ModelClass;
 import org.springframework.util.ReflectionUtils;
 import org.supercsv.cellprocessor.CellProcessorAdaptor;
 import org.supercsv.cellprocessor.Optional;
@@ -52,7 +52,7 @@ public class CsvCellProcessorsTest {
         Arrays.asList(MANDATORY_STRING_FIELD, "mandatoryIntField", "optionalStringField");
 
     List<CellProcessor> cellProcessors =
-        CsvCellProcessors.getProcessors(dummyImportableClass, headers);
+        CsvCellProcessors.getParseProcessors(dummyImportableClass, headers);
 
     assertEquals(3, cellProcessors.size());
     assertTrue(cellProcessors.get(0) instanceof NotNull);
@@ -67,7 +67,7 @@ public class CsvCellProcessorsTest {
         Arrays.asList(MANDATORY_STRING_FIELD, "mandatoryIntFIELD");
 
     List<CellProcessor> cellProcessors =
-        CsvCellProcessors.getProcessors(dummyImportableClass, headers);
+        CsvCellProcessors.getParseProcessors(dummyImportableClass, headers);
 
     assertEquals(2, cellProcessors.size());
     assertTrue(cellProcessors.get(0) instanceof NotNull);
@@ -80,7 +80,7 @@ public class CsvCellProcessorsTest {
         Arrays.asList(MANDATORY_STRING_FIELD, "mandatoryIntField", "nonAnnotatedField");
 
     List<CellProcessor> cellProcessors =
-        CsvCellProcessors.getProcessors(dummyImportableClass, headers);
+        CsvCellProcessors.getParseProcessors(dummyImportableClass, headers);
 
     assertEquals(3, cellProcessors.size());
     assertTrue(cellProcessors.get(0) instanceof NotNull);
@@ -94,7 +94,7 @@ public class CsvCellProcessorsTest {
         Arrays.asList(MANDATORY_STRING_FIELD, OPTIONAL_INT_FIELD);
 
     List<CellProcessor> cellProcessors =
-        CsvCellProcessors.getProcessors(dummyImportableClass, headers);
+        CsvCellProcessors.getParseProcessors(dummyImportableClass, headers);
 
     assertEquals(2, cellProcessors.size());
 
@@ -107,7 +107,6 @@ public class CsvCellProcessorsTest {
     assertTrue(cellProcessors.get(1) instanceof Optional);
     Optional optional = (Optional) cellProcessors.get(1);
     assertEquals(getNextProcessorInstanceClass(nextProcessorField, optional), ParseInt.class);
-
   }
 
   private Class<?> getNextProcessorInstanceClass(Field next, CellProcessorAdaptor instance)

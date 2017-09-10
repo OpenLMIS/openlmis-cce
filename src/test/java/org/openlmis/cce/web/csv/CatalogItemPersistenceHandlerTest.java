@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload;
+package org.openlmis.cce.web.csv;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -28,7 +28,7 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.repository.CatalogItemRepository;
-import org.openlmis.cce.web.upload.recordhandler.CatalogItemPersistenceHandler;
+import org.openlmis.cce.web.csv.recordhandler.CatalogItemPersistenceHandler;
 import java.util.UUID;
 
 public class CatalogItemPersistenceHandlerTest {

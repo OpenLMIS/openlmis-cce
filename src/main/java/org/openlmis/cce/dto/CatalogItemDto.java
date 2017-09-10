@@ -15,11 +15,11 @@
 
 package org.openlmis.cce.dto;
 
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.BOOLEAN_TYPE;
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.DIMENSIONS_TYPE;
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.ENERGY_SOURCE_TYPE;
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.INT_FROM_DOUBLE_TYPE;
-import static org.openlmis.cce.web.upload.processor.CsvCellProcessors.STORAGE_TEMPERATURE_TYPE;
+import static org.openlmis.cce.web.csv.processor.CsvCellProcessors.BOOLEAN_TYPE;
+import static org.openlmis.cce.web.csv.processor.CsvCellProcessors.DIMENSIONS_TYPE;
+import static org.openlmis.cce.web.csv.processor.CsvCellProcessors.ENERGY_SOURCE_TYPE;
+import static org.openlmis.cce.web.csv.processor.CsvCellProcessors.INT_FROM_DOUBLE_TYPE;
+import static org.openlmis.cce.web.csv.processor.CsvCellProcessors.STORAGE_TEMPERATURE_TYPE;
 
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
@@ -30,7 +30,7 @@ import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.Dimensions;
 import org.openlmis.cce.domain.EnergySource;
 import org.openlmis.cce.domain.StorageTemperature;
-import org.openlmis.cce.web.upload.model.ImportField;
+import org.openlmis.cce.web.csv.model.ImportField;
 
 @Getter
 @Setter

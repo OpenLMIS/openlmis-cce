@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.model;
+package org.openlmis.cce.web.csv.model;
 
 import org.openlmis.cce.dto.BaseDto;
 

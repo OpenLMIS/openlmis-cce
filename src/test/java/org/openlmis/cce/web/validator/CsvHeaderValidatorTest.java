@@ -29,7 +29,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.util.Message;
 import org.openlmis.cce.web.dummy.DummyTransferObject;
-import org.openlmis.cce.web.upload.model.ModelClass;
+import org.openlmis.cce.web.csv.model.ModelClass;
 
 import java.util.Arrays;
 import java.util.Collections;

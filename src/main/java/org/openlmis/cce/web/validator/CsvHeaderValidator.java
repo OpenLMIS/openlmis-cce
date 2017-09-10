@@ -22,8 +22,8 @@ import static org.openlmis.cce.util.StringHelper.lowerCase;
 
 import org.apache.commons.collections.ListUtils;
 import org.openlmis.cce.exception.ValidationMessageException;
-import org.openlmis.cce.web.upload.model.ModelClass;
-import org.openlmis.cce.web.upload.model.ModelField;
+import org.openlmis.cce.web.csv.model.ModelClass;
+import org.openlmis.cce.web.csv.model.ModelField;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.List;

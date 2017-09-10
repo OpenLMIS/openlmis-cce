@@ -13,13 +13,13 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.parser;
+package org.openlmis.cce.web.csv.parser;
 
 import static java.util.Arrays.asList;
 
 import org.openlmis.cce.dto.BaseDto;
-import org.openlmis.cce.web.upload.model.ModelClass;
-import org.openlmis.cce.web.upload.processor.CsvCellProcessors;
+import org.openlmis.cce.web.csv.model.ModelClass;
+import org.openlmis.cce.web.csv.processor.CsvCellProcessors;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.dozer.CsvDozerBeanReader;
@@ -87,7 +87,7 @@ class CsvBeanReader {
 
   private void configureProcessors() {
     List<CellProcessor> cellProcessors =
-        CsvCellProcessors.getProcessors(modelClass, asList(headers));
+        CsvCellProcessors.getParseProcessors(modelClass, asList(headers));
     processors = cellProcessors.toArray(new CellProcessor[cellProcessors.size()]);
   }
 }

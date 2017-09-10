@@ -13,13 +13,13 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.export;
+package org.openlmis.cce.web.csv.format;
 
 import static java.util.Arrays.asList;
 
-import org.openlmis.cce.web.upload.model.ModelClass;
-import org.openlmis.cce.web.upload.model.ModelField;
-import org.openlmis.cce.web.upload.processor.CsvCellProcessors;
+import org.openlmis.cce.web.csv.model.ModelClass;
+import org.openlmis.cce.web.csv.model.ModelField;
+import org.openlmis.cce.web.csv.processor.CsvCellProcessors;
 import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.dozer.CsvDozerBeanWriter;
 import org.supercsv.prefs.CsvPreference;
@@ -81,7 +81,7 @@ class CsvBeanWriter {
 
   private void configureProcessors() {
     List<CellProcessor> cellProcessors =
-        CsvCellProcessors.getProcessors(modelClass, asList(headers));
+        CsvCellProcessors.getFormatProcessors(modelClass, asList(headers));
     processors = cellProcessors.toArray(new CellProcessor[cellProcessors.size()]);
   }
 }

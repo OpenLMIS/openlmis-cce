@@ -13,10 +13,11 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.processor;
+package org.openlmis.cce.web.csv.processor;
 
-import org.openlmis.cce.web.upload.model.ModelField;
-import org.openlmis.cce.web.upload.model.ModelClass;
+import org.openlmis.cce.web.csv.model.ModelField;
+import org.openlmis.cce.web.csv.model.ModelClass;
+import org.supercsv.cellprocessor.FmtBool;
 import org.supercsv.cellprocessor.Optional;
 import org.supercsv.cellprocessor.ParseBigDecimal;
 import org.supercsv.cellprocessor.ParseBool;
@@ -40,7 +41,9 @@ import java.util.Map;
 
 public class CsvCellProcessors {
 
-  public static final Map<String, CellProcessor> typeMappings = new HashMap<>();
+  public static final Map<String, CellProcessor> typeParseMappings = new HashMap<>();
+  public static final Map<String, CellProcessor> typeExportMappings = new HashMap<>();
+
   public static final String INT_TYPE = "int";
   public static final String LONG_TYPE = "long";
   public static final String BOOLEAN_TYPE = "boolean";
@@ -56,37 +59,64 @@ public class CsvCellProcessors {
   private static final String format = "dd/MM/yyyy";
 
   static {
-    typeMappings.put(INT_TYPE, new ParseInt());
-    typeMappings.put(LONG_TYPE, new ParseLong());
-    typeMappings.put(BOOLEAN_TYPE, new ParseBool(true));
-    typeMappings.put(DOUBLE_TYPE, new ParseDouble());
-    typeMappings.put(INT_FROM_DOUBLE_TYPE, new ParseIntegerFromDouble());
-    typeMappings.put(DATE_TYPE, new StrRegEx("^\\d{1,2}/\\d{1,2}/\\d{4}$", new ParseDate(format)));
-    typeMappings.put(STRING_TYPE, new Trim());
-    typeMappings.put(BIG_DECIMAL_TYPE, new ParseBigDecimal());
-    typeMappings.put(ENERGY_SOURCE_TYPE, new ParseEnergySource());
-    typeMappings.put(STORAGE_TEMPERATURE_TYPE, new ParseStorageTemperature());
-    typeMappings.put(DIMENSIONS_TYPE, new ParseDimensions());
+    typeParseMappings.put(INT_TYPE, new ParseInt());
+    typeParseMappings.put(LONG_TYPE, new ParseLong());
+    typeParseMappings.put(BOOLEAN_TYPE, new ParseBool(true));
+    typeParseMappings.put(DOUBLE_TYPE, new ParseDouble());
+    typeParseMappings.put(INT_FROM_DOUBLE_TYPE, new ParseIntegerFromDouble());
+    typeParseMappings.put(DATE_TYPE,
+        new StrRegEx("^\\d{1,2}/\\d{1,2}/\\d{4}$", new ParseDate(format)));
+    typeParseMappings.put(STRING_TYPE, new Trim());
+    typeParseMappings.put(BIG_DECIMAL_TYPE, new ParseBigDecimal());
+    typeParseMappings.put(ENERGY_SOURCE_TYPE, new ParseEnergySource());
+    typeParseMappings.put(STORAGE_TEMPERATURE_TYPE, new ParseStorageTemperature());
+    typeParseMappings.put(DIMENSIONS_TYPE, new ParseDimensions());
+
+    typeExportMappings.put(BOOLEAN_TYPE, new FmtBool("Y", "N"));
+    typeExportMappings.put(DIMENSIONS_TYPE, new FormatDimensions());
   }
 
   /**
-   * Get all processors for given headers.
+   * Get all parse processors for given headers.
    */
-  public static List<CellProcessor> getProcessors(ModelClass modelClass, List<String> headers) {
+  public static List<CellProcessor> getParseProcessors(ModelClass modelClass,
+                                                       List<String> headers) {
+    return getProcessors(modelClass, headers, true);
+  }
+
+  /**
+   * Get all format processors for given headers.
+   */
+  public static List<CellProcessor> getFormatProcessors(ModelClass modelClass,
+                                                        List<String> headers) {
+    return getProcessors(modelClass, headers, false);
+  }
+
+  private static List<CellProcessor> getProcessors(ModelClass modelClass,
+                                                   List<String> headers,
+                                                   boolean forParsing) {
     List<CellProcessor> processors = new ArrayList<>();
     for (String header : headers) {
       ModelField field = modelClass.findImportFieldWithName(header);
       CellProcessor processor = null;
       if (field != null) {
-        processor = chainTypeProcessor(field);
+        processor = chainTypeProcessor(field, forParsing);
       }
       processors.add(processor);
     }
     return processors;
   }
 
-  private static CellProcessor chainTypeProcessor(ModelField field) {
-    CellProcessor mappedProcessor = typeMappings.get(field.getType());
+  private static CellProcessor chainTypeProcessor(ModelField field, boolean forParsing) {
+    CellProcessor mappedProcessor;
+    if (forParsing && typeParseMappings.containsKey(field.getType())) {
+      mappedProcessor = typeParseMappings.get(field.getType());
+    } else if (!forParsing && typeExportMappings.containsKey(field.getType())) {
+      mappedProcessor = typeExportMappings.get(field.getType());
+    } else {
+      mappedProcessor = new Trim();
+    }
+
     return field.isMandatory() ? new NotNull(mappedProcessor) : new Optional(mappedProcessor);
   }
 }

@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.upload.processor;
+package org.openlmis.cce.web.csv.processor;
 
 import org.supercsv.cellprocessor.CellProcessorAdaptor;
 import org.supercsv.cellprocessor.ift.StringCellProcessor;
@@ -51,7 +51,6 @@ public class ParseIntegerFromDouble extends CellProcessorAdaptor implements Stri
     }
 
     return next.execute(result, context);
-
   }
 
   private Integer parseIntegerPart(Object value, CsvContext context, String stringValue,
