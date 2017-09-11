@@ -51,27 +51,10 @@ public class FormatDimensionsTest {
   }
 
   @Test
-  public void shouldThrownExceptionWhenParameterIsNotString() {
-    Dimensions dimensions = new Dimensions(10, 20, null);
-
-    expectedEx.expect(SuperCsvCellProcessorException.class);
-    expectedEx.expectMessage(getErrorMessage(dimensions));
-
-    formatDimensions.execute(dimensions, csvContext);
-
-    dimensions = new Dimensions(10, null, 30);
-
-    expectedEx.expect(SuperCsvCellProcessorException.class);
-    expectedEx.expectMessage(getErrorMessage(dimensions));
-
-    formatDimensions.execute(dimensions, csvContext);
-
-    dimensions = new Dimensions(null, 20, 30);
-
-    expectedEx.expect(SuperCsvCellProcessorException.class);
-    expectedEx.expectMessage(getErrorMessage(dimensions));
-
-    formatDimensions.execute(dimensions, csvContext);
+  public void shouldThrownExceptionWhenParameterIsNull() {
+    checkDimensionsFormatting(10, 20, null);
+    checkDimensionsFormatting(10, null, 30);
+    checkDimensionsFormatting(null, 20, 30);
   }
 
   @Test
@@ -83,6 +66,15 @@ public class FormatDimensionsTest {
         + "' could not be formatted to triple.");
 
     formatDimensions.execute(invalidTriple, csvContext);
+  }
+
+  private void checkDimensionsFormatting(Integer width, Integer depth, Integer height) {
+    Dimensions dimensions = new Dimensions(width, depth, height);
+
+    expectedEx.expect(SuperCsvCellProcessorException.class);
+    expectedEx.expectMessage(getErrorMessage(dimensions));
+
+    formatDimensions.execute(dimensions, csvContext);
   }
 
   private String getErrorMessage(Dimensions dimensions) {

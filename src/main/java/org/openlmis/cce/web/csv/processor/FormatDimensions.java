@@ -15,6 +15,8 @@
 
 package org.openlmis.cce.web.csv.processor;
 
+import org.apache.commons.lang3.ArrayUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.openlmis.cce.domain.Dimensions;
 import org.supercsv.cellprocessor.CellProcessorAdaptor;
 import org.supercsv.cellprocessor.ift.StringCellProcessor;
@@ -46,9 +48,8 @@ public class FormatDimensions extends CellProcessorAdaptor implements StringCell
         throw getSuperCsvCellProcessorException(dimensions, context);
       }
 
-      result = dimensions.getWidth() + SEPARATOR
-          + dimensions.getDepth() + SEPARATOR
-          + dimensions.getHeight();
+      result = StringUtils.joinWith(SEPARATOR,
+          ArrayUtils.toArray(dimensions.getWidth(), dimensions.getDepth(), dimensions.getHeight()));
     } else  {
       throw getSuperCsvCellProcessorException(value, context);
     }

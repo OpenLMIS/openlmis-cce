@@ -33,8 +33,7 @@ import java.io.OutputStreamWriter;
 import java.util.List;
 
 /**
- * This class has responsibility to instantiate a dozerBeanReader from given inputStream,
- * and CsvPreferences. Also is responsible for validating headers.
+ * This class has responsibility to instantiate a csvDozerBeanWriter from given inputStream.
  */
 class CsvBeanWriter {
 

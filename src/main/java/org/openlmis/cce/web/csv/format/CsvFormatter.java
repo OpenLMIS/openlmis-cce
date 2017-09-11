@@ -17,6 +17,7 @@ package org.openlmis.cce.web.csv.format;
 
 import static org.openlmis.cce.i18n.CsvExportMessageKeys.ERROR_EXPORT_RECORD_INVALID;
 
+import org.openlmis.cce.dto.BaseDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.util.Message;
 import org.openlmis.cce.web.csv.model.ModelClass;
@@ -41,12 +42,12 @@ public class CsvFormatter {
   /**
    * Parses data from input stream into the corresponding model.
    *
-   * @param outputStream   input stream of csv file
+   * @param outputStream  input stream of csv file
    * @param modelClass    java model to which the csv row will be mapped
    */
   public void process(OutputStream outputStream,
                       ModelClass modelClass,
-                      List dtos) throws IOException {
+                      List<? extends BaseDto> dtos) throws IOException {
 
     CsvBeanWriter csvBeanWriter = new CsvBeanWriter(modelClass, outputStream);
 
