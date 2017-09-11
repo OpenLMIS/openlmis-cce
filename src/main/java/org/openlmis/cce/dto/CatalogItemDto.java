@@ -54,6 +54,8 @@ public class CatalogItemDto extends BaseDto implements CatalogItem.Exporter, Cat
   public static final String FROM_PQS_CATALOG = "From PQS catalog";
   public static final String DIMENSIONS = "Dimensions";
   public static final String ARCHIVED = "Archived";
+  public static final String NET_VOLUME = "Net volume";
+  public static final String GROSS_VOLUME = "Gross volume";
 
   @ImportField(name = FROM_PQS_CATALOG, type = BOOLEAN_TYPE, mandatory = true)
   private Boolean fromPqsCatalog;
@@ -91,8 +93,10 @@ public class CatalogItemDto extends BaseDto implements CatalogItem.Exporter, Cat
   @ImportField(name = HOLDOVER_TIME_HOURS, type = INT_FROM_DOUBLE_TYPE)
   private Integer holdoverTime;
 
+  @ImportField(name = GROSS_VOLUME, type = INT_FROM_DOUBLE_TYPE)
   private Integer grossVolume;
 
+  @ImportField(name = NET_VOLUME, type = INT_FROM_DOUBLE_TYPE)
   private Integer netVolume;
 
   @ImportField(name = DIMENSIONS, type = DIMENSIONS_TYPE)
