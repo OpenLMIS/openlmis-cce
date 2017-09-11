@@ -15,8 +15,8 @@
 
 package org.openlmis.cce.web.csv.format;
 
-import static java.util.Arrays.asList;
-
+import lombok.Getter;
+import org.openlmis.cce.dto.BaseDto;
 import org.openlmis.cce.web.csv.model.ModelClass;
 import org.openlmis.cce.web.csv.model.ModelField;
 import org.openlmis.cce.web.csv.processor.CsvCellProcessors;
@@ -24,13 +24,13 @@ import org.supercsv.cellprocessor.ift.CellProcessor;
 import org.supercsv.io.dozer.CsvDozerBeanWriter;
 import org.supercsv.prefs.CsvPreference;
 
-import lombok.Getter;
-
 import java.io.BufferedWriter;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.List;
+
+import static java.util.Arrays.asList;
 
 /**
  * This class has responsibility to instantiate a csvDozerBeanWriter from given inputStream.
@@ -51,7 +51,7 @@ class CsvBeanWriter {
     configureProcessors();
   }
 
-  void writeWithCellProcessors(List dtos) throws IOException {
+  void writeWithCellProcessors(List<? extends BaseDto> dtos) throws IOException {
     csvDozerBeanWriter.writeHeader(headers);
     for (Object dto : dtos) {
       csvDozerBeanWriter.write(dto, processors);

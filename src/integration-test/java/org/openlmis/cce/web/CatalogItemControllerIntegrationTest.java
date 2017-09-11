@@ -335,6 +335,24 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   }
 
   @Test
+  public void shouldDownloadCsvWithHeadersOnly() throws IOException {
+    when(catalogItemRepository.findAll())
+        .thenReturn(Collections.emptyList());
+
+    String csvContent = download()
+        .then()
+        .statusCode(200)
+        .extract().body().asString();
+
+    verify(catalogItemRepository).findAll();
+    assertEquals("From PQS catalog,PQS equipment code,Type,Model,Manufacturer,"
+        + "Energy source,Date of prequal,Storage Temperature,Max operating temp (degrees C),"
+        + "Min operating temp (degrees C),Energy consumption (NA for solar),"
+        + "Holdover time (hours),Dimensions,Visible in catalog,Archived\r\n", csvContent);
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
   public void shouldReturnUnauthorizedWhenDownloadCsvIfUserHasNoCceManagePermission()
       throws IOException {
     doThrow(mockPermissionException(managePermission))

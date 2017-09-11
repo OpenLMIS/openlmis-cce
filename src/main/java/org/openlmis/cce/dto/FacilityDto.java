@@ -81,7 +81,7 @@ public class FacilityDto extends BasicFacilityDto {
   /**
    * Export this object to the specified exporter (DTO).
    *
-   * @param exporter exporter to format to
+   * @param exporter exporter to export to
    */
   public void export(Exporter exporter) {
     super.export(exporter);
