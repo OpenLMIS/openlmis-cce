@@ -21,6 +21,8 @@ public class CatalogItemMessageKeys extends MessageKeys {
   public static final String ERROR_ITEM_NOT_FOUND = ERROR_PREFIX + ".item.notFound";
   public static final String ERROR_SEARCH_LACKS_PARAMS =
       join(ERROR_PREFIX, SEARCH, LACKS_PARAMETERS);
+  public static final String ERROR_TYPE_NOT_ALLOWED =
+      join(ERROR_PREFIX, ".type.notAllowed");
 
   private CatalogItemMessageKeys() {
     throw new UnsupportedOperationException();

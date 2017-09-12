@@ -22,9 +22,11 @@ import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.i18n.CatalogItemMessageKeys;
 import org.openlmis.cce.i18n.MessageKeys;
+import org.openlmis.cce.i18n.MessageService;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.service.CatalogItemService;
 import org.openlmis.cce.service.PermissionService;
+import org.openlmis.cce.util.Message;
 import org.openlmis.cce.util.Pagination;
 import org.openlmis.cce.web.csv.format.CsvFormatter;
 import org.openlmis.cce.web.csv.recordhandler.CatalogItemPersistenceHandler;
@@ -44,6 +46,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestPart;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
@@ -57,11 +60,18 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
+import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_TYPE_NOT_ALLOWED;
+
 @Controller
 @Transactional
 public class CatalogItemController extends BaseController {
 
   private static final String DISPOSITION_BASE = "attachment; filename=";
+  private static final String RESOURCE_URL = "/catalogItems";
+  private static final String TYPE = "type";
+
+  @Autowired
+  private MessageService messageService;
 
   @Autowired
   private CatalogItemRepository catalogRepository;
@@ -90,7 +100,7 @@ public class CatalogItemController extends BaseController {
    * @param catalogItemDto A CCE catalog item bound to the request body.
    * @return created CCE catalog item.
    */
-  @RequestMapping(value = "/catalogItems", method = RequestMethod.POST)
+  @RequestMapping(value = RESOURCE_URL, method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public CatalogItemDto create(@RequestBody CatalogItemDto catalogItemDto) {
@@ -107,7 +117,7 @@ public class CatalogItemController extends BaseController {
    *
    * @return CCE Catalog items.
    */
-  @RequestMapping(value = "/catalogItems", method = RequestMethod.GET)
+  @GetMapping(RESOURCE_URL)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public List<CatalogItemDto> getAll() {
@@ -122,7 +132,7 @@ public class CatalogItemController extends BaseController {
    * @param pageable object used to encapsulate the pagination related values: page and size.
    * @return List of wanted catalog items matching query parameters.
    */
-  @RequestMapping(value = "/catalogItems/search", method = RequestMethod.POST)
+  @RequestMapping(value = RESOURCE_URL + "/search", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public Page<CatalogItemDto> searchCatalogItems(@RequestBody Map<String, Object> queryParams,
@@ -139,7 +149,7 @@ public class CatalogItemController extends BaseController {
    * @param catalogItemId UUID of cce catalog item which we want to get
    * @return CCE Catalog Item.
    */
-  @RequestMapping(value = "/catalogItems/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = RESOURCE_URL + "/{id}", method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public CatalogItemDto getCatalogItem(@PathVariable("id") UUID catalogItemId) {
@@ -159,7 +169,7 @@ public class CatalogItemController extends BaseController {
    * @param catalogItemDto catalog item that will be updated
    * @return updated CCE Catalog Item.
    */
-  @RequestMapping(value = "/catalogItems/{id}", method = RequestMethod.PUT)
+  @RequestMapping(value = RESOURCE_URL + "/{id}", method = RequestMethod.PUT)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public CatalogItemDto updateCatalogItem(@RequestBody CatalogItemDto catalogItemDto,
@@ -177,11 +187,18 @@ public class CatalogItemController extends BaseController {
    * @param file File in ".csv" format to upload.
    * @return number of uploaded records
    */
-  @PostMapping("/catalogItems/upload")
+  @PostMapping(value = RESOURCE_URL, params = TYPE)
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
-  public UploadResultDto upload(@RequestPart("file") MultipartFile file) {
+  public UploadResultDto upload(@RequestParam(TYPE) String type,
+                                @RequestPart("file") MultipartFile file) {
     permissionService.canManageCce();
+
+    if (!"csv".equals(type)) {
+      throw new NotFoundException(new Message(ERROR_TYPE_NOT_ALLOWED, type));
+
+    }
+
     validateCsvFile(file);
     ModelClass modelClass = new ModelClass(CatalogItemDto.class);
 
@@ -197,11 +214,18 @@ public class CatalogItemController extends BaseController {
   /**
    * Downloads csv file with all inventory items.
    */
-  @GetMapping("/catalogItems/download")
+  @GetMapping(value = RESOURCE_URL, params = TYPE)
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
-  public void download(HttpServletResponse response) {
+  public void download(@RequestParam(TYPE) String type,
+                       HttpServletResponse response) throws IOException {
     permissionService.canManageCce();
+
+    if (!"csv".equals(type)) {
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+          messageService.localize(new Message(ERROR_TYPE_NOT_ALLOWED, type)).asMessage());
+      return;
+    }
 
     List<CatalogItemDto> catalogItems = toDto(catalogRepository.findAll());
 
