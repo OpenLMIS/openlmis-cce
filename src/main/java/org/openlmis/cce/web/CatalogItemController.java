@@ -223,7 +223,7 @@ public class CatalogItemController extends BaseController {
 
     if (!CSV.equals(type)) {
       response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-          messageService.localize(new Message(ERROR_TYPE_NOT_ALLOWED, type)).asMessage());
+          messageService.localize(new Message(ERROR_TYPE_NOT_ALLOWED, type, CSV)).asMessage());
       return;
     }
 
