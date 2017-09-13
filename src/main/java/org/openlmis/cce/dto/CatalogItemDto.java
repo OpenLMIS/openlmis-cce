@@ -44,7 +44,7 @@ public class CatalogItemDto extends BaseDto implements CatalogItem.Exporter, Cat
   public static final String ENERGY_CONSUMPTION_NA_FOR_SOLAR = "Energy consumption (NA for solar)";
   public static final String MIN_OPERATING_TEMP_DEGREES_C = "Min operating temp (degrees C)";
   public static final String MAX_OPERATING_TEMP_DEGREES_C = "Max operating temp (degrees C)";
-  public static final String STORAGE_TEMPERATURE = "Storage Temperature";
+  public static final String STORAGE_TEMPERATURE = "Storage temperature";
   public static final String DATE_OF_PREQUAL = "Date of prequal";
   public static final String ENERGY_SOURCE = "Energy source";
   public static final String MANUFACTURER = "Manufacturer";
