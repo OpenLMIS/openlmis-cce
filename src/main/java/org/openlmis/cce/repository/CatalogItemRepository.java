@@ -25,7 +25,7 @@ public interface CatalogItemRepository extends PagingAndSortingRepository<Catalo
 
   CatalogItem findByEquipmentCode(String code);
 
-  CatalogItem findByTypeAndModel(String type, String model);
+  CatalogItem findByManufacturerAndModel(String manufacturer, String model);
 
   Page<CatalogItem> findByArchivedAndTypeAndVisibleInCatalog(Boolean archived,
                                                              String type,

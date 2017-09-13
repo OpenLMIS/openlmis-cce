@@ -37,7 +37,7 @@ public class CatalogItemPersistenceHandlerTest {
   private ArgumentCaptor<CatalogItem> catalogItemCaptor;
 
   private static final String EQCODE = "eqcode";
-  public static final String SOME_TYPE = "someType";
+  public static final String SOME_MAKE = "someManufacturer";
   public static final String SOME_MODEL = "someModel";
 
   @Mock
@@ -75,9 +75,9 @@ public class CatalogItemPersistenceHandlerTest {
     existingCatalogItem.setId(UUID.randomUUID());
 
     catalogItem.setEquipmentCode(null);
-    catalogItem.setType(SOME_TYPE);
+    catalogItem.setManufacturer(SOME_MAKE);
     catalogItem.setModel(SOME_MODEL);
-    when(catalogItemRepository.findByTypeAndModel(SOME_TYPE, SOME_MODEL))
+    when(catalogItemRepository.findByManufacturerAndModel(SOME_MAKE, SOME_MODEL))
         .thenReturn(existingCatalogItem);
 
     catalogItemPersistenceHandler.execute(catalogItem);

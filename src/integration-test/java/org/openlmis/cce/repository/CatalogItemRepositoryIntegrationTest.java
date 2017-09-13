@@ -29,6 +29,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 import java.util.Collections;
 import java.util.UUID;
 
@@ -37,6 +40,9 @@ public class CatalogItemRepositoryIntegrationTest
 
   @Autowired
   private CatalogItemRepository repository;
+
+  @Autowired
+  private EntityManager entityManager;
 
   private Pageable pageable = mock(Pageable.class);
   private CatalogItem catalogItem;
@@ -48,8 +54,8 @@ public class CatalogItemRepositoryIntegrationTest
 
   @Override
   CatalogItem generateInstance() {
-    return new CatalogItem(true, "equipment-code",
-        "type", "model", "producent", EnergySource.ELECTRIC, 2016,
+    return new CatalogItem(true, "equipment-code" + getNextInstanceNumber(),
+        "type", "model", "producent" + getNextInstanceNumber(), EnergySource.ELECTRIC, 2016,
         StorageTemperature.MINUS3, 20, -20, "LOW", 1, 1, 1,
         new Dimensions(100, 100, 100), true, false);
   }
@@ -80,5 +86,30 @@ public class CatalogItemRepositoryIntegrationTest
     Page<CatalogItem> foundItem =
         repository.findByArchivedAndVisibleInCatalog(false, true, pageable);
     assertEquals(Collections.singletonList(catalogItem), foundItem.getContent());
+  }
+
+  @Test(expected = PersistenceException.class)
+  public void shouldNotAllowToCreateCatalogItemsWithSameEquipmentCode() {
+    CatalogItem item1 = generateInstance();
+    repository.save(item1);
+
+    CatalogItem item2 = generateInstance();
+    item2.setEquipmentCode(item1.getEquipmentCode());
+    repository.save(item2);
+
+    entityManager.flush();
+  }
+
+  @Test(expected = PersistenceException.class)
+  public void shouldNotAllowToCreateCatalogItemsWithSameMakeModel() {
+    CatalogItem item1 = generateInstance();
+    repository.save(item1);
+
+    CatalogItem item2 = generateInstance();
+    item2.setModel(item1.getModel());
+    item2.setManufacturer(item1.getManufacturer());
+    repository.save(item2);
+
+    entityManager.flush();
   }
 }

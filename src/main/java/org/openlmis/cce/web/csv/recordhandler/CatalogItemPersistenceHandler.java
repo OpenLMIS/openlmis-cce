@@ -39,7 +39,8 @@ public class CatalogItemPersistenceHandler
     if (equipmentCode != null) {
       return catalogItemRepository.findByEquipmentCode(equipmentCode);
     }
-    return catalogItemRepository.findByTypeAndModel(record.getType(), record.getModel());
+    return catalogItemRepository.findByManufacturerAndModel(record.getManufacturer(),
+        record.getModel());
   }
 
   @Override
