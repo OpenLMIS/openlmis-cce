@@ -69,6 +69,7 @@ public class CatalogItemController extends BaseController {
   private static final String DISPOSITION_BASE = "attachment; filename=";
   private static final String RESOURCE_URL = "/catalogItems";
   private static final String TYPE = "type";
+  private static final String CSV = "csv";
 
   @Autowired
   private MessageService messageService;
@@ -194,9 +195,8 @@ public class CatalogItemController extends BaseController {
                                 @RequestPart("file") MultipartFile file) {
     permissionService.canManageCce();
 
-    if (!"csv".equals(type)) {
+    if (!CSV.equals(type)) {
       throw new NotFoundException(new Message(ERROR_TYPE_NOT_ALLOWED, type));
-
     }
 
     validateCsvFile(file);
@@ -221,7 +221,7 @@ public class CatalogItemController extends BaseController {
                        HttpServletResponse response) throws IOException {
     permissionService.canManageCce();
 
-    if (!"csv".equals(type)) {
+    if (!CSV.equals(type)) {
       response.sendError(HttpServletResponse.SC_BAD_REQUEST,
           messageService.localize(new Message(ERROR_TYPE_NOT_ALLOWED, type)).asMessage());
       return;

@@ -254,6 +254,10 @@ resourceTypes:
                          required: false
                          repeat: false
           responses:
+              "200":
+                  body:
+                    application/json:
+                      schema: uploadResult
               "201":
                   body:
                     application/json:

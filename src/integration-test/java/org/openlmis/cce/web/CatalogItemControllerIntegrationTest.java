@@ -96,7 +96,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .extract().as(CatalogItemDto.class);
 
     assertEquals(catalogItemDto, response);
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -124,7 +124,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .extract().as(CatalogItemDto[].class);
 
     assertEquals(response.length, 1);
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -137,7 +137,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
 
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -157,7 +157,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .extract().as(PageImplRepresentation.class);
 
     assertEquals(1, response.getNumberOfElements());
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -170,7 +170,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
 
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -184,7 +184,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .extract().as(CatalogItemDto.class);
 
     assertEquals(response, catalogItemDto);
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -197,7 +197,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
 
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -214,7 +214,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     assertEquals(oldCatalogItem.getId(), result.getId());
     assertEquals(catalogItemDto.getEnergySource(), result.getEnergySource());
     assertEquals(catalogItemDto.getEquipmentCode(), result.getEquipmentCode());
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -227,7 +227,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
 
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -242,7 +242,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
     verify(catalogItemRepository).save(any(CatalogItem.class));
     assertEquals(1, result.getAmount().intValue());
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -257,7 +257,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
     verify(catalogItemRepository).save(any(CatalogItem.class));
     assertEquals(1, result.getAmount().intValue());
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
