@@ -17,6 +17,7 @@ package org.openlmis.cce.web;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
@@ -27,6 +28,7 @@ import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_RECORD_INV
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
 import com.jayway.restassured.response.Response;
+import guru.nidi.ramltester.junit.RamlMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.domain.CatalogItem;
@@ -270,7 +272,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
             ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS, "[From PQS catalog, Archived]")));
 
     verify(catalogItemRepository, never()).save(any(CatalogItem.class));
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -291,7 +293,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
     // then
     verify(catalogItemRepository, never()).save(any(CatalogItem.class));
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -307,7 +309,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
 
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -327,7 +329,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         + "Gross volume,Net volume,Dimensions,Visible in catalog,Archived\r\n"
         + "Y,equipment-code,type,model,producent,ELECTRIC,2016,MINUS3,20,-20,LOW,1,1,1,"
         + "\"100,100,100\",Y,N\r\n", csvContent);
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -345,7 +347,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         + "Energy source,Date of prequal,Storage temperature,Max operating temp (degrees C),"
         + "Min operating temp (degrees C),Energy consumption (NA for solar),Holdover time (hours),"
         + "Gross volume,Net volume,Dimensions,Visible in catalog,Archived\r\n", csvContent);
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -359,7 +361,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
 
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   private Response postCatalogItem() {
