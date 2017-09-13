@@ -109,7 +109,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
 
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test
@@ -242,9 +242,9 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
     verify(catalogItemRepository).save(any(CatalogItem.class));
     assertEquals(1, result.getAmount().intValue());
-    //commented out because file parameter is required
+    // changed to responseChecks because file parameter is required
     // and RAML check does not recognizes it in request
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.responseChecks());
   }
 
   @Test
@@ -259,9 +259,9 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
     verify(catalogItemRepository).save(any(CatalogItem.class));
     assertEquals(1, result.getAmount().intValue());
-    //commented out because file parameter is required
+    // changed to responseChecks because file parameter is required
     // and RAML check does not recognizes it in request
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.responseChecks());
   }
 
   @Test
@@ -276,9 +276,9 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
             ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS, "[From PQS catalog, Archived]")));
 
     verify(catalogItemRepository, never()).save(any(CatalogItem.class));
-    //commented out because file parameter is required
+    // changed to responseChecks because file parameter is required
     // and RAML check does not recognizes it in request
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.responseChecks());
   }
 
   @Test
@@ -299,9 +299,9 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
     // then
     verify(catalogItemRepository, never()).save(any(CatalogItem.class));
-    //commented out because file parameter is required
+    // changed to responseChecks because file parameter is required
     // and RAML check does not recognizes it in request
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.responseChecks());
   }
 
   @Test
@@ -317,9 +317,9 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
 
-    //commented out because file parameter is required
+    // changed to responseChecks because file parameter is required
     // and RAML check does not recognizes it in request
-    //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.responseChecks());
   }
 
   @Test
