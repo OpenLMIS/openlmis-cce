@@ -322,7 +322,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
     verify(catalogItemRepository).findAll();
     assertEquals("From PQS catalog,PQS equipment code,Type,Model,Manufacturer,"
-        + "Energy source,Date of prequal,Storage Temperature,Max operating temp (degrees C),"
+        + "Energy source,Date of prequal,Storage temperature,Max operating temp (degrees C),"
         + "Min operating temp (degrees C),Energy consumption (NA for solar),Holdover time (hours),"
         + "Gross volume,Net volume,Dimensions,Visible in catalog,Archived\r\n"
         + "Y,equipment-code,type,model,producent,ELECTRIC,2016,MINUS3,20,-20,LOW,1,1,1,"
@@ -342,7 +342,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
     verify(catalogItemRepository).findAll();
     assertEquals("From PQS catalog,PQS equipment code,Type,Model,Manufacturer,"
-        + "Energy source,Date of prequal,Storage Temperature,Max operating temp (degrees C),"
+        + "Energy source,Date of prequal,Storage temperature,Max operating temp (degrees C),"
         + "Min operating temp (degrees C),Energy consumption (NA for solar),Holdover time (hours),"
         + "Gross volume,Net volume,Dimensions,Visible in catalog,Archived\r\n", csvContent);
     //assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
