@@ -251,7 +251,7 @@ resourceTypes:
                       file:
                          displayName: File with .csv format
                          type: file
-                         required: false
+                         required: true
                          repeat: false
           responses:
               "200":
