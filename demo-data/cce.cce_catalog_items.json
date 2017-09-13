@@ -56,7 +56,7 @@
   {
     "id": "a4a83bb8-8ad1-416f-a2e1-831477565820",
     "fromPqsCatalog": "true",
-    "equipmentCode": "E003/005",
+    "equipmentCode": "E003/004",
     "type": "IRL",
     "model": "HBC-70",
     "manufacturer": "Haier",
@@ -110,7 +110,7 @@
   {
     "id": "0dd5752c-7744-438a-90ae-14651b57cdc0",
     "fromPqsCatalog": "true",
-    "equipmentCode": "E003/005",
+    "equipmentCode": "E003/006",
     "type": "Kerosene",
     "model": "V 170 KE",
     "manufacturer": "Sibir",
