@@ -32,6 +32,7 @@ import org.openlmis.cce.web.csv.format.CsvFormatter;
 import org.openlmis.cce.web.csv.recordhandler.CatalogItemPersistenceHandler;
 import org.openlmis.cce.web.csv.model.ModelClass;
 import org.openlmis.cce.web.csv.parser.CsvParser;
+import org.openlmis.cce.web.validator.CatalogItemValidator;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -95,6 +96,9 @@ public class CatalogItemController extends BaseController {
   @Autowired
   private CatalogItemService catalogItemService;
 
+  @Autowired
+  private CatalogItemValidator catalogItemValidator;
+
   /**
    * Allows creating new CCE Catalog Item. If the id is specified, it will be ignored.
    *
@@ -106,6 +110,9 @@ public class CatalogItemController extends BaseController {
   @ResponseBody
   public CatalogItemDto create(@RequestBody CatalogItemDto catalogItemDto) {
     permissionService.canManageCce();
+
+    catalogItemValidator.validateNewCatalogItem(catalogItemDto);
+
     catalogItemDto.setId(null);
     CatalogItem catalogItem = CatalogItem.newInstance(catalogItemDto);
 
@@ -176,6 +183,9 @@ public class CatalogItemController extends BaseController {
   public CatalogItemDto updateCatalogItem(@RequestBody CatalogItemDto catalogItemDto,
                                           @PathVariable("id") UUID catalogItemId) {
     permissionService.canManageCce();
+
+    catalogItemValidator.validateExistingCatalogItem(catalogItemDto);
+
     CatalogItem catalogItem = CatalogItem.newInstance(catalogItemDto);
     catalogItem.setId(catalogItemId);
     catalogRepository.save(catalogItem);

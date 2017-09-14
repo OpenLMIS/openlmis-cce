@@ -16,6 +16,8 @@
 package org.openlmis.cce.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -111,5 +113,26 @@ public class CatalogItemRepositoryIntegrationTest
     repository.save(item2);
 
     entityManager.flush();
+  }
+
+  @Test
+  public void shouldCheckIfCatalogItemWithSpecifiedEquipmentCodeExists() {
+    CatalogItem item = generateInstance();
+    repository.save(item);
+
+    assertTrue(repository.existsByEquipmentCode(item.getEquipmentCode()));
+    assertFalse(repository.existsByEquipmentCode(item.getEquipmentCode() + "a"));
+  }
+
+  @Test
+  public void shouldCheckIfCatalogItemWithManufacturerAndModelExists() {
+    CatalogItem item = generateInstance();
+    repository.save(item);
+
+    assertTrue(repository.existsByManufacturerAndModel(item.getManufacturer(), item.getModel()));
+    assertFalse(repository.existsByManufacturerAndModel(item.getManufacturer() + "a",
+        item.getModel()));
+    assertFalse(repository.existsByManufacturerAndModel(item.getManufacturer(),
+        item.getModel() + "a"));
   }
 }

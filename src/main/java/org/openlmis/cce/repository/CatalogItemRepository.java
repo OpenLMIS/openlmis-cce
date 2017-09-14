@@ -35,4 +35,8 @@ public interface CatalogItemRepository extends PagingAndSortingRepository<Catalo
   Page<CatalogItem> findByArchivedAndVisibleInCatalog(Boolean archived,
                                                       Boolean visibleInCatalog,
                                                       Pageable pageable);
+
+  boolean existsByEquipmentCode(String equipmentCode);
+
+  boolean existsByManufacturerAndModel(String manufacturer, String model);
 }

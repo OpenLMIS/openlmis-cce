@@ -27,6 +27,7 @@ public abstract class MessageKeys {
   protected static final String SEARCH = "search";
   protected static final String INVALID = "invalid";
   protected static final String LACKS_PARAMETERS = "lacksParameters";
+  protected static final String NOT_UNIQUE = "notUnique";
 
   public static final String ERROR_IO = SERVICE_ERROR_PREFIX + ".io";
   public static final String ERROR_FILE_IS_EMPTY = SERVICE_ERROR_PREFIX + ".file.empty";

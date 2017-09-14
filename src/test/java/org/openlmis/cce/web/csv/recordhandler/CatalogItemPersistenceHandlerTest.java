@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.web.csv;
+package org.openlmis.cce.web.csv.recordhandler;
 
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.verify;
@@ -28,7 +28,6 @@ import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.repository.CatalogItemRepository;
-import org.openlmis.cce.web.csv.recordhandler.CatalogItemPersistenceHandler;
 import java.util.UUID;
 
 public class CatalogItemPersistenceHandlerTest {
@@ -61,6 +60,7 @@ public class CatalogItemPersistenceHandlerTest {
     CatalogItem existingCatalogItem = new CatalogItem();
     existingCatalogItem.setId(UUID.randomUUID());
 
+    when(catalogItemRepository.existsByEquipmentCode(EQCODE)).thenReturn(true);
     when(catalogItemRepository.findByEquipmentCode(EQCODE)).thenReturn(existingCatalogItem);
 
     catalogItemPersistenceHandler.execute(catalogItem);
@@ -77,6 +77,10 @@ public class CatalogItemPersistenceHandlerTest {
     catalogItem.setEquipmentCode(null);
     catalogItem.setManufacturer(SOME_MAKE);
     catalogItem.setModel(SOME_MODEL);
+
+    when(catalogItemRepository.existsByEquipmentCode(EQCODE)).thenReturn(false);
+    when(catalogItemRepository.existsByManufacturerAndModel(SOME_MAKE, SOME_MODEL))
+        .thenReturn(true);
     when(catalogItemRepository.findByManufacturerAndModel(SOME_MAKE, SOME_MODEL))
         .thenReturn(existingCatalogItem);
 
@@ -88,6 +92,10 @@ public class CatalogItemPersistenceHandlerTest {
 
   @Test
   public void shouldNotSetIdIfExistingItemNotFound() {
+    when(catalogItemRepository.existsByEquipmentCode(EQCODE)).thenReturn(false);
+    when(catalogItemRepository.existsByManufacturerAndModel(SOME_MAKE, SOME_MODEL))
+        .thenReturn(false);
+
     catalogItemPersistenceHandler.execute(catalogItem);
 
     verify(catalogItemRepository).save(catalogItem);

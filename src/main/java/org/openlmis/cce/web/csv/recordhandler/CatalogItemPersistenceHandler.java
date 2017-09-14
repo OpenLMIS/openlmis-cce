@@ -15,10 +15,10 @@
 
 package org.openlmis.cce.web.csv.recordhandler;
 
-import org.openlmis.cce.domain.BaseEntity;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.repository.CatalogItemRepository;
+import org.openlmis.cce.web.validator.CatalogItemValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -33,18 +33,25 @@ public class CatalogItemPersistenceHandler
   @Autowired
   private CatalogItemRepository catalogItemRepository;
 
+  @Autowired
+  private CatalogItemValidator catalogItemValidator;
+
   @Override
-  protected BaseEntity getExisting(CatalogItem record) {
-    String equipmentCode = record.getEquipmentCode();
-    if (equipmentCode != null) {
-      return catalogItemRepository.findByEquipmentCode(equipmentCode);
+  protected CatalogItem getExisting(CatalogItem record) {
+    if (record.getEquipmentCode() != null
+        && catalogItemRepository.existsByEquipmentCode(record.getEquipmentCode())) {
+      return catalogItemRepository.findByEquipmentCode(record.getEquipmentCode());
+    } else if (catalogItemRepository.existsByManufacturerAndModel(record.getManufacturer(),
+        record.getModel())) {
+      return catalogItemRepository.findByManufacturerAndModel(record.getManufacturer(),
+          record.getModel());
     }
-    return catalogItemRepository.findByManufacturerAndModel(record.getManufacturer(),
-        record.getModel());
+    return null;
   }
 
   @Override
   protected CatalogItem importDto(CatalogItemDto record) {
+    catalogItemValidator.validateExistingCatalogItem(record);
     return CatalogItem.newInstance(record);
   }
 
