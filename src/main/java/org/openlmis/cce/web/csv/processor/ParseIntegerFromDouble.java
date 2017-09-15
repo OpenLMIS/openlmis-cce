@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.web.csv.processor;
 
+import org.apache.commons.lang3.math.NumberUtils;
 import org.supercsv.cellprocessor.CellProcessorAdaptor;
 import org.supercsv.cellprocessor.ift.StringCellProcessor;
 import org.supercsv.exception.SuperCsvCellProcessorException;
@@ -55,29 +56,18 @@ public class ParseIntegerFromDouble extends CellProcessorAdaptor implements Stri
 
   private Integer parseIntegerPart(Object value, CsvContext context, String stringValue,
                                    NumberFormatException ex) {
-    Integer result;
     try {
       //Handle if value can be parsed into double
-      Double.valueOf(stringValue);
+      if (!NumberUtils.isParsable(stringValue)) {
+        throw getSuperCsvCellProcessorException(value, context, ex);
+      }
 
       String integerPart = stringValue.split(DECIMAl_POINT)[0];
 
-      if (integerPart.length() > 10) {
-        throw getSuperCsvCellProcessorException(value, context, ex);
-      }
-
-      Long longValue = Long.valueOf(integerPart);
-      if (longValue > Integer.MAX_VALUE) {
-        throw getSuperCsvCellProcessorException(value, context, ex);
-      }
-
-      result = longValue.intValue();
-
+      return Integer.valueOf(integerPart);
     } catch (NumberFormatException e1) {
       throw getSuperCsvCellProcessorException(value, context, e1);
-
     }
-    return result;
   }
 
   private SuperCsvCellProcessorException getSuperCsvCellProcessorException(

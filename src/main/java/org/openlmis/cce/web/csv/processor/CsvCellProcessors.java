@@ -41,9 +41,6 @@ import java.util.Map;
 
 public class CsvCellProcessors {
 
-  public static final Map<String, CellProcessor> typeParseMappings = new HashMap<>();
-  public static final Map<String, CellProcessor> typeExportMappings = new HashMap<>();
-
   public static final String INT_TYPE = "int";
   public static final String LONG_TYPE = "long";
   public static final String BOOLEAN_TYPE = "boolean";
@@ -56,7 +53,9 @@ public class CsvCellProcessors {
   public static final String STORAGE_TEMPERATURE_TYPE = "StorageTemperature";
   public static final String DIMENSIONS_TYPE = "triple";
 
-  private static final String format = "dd/MM/yyyy";
+  private static final Map<String, CellProcessor> typeParseMappings = new HashMap<>();
+  private static final Map<String, CellProcessor> typeExportMappings = new HashMap<>();
+  private static final String FORMAT = "dd/MM/yyyy";
 
   static {
     typeParseMappings.put(INT_TYPE, new ParseInt());
@@ -65,7 +64,7 @@ public class CsvCellProcessors {
     typeParseMappings.put(DOUBLE_TYPE, new ParseDouble());
     typeParseMappings.put(INT_FROM_DOUBLE_TYPE, new ParseIntegerFromDouble());
     typeParseMappings.put(DATE_TYPE,
-        new StrRegEx("^\\d{1,2}/\\d{1,2}/\\d{4}$", new ParseDate(format)));
+        new StrRegEx("^\\d{1,2}/\\d{1,2}/\\d{4}$", new ParseDate(FORMAT)));
     typeParseMappings.put(STRING_TYPE, new Trim());
     typeParseMappings.put(BIG_DECIMAL_TYPE, new ParseBigDecimal());
     typeParseMappings.put(ENERGY_SOURCE_TYPE, new ParseEnergySource());
