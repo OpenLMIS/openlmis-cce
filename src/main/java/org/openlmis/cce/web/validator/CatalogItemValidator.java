@@ -15,15 +15,9 @@
 
 package org.openlmis.cce.web.validator;
 
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_ARCHIVED_REQUIRED;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_ENERGY_SOURCE_REQUIRED;
 import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_EQUIPMENT_CODE_NOT_UNIQUE;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_FROM_PSQ_CATALOG_REQUIRED;
+import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_FROM_FIELD_REQUIRED;
 import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_MANUFACTURER_MODEL_NOT_UNIQUE;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_MANUFACTURER_REQUIRED;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_MODEL_REQUIRED;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_STORAGE_TEMPERATURE_REQUIRED;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_TYPE_REQUIRED;
 
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.exception.ValidationMessageException;
@@ -67,18 +61,19 @@ public class CatalogItemValidator {
   }
 
   private void validateNullValues(CatalogItemDto catalogItem) {
-    validateNotNull(catalogItem.getFromPqsCatalog(), ERROR_FROM_PSQ_CATALOG_REQUIRED);
-    validateNotNull(catalogItem.getType(), ERROR_TYPE_REQUIRED);
-    validateNotNull(catalogItem.getModel(), ERROR_MODEL_REQUIRED);
-    validateNotNull(catalogItem.getManufacturer(), ERROR_MANUFACTURER_REQUIRED);
-    validateNotNull(catalogItem.getEnergySource(), ERROR_ENERGY_SOURCE_REQUIRED);
-    validateNotNull(catalogItem.getStorageTemperature(), ERROR_STORAGE_TEMPERATURE_REQUIRED);
-    validateNotNull(catalogItem.getArchived(), ERROR_ARCHIVED_REQUIRED);
+    validateNotNull(catalogItem.getFromPqsCatalog(), ERROR_FROM_FIELD_REQUIRED, "fromPqsCatalog");
+    validateNotNull(catalogItem.getType(), ERROR_FROM_FIELD_REQUIRED, "type");
+    validateNotNull(catalogItem.getModel(), ERROR_FROM_FIELD_REQUIRED, "model");
+    validateNotNull(catalogItem.getManufacturer(), ERROR_FROM_FIELD_REQUIRED, "manufacturer");
+    validateNotNull(catalogItem.getEnergySource(), ERROR_FROM_FIELD_REQUIRED, "energySource");
+    validateNotNull(catalogItem.getStorageTemperature(), ERROR_FROM_FIELD_REQUIRED,
+        "storageTemperature");
+    validateNotNull(catalogItem.getArchived(), ERROR_FROM_FIELD_REQUIRED, "archived");
   }
 
-  private void validateNotNull(Object field, String errorMessage) {
+  private void validateNotNull(Object field, String errorMessage, String fieldName) {
     if (field == null) {
-      throw new ValidationMessageException(errorMessage);
+      throw new ValidationMessageException(errorMessage, fieldName);
     }
   }
 }

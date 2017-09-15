@@ -33,15 +33,9 @@ import org.openlmis.cce.util.Message;
 
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_ARCHIVED_REQUIRED;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_ENERGY_SOURCE_REQUIRED;
 import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_EQUIPMENT_CODE_NOT_UNIQUE;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_FROM_PSQ_CATALOG_REQUIRED;
+import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_FROM_FIELD_REQUIRED;
 import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_MANUFACTURER_MODEL_NOT_UNIQUE;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_MANUFACTURER_REQUIRED;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_MODEL_REQUIRED;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_STORAGE_TEMPERATURE_REQUIRED;
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_TYPE_REQUIRED;
 
 @RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings({"PMD.TooManyMethods"})
@@ -77,7 +71,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfFromPqsCatalogIsNullForExistingItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_FROM_PSQ_CATALOG_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "fromPqsCatalog").toString());
 
     catalogItemDto.setFromPqsCatalog(null);
     catalogItemValidator.validateExistingCatalogItem(catalogItemDto);
@@ -87,7 +81,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfFromPqsCatalogIsNullForNewItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_FROM_PSQ_CATALOG_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "fromPqsCatalog").toString());
 
     catalogItemDto.setFromPqsCatalog(null);
     catalogItemValidator.validateNewCatalogItem(catalogItemDto);
@@ -97,7 +91,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfTypeIsNullForExistingItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_TYPE_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "type").toString());
 
     catalogItemDto.setType(null);
     catalogItemValidator.validateExistingCatalogItem(catalogItemDto);
@@ -107,7 +101,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfTypeIsNullForNewItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_TYPE_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "type").toString());
 
     catalogItemDto.setType(null);
     catalogItemValidator.validateNewCatalogItem(catalogItemDto);
@@ -117,7 +111,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfModelIsNullForExistingItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_MODEL_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "model").toString());
 
     catalogItemDto.setModel(null);
     catalogItemValidator.validateExistingCatalogItem(catalogItemDto);
@@ -127,7 +121,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfModelIsNullForNewItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_MODEL_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "model").toString());
 
     catalogItemDto.setModel(null);
     catalogItemValidator.validateNewCatalogItem(catalogItemDto);
@@ -137,7 +131,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfManufacturerIsNullForExistingItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_MANUFACTURER_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "manufacturer").toString());
 
     catalogItemDto.setManufacturer(null);
     catalogItemValidator.validateExistingCatalogItem(catalogItemDto);
@@ -147,7 +141,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfManufacturerIsNullForNewItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_MANUFACTURER_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "manufacturer").toString());
 
     catalogItemDto.setManufacturer(null);
     catalogItemValidator.validateNewCatalogItem(catalogItemDto);
@@ -157,7 +151,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfEnergySourceIsNullForExistingItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_ENERGY_SOURCE_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "energySource").toString());
 
     catalogItemDto.setEnergySource(null);
     catalogItemValidator.validateExistingCatalogItem(catalogItemDto);
@@ -167,7 +161,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfEnergySourceIsNullForNewItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_ENERGY_SOURCE_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "energySource").toString());
 
     catalogItemDto.setEnergySource(null);
     catalogItemValidator.validateNewCatalogItem(catalogItemDto);
@@ -177,7 +171,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfStorageTemperatureIsNullForExistingItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_STORAGE_TEMPERATURE_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "storageTemperature").toString());
 
     catalogItemDto.setStorageTemperature(null);
     catalogItemValidator.validateExistingCatalogItem(catalogItemDto);
@@ -187,7 +181,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfStorageTemperatureIsNullForNewItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_STORAGE_TEMPERATURE_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "storageTemperature").toString());
 
     catalogItemDto.setStorageTemperature(null);
     catalogItemValidator.validateNewCatalogItem(catalogItemDto);
@@ -197,7 +191,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfArchivedIsNullForExistingItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_ARCHIVED_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "archived").toString());
 
     catalogItemDto.setArchived(null);
     catalogItemValidator.validateExistingCatalogItem(catalogItemDto);
@@ -207,7 +201,7 @@ public class CatalogItemValidatorTest {
   public void shouldThrowExceptionIfArchivedIsNullForNewItem() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_ARCHIVED_REQUIRED, "").toString());
+        new Message(ERROR_FROM_FIELD_REQUIRED, "archived").toString());
 
     catalogItemDto.setArchived(null);
     catalogItemValidator.validateNewCatalogItem(catalogItemDto);
