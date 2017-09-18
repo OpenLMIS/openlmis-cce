@@ -35,8 +35,6 @@ schemas:
 
   - catalogItemPage: !include schemas/catalogItemPage.json
 
-  - catalogItemQueryDto: !include schemas/catalogItemQueryDto.json
-
   - inventoryItem: !include schemas/inventoryItem.json
 
   - inventoryItemPage: !include schemas/inventoryItemPage.json
@@ -208,11 +206,26 @@ resourceTypes:
   /catalogItems:
       displayName: CCE Catalog Item
       get:
-          is: [ secured ]
-          description: Get all CCE catalog items.
+          is: [ secured, paginated ]
+          description: Get all CCE catalog items that are matching given request parameters.
           queryParameters:
+              format:
+                  description: "This parameter specifies return type of this endpoint. If it is not specified json format is returned. Supported formats: csv."
+                  type: string
+                  required: false
+                  repeat: false
               type:
-                  description: "This parameter specifies return type of this endpoint. If it is not specified json format is returned. Supported types: csv."
+                  description: "Type of catalog item."
+                  type: string
+                  required: false
+                  repeat: false
+              archived:
+                  description: "Is catalog item archived."
+                  type: string
+                  required: false
+                  repeat: false
+              visibleInCatalog:
+                  description: "Is catalog item visible in catalog."
                   type: string
                   required: false
                   repeat: false
@@ -220,7 +233,7 @@ resourceTypes:
               "200":
                   body:
                     application/json:
-                      schema: catalogItemArray
+                      schema: catalogItemPage
                     text/csv:
               "400":
                   body:
@@ -238,8 +251,8 @@ resourceTypes:
           is: [ secured ]
           description: Creates given CCE catalog item if possible.
           queryParameters:
-              type:
-                  description: "This parameter specifies type of body. If it is not specified json format is required. Supported types: csv."
+              format:
+                  description: "This parameter specifies format of body. If it is not specified json format is required. Supported formats: csv."
                   type: string
                   required: false
                   repeat: false
@@ -312,26 +325,6 @@ resourceTypes:
                       body:
                         application/json:
                           schema: localizedErrorResponse
-      /search:
-          post:
-              is: [ secured, paginated ]
-              description: Returns a paginated list of catalog items given archive and visibleInCatalog and type (optional).
-              body:
-                application/json:
-                  schema: catalogItemQueryDto
-              responses:
-                200:
-                    body:
-                      application/json:
-                          schema: catalogItemPage
-                400:
-                    body:
-                      application/json:
-                        schema: localizedErrorResponse
-                403:
-                    body:
-                      application/json:
-                        schema: localizedErrorResponse
   /inventoryItems:
       displayName: CCE Inventory item
       get:

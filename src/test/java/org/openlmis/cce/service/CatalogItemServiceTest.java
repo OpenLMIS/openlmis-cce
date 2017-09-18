@@ -25,16 +25,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openlmis.cce.domain.CatalogItem;
-import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class CatalogItemServiceTest {
 
@@ -64,23 +61,19 @@ public class CatalogItemServiceTest {
     when(catalogRepository.findAll(pageable))
         .thenReturn(Pagination.getPage(itemsList, null, itemsList.size()));
 
-    Page<CatalogItem> actual = catalogItemService.search(new HashMap<>(), pageable);
+    Page<CatalogItem> actual = catalogItemService.search(null, null, null, pageable);
     assertEquals(itemsList, actual.getContent());
   }
 
   @Test
-  public void shouldFindCatalogItemsWhenTypeInQueryMapIsNull() {
+  public void shouldFindCatalogItemsWhenTypeIsNull() {
     List<CatalogItem> foundCatalogItems = Collections.singletonList(item);
     when(catalogRepository
         .findByArchivedAndVisibleInCatalog(
             false, true, pageable))
         .thenReturn(Pagination.getPage(foundCatalogItems, null, 1));
 
-    Map<String, Object> searchParams = new HashMap<>();
-    searchParams.put("archived", false);
-    searchParams.put("visibleInCatalog", true);
-
-    Page<CatalogItem> actual = catalogItemService.search(searchParams, pageable);
+    Page<CatalogItem> actual = catalogItemService.search(null, false, true, pageable);
     assertEquals(foundCatalogItems, actual.getContent());
   }
 
@@ -93,19 +86,7 @@ public class CatalogItemServiceTest {
             false, type, true, pageable))
         .thenReturn(Pagination.getPage(foundCatalogItems, null, 1));
 
-    Map<String, Object> searchParams = new HashMap<>();
-    searchParams.put("archived", false);
-    searchParams.put("visibleInCatalog", true);
-    searchParams.put("type", type);
-
-    Page<CatalogItem> actual = catalogItemService.search(searchParams, pageable);
+    Page<CatalogItem> actual = catalogItemService.search(type, false, true, pageable);
     assertEquals(foundCatalogItems, actual.getContent());
-  }
-
-  @Test(expected = ValidationMessageException.class)
-  public void shouldThrowExceptionIfThereIsNoValidParameterProvidedForSearch() {
-    Map<String, Object> searchParams = new HashMap<>();
-    searchParams.put("some-param", "some-value");
-    catalogItemService.search(searchParams, pageable);
   }
 }

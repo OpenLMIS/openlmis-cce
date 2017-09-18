@@ -19,10 +19,8 @@ public class CatalogItemMessageKeys extends MessageKeys {
   private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".catalog";
 
   public static final String ERROR_ITEM_NOT_FOUND = ERROR_PREFIX + ".item.notFound";
-  public static final String ERROR_SEARCH_LACKS_PARAMS =
-      join(ERROR_PREFIX, SEARCH, LACKS_PARAMETERS);
-  public static final String ERROR_TYPE_NOT_ALLOWED =
-      join(ERROR_PREFIX, ".type.notAllowed");
+  public static final String ERROR_FORMAT_NOT_ALLOWED =
+      join(ERROR_PREFIX, ".format.notAllowed");
 
   public static final String ERROR_FROM_FIELD_REQUIRED =
       join(ERROR_PREFIX, "field", REQUIRED);

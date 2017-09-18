@@ -28,7 +28,9 @@ import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_RECORD_INV
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
 import com.jayway.restassured.response.Response;
+import com.jayway.restassured.specification.RequestSpecification;
 import guru.nidi.ramltester.junit.RamlMatchers;
+import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.domain.CatalogItem;
@@ -50,9 +52,7 @@ import org.springframework.http.MediaType;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.TooManyMethods"})
@@ -60,7 +60,6 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
   private static final String RESOURCE_URL = "/api/catalogItems";
   private static final String RESOURCE_URL_WITH_ID = RESOURCE_URL + "/{id}";
-  private static final String SEARCH = RESOURCE_URL + "/search";
   private static final String FILE_PARAM_NAME = "file";
 
   @MockBean
@@ -116,14 +115,16 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   public void shouldRetrieveAllCatalogItems() {
     List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);
 
-    when(catalogItemRepository.findAll()).thenReturn(CatalogItem.newInstance(items));
+    when(catalogItemService.search(any(String.class), any(Boolean.class),
+        any(Boolean.class), any(Pageable.class)))
+        .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), null, 1));
 
-    CatalogItemDto[] response = getAllCatalogItems()
+    PageImplRepresentation response = getCatalogItems(null, null, null, null, null)
         .then()
         .statusCode(200)
-        .extract().as(CatalogItemDto[].class);
+        .extract().as(PageImplRepresentation.class);
 
-    assertEquals(response.length, 1);
+    assertEquals(response.getContent().size(), 1);
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -132,7 +133,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     doThrow(mockPermissionException(managePermission))
         .when(permissionService).canManageCce();
 
-    getAllCatalogItems()
+    getCatalogItems(null, null, null, null, null)
         .then()
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
@@ -143,33 +144,16 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   @Test
   public void shouldFindCatalogItemsWithGivenParameters() throws IOException {
     List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);
-    when(catalogItemService.search(any(Map.class), any(Pageable.class)))
+    when(catalogItemService.search(any(String.class), any(Boolean.class),
+        any(Boolean.class), any(Pageable.class)))
         .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), null, 1));
 
-    Map<String, Object> requestBody = new HashMap<>();
-    requestBody.put("page", 1);
-    requestBody.put("size", 10);
-    requestBody.put("archived", true);
-
-    PageImplRepresentation response = searchCatalogItems(requestBody)
+    PageImplRepresentation response = getCatalogItems(null, true, null, 1, 10)
         .then()
         .statusCode(200)
         .extract().as(PageImplRepresentation.class);
 
     assertEquals(1, response.getNumberOfElements());
-    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
-  }
-
-  @Test
-  public void shouldReturnUnauthorizedWhenSearchCatalogItemsIfUserHasNoCceManagePermission() {
-    doThrow(mockPermissionException(managePermission))
-        .when(permissionService).canManageCce();
-
-    searchCatalogItems(Collections.EMPTY_MAP)
-        .then()
-        .statusCode(403)
-        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
-
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -384,23 +368,31 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .post(RESOURCE_URL);
   }
 
-  private Response getAllCatalogItems() {
-    return restAssured
+  private Response getCatalogItems(String type, Boolean archived, Boolean visibleInCatalog,
+                                   Integer page, Integer size) {
+    RequestSpecification request = restAssured
         .given()
         .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
-        .when()
-        .get(RESOURCE_URL);
-  }
+        .contentType(MediaType.APPLICATION_JSON_VALUE);
 
-  private Response searchCatalogItems(Map<String, Object> requestBody) {
-    return restAssured
-        .given()
-        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
-        .contentType(MediaType.APPLICATION_JSON_VALUE)
-        .body(requestBody)
-        .when()
-        .post(SEARCH);
+    if (!StringUtils.isEmpty(type)) {
+      request = request.param("type", type);
+    }
+    if (archived != null) {
+      request = request.param("archived", archived);
+    }
+    if (visibleInCatalog != null) {
+      request = request.param("visibleInCatalog", visibleInCatalog);
+    }
+    if (page != null) {
+      request = request.param("page", page);
+    }
+    if (size != null) {
+      request = request.param("size", size);
+    }
+
+    return request.when()
+        .get(RESOURCE_URL);
   }
 
   private Response getCatalogItem() {
@@ -427,7 +419,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     return restAssured.given()
         .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .contentType("text/csv")
-        .queryParam("type", "csv")
+        .queryParam("format", "csv")
         .when()
         .get(RESOURCE_URL);
   }
@@ -436,7 +428,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     return restAssured.given()
         .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .contentType(MediaType.MULTIPART_FORM_DATA_VALUE)
-        .queryParam("type", "csv")
+        .queryParam("format", "csv")
         .multiPart(FILE_PARAM_NAME,
             basicCsvToUpload.getFilename(),
             basicCsvToUpload.getInputStream())

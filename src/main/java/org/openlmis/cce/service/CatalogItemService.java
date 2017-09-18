@@ -15,17 +15,13 @@
 
 package org.openlmis.cce.service;
 
-import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.openlmis.cce.domain.CatalogItem;
-import org.openlmis.cce.exception.ValidationMessageException;
-import org.openlmis.cce.i18n.CatalogItemMessageKeys;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-import java.util.Map;
 
 @Service
 public class CatalogItemService {
@@ -36,24 +32,17 @@ public class CatalogItemService {
   /**
    * Method returns all catalog items with matched parameters.
    *
-   * @param queryMap request parameters (archived, type, visibleInCatalog).
+   * @param type             catalog item type
+   * @param archived         is catalog item archived
+   * @param visibleInCatalog is item visible in catalog
+   * @param pageable         pagination parameters
    * @return List of facilities
    */
-  public Page<CatalogItem> search(Map<String, Object> queryMap, Pageable pageable) {
+  public Page<CatalogItem> search(String type, Boolean archived,
+                                  Boolean visibleInCatalog, Pageable pageable) {
 
-    if (MapUtils.isEmpty(queryMap)) {
+    if (StringUtils.isEmpty(type) && archived == null & visibleInCatalog == null) {
       return catalogRepository.findAll(pageable);
-    }
-
-    Boolean archived = MapUtils.getBoolean(queryMap, "archived", null);
-    Boolean visibleInCatalog = MapUtils.getBoolean(queryMap, "visibleInCatalog", null);
-    String type = MapUtils.getString(queryMap, "type", null);
-
-    if (archived == null
-        && visibleInCatalog == null
-        && StringUtils.isEmpty(type)) {
-      throw new ValidationMessageException(
-          CatalogItemMessageKeys.ERROR_SEARCH_LACKS_PARAMS);
     }
 
     if (type != null) {

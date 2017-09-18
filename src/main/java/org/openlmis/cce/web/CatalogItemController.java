@@ -56,12 +56,11 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_TYPE_NOT_ALLOWED;
+import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_FORMAT_NOT_ALLOWED;
 
 @Controller
 @Transactional
@@ -69,7 +68,7 @@ public class CatalogItemController extends BaseController {
 
   private static final String DISPOSITION_BASE = "attachment; filename=";
   private static final String RESOURCE_URL = "/catalogItems";
-  private static final String TYPE = "type";
+  private static final String FORMAT = "format";
   private static final String CSV = "csv";
 
   @Autowired
@@ -121,33 +120,26 @@ public class CatalogItemController extends BaseController {
   }
 
   /**
-   * Get all CCE Catalog items.
+   * Retrieves all CCE Catalog items with specified request params.
    *
-   * @return CCE Catalog items.
+   * @param type             request parameter: type
+   * @param archived         request parameter: archived
+   * @param visibleInCatalog request parameter: visibleInCatalog
+   * @param pageable         object used to encapsulate the pagination values: page and size.
+   * @return Page of wanted catalog items matching request parameters.
    */
-  @GetMapping(RESOURCE_URL)
+  @GetMapping(value = RESOURCE_URL)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public List<CatalogItemDto> getAll() {
-    permissionService.canManageCce();
-    return toDto(catalogRepository.findAll());
-  }
-
-  /**
-   * Retrieves all CCE Catalog items with specified query params.
-   *
-   * @param queryParams request parameters: archived, type (optional), visibleInCatalog.
-   * @param pageable object used to encapsulate the pagination related values: page and size.
-   * @return List of wanted catalog items matching query parameters.
-   */
-  @RequestMapping(value = RESOURCE_URL + "/search", method = RequestMethod.POST)
-  @ResponseStatus(HttpStatus.OK)
-  @ResponseBody
-  public Page<CatalogItemDto> searchCatalogItems(@RequestBody Map<String, Object> queryParams,
-                                                 Pageable pageable) {
+  public Page<CatalogItemDto> search(
+              @RequestParam(value = "type", required = false) String type,
+              @RequestParam(value = "archived", required = false) boolean archived,
+              @RequestParam(value = "visibleInCatalog", required = false) boolean visibleInCatalog,
+              Pageable pageable) {
     permissionService.canManageCce();
 
-    Page<CatalogItem> itemsPage = catalogItemService.search(queryParams, pageable);
+    Page<CatalogItem> itemsPage = catalogItemService.search(type, archived,
+        visibleInCatalog, pageable);
     return Pagination.getPage(toDto(itemsPage), pageable, itemsPage.getTotalElements());
   }
 
@@ -198,15 +190,15 @@ public class CatalogItemController extends BaseController {
    * @param file File in ".csv" format to upload.
    * @return number of uploaded records
    */
-  @PostMapping(value = RESOURCE_URL, params = TYPE)
+  @PostMapping(value = RESOURCE_URL, params = FORMAT)
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
-  public UploadResultDto upload(@RequestParam(TYPE) String type,
+  public UploadResultDto upload(@RequestParam(FORMAT) String format,
                                 @RequestPart("file") MultipartFile file) {
     permissionService.canManageCce();
 
-    if (!CSV.equals(type)) {
-      throw new NotFoundException(new Message(ERROR_TYPE_NOT_ALLOWED, type));
+    if (!CSV.equals(format)) {
+      throw new NotFoundException(new Message(ERROR_FORMAT_NOT_ALLOWED, format, CSV));
     }
 
     validateCsvFile(file);
@@ -224,16 +216,16 @@ public class CatalogItemController extends BaseController {
   /**
    * Downloads csv file with all inventory items.
    */
-  @GetMapping(value = RESOURCE_URL, params = TYPE)
+  @GetMapping(value = RESOURCE_URL, params = FORMAT)
   @ResponseBody
   @ResponseStatus(HttpStatus.OK)
-  public void download(@RequestParam(TYPE) String type,
+  public void download(@RequestParam(FORMAT) String format,
                        HttpServletResponse response) throws IOException {
     permissionService.canManageCce();
 
-    if (!CSV.equals(type)) {
+    if (!CSV.equals(format)) {
       response.sendError(HttpServletResponse.SC_BAD_REQUEST,
-          messageService.localize(new Message(ERROR_TYPE_NOT_ALLOWED, type, CSV)).asMessage());
+          messageService.localize(new Message(ERROR_FORMAT_NOT_ALLOWED, format, CSV)).asMessage());
       return;
     }
 
