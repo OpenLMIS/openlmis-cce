@@ -112,11 +112,10 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   }
 
   @Test
-  public void shouldRetrieveAllCatalogItems() {
+  public void shouldRetrieveAllCatalogItemsWhenCallingSearchWithAllNullParameters() {
     List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);
 
-    when(catalogItemService.search(any(String.class), any(Boolean.class),
-        any(Boolean.class), any(Pageable.class)))
+    when(catalogItemRepository.findAll(any(Pageable.class)))
         .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), null, 1));
 
     PageImplRepresentation response = getCatalogItems(null, null, null, null, null)
@@ -129,7 +128,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   }
 
   @Test
-  public void shouldReturnUnauthorizedWhenGetAllCatalogItemsIfUserHasNoCceManagePermission() {
+  public void shouldReturnUnauthorizedWhenSearchingCatalogItemsIfUserHasNoCceManagePermission() {
     doThrow(mockPermissionException(managePermission))
         .when(permissionService).canManageCce();
 
