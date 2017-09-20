@@ -140,7 +140,9 @@ public class CatalogItemController extends BaseController {
 
     Page<CatalogItem> itemsPage = catalogItemService.search(type, archived,
         visibleInCatalog, pageable);
-    return Pagination.getPage(toDto(itemsPage), pageable, itemsPage.getTotalElements());
+
+    return Pagination.getPage(toDto(itemsPage.getContent()), pageable,
+        itemsPage.getTotalElements());
   }
 
   /**
