@@ -133,8 +133,8 @@ public class CatalogItemController extends BaseController {
   @ResponseBody
   public Page<CatalogItemDto> search(
               @RequestParam(value = "type", required = false) String type,
-              @RequestParam(value = "archived", required = false) boolean archived,
-              @RequestParam(value = "visibleInCatalog", required = false) boolean visibleInCatalog,
+              @RequestParam(value = "archived", required = false) Boolean archived,
+              @RequestParam(value = "visibleInCatalog", required = false) Boolean visibleInCatalog,
               Pageable pageable) {
     permissionService.canManageCce();
 
