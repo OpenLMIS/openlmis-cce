@@ -146,13 +146,13 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         any(Boolean.class), any(Pageable.class)))
         .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), null, 1));
 
-    PageImplRepresentation response = getCatalogItems(null, true, null, 1, 10)
+    PageImplRepresentation response = getCatalogItems("some-type", true, false, 1, 10)
         .then()
         .statusCode(200)
         .extract().as(PageImplRepresentation.class);
 
     assertEquals(1, response.getNumberOfElements());
-    verify(catalogItemRepository).search(eq(null), eq(true), eq(null), any(Pageable.class));
+    verify(catalogItemRepository).search(eq("some-type"), eq(true), eq(false), any(Pageable.class));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
