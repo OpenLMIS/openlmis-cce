@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -40,7 +41,6 @@ import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.UploadResultDto;
 import org.openlmis.cce.repository.CatalogItemRepository;
-import org.openlmis.cce.service.CatalogItemService;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.util.PageImplRepresentation;
 import org.openlmis.cce.util.Pagination;
@@ -67,9 +67,6 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
   @MockBean
   private PermissionService permissionService;
-
-  @MockBean
-  private CatalogItemService catalogItemService;
 
   private CatalogItemDto catalogItemDto;
   private String managePermission = PermissionService.CCE_MANAGE;
@@ -115,7 +112,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   public void shouldRetrieveAllCatalogItemsWhenCallingSearchWithAllNullParameters() {
     List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);
 
-    when(catalogItemService.search(any(String.class), any(Boolean.class),
+    when(catalogItemRepository.search(any(String.class), any(Boolean.class),
         any(Boolean.class), any(Pageable.class)))
         .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), null, 1));
 
@@ -125,6 +122,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .extract().as(PageImplRepresentation.class);
 
     assertEquals(response.getContent().size(), 1);
+    verify(catalogItemRepository).search(eq(null), eq(null), eq(null), any(Pageable.class));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -144,7 +142,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   @Test
   public void shouldFindCatalogItemsWithGivenParameters() throws IOException {
     List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);
-    when(catalogItemService.search(any(String.class), any(Boolean.class),
+    when(catalogItemRepository.search(any(String.class), any(Boolean.class),
         any(Boolean.class), any(Pageable.class)))
         .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), null, 1));
 
@@ -154,6 +152,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .extract().as(PageImplRepresentation.class);
 
     assertEquals(1, response.getNumberOfElements());
+    verify(catalogItemRepository).search(eq(null), eq(true), eq(null), any(Pageable.class));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 

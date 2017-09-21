@@ -13,24 +13,14 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.i18n;
+package org.openlmis.cce.repository.custom;
 
-import lombok.AccessLevel;
-import lombok.NoArgsConstructor;
+import org.openlmis.cce.domain.CatalogItem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
-@NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class CatalogItemMessageKeys extends MessageKeys {
-  private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".catalog";
+public interface CatalogItemRepositoryCustom {
 
-  public static final String ERROR_ITEM_NOT_FOUND = ERROR_PREFIX + ".item.notFound";
-  public static final String ERROR_FORMAT_NOT_ALLOWED =
-      join(ERROR_PREFIX, ".format.notAllowed");
-
-  public static final String ERROR_FROM_FIELD_REQUIRED =
-      join(ERROR_PREFIX, "field", REQUIRED);
-
-  public static final String ERROR_EQUIPMENT_CODE_NOT_UNIQUE =
-      join(ERROR_PREFIX, "equipmentCode", NOT_UNIQUE);
-  public static final String ERROR_MANUFACTURER_MODEL_NOT_UNIQUE =
-      join(ERROR_PREFIX, "manufacturerAndModel", NOT_UNIQUE);
+  Page<CatalogItem> search(String type, Boolean archived,
+                           Boolean visibleInCatalog, Pageable pageable);
 }

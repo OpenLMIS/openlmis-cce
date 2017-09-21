@@ -34,7 +34,6 @@ import org.springframework.data.repository.CrudRepository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
-import java.util.Collections;
 import java.util.UUID;
 
 public class CatalogItemRepositoryIntegrationTest
@@ -47,7 +46,6 @@ public class CatalogItemRepositoryIntegrationTest
   private EntityManager entityManager;
 
   private Pageable pageable = mock(Pageable.class);
-  private CatalogItem catalogItem;
 
   @Override
   CrudRepository<CatalogItem, UUID> getRepository() {
@@ -64,7 +62,7 @@ public class CatalogItemRepositoryIntegrationTest
 
   @Before
   public void setUp() {
-    catalogItem = repository.save(generateInstance());
+    repository.save(generateInstance());
 
     when(pageable.getPageSize()).thenReturn(10);
     when(pageable.getPageNumber()).thenReturn(0);
@@ -74,20 +72,6 @@ public class CatalogItemRepositoryIntegrationTest
         StorageTemperature.PLUS1, 10, -10, "HIGH", 2, 2, 2,
         new Dimensions(10, 20, 30), false, true);
     repository.save(itemArchived);
-  }
-
-  @Test
-  public void shouldFindCatalogItemBasedOnGivenParams() {
-    Page<CatalogItem> foundItem =
-        repository.findByArchivedAndTypeAndVisibleInCatalog(false, "type", true, pageable);
-    assertEquals(Collections.singletonList(catalogItem), foundItem.getContent());
-  }
-
-  @Test
-  public void shouldFindCatalogItemBasedOnArchivedAndVisibleInCatalog() {
-    Page<CatalogItem> foundItem =
-        repository.findByArchivedAndVisibleInCatalog(false, true, pageable);
-    assertEquals(Collections.singletonList(catalogItem), foundItem.getContent());
   }
 
   @Test(expected = PersistenceException.class)
@@ -134,5 +118,66 @@ public class CatalogItemRepositoryIntegrationTest
         item.getModel()));
     assertFalse(repository.existsByManufacturerAndModel(item.getManufacturer(),
         item.getModel() + "a"));
+  }
+
+  @Test
+  public void shouldReturnAllCatalogItemsWhenSearchingWithNullValues() {
+    CatalogItem item = generateInstance();
+    repository.save(item);
+
+    Page<CatalogItem> items = repository.search(null, null, null, pageable);
+
+    assertEquals(3, items.getContent().size());
+  }
+
+  @Test
+  public void shouldSearchCatalogItemsByType() {
+    CatalogItem item = generateInstance();
+    item.setType("some-type");
+    repository.save(item);
+
+    Page<CatalogItem> items = repository.search("some-type", null, null, pageable);
+
+    assertEquals(1, items.getContent().size());
+    assertEquals("some-type", items.getContent().get(0).getType());
+  }
+
+  @Test
+  public void shouldSearchCatalogItemsByArchived() {
+    CatalogItem item = generateInstance();
+    repository.save(item);
+
+    Page<CatalogItem> items = repository.search(null, true, null, pageable);
+
+    assertEquals(1, items.getContent().size());
+    assertEquals(true, items.getContent().get(0).getArchived());
+  }
+
+  @Test
+  public void shouldSearchCatalogItemsByVisibleInCatalog() {
+    CatalogItem item = generateInstance();
+    item.setVisibleInCatalog(false);
+    repository.save(item);
+
+    Page<CatalogItem> items = repository.search(null, null, false, pageable);
+
+    assertEquals(2, items.getContent().size());
+    assertEquals(false, items.getContent().get(0).getVisibleInCatalog());
+  }
+
+  @Test
+  public void shouldSearchCatalogItemsByAllParameters() {
+    CatalogItem item = generateInstance();
+    item.setType("other-type");
+    item.setArchived(false);
+    item.setVisibleInCatalog(false);
+    repository.save(item);
+
+    Page<CatalogItem> items = repository.search("other-type", false, false, pageable);
+
+    assertEquals(1, items.getContent().size());
+    assertEquals("other-type", items.getContent().get(0).getType());
+    assertEquals(false, items.getContent().get(0).getArchived());
+    assertEquals(false, items.getContent().get(0).getVisibleInCatalog());
   }
 }

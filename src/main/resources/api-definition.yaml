@@ -207,7 +207,7 @@ resourceTypes:
       displayName: CCE Catalog Item
       get:
           is: [ secured, paginated ]
-          description: Get all CCE catalog items that are matching given request parameters.
+          description: Returns all CCE catalog items that are matching given request parameters by conjunction.
           queryParameters:
               format:
                   description: "This parameter specifies return type of this endpoint. If it is not specified json format is returned. Supported formats: csv."

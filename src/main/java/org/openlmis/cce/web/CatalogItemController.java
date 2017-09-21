@@ -24,7 +24,6 @@ import org.openlmis.cce.i18n.CatalogItemMessageKeys;
 import org.openlmis.cce.i18n.MessageKeys;
 import org.openlmis.cce.i18n.MessageService;
 import org.openlmis.cce.repository.CatalogItemRepository;
-import org.openlmis.cce.service.CatalogItemService;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.util.Message;
 import org.openlmis.cce.util.Pagination;
@@ -93,9 +92,6 @@ public class CatalogItemController extends BaseController {
   private CsvHeaderValidator csvHeaderValidator;
 
   @Autowired
-  private CatalogItemService catalogItemService;
-
-  @Autowired
   private CatalogItemValidator catalogItemValidator;
 
   /**
@@ -138,7 +134,7 @@ public class CatalogItemController extends BaseController {
               Pageable pageable) {
     permissionService.canManageCce();
 
-    Page<CatalogItem> itemsPage = catalogItemService.search(type, archived,
+    Page<CatalogItem> itemsPage = catalogRepository.search(type, archived,
         visibleInCatalog, pageable);
 
     return Pagination.getPage(toDto(itemsPage.getContent()), pageable,
