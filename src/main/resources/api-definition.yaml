@@ -210,7 +210,7 @@ resourceTypes:
           description: Returns all CCE catalog items that are matching given request parameters by conjunction.
           queryParameters:
               format:
-                  description: "This parameter specifies return type of this endpoint. If it is not specified json format is returned. Supported formats: csv."
+                  description: "This parameter specifies return type of this endpoint. If it is not specified json format is returned. Supported formats: csv. Note that other parameters will not work when format is specified."
                   type: string
                   required: false
                   repeat: false
