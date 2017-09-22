@@ -132,8 +132,6 @@ public class CatalogItemController extends BaseController {
               @RequestParam(value = "archived", required = false) Boolean archived,
               @RequestParam(value = "visibleInCatalog", required = false) Boolean visibleInCatalog,
               Pageable pageable) {
-    permissionService.canManageCce();
-
     Page<CatalogItem> itemsPage = catalogRepository.search(type, archived,
         visibleInCatalog, pageable);
 
@@ -151,7 +149,6 @@ public class CatalogItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public CatalogItemDto getCatalogItem(@PathVariable("id") UUID catalogItemId) {
-    permissionService.canManageCce();
     CatalogItem catalogItem = catalogRepository.findOne(catalogItemId);
     if (catalogItem == null) {
       throw new NotFoundException(CatalogItemMessageKeys.ERROR_ITEM_NOT_FOUND);
@@ -219,8 +216,6 @@ public class CatalogItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   public void download(@RequestParam(FORMAT) String format,
                        HttpServletResponse response) throws IOException {
-    permissionService.canManageCce();
-
     if (!CSV.equals(format)) {
       response.sendError(HttpServletResponse.SC_BAD_REQUEST,
           messageService.localize(new Message(ERROR_FORMAT_NOT_ALLOWED, format, CSV)).asMessage());

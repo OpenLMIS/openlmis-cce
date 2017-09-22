@@ -23,6 +23,7 @@ import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
 import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
 import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_RECORD_INVALID;
@@ -122,22 +123,11 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .extract().as(PageImplRepresentation.class);
 
     assertEquals(response.getContent().size(), 1);
+    verifyNoMoreInteractions(permissionService);
     verify(catalogItemRepository).search(eq(null), eq(null), eq(null), any(Pageable.class));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
-  @Test
-  public void shouldReturnUnauthorizedWhenSearchingCatalogItemsIfUserHasNoCceManagePermission() {
-    doThrow(mockPermissionException(managePermission))
-        .when(permissionService).canManageCce();
-
-    getCatalogItems(null, null, null, null, null)
-        .then()
-        .statusCode(403)
-        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
-
-    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
-  }
 
   @Test
   public void shouldFindCatalogItemsWithGivenParameters() throws IOException {
@@ -152,6 +142,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .extract().as(PageImplRepresentation.class);
 
     assertEquals(1, response.getNumberOfElements());
+    verifyNoMoreInteractions(permissionService);
     verify(catalogItemRepository).search(eq("some-type"), eq(true), eq(false), any(Pageable.class));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
@@ -167,19 +158,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .extract().as(CatalogItemDto.class);
 
     assertEquals(response, catalogItemDto);
-    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
-  }
-
-  @Test
-  public void shouldReturnUnauthorizedWhenGetCatalogItemIfUserHasNoCceManagePermission() {
-    doThrow(mockPermissionException(managePermission))
-        .when(permissionService).canManageCce();
-
-    getCatalogItem()
-        .then()
-        .statusCode(403)
-        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
-
+    verifyNoMoreInteractions(permissionService);
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -322,6 +301,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         + "Gross volume,Net volume,Dimensions,Visible in catalog,Archived\r\n"
         + "Y,equipment-code,type,model,producent,ELECTRIC,2016,MINUS3,20,-20,LOW,1,1,1,"
         + "\"100,100,100\",Y,N\r\n", csvContent);
+    verifyNoMoreInteractions(permissionService);
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -340,20 +320,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         + "Energy source,Date of prequal,Storage temperature,Max operating temp (degrees C),"
         + "Min operating temp (degrees C),Energy consumption (NA for solar),Holdover time (hours),"
         + "Gross volume,Net volume,Dimensions,Visible in catalog,Archived\r\n", csvContent);
-    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
-  }
-
-  @Test
-  public void shouldReturnUnauthorizedWhenDownloadCsvIfUserHasNoCceManagePermission()
-      throws IOException {
-    doThrow(mockPermissionException(managePermission))
-        .when(permissionService).canManageCce();
-
-    download()
-        .then()
-        .statusCode(403)
-        .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, managePermission)));
-
+    verifyNoMoreInteractions(permissionService);
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
