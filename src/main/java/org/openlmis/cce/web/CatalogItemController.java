@@ -209,7 +209,7 @@ public class CatalogItemController extends BaseController {
   }
 
   /**
-   * Downloads csv file with all inventory items.
+   * Downloads csv file with all catalog items.
    */
   @GetMapping(value = RESOURCE_URL, params = FORMAT)
   @ResponseBody
@@ -235,7 +235,6 @@ public class CatalogItemController extends BaseController {
       throw new ValidationMessageException(ex, MessageKeys.ERROR_IO, ex.getMessage());
     }
   }
-
 
   private CatalogItemDto toDto(CatalogItem catalogItem) {
     CatalogItemDto dto = new CatalogItemDto();

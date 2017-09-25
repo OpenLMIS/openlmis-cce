@@ -30,7 +30,6 @@ import static org.junit.Assert.assertTrue;
 import static org.openlmis.cce.web.csv.processor.CsvCellProcessors.INT_TYPE;
 import static org.openlmis.cce.web.dummy.DummyTransferObject.MANDATORY_STRING_FIELD;
 
-
 public class ModelFieldTest {
 
   private List<ModelField> result = new ArrayList<>();
