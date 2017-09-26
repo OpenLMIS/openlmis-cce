@@ -2,6 +2,9 @@ execution:
   - concurreny: 1
     iterations: 20
     scenario: get-catalog-items
+  - concurreny: 1
+    iterations: 20
+    scenario: get-catalog-items-csv
 
 scenarios:
   get-user-token:
@@ -26,8 +29,17 @@ scenarios:
         label: GetCatalogItems
         headers:
           Authorization: Bearer ${access_token}
+  get-catalog-items-csv:
+    requests:
+      - include-scenario: get-user-token
+      - url: ${__P(base-uri)}/api/catalogItems?type=csv
+        method: GET
+        label: GetCatalogItemsCSV
+        headers:
+          Authorization: Bearer ${access_token}
 
 reporting:
     - module: passfail
       criteria:
       - p90 of GetCatalogItems>500ms
+      - p90 of GetCatalogItemsCSV>500ms
