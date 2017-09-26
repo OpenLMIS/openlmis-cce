@@ -1,0 +1,33 @@
+execution:
+  - concurreny: 1
+    iterations: 20
+    scenario: get-catalog-items
+
+scenarios:
+  get-user-token:
+    requests:
+      - url: ${__P(base-uri)}/api/oauth/token
+        method: POST
+        label: GetUserToken
+        headers:
+          Authorization: Basic ${__base64Encode(${__P(basic-auth)})}
+        body:
+          grant_type: password
+          username: ${__P(username)}
+          password: ${__P(password)}
+        extract-jsonpath:
+          access_token:
+            jsonpath: $.access_token
+  get-catalog-items:
+    requests:
+      - include-scenario: get-user-token
+      - url: ${__P(base-uri)}/api/catalogItems
+        method: GET
+        label: GetCatalogItems
+        headers:
+          Authorization: Bearer ${access_token}
+
+reporting:
+    - module: passfail
+      criteria:
+      - p90 of GetCatalogItems>500ms
