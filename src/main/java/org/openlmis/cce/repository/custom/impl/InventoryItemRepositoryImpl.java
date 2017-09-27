@@ -48,13 +48,13 @@ public class InventoryItemRepositoryImpl implements InvetoryItemRepositoryCustom
   private EntityManager entityManager;
 
   /**
-   * This method is supposed to retrieve all catalog items with matched parameters.
-   * To find all wanted Catalog Items by type we use criteria query and equals operator.
+   * This method is supposed to retrieve all inventory items with matched parameters.
+   * Result is sorted and paginated by pageable parameter.
    *
-   * @param facilityIds type of catalog item
-   * @param programIds  if catalog item is archived
-   * @param pageable    pagination parameters
-   * @return List of Catalog Items matching the parameters.
+   * @param facilityIds list of facility ids
+   * @param programIds  list of program ids
+   * @param pageable    pagination and sort parameters
+   * @return Page of Catalog Items matching the parameters.
    */
   public Page<InventoryItem> search(List<UUID> facilityIds,
                                     List<UUID> programIds,
