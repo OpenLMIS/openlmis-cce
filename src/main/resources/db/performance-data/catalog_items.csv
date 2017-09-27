@@ -1,0 +1,1001 @@
+id,fromPqsCatalog,equipmentCode,type,model,manufacturer,energySource,dateOfPrequal,storageTemperature,maxOperatingTemp,minOperatingTemp,energyConsumption,holdoverTime,grossVolume,netVolume,visibleInCatalog,archived
+7a656511-b945-4b4d-b8d5-c2d8935e989f,true,66336-115,ipsum integer a,ATI-398-zfka,Hayes-Jerde,ELECTRIC,2004,MINUS8,25,-20,5.00kW/day,80,95,24,true,true
+6a852a4b-83d6-4b20-83c8-af86fc9bcf73,true,42254-004,tristique,DOCPZ-223-xt,Reynolds and Sons,GASOLINE,2008,MINUS20,42,-37,3.74kW/day,36,10,68,true,false
+00adf287-838e-4295-9f84-56ce59ccf5be,false,66184-530,vehicula condimentum curabitur,DOBT-8-thz,Hayes-Tillman,ELECTRIC,2004,MINUS12,-24,38,8.12kW/day,59,4,77,false,false
+8a657107-1e43-4740-98db-7268b67fc5d8,true,57520-0756,ac enim,WJTG-178-aejs,Turner-White,GASOLINE,1975,MINUS4,34,2,8.17kW/day,75,7,94,true,true
+eeb540d5-7a6a-4dfa-be71-f26b1bcbd068,false,57660-000,duis mattis egestas,XIYOM-19734-ay,"Bosco, Balistreri and Kerluke",NOT_APPLICABLE,1968,MINUS19,33,34,9.80kW/day,42,74,19,false,false
+871326b3-85a7-42ac-b612-80f21611355e,true,0409-3383,consectetuer adipiscing,MSCL-41308-,Rutherford LLC,ELECTRIC,1974,MINUS16,17,-25,4.51kW/day,29,92,67,false,true
+ddee9b71-8504-4459-8f38-6d07bad6be45,false,55312-852,justo,MF-485-oj,"Wolff, Boehm and Romaguera",SOLAR,1950,MINUS20,-21,-6,4.38kW/day,14,4,69,false,false
+7bdf7a67-b728-45df-b70a-55f1340e7557,false,65785-160,fusce lacus,ULSJ-6-lfm,Pfannerstill-Dicki,SOLAR,2003,MINUS9,10,-11,3.15kW/day,58,55,20,true,false
+ef64dd9b-0a56-4abf-9213-cab0ba972f7c,false,49967-004,consequat,FRSM-80082-vxkd,Kessler and Sons,SOLAR,1989,MINUS20,-7,8,2.25kW/day,57,96,13,true,true
+339bc9d9-0d24-450a-afa2-ec573003da75,false,49349-574,non,WIK-72-ug,"Dicki, Olson and Hickle",GASOLINE,1982,MINUS20,-48,-32,5.51kW/day,77,67,11,true,true
+fe0bc264-5a31-486a-91e7-e38d347bf8a3,true,50580-449,tellus nulla,EL-0-acsrj,Brown-Parisian,ELECTRIC,1959,MINUS6,-50,38,8.82kW/day,41,96,48,true,true
+b443562f-cb62-4279-97b9-a3b88bc53760,true,42023-115,nisl venenatis,LXAZ-53218-s,Dickens-Gaylord,ELECTRIC,1966,MINUS11,31,18,7.63kW/day,70,39,12,false,true
+383a1809-824f-4689-8b2d-5b605059ed35,false,52533-055,sed vestibulum sit,CHVDU-525-,"Watsica, Brown and Schinner",ELECTRIC,1950,MINUS14,-41,-48,7.62kW/day,24,82,45,true,true
+52a3477f-11b8-4ac5-a207-abb834525cb4,true,11822-1403,eget,QB-952-pauo,"Welch, Ryan and Hauck",GASOLINE,1971,MINUS16,-15,-35,6.89kW/day,76,85,31,true,true
+4afc76b1-813e-4ffd-b8d6-4bf6a6c39bec,true,55154-8375,eget,JTL-7-qapz,Schumm Group,GASOLINE,1991,MINUS10,31,-6,8.85kW/day,1,34,84,true,true
+e1e4750b-932c-4b16-b50f-38930f503c39,true,27808-007,arcu libero,WIJTV-429-doe,"Larkin, Spencer and Hermiston",GASOLINE,2013,MINUS6,-44,-21,6.17kW/day,17,18,6,false,false
+12141a94-739f-4001-bab5-8795040036ac,false,55305-111,curabitur convallis,TJRK-90346-xkb,"Wintheiser, Rau and Ledner",SOLAR,1983,MINUS17,-26,-27,1.39kW/day,33,95,15,true,false
+8abdf800-fdb5-4663-998d-80910ad70cc9,false,0185-0150,orci nullam,VNKX-7-i,Lubowitz and Sons,ELECTRIC,1977,MINUS14,-30,35,8.15kW/day,31,96,61,false,true
+b3418f44-9d2e-4ebc-a791-cc1cae2d5e51,true,61458-0001,consequat varius,OHVE-3536-wqosa,Lakin-Hoppe,SOLAR,1993,MINUS9,49,-39,9.66kW/day,61,48,65,true,true
+ee2e97c6-5888-49df-9733-755cb2f3ea66,false,0536-1000,sollicitudin ut,JYIQM-2-oeunv,Morar-Wuckert,NOT_APPLICABLE,1961,MINUS13,-34,9,4.08kW/day,38,50,17,true,true
+c64f5586-e09f-4f15-84c2-201ae84b8755,false,52685-384,tristique tortor,CVG-5-vf,"Leuschke, Schuster and Ferry",SOLAR,1983,MINUS3,-30,31,6.09kW/day,51,8,59,false,false
+b3020160-2cb6-4445-818c-56775e0c5484,true,63304-340,nisl nunc,WV-4180-xbyv,Nader Inc,ELECTRIC,1951,MINUS13,-3,13,6.11kW/day,82,40,44,true,false
+5e4115a2-3b1a-4c3f-a550-498d260073ab,true,51862-152,elit,RC-2697-d,"Altenwerth, Jakubowski and Gottlieb",NOT_APPLICABLE,1974,MINUS2,2,7,4.52kW/day,27,30,92,true,true
+3b9c7606-5ec8-4d2a-b3bb-1385dd10f73e,true,10893-240,rutrum neque aenean,JBA-95035-p,Orn Inc,ELECTRIC,1957,MINUS11,10,-44,8.83kW/day,28,65,28,false,false
+089bc950-e347-4cee-9412-6e41db2736a0,true,76168-066,nec condimentum neque,SEJLV-80505-lfjv,Lockman Inc,SOLAR,1982,MINUS20,-23,33,8.26kW/day,52,75,57,false,true
+6cc80d70-92ef-4063-b0c8-6708c456b4dd,false,53603-4003,nisi vulputate nonummy,NKGZ-3783-rjn,Haag and Sons,NOT_APPLICABLE,1960,MINUS19,-19,9,6.14kW/day,84,27,81,true,false
+1fba0c6e-1f80-4021-abff-a98941eb0aec,true,42291-835,tortor id,BCMPG-5555-tf,Kertzmann LLC,SOLAR,1976,MINUS17,-16,0,4.86kW/day,22,37,13,true,false
+9332c947-e72c-4ab0-b13d-2301f7c61c96,true,63629-3177,blandit,CQPR-2-,Wehner and Sons,GASOLINE,1974,MINUS13,23,-32,2.94kW/day,60,48,62,false,true
+7c55c2c9-63ff-4885-8974-0bab57d507a9,false,13811-672,erat,EM-61740-cxlgv,Abbott-Hudson,SOLAR,1969,MINUS12,-23,-49,2.26kW/day,84,32,87,false,true
+673a9fe7-1016-4765-a0ec-71b131b245a0,true,58118-0128,tempus,KYR-8-bpxkq,"Schimmel, Padberg and Konopelski",NOT_APPLICABLE,2015,MINUS8,15,12,7.00kW/day,44,21,34,false,true
+16a4e8bd-7a71-4f4a-b519-07bc890034ec,false,50268-291,in magna,ALK-1862-,Mohr-Stoltenberg,GASOLINE,1998,MINUS9,-38,-35,1.59kW/day,66,46,8,true,false
+25a93c23-64dc-4788-8e2e-11204e1aa9b3,true,49349-554,venenatis,SYEGQ-9961-lpqn,Jerde Group,ELECTRIC,1972,MINUS16,35,-23,7.19kW/day,45,87,54,true,false
+91c852ef-d1f7-4261-b209-69dd220b4c75,false,0603-3899,libero convallis,KRO-69437-p,Waters-Wisoky,GASOLINE,1999,MINUS8,2,37,2.05kW/day,72,1,50,true,true
+793c16ea-fa79-415a-a1f2-4a5d5d9d9883,false,49349-559,lacinia aenean sit,UTZ-35-zt,Raynor-Bartell,SOLAR,1992,MINUS12,46,-7,3.25kW/day,7,10,76,false,true
+9d351985-3033-4977-a8db-452186fdd422,false,0409-7965,rhoncus,WKL-73094-rwh,"Harris, Zemlak and Gleason",NOT_APPLICABLE,2012,MINUS20,23,46,0.80kW/day,55,22,7,true,false
+43a48db1-9e57-4538-ae5c-b345be5a0646,false,0078-0352,consequat varius,YM-04830-,"Schoen, Witting and Moore",ELECTRIC,1983,MINUS3,-10,-43,7.72kW/day,32,60,16,true,false
+19c68ca0-8826-4885-b642-26d9e5351ba7,true,21130-084,platea,DUHB-57746-ork,Nikolaus Group,SOLAR,1956,MINUS4,35,-15,4.23kW/day,38,54,100,false,false
+023383d0-f02c-4b66-9157-15c22428107a,true,59535-8901,suspendisse accumsan,NQI-14881-jo,Schroeder-Thiel,NOT_APPLICABLE,2005,MINUS5,45,-33,4.42kW/day,76,62,67,false,false
+2fde8cf6-68c3-4817-8561-b3f904fa84be,true,45802-717,etiam faucibus,NI-8-re,"Bergstrom, Heaney and Krajcik",GASOLINE,1957,MINUS16,15,10,6.61kW/day,44,12,79,false,false
+ab26960a-7a74-47e7-86b1-83763d1d9062,false,63824-416,phasellus id,KHIML-5-gd,Luettgen Inc,ELECTRIC,1990,MINUS12,-13,-23,5.25kW/day,69,81,50,false,false
+dbba7037-076f-434c-86be-42f8e73bac90,true,0615-7550,arcu adipiscing molestie,CRWA-56-fmqb,"Bergstrom, Schulist and Mertz",NOT_APPLICABLE,1999,MINUS8,-26,-29,7.13kW/day,53,24,36,false,false
+fb7fb09c-8145-4ebe-bc1a-c7793a41a519,false,0179-1026,vel enim sit,CDAF-5561-,Veum Inc,ELECTRIC,1959,MINUS9,17,-10,5.13kW/day,12,81,67,true,true
+90ace597-a16f-4af2-bfac-f0a7a5bfcd40,false,51672-4039,sed,TU-3184-drh,Jacobson-Rosenbaum,GASOLINE,2013,MINUS5,47,-15,5.78kW/day,78,25,90,false,true
+6be9cdf0-f7fb-4dd5-aa52-4c99e35c933c,false,75997-027,nibh quisque,ECWT-57438-c,Hammes-Kuphal,SOLAR,2013,MINUS4,40,44,0.76kW/day,56,12,88,false,true
+2cf2f255-f6ea-4f33-b5da-d817b7bb73f8,true,50241-011,pede,RJB-5695-zivjo,"Wilkinson, Berge and Gerlach",NOT_APPLICABLE,1956,MINUS4,-21,-46,7.77kW/day,97,71,33,false,false
+0b80180b-85e2-4afe-be54-e721030fd4a2,false,10596-704,in ante vestibulum,YDHAU-30994-qrp,Paucek-Stoltenberg,NOT_APPLICABLE,2003,MINUS9,3,21,5.05kW/day,91,100,79,true,true
+f8c97224-3d11-4785-91da-d8684be5cecb,true,36800-490,consequat varius,KRLBU-609-aeb,"Gusikowski, Krajcik and Bernier",NOT_APPLICABLE,1995,MINUS14,-32,-34,2.11kW/day,71,40,79,false,false
+23452d8c-9483-4004-8bf3-45069f5022dc,false,52125-025,maecenas,YBO-9901-mefn,"Walter, Heller and Cremin",GASOLINE,1975,MINUS2,15,29,9.12kW/day,75,67,12,false,false
+f2ccaca9-20d6-4bb3-8353-f25e3fe8c220,true,51389-101,suspendisse accumsan,NJG-2780-s,Kassulke Inc,SOLAR,1952,MINUS5,32,-17,2.74kW/day,94,86,17,true,false
+c931c666-ce37-45c5-b074-d265ff40d85e,true,65923-102,neque sapien placerat,TZLRY-452-wzxvi,"Grimes, Mraz and Quigley",SOLAR,1994,MINUS17,17,-23,8.24kW/day,52,78,66,true,false
+fb2abb27-9a67-48fa-9c16-560af73de440,true,43353-917,proin at turpis,OBK-6333-jv,Heller-Mraz,NOT_APPLICABLE,2013,MINUS5,17,-11,4.22kW/day,35,100,6,true,true
+a5cba04a-7302-449c-bf76-cc44fbea876a,true,54458-980,potenti nullam,TW-6541-wlbjs,Walsh-Barrows,SOLAR,1986,MINUS10,-26,-16,3.40kW/day,48,23,5,false,false
+481a54be-d298-4bed-9f83-e68130e68cb3,false,42507-207,dapibus,LCRVU-4301-,Mayer Group,GASOLINE,2009,MINUS3,9,-42,1.50kW/day,38,32,98,true,true
+85d8a456-63a8-43f4-8593-13cc0f0b1d0b,true,65841-129,nisl ut volutpat,XWMAI-57-xg,"Parker, Swaniawski and Weber",SOLAR,1962,MINUS15,-44,2,6.86kW/day,5,78,87,true,false
+75ca85f7-b8c7-4803-b706-5e05e5adc967,false,55154-1242,dolor,IYB-13-vmeoa,Keebler-Jones,SOLAR,1998,MINUS19,4,31,8.52kW/day,87,14,49,false,false
+a4b49204-0dad-48db-be77-74f82972b1fb,false,59779-042,dis,NZ-69568-be,Ondricka-Weimann,NOT_APPLICABLE,1969,MINUS4,-43,3,5.80kW/day,77,98,37,false,true
+24b326dd-b93d-4f4f-b6d3-4e6a8678a1b3,true,48951-3024,nisl duis ac,OJ-9942-ryme,Kling-Christiansen,ELECTRIC,1965,MINUS8,6,5,0.88kW/day,55,99,74,false,true
+5fc435ec-67ff-4cd8-b5fc-cc02c2e40171,true,49349-631,suspendisse,DXJ-141-tphy,"Powlowski, Harris and Windler",GASOLINE,1976,MINUS11,-10,49,3.73kW/day,30,66,11,false,true
+4ff794d3-710f-41aa-876f-644b5e3529f6,false,10812-925,odio elementum,JWGXS-1414-pmxa,"Willms, Stiedemann and Jacobs",NOT_APPLICABLE,1973,MINUS2,-20,42,3.97kW/day,49,59,68,false,false
+9a5168eb-7194-45a3-92d8-588703015512,false,57520-0646,id nisl venenatis,AE-134-,"Goyette, Hermiston and Rosenbaum",NOT_APPLICABLE,1989,MINUS5,38,-41,9.00kW/day,35,45,58,false,true
+7350fb72-de2a-4313-97b5-1ade57673f72,false,0338-0695,at velit vivamus,DL-40617-m,Hamill and Sons,NOT_APPLICABLE,1956,MINUS2,21,4,8.81kW/day,100,44,36,true,true
+add4ab4f-f425-4499-a3d4-2897585a3d96,true,69000-012,at,BFAK-119-,Terry-Ullrich,SOLAR,1995,MINUS4,-12,-19,2.41kW/day,22,13,45,false,false
+b78f176d-0970-409f-9d4b-3acc6f385abd,false,43772-0013,etiam vel,QJB-89766-,Johnson Group,GASOLINE,1963,MINUS13,-26,27,8.38kW/day,70,57,66,false,false
+50afdb8c-dc1d-4fef-8420-56d398c99793,true,68788-9848,semper,BYU-5-gdqo,Mosciski LLC,SOLAR,1962,MINUS14,10,34,2.58kW/day,4,55,23,true,false
+0655dc52-e710-4c64-9921-4a3390d4dc9b,true,13537-325,molestie lorem quisque,BID-39-fvc,"Moen, Kemmer and Murazik",GASOLINE,1956,MINUS16,-24,50,8.88kW/day,56,17,86,true,true
+b0285dbc-a807-4b2d-bc15-f3ce4baccb59,true,60512-6497,id,DYTUE-710-iet,Schinner Inc,NOT_APPLICABLE,1974,MINUS20,-46,-29,0.58kW/day,67,96,8,false,true
+223e1bc0-6a00-4c79-92ec-76d4c6716983,true,13107-169,sapien,IEGHZ-145-l,"Satterfield, MacGyver and Brown",GASOLINE,2016,MINUS13,-12,-2,6.52kW/day,71,71,51,false,true
+78862fbc-7773-49ec-9851-863750da3cc0,false,50436-5559,etiam vel,PG-418-qtbl,"Stamm, Zemlak and Ortiz",SOLAR,1992,MINUS17,44,-41,6.81kW/day,94,4,35,false,false
+7538a60e-8948-40e1-ab80-bc171c878f18,false,0615-6561,morbi sem mauris,LGVWQ-08-wcgih,Rutherford-Dickinson,ELECTRIC,1982,MINUS1,-16,-28,7.82kW/day,33,11,90,true,true
+36c9aa0f-43aa-40ed-9b67-1714e124b8c9,false,0067-0116,in faucibus orci,XPSF-715-q,Gutmann LLC,SOLAR,1960,MINUS7,-22,33,1.92kW/day,61,4,31,false,false
+adb60789-6369-4cff-b22c-396941465953,false,45802-257,nulla,UINV-3-tnoli,Roberts-Rutherford,SOLAR,1983,MINUS18,16,-25,9.25kW/day,96,8,17,false,false
+92a94f73-2be6-4386-a270-b410548e259b,false,30142-590,quisque,ALTHV-6-jkx,Cummerata and Sons,SOLAR,1968,MINUS1,-44,-24,4.08kW/day,8,53,58,true,true
+d6bad441-3346-4303-9bb2-dc54ec4b55f5,false,49349-560,purus eu,MY-81-jdot,"Ebert, Hirthe and Carter",GASOLINE,1994,MINUS14,-24,39,0.74kW/day,81,78,14,false,false
+5de059fb-3399-4afa-9caf-57e5eef6d44a,false,0941-0415,congue eget semper,MBINR-725-mcgl,Howell Group,GASOLINE,1951,MINUS16,33,-45,1.15kW/day,40,23,0,true,true
+b1c05dbd-96f0-42cd-bef2-8bfdc9e151c5,false,53187-220,adipiscing elit proin,NUFV-40316-dgqy,"Borer, O'Kon and Williamson",NOT_APPLICABLE,1956,MINUS3,-23,25,3.55kW/day,1,79,29,false,false
+284ba48e-71c0-4d8c-80ae-530afb5a248c,false,49349-176,eget,AC-8-wmot,Treutel Group,SOLAR,2001,MINUS18,-19,37,4.49kW/day,0,49,100,true,false
+a2775ae6-b83b-44fb-823a-2cf3ce4d1915,false,43419-398,nec,XVPAK-56-mx,"Schmidt, Johnston and Schinner",NOT_APPLICABLE,2004,MINUS2,-21,-12,3.45kW/day,69,34,41,false,false
+fb896ae5-d248-4993-ab05-27546b1dc0ee,true,54868-6129,vestibulum sit amet,CKGNF-158-,Lowe LLC,ELECTRIC,1953,MINUS18,0,-9,6.25kW/day,78,94,83,false,true
+e33ad89c-d323-458b-908a-6fe2b036d7b5,false,12830-810,ultrices libero non,VF-909-w,Strosin LLC,NOT_APPLICABLE,1988,MINUS16,-21,-17,9.60kW/day,61,71,67,false,true
+1dca9935-0f6c-4b74-9aae-fb84589b8319,false,49999-869,morbi vestibulum,SR-097-,Ryan and Sons,NOT_APPLICABLE,2010,MINUS15,11,-18,9.24kW/day,19,35,79,true,false
+96ff72df-e5d0-4910-ae60-a467923e42bc,false,67938-1086,libero nullam sit,QSDAH-3727-qu,Olson-Kreiger,GASOLINE,1967,MINUS7,16,-33,5.66kW/day,63,86,26,true,false
+22f55815-4988-4290-b11f-3d2d068f9bab,true,65649-102,morbi vel lectus,OENIM-19-,Mertz-Mohr,GASOLINE,1974,MINUS9,12,-18,1.12kW/day,12,52,74,false,true
+cafcfb45-6f16-4ace-ac12-f1ab9154dca1,false,24385-307,et,CM-07134-,Anderson and Sons,ELECTRIC,2001,MINUS20,28,-14,4.68kW/day,10,43,36,false,false
+57573f91-cc18-407b-8e01-faf474b738a8,true,0054-0543,proin leo,QD-5054-brxa,Schmitt-Schowalter,ELECTRIC,1961,MINUS7,-6,41,1.24kW/day,43,39,62,false,false
+320bda89-c461-48b4-a8be-210af9055e5c,true,0078-0342,mus,MRQBL-9-,Streich-Kling,NOT_APPLICABLE,1950,MINUS18,-28,40,1.30kW/day,43,32,13,true,false
+28deca33-d503-4c6d-9a5d-7221821195ae,true,0363-0190,eu,YVU-08-tv,Von Group,ELECTRIC,1993,MINUS10,4,-7,1.28kW/day,29,51,67,true,false
+6253a936-8b5c-4050-84b0-9754f9ce0f6d,false,54575-406,accumsan tellus nisi,MEQO-1621-xzb,"O'Hara, Parisian and Roob",GASOLINE,2011,MINUS16,-7,35,8.92kW/day,35,93,2,false,true
+645ef355-6837-4a6b-8265-7afbd0d42eb6,false,24385-157,lorem,RKPAB-5-hsgkq,Upton-Bergnaum,ELECTRIC,1981,MINUS13,28,-6,2.13kW/day,9,54,82,false,true
+e3f45c1f-7c7e-484f-bd34-431281643231,false,68084-258,vulputate justo in,SW-04-ocgnj,Goodwin-Monahan,ELECTRIC,1968,MINUS4,-7,-5,3.32kW/day,65,33,50,false,true
+c48cbf83-c4be-4086-b2ca-1581b0c74b74,true,19392-300,nulla elit ac,SPXT-54656-humrp,"Hoppe, Gutmann and Langworth",GASOLINE,1961,MINUS5,50,21,3.83kW/day,69,44,80,true,true
+50b54d29-11df-47b5-93e0-4cd10ab1ea48,false,17478-542,non,UDC-46-sdv,Dietrich LLC,NOT_APPLICABLE,1957,MINUS15,-26,28,8.88kW/day,94,17,55,true,false
+1600099a-0c21-492b-beae-81c95fb7109f,true,63736-016,nec,CGFYN-0291-bawmz,"Kovacek, Kshlerin and Hills",GASOLINE,1991,MINUS4,-7,-33,1.42kW/day,47,66,9,false,true
+f39a86a0-b1d0-4d92-972d-54efeea9d722,true,64588-0001,pede,IWY-63234-fps,Hessel-Morar,SOLAR,2000,MINUS19,1,7,1.47kW/day,73,79,80,true,true
+34c3d06f-54fd-47a1-bca0-a478906234e2,false,0597-0141,ut rhoncus aliquet,ESU-7-dfl,Kuhlman Inc,GASOLINE,1978,MINUS18,18,-3,6.48kW/day,15,95,25,true,true
+cce3687e-8418-488a-8316-7edeffdeae8e,true,43857-0031,euismod scelerisque,JHTGF-7-pvqlt,"Stroman, Schoen and Dickens",NOT_APPLICABLE,1984,MINUS20,43,38,1.83kW/day,23,97,49,true,false
+65f1034a-9d02-4c25-93a1-9f9ec14e1db7,true,41167-0847,in,KMX-5-ngtl,"Harvey, Pfeffer and Hauck",SOLAR,1961,MINUS20,46,-1,3.84kW/day,38,74,16,false,false
+3cf4a6a5-3f44-4434-9f8b-ffc648cb44d5,false,58118-0303,suspendisse,WOM-1-k,Rowe Group,ELECTRIC,1973,MINUS15,19,48,5.30kW/day,1,50,72,false,false
+56bf7705-a64e-4552-804c-95aa79c0e15f,false,0093-5512,natoque,IUZXD-01-hcrv,"Schuster, Wyman and Tillman",NOT_APPLICABLE,1997,MINUS13,-16,10,6.24kW/day,90,18,53,true,true
+fecb258a-9f26-4205-998f-e6583541d815,true,49738-557,orci luctus et,LTPC-99-,Sanford-Lesch,GASOLINE,1976,MINUS17,38,-2,6.52kW/day,17,41,25,false,true
+a488e414-099e-4cc8-abab-445162bfe35e,false,0603-4979,integer,NCO-9-kftbc,Harris-Legros,GASOLINE,1969,MINUS10,-45,49,5.48kW/day,60,99,32,false,false
+69e43517-7f33-4546-8adf-5ce199ad11ca,false,52125-761,nam,DW-70361-nf,Murray-Hagenes,ELECTRIC,1970,MINUS6,3,36,7.81kW/day,20,76,77,true,true
+c1141c8b-8ad1-49ad-afa0-b9037be9beca,false,64092-350,etiam vel,RVGJ-77-a,Konopelski and Sons,SOLAR,1976,MINUS14,-23,-42,7.10kW/day,51,54,44,false,true
+93e3a375-d7cf-4c04-b34f-7f1dcb9449b2,false,49527-759,magna,EMIA-64-sq,Medhurst-Berge,NOT_APPLICABLE,1969,MINUS12,-10,50,9.18kW/day,65,59,54,true,false
+82e7d031-7275-4bde-a3cb-45156abf9fc6,true,13537-215,sit amet,OTL-8960-i,Pollich-Harber,GASOLINE,1964,MINUS19,-3,15,1.24kW/day,46,62,37,true,true
+68ea52e3-8a50-434b-8fb5-b26907c11ea5,true,63868-246,congue etiam,JLE-3433-zq,Larson Inc,NOT_APPLICABLE,2004,MINUS2,-44,45,6.14kW/day,16,14,45,false,false
+d8270007-4a8b-45ad-9322-ded6fc4a40c4,true,66116-316,convallis nulla neque,CGOMV-062-,Sawayn-Reilly,NOT_APPLICABLE,2003,MINUS13,-18,26,8.31kW/day,94,80,7,false,true
+bff3ea38-cc32-4ddf-b340-ffd045983b23,false,0187-1617,a odio in,ADBH-4-lrbhn,"Zulauf, Shields and Yost",NOT_APPLICABLE,1985,MINUS15,-25,32,4.65kW/day,45,70,79,true,true
+d64e86ad-1b6b-4950-98bf-a9fd1a0e87c9,true,48951-1177,quis orci eget,SEZF-49-mlozh,Crooks LLC,ELECTRIC,1973,MINUS9,-40,-12,8.14kW/day,10,74,42,false,true
+a71c0d4e-88ed-4089-a568-10a02902b2d8,false,0113-0065,tristique est,YB-14680-j,Roob-Ankunding,GASOLINE,1964,MINUS3,42,27,3.47kW/day,1,92,50,true,true
+116f9b0a-3e8a-4c6b-9fe5-af82565e73db,true,36987-3206,pede,DGLEC-3860-ejof,Carter-Wehner,NOT_APPLICABLE,1983,MINUS1,-1,-38,1.81kW/day,23,8,46,true,true
+a657935c-ef5f-42b9-adfa-f33fddd8e767,true,61748-024,rutrum ac lobortis,GE-151-msf,"Lemke, Lindgren and Hermiston",GASOLINE,1978,MINUS1,45,14,6.26kW/day,79,98,9,false,true
+7d4c4d15-4032-43bd-8596-e9cd09abe576,false,55289-891,orci pede venenatis,UT-9-wub,Balistreri LLC,GASOLINE,1991,MINUS6,-27,8,6.01kW/day,62,89,86,true,true
+298117ec-b778-4a93-b41a-eb9e5d20be63,false,63187-123,praesent,SPB-0259-,"Roob, Wiegand and Cruickshank",ELECTRIC,2017,MINUS18,-13,30,7.24kW/day,95,60,88,true,true
+087064ad-f4b8-4147-913d-677751e52078,true,43269-618,eget,FSNK-22930-dqvh,Bernhard LLC,ELECTRIC,1965,MINUS20,14,-5,7.23kW/day,62,82,33,false,true
+b2d8f026-d4f9-4073-9d4f-e4a678e708e1,true,41250-041,nunc purus phasellus,VME-03196-r,"Waelchi, Cole and Moore",NOT_APPLICABLE,1984,MINUS2,15,-18,4.04kW/day,100,99,96,true,false
+cd5b48b1-4cfb-4c11-bb43-2ff35babda42,true,0228-2975,ligula vehicula,OHX-3606-mh,Pfeffer and Sons,SOLAR,1952,MINUS1,0,-18,1.79kW/day,1,84,28,false,true
+12e20b23-fafc-404a-8b91-65afab289611,true,36987-2620,in,UEFC-1-qexhz,Klocko Group,NOT_APPLICABLE,1971,MINUS6,14,35,2.09kW/day,79,24,27,false,false
+dd96feff-7633-445a-a972-13c75f6845bc,false,0268-1070,sit amet,SL-72-ijdf,"Gleason, Bahringer and Terry",GASOLINE,1987,MINUS3,18,-42,2.27kW/day,82,8,40,false,false
+9418b83b-c83a-4701-ab9c-78cf7f0330f1,true,68084-554,nunc nisl,SK-41-,"Sawayn, Jast and Stracke",ELECTRIC,1999,MINUS4,34,32,5.36kW/day,40,38,57,false,false
+0f09f8d0-de19-4f50-897c-be5ed3917038,false,68084-554,volutpat sapien arcu,BKRIE-35-kigve,Mayert and Sons,ELECTRIC,2010,MINUS19,-1,-14,5.69kW/day,47,87,91,true,true
+da2aa66d-6dd6-4b4d-97e0-6ff12f4a364e,true,55154-0132,non lectus aliquam,JX-0-pjk,Zemlak-Kohler,NOT_APPLICABLE,1955,MINUS13,-22,43,3.19kW/day,15,5,57,true,false
+a8bcd6a2-3031-4228-9345-24a8d92cde56,false,54569-0430,nulla sed,SB-67-cyrpe,Paucek Inc,NOT_APPLICABLE,2014,MINUS3,39,11,9.22kW/day,44,31,28,true,false
+5b4a834a-48c6-49c4-bbb2-cd1cc9879b70,false,0143-9803,cras mi pede,BVXQ-23963-zmwyj,Cole-Cartwright,NOT_APPLICABLE,1963,MINUS20,-26,24,1.93kW/day,69,81,83,false,true
+ac6a993c-d46d-437a-8cb0-714383cc1298,true,63539-221,erat eros viverra,QES-3-rtxwy,Renner-Green,SOLAR,1998,MINUS10,-38,-4,6.91kW/day,41,0,13,false,false
+a3e29cea-bc9b-466f-9874-e8706f81e1ce,true,54569-4619,aliquam non mauris,SCUT-08317-vh,Mante Inc,ELECTRIC,2004,MINUS6,2,37,2.80kW/day,57,29,88,false,true
+20e3e268-ac68-4b6b-a29f-3f5fd5a6d022,true,49349-382,eros viverra,GNM-9-d,Lesch-Wilderman,ELECTRIC,1987,MINUS15,9,-38,6.95kW/day,88,94,30,false,false
+9aa8abdf-7be6-473f-a9a9-864b205611ea,true,55504-4341,sapien,ICH-52782-ntq,"Hammes, Bernier and Cartwright",ELECTRIC,2006,MINUS13,24,0,1.28kW/day,76,7,35,false,true
+355b5bea-bdd7-48d8-99c8-1b0f2d0545ab,true,51523-121,nulla ultrices,BFEHN-2232-z,"Walsh, Paucek and Ferry",NOT_APPLICABLE,1959,MINUS13,10,-33,3.25kW/day,99,22,20,false,false
+cd7fc3c0-a434-4e81-99ed-7ac358e14860,true,60589-004,quam nec,NG-68-ehkzm,"Grant, Koss and Graham",ELECTRIC,2004,MINUS8,49,36,5.31kW/day,73,34,51,false,true
+6d4dfe65-f277-4156-82a5-0ba021bda0ce,true,37205-680,curabitur,QMK-43-,Fahey-Nader,ELECTRIC,2000,MINUS13,22,7,8.04kW/day,83,58,97,true,false
+186e4fdb-64c6-46f6-8135-ba69d1915a52,true,61657-0962,quis turpis eget,TLOYE-8244-ghm,Herzog-Jaskolski,ELECTRIC,1987,MINUS2,1,44,9.23kW/day,13,6,88,true,true
+89ff6bb0-54ea-4518-a1c6-b64933f79b0c,false,49348-602,ornare imperdiet,AIDLZ-17-,"White, Johnson and Kutch",GASOLINE,1983,MINUS13,0,14,1.24kW/day,91,91,57,false,true
+84aecac1-2090-43d2-93ce-6a110c4197ad,false,21130-664,in faucibus orci,NE-20033-,Prosacco LLC,GASOLINE,1994,MINUS13,30,43,3.32kW/day,66,74,32,false,true
+b2e03455-a2f2-4886-9353-e41a8bbb9823,true,58232-0649,felis sed,ES-854-lopy,Mitchell-Schoen,GASOLINE,1998,MINUS13,-13,-32,2.39kW/day,55,75,80,false,true
+57bf67cf-5a92-4b0d-8a88-230c0d7dd4e7,false,0924-0123,dui,NCY-61-x,Weissnat-Konopelski,ELECTRIC,1991,MINUS16,2,22,2.31kW/day,16,28,98,true,true
+120ba407-4ffd-4767-8d89-1130d5266102,true,76282-206,bibendum,RP-9056-i,"Rath, Yost and Haag",NOT_APPLICABLE,1983,MINUS17,17,38,2.23kW/day,17,37,97,false,true
+e08576cd-3a4b-47c3-87f6-8bea40609262,true,41163-595,massa id,ZJ-57925-jrwb,Wisoky-Romaguera,GASOLINE,2000,MINUS14,-16,-49,3.37kW/day,68,47,5,false,true
+7e692c7b-b092-49f0-b4d6-95c4ea19e5e5,false,60905-0106,turpis sed ante,ZYFKA-89-,Howe-Dare,SOLAR,1969,MINUS13,39,20,4.46kW/day,47,56,63,false,true
+aafc144d-feb9-4395-98dc-c13a14dd0686,false,0378-6201,mauris enim,HUJ-5-,"Nolan, Aufderhar and Blick",NOT_APPLICABLE,1960,MINUS10,29,-18,3.00kW/day,10,91,80,true,true
+8da9ef74-f740-479a-9cf0-e7813f56f50c,true,10544-007,turpis donec posuere,FVIN-83-wapiv,Bergnaum Inc,SOLAR,1992,MINUS18,42,27,1.58kW/day,18,15,10,false,false
+dfe47777-38b3-4ed0-82e9-ca619e75f3aa,true,58420-009,magna,PX-2337-gtcwn,Marquardt-Denesik,ELECTRIC,1975,MINUS15,1,3,6.63kW/day,53,47,69,true,true
+954eabb1-d4da-4dce-a8d9-713e765c7996,false,24090-492,vestibulum,HA-39-patj,"VonRueden, Connelly and Harris",ELECTRIC,1972,MINUS15,29,36,5.99kW/day,74,49,6,false,true
+d50806ef-bdf7-41a4-814a-960ab89540a2,true,63824-464,sit,IBXJ-6-p,"Stamm, VonRueden and Berge",GASOLINE,1986,MINUS8,-39,-36,7.56kW/day,79,0,87,false,false
+8e03df78-f4d3-4c32-8292-34a7f625a54f,true,52533-160,volutpat,HTUMF-8921-no,Funk-Reichel,NOT_APPLICABLE,2003,MINUS18,14,22,0.60kW/day,96,35,31,true,false
+e9ca3b7b-fb87-4603-ac02-348ab63a3df3,true,36987-2022,in felis eu,YTU-03086-,Reilly and Sons,ELECTRIC,1984,MINUS8,10,-42,3.47kW/day,23,78,95,false,true
+a3090ce6-5298-4e41-bfb0-20e3ff0ea5b2,false,57955-1903,in faucibus,GYOSV-0-u,"Mante, Zboncak and Hoeger",GASOLINE,1998,MINUS20,50,10,4.67kW/day,85,62,14,true,false
+0b43ee74-2cd8-48ff-9978-f94f5146a15d,true,53808-0309,sagittis sapien,HQMDS-97506-,Kuphal-Beahan,GASOLINE,2008,MINUS20,-34,9,4.71kW/day,17,31,7,false,false
+ddb126ea-d833-416d-a6e2-f875b21662d7,true,55289-798,vivamus,AQTJV-3872-byqli,"Cassin, Barrows and Batz",GASOLINE,1971,MINUS18,3,-36,7.10kW/day,98,22,7,true,true
+eefa4393-e51f-48c1-8244-ccf0d43de7fa,true,0078-0432,lobortis convallis,BGXZE-715-kxc,"Hettinger, Roberts and Towne",NOT_APPLICABLE,1983,MINUS1,14,-9,4.32kW/day,36,38,27,false,true
+fc2ae745-eed9-49fe-a77e-c542a0067c02,true,42751-1070,lectus aliquam sit,FTVC-618-lycui,Metz-Casper,NOT_APPLICABLE,1983,MINUS16,-49,-4,1.14kW/day,29,0,66,true,true
+28af63bf-ada8-4c21-afdc-8cb2f57a448d,true,60681-2901,aliquam non,AXVL-389-zpb,"Brekke, Lindgren and Johnson",GASOLINE,1979,MINUS8,-41,1,5.03kW/day,76,84,50,true,true
+615d086e-f132-4e3c-a7b8-6c1df36cd04d,true,0338-1107,habitasse platea dictumst,AMIBN-406-hx,"Treutel, Langworth and Ebert",SOLAR,1999,MINUS14,-13,38,8.28kW/day,72,18,5,false,false
+854684c6-31a7-45bd-95df-57740d7a32b1,false,17518-056,eget eleifend,UJN-2443-ghl,Roob-Kulas,NOT_APPLICABLE,2002,MINUS11,23,-37,5.67kW/day,0,39,34,true,true
+94bb76a9-25aa-43a4-8f80-f6d6d41a3397,false,55154-5432,magna at nunc,NHY-08-owdnm,Kutch LLC,GASOLINE,1996,MINUS8,24,9,7.20kW/day,25,38,52,true,false
+a1b3dbe4-9f20-47b9-81e4-1525a3d6c730,true,55319-227,sapien arcu,HAUSZ-28038-qpjm,Torphy Group,SOLAR,1991,MINUS16,24,21,5.48kW/day,100,77,49,false,true
+625e2511-bf44-41d6-85eb-6558430d403d,false,37000-844,vitae quam suspendisse,BVZ-5-,"O'Connell, Konopelski and Jacobs",ELECTRIC,2001,MINUS6,30,3,8.00kW/day,12,89,9,true,true
+f72e802a-3875-4a28-8bf1-55f0d645f2f6,false,48951-8247,justo,BIXJL-25-isup,Crist Group,NOT_APPLICABLE,2014,MINUS19,23,-36,0.51kW/day,70,50,66,false,true
+7a1696a0-c841-4c70-9836-d8da9602fd3d,true,21695-320,sed interdum,PQOBJ-105-fdo,Hayes LLC,ELECTRIC,2008,MINUS14,21,11,5.10kW/day,67,9,14,false,false
+26975c8f-0148-4bf3-bc93-acdd89db6b07,true,60429-154,ligula,KMVBD-7646-pn,"Streich, Strosin and Kub",ELECTRIC,2008,MINUS20,39,-3,7.16kW/day,15,34,16,true,true
+817b4622-f8ff-4de5-949d-616113ef8377,true,42192-146,id lobortis convallis,EXNTU-77202-,"Keeling, Schroeder and Labadie",SOLAR,1985,MINUS20,-3,24,4.59kW/day,37,69,19,false,true
+d85c7374-b6b5-4666-86e2-4521cc3731dd,false,63629-3034,iaculis,QVBT-27-tqhiu,Stiedemann-O'Reilly,NOT_APPLICABLE,2011,MINUS10,-6,18,2.82kW/day,16,82,10,true,false
+1538ef82-b2cf-40d2-8889-eeab4aad82de,true,54868-0252,mi in porttitor,NLSRW-915-zs,Wehner Group,ELECTRIC,1951,MINUS3,-45,23,7.20kW/day,48,24,4,true,false
+5f510b02-4800-4310-b714-37a1b5540ca7,false,55714-2296,duis,DWX-5-exldg,Rau-Bednar,GASOLINE,1991,MINUS4,-44,-41,8.74kW/day,26,56,52,true,false
+1631c38b-0f98-410c-b6ae-d47362a7aee2,false,0054-4180,ultrices,LGNDR-27089-cum,Wyman and Sons,SOLAR,1988,MINUS6,28,30,6.38kW/day,13,73,10,true,true
+3a52d641-4768-45f3-a33d-b9022613f66c,false,44206-455,cras,QOR-63408-agsw,"Bartell, Koch and Armstrong",SOLAR,1980,MINUS18,-50,-1,2.81kW/day,3,89,33,true,false
+ee51a013-cd38-4ba6-8d2b-150c512d2bc3,false,49557-572,tellus nulla,GA-833-uj,Goyette-Gulgowski,NOT_APPLICABLE,1954,MINUS14,35,-42,1.30kW/day,92,34,76,true,false
+2dbd8ea6-b76a-4cb9-ba51-9118a1ef62bd,false,55315-104,in,YHJ-88516-,Strosin-Heathcote,ELECTRIC,1979,MINUS10,-34,35,9.44kW/day,3,5,97,false,true
+d2f579e6-473a-401e-89cc-4f838116d48c,false,66184-510,mi,ZWB-5192-nkev,Heller Group,ELECTRIC,1951,MINUS6,3,29,1.26kW/day,8,49,20,true,false
+fc309f8b-d1b8-44bd-8968-f16a82730bb1,false,49349-199,faucibus orci,JBS-6478-sxf,"Kling, O'Kon and Kuvalis",SOLAR,1951,MINUS18,43,-11,9.99kW/day,33,19,63,true,false
+16fe6088-46f8-4e23-aa6e-718dca85e539,true,51523-015,in hac,UTNE-6-d,"Daniel, Herzog and Senger",GASOLINE,2014,MINUS8,-7,6,0.50kW/day,30,58,20,true,false
+3534a7a9-ca23-406d-8009-57f06956bb5b,false,55289-142,vitae ipsum,CRZ-35-rtfy,Bartoletti Inc,NOT_APPLICABLE,1977,MINUS15,3,47,6.39kW/day,93,1,81,true,false
+12c06e90-1d1b-4ffb-ad21-cc905c18b38e,true,0049-0530,tellus semper,CK-4-ne,Kshlerin Group,NOT_APPLICABLE,1992,MINUS1,41,4,2.02kW/day,11,54,95,false,true
+276d0bb9-e5e7-4aa3-9763-940e34f363ff,true,36987-1959,eros suspendisse,HL-941-smlc,"Wolff, Wunsch and O'Hara",ELECTRIC,1990,MINUS5,-34,-21,9.49kW/day,92,58,99,true,false
+5bd6d9e7-981a-4203-b17c-8fbcb3cd62ed,false,40046-0070,curabitur gravida,REQ-527-mel,Bogan Inc,SOLAR,2003,MINUS14,-21,-36,9.13kW/day,37,8,24,false,true
+d20357d4-fc86-46c2-8a8a-2f98f0f1fdc0,false,0245-0086,risus,YMX-04241-rn,Jacobson LLC,GASOLINE,1994,MINUS6,-34,32,1.44kW/day,22,60,94,false,false
+4dc12de5-973b-4d13-92aa-3eab681e5af9,true,0268-0835,at lorem integer,WZ-4929-fb,"Brakus, Barrows and Stanton",SOLAR,1960,MINUS17,48,17,3.93kW/day,66,28,76,false,true
+87acdb0e-5baf-4d24-83db-8e6a22ac2b8e,true,14783-100,libero ut,CIMER-74-br,Leannon-Ferry,ELECTRIC,1956,MINUS5,4,-15,1.63kW/day,81,8,36,true,true
+759a26ae-480d-433d-a715-cb6014cc6f4e,true,0430-0114,maecenas rhoncus aliquam,ARBEF-59-e,Keeling Group,GASOLINE,2015,MINUS18,-12,44,9.95kW/day,9,52,51,true,true
+1c45d74b-ba56-4378-96f6-f5959a137b7b,false,0268-0604,vestibulum ac est,VCQUZ-788-yf,Mueller and Sons,ELECTRIC,1962,MINUS7,-10,-34,7.46kW/day,11,50,65,true,false
+5e63c422-140f-4b3d-865e-29415b9a20dc,true,68382-205,pede libero,HTYAB-1-iazro,Gleason Inc,NOT_APPLICABLE,1985,MINUS9,6,-49,4.70kW/day,30,70,41,false,false
+063a19d9-5636-441e-a7bc-859db5a9171a,true,49702-225,pulvinar,ZTFNY-36612-se,Schumm Inc,SOLAR,1966,MINUS4,12,12,9.92kW/day,51,18,42,false,false
+cd40aab7-b379-40dc-a789-2e545b54f771,false,0093-1005,bibendum,RBM-640-,Hilll-Labadie,GASOLINE,1965,MINUS4,-31,34,2.71kW/day,45,52,17,false,true
+c555ae77-405e-4f44-bde1-c4c73ebdf6e7,true,35356-759,donec odio justo,XGN-6-z,Schinner-Lowe,GASOLINE,1979,MINUS14,23,-33,2.45kW/day,95,81,47,false,false
+34286c81-1aed-4a30-9562-d9f1de38e1f8,true,55154-1818,ultrices,RVNI-1747-jdnzo,Hahn and Sons,SOLAR,1974,MINUS12,12,16,6.43kW/day,86,56,58,false,true
+f430e4bb-e117-4e08-bbc9-04194efa03ea,true,69153-010,in purus eu,MSQOU-11-z,"Gerhold, Senger and Wyman",ELECTRIC,1964,MINUS3,-31,33,0.78kW/day,29,20,57,false,true
+c1b5f66e-bf92-45eb-86af-4af77f093bc2,false,43742-0240,pede justo,MK-428-jgw,Frami-Cummerata,ELECTRIC,1950,MINUS18,36,-47,9.56kW/day,86,23,53,true,true
+50140701-a4fa-4535-bce4-ea5747814c37,false,11822-1406,purus phasellus,DWB-0-kftvh,Kshlerin and Sons,GASOLINE,1996,MINUS15,38,-12,3.00kW/day,47,28,13,true,false
+062544e0-4008-44c6-8586-45e0ba9aab7c,false,43538-172,cum sociis natoque,RZPO-9-p,Runte-Heathcote,NOT_APPLICABLE,1988,MINUS8,35,-6,1.65kW/day,15,3,46,true,true
+2d0572d8-97e8-40d8-8c6d-473a894fe400,true,63629-4027,enim sit,CG-6-kdn,D'Amore Inc,NOT_APPLICABLE,2001,MINUS1,50,-20,9.46kW/day,33,34,25,true,false
+84c017de-b300-4798-ba3d-7b172a6229a4,true,51346-108,integer ac,ZNCQT-5-,"Willms, Paucek and Rath",ELECTRIC,2013,MINUS9,41,22,6.39kW/day,17,87,9,true,false
+6da19daf-9698-4df2-b495-8eec77ae6c80,false,0268-0038,imperdiet sapien urna,BXFK-524-h,"Stehr, Armstrong and Walter",NOT_APPLICABLE,1962,MINUS18,32,35,8.99kW/day,96,96,50,true,false
+051272e3-e241-40b0-8697-ac31cd434d6f,true,62037-691,donec dapibus,XOREW-3-itm,Stamm-O'Conner,ELECTRIC,1997,MINUS18,6,-50,0.80kW/day,59,7,57,false,false
+3d2c73f8-b2cc-4b9e-b9e8-da3bc906cf7e,false,0002-5801,consectetuer adipiscing,TOUDK-22-,"Waters, Emmerich and Haley",GASOLINE,1976,MINUS15,-23,-34,5.42kW/day,4,10,46,true,false
+af629cda-961b-4b85-84a0-d723fec6d0ce,false,50563-151,nam ultrices,EQZNY-77-oq,Baumbach-Balistreri,ELECTRIC,1950,MINUS9,-37,-45,5.89kW/day,69,92,85,true,true
+29de4663-648e-44ba-9f31-dad471eb9af9,false,16571-302,quam turpis adipiscing,VXYFM-9943-rvgoq,Bosco-Dickens,NOT_APPLICABLE,1999,MINUS5,-32,20,3.81kW/day,11,72,93,false,true
+df6b7aba-b9d4-4c28-be96-86009b57cab6,true,51346-045,quisque,JAZ-047-gd,Braun-Ortiz,ELECTRIC,1973,MINUS4,-19,22,6.14kW/day,82,5,55,true,false
+70fb79f9-4cb2-43e6-9d9e-bdb22709358e,true,76237-216,ut suscipit a,LEVF-54795-rhc,"Zboncak, Johnston and Friesen",GASOLINE,1995,MINUS11,-33,-25,7.64kW/day,47,88,33,true,true
+8205362c-82ed-46e9-90d7-da0eab10a29a,false,55319-042,ut massa,GEZ-54-gsai,Lakin and Sons,SOLAR,1998,MINUS19,25,-12,1.83kW/day,0,49,12,false,true
+0c08f946-2340-46d1-bba5-eefd1834ac79,true,43353-652,eros,ZSHT-2-py,"Daniel, Volkman and Bruen",ELECTRIC,1982,MINUS9,47,24,0.75kW/day,79,77,3,false,true
+93536429-2425-4dcd-b718-e945db6ef777,true,0268-3063,tempor,UHE-5979-burt,Kautzer-Kautzer,SOLAR,2010,MINUS3,21,-8,6.37kW/day,70,77,41,false,true
+8241988a-9685-4246-89a6-e129a87a7b26,false,49304-0013,non pretium quis,NLMQ-47908-x,Ebert-Wiza,GASOLINE,2006,MINUS13,-41,37,4.59kW/day,58,37,12,true,false
+1ce864e7-872a-4e0b-8673-3ac5f8c56926,true,52533-080,nascetur ridiculus mus,BRHJU-931-z,Bergnaum-Stoltenberg,GASOLINE,2016,MINUS1,21,14,3.60kW/day,68,34,82,true,true
+762ebbfc-d26e-4014-894c-ae87e6563a58,true,21130-480,vel pede,GVI-3-xhroc,Reichel LLC,GASOLINE,2012,MINUS3,20,38,6.32kW/day,26,100,42,false,true
+025481bb-c939-4e2f-94a4-dc963f9f05b3,false,51079-466,posuere cubilia curae,TVOS-8385-my,Beahan-Jones,ELECTRIC,2011,MINUS15,-47,19,9.29kW/day,76,60,3,false,true
+e6d3c9a5-0199-4e6a-8e2c-ec1f7c2c24d4,true,60505-3245,sagittis,IGWN-30-k,Herzog LLC,SOLAR,1992,MINUS3,25,-41,8.36kW/day,32,79,30,false,true
+695a8370-2f84-4ef3-a560-9164e36c00ce,true,54569-1889,id,CUO-476-xjr,Ziemann LLC,GASOLINE,1953,MINUS4,27,-44,3.21kW/day,62,2,9,false,true
+b9d62b44-86ec-477a-bb72-92d1b04b0bc0,false,0093-5767,vestibulum ante,SKW-33123-en,"Greenfelder, Beer and Carroll",ELECTRIC,1991,MINUS15,16,-25,9.32kW/day,3,64,89,true,true
+cee344e1-6d01-43d2-9feb-a7e19494fff3,true,24385-337,dictumst maecenas ut,PKWA-9852-wzvpx,"Hammes, Kling and Goyette",NOT_APPLICABLE,1970,MINUS15,28,37,7.41kW/day,67,53,7,true,true
+a2884996-b1aa-487b-8291-ad1d0a0b7b01,true,48951-5069,amet diam,RCP-86532-ouy,"Gibson, Gerlach and Moen",SOLAR,1970,MINUS12,-50,15,6.84kW/day,60,78,88,true,false
+81a7b3ab-01d1-4c55-ac18-ef2cc3291757,true,52410-4110,volutpat eleifend donec,HBA-25307-wkmn,"Nicolas, Kohler and Hirthe",GASOLINE,2012,MINUS18,32,20,6.95kW/day,0,74,58,true,false
+bd3e0407-2b2e-48d0-ba99-00dc3c579b92,false,59875-1005,vel,RO-8902-uqha,Ryan Inc,GASOLINE,1996,MINUS1,44,-4,8.12kW/day,69,36,94,false,false
+85e8faa2-1104-4c23-9f6a-96b7ec2531d7,false,11410-117,tristique fusce congue,QNW-3-p,"Hintz, Rath and Kozey",NOT_APPLICABLE,2017,MINUS3,-33,-12,1.49kW/day,83,99,14,false,false
+8b99ebba-475b-4c21-adc0-e2eafcd3f678,true,51870-001,viverra,SA-0-ymghe,"Jaskolski, Kuhlman and Kunze",SOLAR,2011,MINUS8,14,34,7.66kW/day,92,71,4,true,true
+8bfc734c-5730-4e33-8667-fe6cc4154561,true,54868-4175,eu nibh,RPGA-53132-,"Eichmann, Schimmel and Batz",NOT_APPLICABLE,1964,MINUS20,-11,36,1.09kW/day,80,20,1,true,true
+7050f5e1-a488-4c9c-b888-460b46947776,true,75835-268,erat quisque,OGEZN-6-e,Morissette LLC,NOT_APPLICABLE,1991,MINUS15,-14,-2,3.16kW/day,17,16,0,false,false
+fbadeadb-40ec-48cd-9ce9-3c7166381733,true,50436-6744,platea,FUPJ-0503-l,Grady-Hagenes,SOLAR,2007,MINUS14,-6,-18,4.23kW/day,27,36,32,false,true
+18df53c1-0bb6-4cad-8016-57cbe883a6d9,false,55154-3194,proin risus,EZNS-27631-ytrf,"Graham, McLaughlin and Bernhard",SOLAR,1983,MINUS10,-4,-20,1.95kW/day,88,100,98,true,false
+f547d33e-7c29-437a-858a-321dfda33028,false,54575-915,in hac,VHXMR-0317-,Strosin-Muller,ELECTRIC,2004,MINUS18,25,-25,3.28kW/day,26,90,16,true,false
+19d9e07d-8b27-4c43-a9c2-d8f56a3fb3cd,false,52584-977,commodo placerat,HRB-003-,Schamberger Inc,GASOLINE,1990,MINUS18,37,-25,7.47kW/day,65,58,19,false,false
+15d57d7e-675d-4091-9621-bae8fcf38602,false,60899-010,eros suspendisse,WMTKZ-5654-bz,"Carter, Rath and Walsh",SOLAR,1996,MINUS11,-19,48,7.08kW/day,29,4,14,true,false
+f56c4374-c488-4436-8514-5e1bd8ad5842,false,66758-190,interdum in,PS-759-kw,Russel Group,NOT_APPLICABLE,1969,MINUS8,-44,43,1.11kW/day,34,79,94,false,true
+cd320e20-392c-4c90-bd66-3888226148ec,false,52125-536,ac,CQ-529-osgp,Conn-Pouros,SOLAR,1991,MINUS20,-44,-25,6.88kW/day,95,15,16,true,true
+056df1f2-635f-4fc6-902b-e17eedbd9e3b,false,0071-0532,amet,EBXP-33-wk,"McCullough, Bahringer and Schuppe",NOT_APPLICABLE,1965,MINUS13,41,24,9.69kW/day,37,86,2,true,false
+d604d806-406e-47a7-8cf5-60cdc4180491,true,0527-1367,risus,XO-7190-pbqkz,Leannon-Torp,GASOLINE,1955,MINUS3,-39,4,5.07kW/day,71,7,14,true,false
+f31a03a9-7001-4023-93f0-5eaccf88223f,true,65517-0028,quisque erat,DIMNT-53-s,"Schmeler, Jaskolski and Schulist",ELECTRIC,1981,MINUS10,15,18,6.55kW/day,63,46,5,false,true
+284fcc0f-bbd0-4b5f-8779-0a5e976e56ff,true,55648-758,at vulputate,BCAYW-3708-qgkb,Littel LLC,SOLAR,1977,MINUS20,15,-35,8.34kW/day,66,68,6,false,true
+ca36fb5b-071a-4e7e-9d32-84000d1405df,true,54569-2900,in,SKM-5-t,Halvorson-Hayes,SOLAR,1987,MINUS5,34,27,0.98kW/day,29,47,70,false,true
+d0400555-06cf-43a0-9b4f-b20d1612b588,true,0143-9721,in,TYW-0-kblt,DuBuque Group,GASOLINE,1997,MINUS10,-30,14,6.99kW/day,52,5,65,false,true
+66a22a05-cb14-4d16-9630-083c9a37aade,true,65044-1787,congue risus semper,GHSV-4-p,"Pagac, Huel and Mosciski",ELECTRIC,1969,MINUS20,29,-45,9.92kW/day,97,82,21,false,false
+68d69174-09a7-4033-9ef4-1b9545962177,false,0781-2043,amet consectetuer,BYOPC-16-,Bogisich-Gottlieb,GASOLINE,1964,MINUS17,-1,-38,2.83kW/day,16,17,72,true,true
+8817edd4-7ab5-4a88-82ee-c950572ba39f,false,47335-906,congue,QN-296-v,"Waelchi, Fritsch and Willms",NOT_APPLICABLE,1977,MINUS7,43,-37,5.42kW/day,89,73,24,false,false
+9bb63a6b-4612-4143-a427-8621d0161e80,true,49035-159,orci,VZ-5951-yg,Halvorson-Medhurst,GASOLINE,1971,MINUS15,25,-15,8.15kW/day,40,78,17,false,true
+0e5594f2-1148-4b06-9ab0-a750fd09adb0,false,21130-385,nunc commodo placerat,JUH-2129-ztr,Hilpert-Littel,NOT_APPLICABLE,2007,MINUS7,-32,2,9.65kW/day,82,90,61,false,false
+c1a68588-0d6d-4786-af95-33d4a3037cf8,false,0091-2489,enim sit,PZG-82-gcn,Kuhic Inc,GASOLINE,1978,MINUS16,50,47,2.36kW/day,94,85,5,true,false
+ce90e0d1-678e-4eaf-a58c-585cd798ba25,false,0121-0544,quis odio,HVCYR-138-,Olson-Ratke,ELECTRIC,1989,MINUS3,2,-14,4.20kW/day,60,80,6,false,true
+862e477f-c292-456b-9ebd-51a2ec80d16c,true,48951-3014,cubilia curae donec,HPLOY-4437-bx,Mueller-Dietrich,SOLAR,1998,MINUS10,20,36,3.02kW/day,36,77,56,false,false
+5ace0a45-cdbb-4a27-977b-b27fb7912bea,false,0378-2120,nibh,FJBS-47-l,"Marvin, Marks and Goodwin",ELECTRIC,2006,MINUS18,44,-27,8.37kW/day,36,80,99,false,false
+a2664e9f-57a7-4db8-8584-8014573c8f7e,false,68345-814,consequat varius,GKA-8070-yi,"Bosco, Mante and Bartell",NOT_APPLICABLE,1976,MINUS6,-42,-45,8.70kW/day,4,73,24,true,true
+1df19d5e-0d91-4c5d-8b3e-8d0f5af9a231,true,0009-0094,tempus vivamus,IR-465-c,Berge-Tillman,GASOLINE,2016,MINUS19,-35,23,2.05kW/day,47,64,81,true,false
+4eccf25c-1173-40f3-8c42-dcf01acac4cc,false,67544-884,sit amet,XWKQD-627-w,Mohr LLC,ELECTRIC,2005,MINUS5,24,-13,7.24kW/day,60,73,56,false,false
+cd20a1d8-47b9-4c44-83db-704075517108,true,51672-1300,luctus ultricies,EVLQ-20062-qysab,Labadie-Swift,NOT_APPLICABLE,1980,MINUS15,40,44,4.69kW/day,88,95,95,true,false
+e1a176e7-6061-4c4c-bed5-9ce89550a9b2,false,68180-303,lobortis convallis tortor,KO-5-,"Littel, Luettgen and Hermiston",ELECTRIC,1978,MINUS4,13,-4,8.67kW/day,100,60,69,false,false
+7da9794b-dc08-4a01-8cb6-4693374057d7,true,0093-7181,sit amet,RYBO-49329-qbt,Prohaska Inc,NOT_APPLICABLE,1958,MINUS11,-35,24,4.56kW/day,71,67,51,true,true
+e495228a-b884-4eb8-ab0b-0ad8edccebb7,true,0268-1467,erat tortor sollicitudin,LPFZS-8-nmdve,"Runolfsson, Boehm and Bode",NOT_APPLICABLE,1967,MINUS15,10,40,6.94kW/day,82,40,96,false,true
+27e69d5b-f3b1-4ce6-bcb6-d9264004ec86,false,10356-840,vestibulum rutrum rutrum,PLRFO-5-zdjx,Crona-Wuckert,NOT_APPLICABLE,1986,MINUS15,-10,-24,8.56kW/day,41,13,76,true,false
+229687b5-2270-4682-9f5a-e1b57a75d52d,true,41250-999,integer,PM-9358-,Terry-Dare,NOT_APPLICABLE,2005,MINUS9,6,-27,8.38kW/day,39,16,46,true,false
+773c8ec1-d0ee-4302-8480-7771f1ab8da2,true,53329-301,elementum,XQM-492-o,"Schamberger, Bogan and Okuneva",NOT_APPLICABLE,1950,MINUS6,27,47,7.77kW/day,65,28,4,true,true
+ea5b6a80-7821-4967-aedd-2664f516557f,false,55714-2350,hac habitasse,JTR-3868-voemn,Goldner-Rolfson,NOT_APPLICABLE,2009,MINUS13,-27,-31,2.17kW/day,5,63,16,true,false
+9d7db1a9-fe82-465b-833b-154e1f1bcf52,false,54575-474,suspendisse accumsan tortor,GJAL-19-w,"Murphy, Mayer and Johnston",ELECTRIC,1951,MINUS10,-15,-49,5.87kW/day,90,51,22,true,true
+0b7f47f7-52a0-445a-9863-0cf0048b073e,false,68428-719,cum,YHEZJ-33629-rk,Mraz-Yundt,SOLAR,1963,MINUS8,-49,-10,8.06kW/day,40,14,18,true,false
+28e6622d-1fd8-4455-be9f-18bbe496f447,false,55289-964,sagittis sapien,NL-649-wkr,Erdman-Collier,GASOLINE,1952,MINUS9,-9,42,4.77kW/day,19,23,22,true,true
+07af87f8-392c-4cdf-9359-c85ae8fbe257,false,51545-120,ut,IKO-48917-jeif,O'Keefe Inc,SOLAR,1974,MINUS6,-11,-5,1.86kW/day,72,95,31,true,false
+b7ef4662-0d7b-4c1c-b96a-e7ed7b86aa98,false,65862-050,quis,DRSFW-45420-,Will-Monahan,NOT_APPLICABLE,1965,MINUS5,15,44,5.38kW/day,33,68,93,true,false
+035a0e6b-f0b5-4df0-ba76-7e41723156f7,true,62713-811,suspendisse,NQCMT-88-hcpaj,Windler and Sons,ELECTRIC,2001,MINUS20,-48,-24,6.78kW/day,33,62,77,true,false
+5f01c8ce-7fcf-430e-80f4-445354f5f697,true,55154-4758,a suscipit,DEG-55441-r,Gottlieb and Sons,GASOLINE,2013,MINUS11,12,15,2.55kW/day,16,18,68,false,false
+ae440cc3-9c17-4883-bdd3-a0dd3237d3ed,false,0121-0766,augue,KXT-96551-cpn,Strosin-Barton,ELECTRIC,1998,MINUS19,11,28,6.37kW/day,56,3,29,true,true
+22f60df6-5950-4417-8170-2a8a94eeb537,true,37205-349,dapibus,MBZ-549-,Mante and Sons,GASOLINE,2016,MINUS7,-35,-47,1.46kW/day,85,13,92,true,true
+cfc2ceff-fd53-4153-95b8-74d7b6b00bd9,true,36987-2290,donec ut,HYRC-7-i,Block and Sons,SOLAR,1962,MINUS14,40,-14,7.33kW/day,63,24,47,false,false
+86dd4eee-f9b3-4a64-894b-a689ce24defb,true,58748-001,quam,IQO-6-z,Gerlach-Dare,GASOLINE,2000,MINUS11,-12,23,0.50kW/day,97,65,84,true,false
+be33dfd7-61de-44d4-9ef5-a20a9cb0318f,false,63548-0007,lacinia sapien quis,TXMQB-4707-upl,Mills LLC,ELECTRIC,2009,MINUS6,-49,20,1.88kW/day,36,100,23,true,true
+e34df135-432a-485b-ac0a-7a5819fdeef7,true,11523-7337,orci,ZFDP-473-,Crona-Koelpin,ELECTRIC,2010,MINUS3,-3,-29,9.49kW/day,86,70,88,false,true
+6d6e1039-e769-4071-a80e-9c4cf80b7c54,false,68788-9400,orci,JG-18741-gd,Rempel-Hettinger,GASOLINE,1951,MINUS3,-45,7,2.20kW/day,61,9,81,true,false
+60141676-ab2d-42f3-9f0d-8f7b107e81c1,false,49999-853,molestie hendrerit at,TIMXA-5-gx,Simonis and Sons,ELECTRIC,1991,MINUS12,-2,10,5.66kW/day,59,41,44,true,false
+9438fc0f-3ac0-44d2-9409-57aeb08fdfe8,false,62296-0051,porttitor,HPUF-4-c,Jones-Luettgen,GASOLINE,2009,MINUS4,-45,46,9.67kW/day,18,14,87,true,false
+3534001b-3b7c-4324-9217-a2a79ac4fad5,true,10671-022,nunc vestibulum ante,YMEKT-559-,"Bruen, Boehm and Marks",GASOLINE,1985,MINUS1,23,44,5.80kW/day,46,54,37,false,true
+a8404dc3-f4ac-4e8c-be71-9541fbe7340e,false,60505-2546,morbi a,KINS-08-jxzt,Jast and Sons,SOLAR,2013,MINUS12,3,20,9.55kW/day,94,37,24,true,true
+18e2efd1-f392-43ce-aaff-2ed141a4e50d,false,57520-0498,hac habitasse,RGIL-98860-,"Russel, Weissnat and Bahringer",GASOLINE,1986,MINUS9,-5,23,8.43kW/day,81,36,16,false,true
+b5d1e18b-0232-4622-849f-219ede088342,true,66336-670,pede ullamcorper augue,DTWL-4-auo,Crooks-O'Conner,NOT_APPLICABLE,1979,MINUS1,43,-35,9.59kW/day,77,91,47,false,true
+dc04074b-2d2f-4885-86ca-117b9ecd3ce4,true,37000-149,ultrices,LN-6-xf,"Thompson, Lemke and Tremblay",SOLAR,1972,MINUS4,6,40,6.40kW/day,64,54,21,true,true
+6c89cc86-22e1-40ab-beef-cab58d695fb9,false,49873-302,nulla nunc,FRDH-95361-xrfw,Von-Harber,ELECTRIC,1991,MINUS12,-7,-43,1.78kW/day,29,57,27,false,true
+0dfefdba-716e-4056-82ff-5fc825203cca,true,51079-121,risus praesent lectus,TGH-46728-g,"Terry, Welch and Crist",SOLAR,2009,MINUS15,26,4,5.70kW/day,66,82,93,false,true
+e278cdf2-bfc8-486b-a2f5-7ba431fb7a28,false,53808-0844,non ligula pellentesque,TXJ-33131-wylp,Hilpert and Sons,ELECTRIC,1955,MINUS10,17,-42,4.11kW/day,19,48,51,false,false
+dbffeb95-38a7-4cd2-ab5f-397f02e726e4,true,68382-036,quis,VBJ-4-njdtp,Carter-Zboncak,NOT_APPLICABLE,2014,MINUS13,24,-21,0.50kW/day,2,18,32,true,true
+0eed4711-6bef-4364-9701-51550139956d,true,0049-2750,amet,YP-9085-jq,Satterfield-Heidenreich,NOT_APPLICABLE,2001,MINUS13,-27,-11,5.29kW/day,65,22,61,true,true
+82832c57-0802-4130-b25b-8d2b2fac0280,false,0268-0645,lacus morbi sem,DRPTQ-2-upad,Tillman-Kulas,NOT_APPLICABLE,1982,MINUS12,5,13,7.43kW/day,98,38,39,false,true
+3d414584-20ff-4498-ac94-1c4b4f58f7de,true,0904-2728,donec,NF-69186-ynv,"Runolfsdottir, Bernier and Runolfsson",NOT_APPLICABLE,1953,MINUS20,28,-16,6.25kW/day,59,68,66,false,true
+f5d2ef28-115a-42d0-9260-c29fbca5b501,false,51346-100,tortor id nulla,USXV-23-ms,Moore-Haley,ELECTRIC,2001,MINUS20,-24,4,6.76kW/day,97,87,99,false,false
+edeb93ae-428e-481b-88e4-2d268f8365e7,true,10139-700,metus,XMGF-939-bwk,Dach and Sons,SOLAR,1964,MINUS15,43,28,2.43kW/day,10,82,31,true,false
+f1dec7f7-b1fe-47bc-bc16-76438acc4dcb,true,0178-0615,sed ante,QCFAT-565-yfa,Lehner-Lakin,GASOLINE,1954,MINUS4,-9,12,9.60kW/day,92,88,28,true,false
+ff3644da-e6bd-4ca1-953f-918f11b19962,false,50114-4338,montes nascetur ridiculus,YZK-4335-c,"Wilkinson, Olson and Dickens",SOLAR,2011,MINUS8,-16,-32,3.76kW/day,19,61,82,true,true
+979964c1-b7ee-423a-9f04-af657313f588,true,76282-202,duis ac,HR-23732-ykbws,McClure-Bruen,GASOLINE,2012,MINUS10,9,-38,6.60kW/day,13,16,15,false,true
+b778c4db-0190-43a1-90cf-f260e3295c75,true,68645-220,in tempus,SWE-80531-kc,Yost and Sons,SOLAR,2001,MINUS6,36,-21,2.00kW/day,52,77,13,true,false
+23e1de00-a418-4cee-81fa-d8545b1941eb,true,41520-136,morbi,TZD-48-rm,Pfeffer Inc,GASOLINE,1972,MINUS13,6,-18,2.57kW/day,63,47,14,true,false
+fda75b89-8fc9-44f5-8244-8f4323df7592,false,0093-6902,mauris ullamcorper purus,BNM-528-xhv,Marvin-Conroy,GASOLINE,2016,MINUS20,25,-17,4.91kW/day,17,1,16,true,true
+2f4553d3-a799-41a7-b6d7-650578c21c70,true,0009-0024,vitae ipsum,MZOQ-35733-,Haag Inc,GASOLINE,1995,MINUS17,-5,-21,4.97kW/day,51,28,54,false,true
+e698c7e2-f36d-4a1f-a198-f94efee5a448,false,61924-430,etiam justo etiam,CL-553-b,Mante Inc,ELECTRIC,2008,MINUS20,40,-37,1.25kW/day,22,82,34,false,false
+df2b66b5-37b2-41af-aa61-6a570b8609c9,false,0009-5137,dignissim,UNGW-4116-rzjh,"Kuhn, Hauck and Renner",SOLAR,1961,MINUS5,11,-23,8.08kW/day,18,13,49,false,false
+26b3b680-d8b6-4017-bbff-052ba4fcf441,false,65044-1540,est quam,DH-121-dchr,Gorczany-Von,GASOLINE,1999,MINUS3,42,-20,7.40kW/day,34,75,98,false,true
+22c2a2e7-8065-4b01-a6f6-0390bbe2b140,true,66993-462,eu sapien,CH-466-paodc,Altenwerth Inc,ELECTRIC,2000,MINUS2,27,18,2.62kW/day,26,94,76,true,false
+ee21f569-1de7-4a77-ae35-bba6a1edf988,false,43419-014,semper est,MD-556-vgxb,Hartmann-Flatley,SOLAR,1999,MINUS15,-41,40,8.47kW/day,68,55,17,false,true
+d3c78f25-d386-451a-a956-7c831074236e,false,41520-496,pede ac diam,JHRTB-50-,"Stoltenberg, Dickens and Lakin",ELECTRIC,1991,MINUS1,22,-39,8.73kW/day,61,59,91,false,false
+94e7ebe3-b649-45ce-9419-21efa6851fcc,false,0069-4210,pretium,DXJY-7-avntm,"Gorczany, Prosacco and Hayes",ELECTRIC,1991,MINUS18,-3,29,1.14kW/day,63,10,6,false,true
+ffd3c453-4c75-4831-a7d4-9afbded6b64f,true,42421-618,pharetra magna,QZF-08144-jesh,Shanahan-Grimes,NOT_APPLICABLE,1975,MINUS15,28,39,2.68kW/day,25,71,60,true,true
+c5426f11-74ff-484a-8811-596e567fb3a3,true,52125-331,pellentesque ultrices mattis,PHW-91-oinv,"Bernier, Wuckert and Lindgren",ELECTRIC,1981,MINUS2,33,-44,8.21kW/day,54,51,24,false,true
+fb4af3a3-f18c-48cd-a6a6-231f6a3611cb,true,63323-650,ultrices,LGP-9783-jko,"Haley, Bartoletti and Bradtke",NOT_APPLICABLE,1952,MINUS17,50,19,3.97kW/day,23,89,62,true,false
+9587a186-99e7-4ce7-a09b-f40010210226,false,49288-0046,vestibulum sagittis,CEBDJ-487-wnqmf,"Stoltenberg, Christiansen and Wisoky",ELECTRIC,1986,MINUS20,-39,8,6.28kW/day,66,31,83,false,true
+4910ba54-5a20-4984-a9c1-164f7d32859e,false,55910-532,sem sed,XIEN-130-,Waters Inc,SOLAR,2002,MINUS13,34,-24,5.66kW/day,42,68,3,true,false
+e928cea7-3a02-46f3-a63f-e3ce3a301807,true,49738-013,tincidunt in,LUV-9019-v,Moen LLC,GASOLINE,1984,MINUS6,12,-45,7.41kW/day,62,95,25,false,true
+7b0644e5-8e3a-4cac-a101-f8f6d3681743,true,21695-524,et,MJLO-8-toisc,Keeling-Tremblay,NOT_APPLICABLE,1992,MINUS12,41,-31,8.31kW/day,85,11,62,false,false
+02bb3a20-9965-4120-97ac-b883aaffd1e9,false,59630-762,cubilia curae duis,COJR-472-xytad,Pacocha-Rippin,GASOLINE,1969,MINUS18,24,-47,1.99kW/day,14,81,26,false,false
+c90bc504-59ea-4eec-be44-dd2bdaa11b4e,true,16252-568,adipiscing,PDRTX-6-o,Renner-Waters,SOLAR,2006,MINUS14,8,-1,3.25kW/day,10,65,55,false,true
+47b573ac-cbd3-4102-88e4-d9ac9edfda82,true,42806-018,sapien arcu sed,GUHT-2-voeyq,"Rau, Hermiston and Stanton",SOLAR,1971,MINUS17,35,5,7.74kW/day,79,21,20,true,false
+8c63cbe4-e161-4cee-80a1-50ccda0b42d1,false,54868-2971,tincidunt eu,SOT-78-nlrg,"Nikolaus, Dach and Jerde",GASOLINE,1998,MINUS17,-7,-30,3.70kW/day,43,70,18,false,false
+20212285-b4b1-4e02-835e-8f48c4be3b78,false,11559-020,et,CVDMU-8435-xrfnt,"Gusikowski, Dickens and Vandervort",ELECTRIC,1971,MINUS1,33,-50,5.85kW/day,76,67,72,true,true
+6d4961fd-8035-47e0-a3a5-7fc29b1dacb0,true,42221-0001,hendrerit,YJFO-398-bim,Prosacco-Ward,GASOLINE,2015,MINUS15,35,43,1.61kW/day,86,39,17,true,false
+2230ac0e-f2af-488e-9baa-85f42dd7cbed,false,37808-181,consequat,VP-94591-,Kuhlman and Sons,SOLAR,1954,MINUS14,14,40,5.03kW/day,88,43,64,false,false
+4d4929c4-f67d-4c08-9a60-905590526947,false,0615-5536,sapien,KPD-65067-zhqob,Schaden-Denesik,NOT_APPLICABLE,1961,MINUS17,-45,31,2.51kW/day,8,100,64,true,false
+43f6db57-0bf7-40e6-8892-fe898b38837e,false,61010-5500,nulla eget,VG-8811-qtdi,Gutkowski-Bednar,SOLAR,1991,MINUS6,-4,5,4.36kW/day,41,21,15,true,false
+dc4986ea-5b4f-4545-b6c8-fe97e6508fbf,false,0179-1980,urna,FHX-1232-gxf,Thompson Group,ELECTRIC,2003,MINUS11,-34,-40,7.60kW/day,82,2,29,true,false
+bafdebba-6965-4d84-a286-c6ab7182c207,false,30142-179,vestibulum sit amet,MQV-0201-uh,Jerde Inc,NOT_APPLICABLE,1954,MINUS18,24,28,5.73kW/day,43,93,44,true,false
+308eaae8-0e4a-4222-9199-8ad5a084348c,true,0615-1576,enim in tempor,XNY-8804-xg,Ryan Group,ELECTRIC,1988,MINUS3,-46,-46,8.81kW/day,55,77,34,true,false
+5e977a66-f258-41c2-bb82-3fc7ff92ca89,false,30142-405,lorem ipsum,VM-85081-,Pacocha Group,SOLAR,1995,MINUS6,17,-13,4.22kW/day,85,24,58,true,true
+b1f847fc-a80f-4171-8a69-aceca05fded9,true,0143-3994,sit,ZPG-538-y,Von Group,GASOLINE,1972,MINUS4,14,17,8.58kW/day,59,14,80,false,true
+276415bc-6feb-4d03-aea5-aec4f44600ed,false,0268-0900,phasellus in,CGIN-6943-pq,Feest-Hoppe,NOT_APPLICABLE,1981,MINUS8,50,9,4.06kW/day,52,13,71,true,false
+f5588ad9-1625-40ab-abd9-08a14877db45,true,0378-2045,condimentum,ZY-7148-juyc,Heidenreich-Prosacco,SOLAR,2013,MINUS9,-21,50,7.66kW/day,69,75,44,true,false
+2753a49e-4575-487f-875a-879633b648a5,false,68428-113,rutrum,AJM-0449-t,Toy-Muller,ELECTRIC,2001,MINUS5,-19,5,3.83kW/day,14,33,89,false,true
+f8f07897-2a03-498e-b496-cd36b6583aa8,false,49643-361,libero,XMB-35-ye,Upton LLC,GASOLINE,1957,MINUS8,-16,26,7.29kW/day,11,19,87,false,false
+7a196e31-1d91-4092-ae1a-bae5deeddab0,false,0173-0556,ridiculus mus,FYZ-1-fvx,Balistreri-Orn,SOLAR,1968,MINUS5,-37,43,6.65kW/day,97,40,79,false,false
+4532d24d-2abc-44bb-a626-df5d5b419536,true,45802-216,curabitur in libero,IGCR-2662-gl,Emard-Predovic,GASOLINE,2008,MINUS8,-17,-21,1.99kW/day,22,37,93,true,true
+7246b9a1-522b-40f2-8410-abe0803fbcb8,true,53645-1230,amet nulla,XMI-23-,Mraz Group,GASOLINE,1977,MINUS13,-25,-23,5.70kW/day,42,58,12,false,false
+ef0862ff-86c1-4df7-855f-fd303f57b297,true,60681-1704,amet eleifend pede,XQOEW-07864-wpld,"Hintz, Mayer and Berge",NOT_APPLICABLE,1977,MINUS20,-39,31,9.15kW/day,100,48,5,true,false
+7be20366-2761-4be6-8306-3b4c6510c276,true,52773-235,donec diam,OV-721-um,"Dicki, Zboncak and Larson",GASOLINE,2003,MINUS6,47,49,9.96kW/day,99,72,30,false,false
+01a72596-7ae9-46ed-a7c7-731fc769ae84,true,21695-707,ultrices,ODPCR-4-wm,Pfannerstill-Gaylord,ELECTRIC,2001,MINUS2,12,15,6.11kW/day,31,4,10,false,false
+ec7e2c8d-4084-431f-90f6-84f62890838a,false,0363-8203,mattis nibh,WN-0-aou,Keeling and Sons,GASOLINE,1984,MINUS11,24,15,6.17kW/day,27,51,3,false,false
+2e2fffc4-875a-4ffc-b5f6-e624ffa0580c,true,50242-040,varius integer ac,CRD-22059-p,Kuhlman-McCullough,GASOLINE,1967,MINUS18,0,-37,4.96kW/day,11,86,15,false,true
+14bdff2f-d0a1-47b9-9e91-5e139c880db3,false,0409-6629,pede ullamcorper augue,VX-7-rqw,"Schulist, Hills and Weissnat",NOT_APPLICABLE,2003,MINUS7,17,-46,9.44kW/day,24,29,30,false,true
+fdb6437f-a52a-43ba-84fe-3455cb5beb36,false,52125-321,proin,RY-3577-ehpjb,"Kuhic, Klocko and Corkery",SOLAR,1954,MINUS19,38,-48,9.90kW/day,21,29,18,true,false
+b8427544-84a6-4600-955f-94fbc6ae17a6,false,63323-406,erat,ZM-59-h,Murphy and Sons,ELECTRIC,1974,MINUS2,37,-6,2.15kW/day,58,3,10,false,true
+5fa3ca96-4401-4a53-8eae-b8476fdc71e1,false,51514-0205,nam,MKNV-03874-ucelj,Lockman and Sons,NOT_APPLICABLE,1993,MINUS12,-8,17,7.84kW/day,8,31,71,true,false
+dc7a9279-9b9d-4306-bc91-ac61f20e28ce,true,21695-472,lorem quisque ut,JG-0-gj,Heidenreich LLC,ELECTRIC,1992,MINUS6,-2,35,4.58kW/day,22,54,4,true,false
+1b1cf8f4-11c2-4b4e-8489-15b34da1d67e,false,44076-012,amet sem,WN-4-w,"Mueller, Hodkiewicz and Schimmel",GASOLINE,2017,MINUS8,16,-4,3.95kW/day,96,89,78,false,true
+5ebde1c4-ffd5-4b9e-a4fe-7e2c8a92b58e,true,48951-7098,eget nunc,IFAO-54655-jbafy,Johnson-Hessel,NOT_APPLICABLE,2013,MINUS1,22,38,7.61kW/day,81,45,14,true,false
+f71220c3-75dd-48c7-b18e-da70c614eae4,false,55714-2291,auctor gravida,YOJIS-80883-jhkm,Spencer Group,NOT_APPLICABLE,1963,MINUS11,30,-27,3.67kW/day,89,55,52,false,true
+58a86f28-d577-4517-a91c-2374cb0733f9,true,31722-707,ante ipsum,MS-8170-jr,Dach-Schulist,SOLAR,1958,MINUS11,24,26,6.99kW/day,95,100,64,false,true
+74f0b3a2-a89f-46dc-9fc8-bb8ccb0b4b95,false,51824-015,nibh,WBZ-7-oj,Altenwerth Inc,GASOLINE,1997,MINUS3,35,27,4.17kW/day,91,49,46,false,false
+0e616ec2-98c8-4c26-8362-dad705352e26,false,59730-6502,proin,OHCWK-3210-,"Sanford, Conn and Bernhard",ELECTRIC,2010,MINUS20,45,-49,4.12kW/day,2,43,14,true,false
+7cebb746-ec25-472f-9b42-ac5bbe32efdf,false,53208-533,consectetuer,XQSP-3-kqfx,Emard-Little,SOLAR,1976,MINUS2,-47,-13,2.78kW/day,41,5,27,false,true
+303c8957-cefe-4514-8c41-5baba203ebba,false,53877-001,fusce consequat,DKUE-2049-rp,Huel-Balistreri,ELECTRIC,1991,MINUS19,48,38,8.04kW/day,72,43,2,false,false
+178d0f5f-3168-4348-b31b-892bc68e5b73,true,49967-980,fringilla rhoncus,BNAI-786-i,Greenholt Group,ELECTRIC,1978,MINUS7,13,-47,6.47kW/day,42,49,15,false,false
+aad41020-02ea-49e2-bb35-5b5eebc2f607,false,21695-623,velit donec,GR-8087-,"Romaguera, Lockman and Kunze",GASOLINE,1968,MINUS3,-33,-49,2.04kW/day,5,15,43,true,false
+312728f2-1a82-4627-9a7f-d262660a2ee1,true,0363-0554,lorem vitae,LEBQF-4-qb,"Homenick, Lebsack and Murazik",ELECTRIC,1976,MINUS16,-29,31,7.24kW/day,21,99,67,true,false
+c0da5cf1-63be-41d8-a92c-24fb5bfc4da7,false,60681-5603,pellentesque at,FKXE-0724-puakw,Stroman-Welch,NOT_APPLICABLE,2008,MINUS1,-7,15,2.79kW/day,45,15,82,true,false
+d016f767-61d3-433d-82f6-f910946c72fd,true,59310-210,dapibus dolor,IFEGQ-60-de,Stanton-Dietrich,GASOLINE,2011,MINUS7,49,-13,6.65kW/day,38,18,63,false,true
+1e8fec2d-f038-4386-bc5a-82d87df73c0d,true,49967-243,ultricies eu,OJD-5-eh,Altenwerth LLC,SOLAR,2012,MINUS2,30,-43,7.68kW/day,69,90,34,false,true
+3f9ffc02-6312-4778-9943-f4a4d0bee4ea,false,69031-002,congue,OALDP-28-k,Ward-Cartwright,ELECTRIC,1997,MINUS12,30,-38,7.45kW/day,0,93,73,false,false
+6a3334e4-3d32-48fa-9d5c-711a50728cfe,true,10812-953,rutrum at lorem,MJ-054-qjcg,Luettgen Group,NOT_APPLICABLE,1959,MINUS9,18,24,6.18kW/day,77,86,3,true,false
+d914b5db-8da2-4c38-8d2d-80bbfe7b35c1,false,49288-0699,id,ZF-8420-gyin,"Jacobi, Strosin and Boehm",NOT_APPLICABLE,1958,MINUS6,-46,23,4.18kW/day,14,8,37,true,true
+5309d028-9795-4d65-8bcd-2bca1f2489b4,false,52533-026,aenean auctor,MPKBR-2970-qkdoi,Klocko-Ratke,NOT_APPLICABLE,1957,MINUS13,36,23,4.21kW/day,21,28,64,true,true
+4b248729-e275-48c0-813b-18fd5166bf6d,true,60505-3114,mi integer ac,VZ-46-nrb,Fadel-Hammes,SOLAR,1996,MINUS19,-49,-49,2.53kW/day,41,33,86,true,false
+bc06d7aa-a59e-497e-9a7a-0b09558c7878,false,59115-050,porta volutpat,TKOV-26880-zg,"Fay, Hand and Homenick",SOLAR,2001,MINUS20,16,-1,2.90kW/day,88,20,3,true,true
+63fcfffa-e31a-4cf0-8346-f889f4d79600,false,57955-6017,ipsum aliquam,PIOK-335-w,Stark Inc,GASOLINE,1992,MINUS10,-26,24,9.70kW/day,22,51,78,false,true
+f9b38d11-94bd-466c-9ee4-61be45723203,true,52125-665,bibendum morbi non,RAC-8265-uq,Stanton and Sons,GASOLINE,2008,MINUS2,10,-44,9.45kW/day,8,50,7,false,false
+a7baaf98-e794-4705-842e-23c887e2fda5,false,42291-141,orci luctus,JGW-13-oq,"MacGyver, Wyman and Wiegand",SOLAR,1982,MINUS3,32,-18,9.28kW/day,32,80,74,false,true
+902d341a-cd69-4165-8525-686d5d0ac35e,false,0781-3099,est lacinia,IDL-49-ob,Gerhold-Waelchi,GASOLINE,1961,MINUS13,-44,-44,4.26kW/day,98,33,88,false,true
+d470d5ac-459f-473e-8069-33456629b10b,false,49349-115,massa tempor convallis,LUFYG-393-ltimz,"Frami, Donnelly and Pfeffer",GASOLINE,1976,MINUS10,-46,36,6.22kW/day,35,43,50,true,false
+a088c987-883a-4bce-a06b-8813d6cecc77,true,60505-0208,justo,XPLT-55-,Stanton-Heathcote,NOT_APPLICABLE,1986,MINUS3,-7,29,4.03kW/day,14,17,99,false,true
+bb99e0a7-c8f4-4d93-9034-4fcd9feb1ae6,true,66993-877,sed tristique,UHSPD-7516-owc,"Carroll, Rodriguez and Conroy",SOLAR,1958,MINUS13,-43,-10,9.71kW/day,7,21,53,true,false
+4e35116c-139e-4d3b-9bd3-2c8a1988327b,false,54575-175,sed,JQEFN-1320-otau,Bailey and Sons,GASOLINE,1954,MINUS16,9,14,7.06kW/day,11,68,25,false,false
+fecc5681-5c02-44b7-81a3-ef9f0ab58f26,true,54569-5274,lobortis est,RX-59-rkn,Powlowski-Botsford,ELECTRIC,1980,MINUS18,8,-28,9.01kW/day,74,79,6,true,false
+5495d483-3ea0-4e55-a727-774e57f9789a,false,0536-3387,eleifend donec ut,MSZAX-6-rqe,"Becker, Blanda and Purdy",NOT_APPLICABLE,1983,MINUS15,-1,15,7.55kW/day,90,29,47,true,false
+b2ad8904-7e96-4ee5-be3d-ac9a4ad819d5,true,57237-011,volutpat,OBJT-27-,"Bartell, Lehner and Hudson",SOLAR,1951,MINUS19,48,15,1.07kW/day,44,29,51,true,true
+84597e6b-da16-498e-998b-70c5de7a8d87,true,21749-526,proin leo odio,HET-8183-vh,Kuhlman Group,ELECTRIC,1982,MINUS18,40,0,1.57kW/day,53,22,82,true,false
+83b4f2ba-14e8-46d4-a701-017cd6888680,false,50580-295,elit sodales,LJ-14574-hv,Cole-Haley,SOLAR,1994,MINUS12,-43,30,1.82kW/day,45,48,78,false,true
+9955db2d-06e1-4ba7-859e-af044f420b6d,true,0597-0002,in,RX-8881-,Franecki LLC,SOLAR,2008,MINUS10,-34,21,8.63kW/day,25,24,91,true,true
+e71e3f4b-e53a-49d3-8056-ab4664d1da63,false,54868-6406,elit proin,JPCG-34138-le,Crist-O'Reilly,SOLAR,1977,MINUS17,-42,36,7.55kW/day,27,71,52,false,false
+982144df-98dd-40ee-8f55-fee536d1cf0f,true,55319-454,augue quam sollicitudin,VGN-5-t,Hilll-Hahn,SOLAR,2007,MINUS17,5,47,2.66kW/day,12,56,64,true,true
+523d8e73-e55a-4b89-bede-a415b79d346b,true,0121-0577,sit,JOE-60-pcwd,Bartell and Sons,NOT_APPLICABLE,1969,MINUS12,32,-21,8.84kW/day,52,24,19,false,false
+301e4695-832c-4a50-b933-9045748fdc55,false,68382-266,at,VSHB-81-utdh,Collier Inc,SOLAR,1963,MINUS7,-39,33,8.73kW/day,60,5,25,false,true
+feea228c-ee1f-4f0a-a547-9f44e8df8af4,true,52959-127,tempor turpis nec,SF-5-qcbni,Schowalter-Borer,ELECTRIC,1988,MINUS16,24,-41,9.87kW/day,2,8,52,true,false
+bc877b7e-a294-4f44-a56a-f04c11762536,false,0268-1266,donec semper sapien,UKDH-364-u,"Torphy, Schaefer and Bartell",SOLAR,1994,MINUS5,-37,29,2.08kW/day,36,79,44,false,true
+38c82bb4-aabb-4ca0-bb2f-79e9939b4782,false,63354-322,viverra pede ac,SVUZE-760-ojy,Parisian Inc,SOLAR,1972,MINUS3,-39,-10,5.00kW/day,71,94,58,false,true
+1f430ae3-321b-4040-af39-fe7461c75e06,true,0378-6629,consectetuer adipiscing,GBYX-3732-aslc,Thiel Inc,SOLAR,1965,MINUS12,50,44,0.62kW/day,46,91,92,true,true
+db76eb58-5688-458c-ab5d-27660f6a6b9e,true,0049-5740,viverra dapibus nulla,SGNL-129-,Volkman Inc,ELECTRIC,1950,MINUS13,-37,-50,3.98kW/day,22,73,59,false,false
+03854c6f-c377-46bd-9660-638a73762e2f,false,54473-232,viverra diam vitae,ZLG-2681-va,D'Amore-Rodriguez,ELECTRIC,1972,MINUS10,-27,7,9.14kW/day,10,18,48,true,true
+f81b7143-3109-409a-8b41-3dc26651bf29,false,51346-071,nullam orci,QYB-77-gx,"Zemlak, Boehm and Grady",NOT_APPLICABLE,1963,MINUS5,-40,-5,5.54kW/day,38,36,81,false,true
+f3792ca9-1790-4fb1-8bdd-f7d12c109342,false,58118-0180,imperdiet nullam orci,RMLK-6-zofsp,Mayer and Sons,GASOLINE,1999,MINUS14,-29,6,6.79kW/day,19,56,31,false,true
+f087bf82-d9ac-4f8c-85fd-a46edbe7cf01,false,76436-127,cubilia curae,QLNDI-7-,Bins-Kovacek,SOLAR,1998,MINUS14,9,6,8.01kW/day,59,74,8,true,true
+2e7fa3ad-10fd-4c02-9101-3d5a64145296,false,0615-7704,praesent,UXO-0734-,Keeling Group,ELECTRIC,1985,MINUS10,37,-41,9.32kW/day,26,87,26,true,false
+4042cd3f-11c1-4634-918e-7c169431dc90,true,0682-3001,gravida,SAGCL-80698-fcngv,Lubowitz-Oberbrunner,ELECTRIC,1958,MINUS5,-2,33,4.66kW/day,72,71,11,true,false
+4ab15587-ad31-44fb-bac6-8bad9de337cb,true,68276-004,dolor quis,SDNYP-8-vyg,"Gleason, Ratke and Feil",ELECTRIC,1988,MINUS6,-22,26,7.29kW/day,60,47,43,true,true
+a3d19957-69eb-45e8-af72-29426fae7bef,false,56104-301,consectetuer adipiscing,MBQDH-2-pfhqd,"Monahan, Ledner and Skiles",SOLAR,1975,MINUS15,-11,3,6.52kW/day,100,76,90,true,true
+421dff78-4192-4485-82d6-fe09f269cac0,true,43269-743,nisl ut,OBPMK-66-,Ferry LLC,ELECTRIC,1959,MINUS17,-36,13,9.61kW/day,4,98,70,true,true
+b7978aaa-c252-46c1-ae79-48b6556fa638,false,65044-3107,eget,BJQZY-4902-zf,Hamill-Carter,ELECTRIC,1984,MINUS20,-7,-46,8.15kW/day,77,30,59,true,false
+1233400b-75b8-45fb-a9b1-346d90dc0f78,false,0409-9633,augue quam sollicitudin,BQU-217-ft,"Hoeger, Pacocha and Borer",GASOLINE,2008,MINUS14,-40,-25,6.11kW/day,25,49,73,true,true
+ef80bab5-51f0-4e2e-9d61-bb82daf694c4,false,51811-353,at,OZG-53-ce,"Padberg, Mraz and Macejkovic",ELECTRIC,1970,MINUS2,7,47,9.30kW/day,97,51,58,true,true
+dff06440-4640-481b-89b6-841e7d68169e,false,61715-055,orci luctus et,VQ-554-,"Hackett, Toy and Hauck",SOLAR,1959,MINUS2,23,35,3.00kW/day,80,25,69,true,false
+7c9eaf37-f4ef-40b8-bc99-cbfb19fc2063,false,67046-657,sapien quis libero,SHJUO-6-pdu,Russel LLC,ELECTRIC,1974,MINUS12,33,-38,8.88kW/day,100,43,84,true,true
+5503dcb1-1ee4-4985-ba23-4f503dacfdd7,true,58118-0163,in lacus curabitur,ONX-25085-gyz,Wyman Group,SOLAR,1995,MINUS6,39,-2,6.41kW/day,66,31,91,false,false
+71b9043d-f33b-49e5-9a4d-3fbb5c899f4f,true,34690-3001,erat,VRGKN-676-qrzbg,Spencer-Okuneva,ELECTRIC,1990,MINUS9,-19,30,5.02kW/day,82,88,76,true,false
+e6124c4d-16df-4273-9e88-9f475524fe79,true,63830-855,vivamus,KDTIU-17448-be,Barton-Jakubowski,NOT_APPLICABLE,1975,MINUS10,-44,1,9.56kW/day,19,8,70,true,false
+edcecc7f-8706-4464-9bc4-b55a82ba71b0,true,43742-0308,ut massa quis,PRAF-671-ydz,"Ruecker, Sporer and McKenzie",ELECTRIC,2007,MINUS2,18,-46,6.41kW/day,3,34,98,false,false
+05b0c7d5-5e9d-43f0-9193-8934df26cb12,true,0002-8147,vestibulum,ZRHA-877-dgcw,Osinski-Reichel,NOT_APPLICABLE,1966,MINUS14,40,-8,3.07kW/day,40,3,92,true,false
+31682f95-e38d-47b8-9f54-3c424fd8860b,false,51346-164,etiam,LWYJ-92557-dlvr,Crona LLC,NOT_APPLICABLE,1978,MINUS4,-18,-43,8.63kW/day,93,45,45,false,false
+f022da25-c147-421e-84f8-0eb635df02b4,false,49288-0825,imperdiet et commodo,ZLHR-17-wsd,Legros Inc,GASOLINE,2002,MINUS20,50,16,2.36kW/day,50,43,45,false,false
+c710b548-b2dd-41c9-bfed-37217aa2ae4f,true,0615-7566,congue etiam,SEO-969-ptgi,Schaefer-Jaskolski,NOT_APPLICABLE,1997,MINUS9,30,-42,5.40kW/day,75,96,81,true,true
+3ebfe3e5-2dd0-4c46-80fb-0ba45241122d,false,65435-0116,platea dictumst maecenas,ZQG-0-,Marks-Gusikowski,SOLAR,2011,MINUS4,-1,7,3.17kW/day,37,6,41,false,true
+94708fd2-1cd1-419c-9ca2-6291e3b4c44b,false,66689-401,lacinia sapien,EKJ-767-b,Miller-Kunze,NOT_APPLICABLE,2008,MINUS4,30,31,3.85kW/day,54,16,42,true,false
+835e0695-4dea-4ad7-b358-c86265d2565d,true,60512-1036,at feugiat,IUTE-0-z,Stokes-Armstrong,NOT_APPLICABLE,2011,MINUS10,34,-1,1.27kW/day,5,32,52,false,false
+9e270ec4-0b42-485e-b616-c5a87dddf26c,false,62670-4796,felis sed interdum,EC-51870-a,Gutmann LLC,SOLAR,1986,MINUS11,-40,-30,4.13kW/day,66,62,69,true,true
+3979945e-542e-4ac6-b101-af973d607967,false,51345-051,donec,UZMHE-990-y,Beier and Sons,SOLAR,1953,MINUS16,-18,44,6.36kW/day,59,15,99,false,true
+bd848642-69c0-426f-8f91-121a600eff9f,true,68001-186,curabitur convallis duis,VDFBH-7-,Koss Group,NOT_APPLICABLE,1984,MINUS11,43,40,4.15kW/day,22,57,56,true,false
+dfde4ecc-94da-4576-9e9f-dba95ddb2bda,true,0220-9332,ac lobortis,HA-3-,Frami Group,NOT_APPLICABLE,1998,MINUS6,31,43,3.33kW/day,16,74,82,true,false
+23a359a5-a619-4f2b-b3a6-0bad88130dc4,true,63354-330,dolor,NJ-69015-kjd,"Paucek, Prohaska and Shanahan",GASOLINE,1955,MINUS7,11,-32,6.70kW/day,40,27,10,true,true
+a9414c66-46db-4cbe-9459-db8c50a05286,true,0615-7756,libero nullam sit,ZIY-7761-y,"Davis, Harvey and Yost",GASOLINE,2008,MINUS13,43,39,2.27kW/day,52,7,75,false,true
+b5eba22d-1bbb-4fd2-b5e9-047d3db89832,false,49884-022,aenean fermentum,RD-45528-,"Hermann, Gleason and O'Reilly",SOLAR,1962,MINUS4,16,-25,9.37kW/day,59,58,58,false,true
+9aefdf14-48ee-48bc-8d19-e46f788336a9,false,62756-517,condimentum curabitur in,HB-54-c,"Stoltenberg, Pfannerstill and Jenkins",NOT_APPLICABLE,1955,MINUS20,-20,38,4.58kW/day,52,98,94,false,false
+1449ae73-00fd-43e9-ad7f-95e1f24cf5fa,false,63629-3392,justo,USZTX-2341-qp,Jakubowski Inc,SOLAR,1971,MINUS16,33,18,5.91kW/day,54,84,69,true,false
+0d5a982d-96f1-4176-b0d5-28540d8e9448,false,52920-126,velit eu,TOZBH-2804-hzdiy,Bernier Inc,ELECTRIC,1986,MINUS16,19,-40,4.94kW/day,71,46,38,true,true
+7dbec6d0-16d5-4cf4-ac12-c8c0f70b10f6,false,64725-1834,sit,BRGMU-73-z,"Smith, Bruen and Schamberger",ELECTRIC,1957,MINUS11,31,33,2.92kW/day,98,80,16,false,false
+35fd5e1c-4fef-499b-90e3-f89686fd00e7,false,63629-5259,felis ut at,KO-27-pqe,Thiel Group,ELECTRIC,1951,MINUS11,20,24,2.43kW/day,97,35,1,true,true
+caa24916-4a10-43ae-a1cf-886882223e4f,false,49348-690,ligula in lacus,WTRZF-7508-al,Schuppe Group,NOT_APPLICABLE,1998,MINUS4,12,-38,0.92kW/day,68,64,43,false,false
+7a4a0f82-4cee-4453-9f8b-65d9aa8a41d7,true,54569-3398,semper,INM-36301-oi,Zulauf and Sons,SOLAR,1966,MINUS12,-17,-15,5.10kW/day,100,49,49,true,true
+5332e3e2-83ea-4513-8730-9426f7c9fdc4,false,55315-341,semper,ZML-5431-sngxj,Walter-Cole,GASOLINE,1969,MINUS6,-30,45,2.46kW/day,15,42,4,false,true
+94666b59-1060-4ec8-a6a3-3814c8e89b4c,false,60512-8010,primis,WJK-4-qv,"Howe, Schinner and Heathcote",GASOLINE,1964,MINUS15,-40,-3,6.36kW/day,52,2,51,true,false
+6fb70eb2-6e10-457c-9719-40ed73d854c5,false,0143-1267,pretium,PYDBV-7-trfi,Nader-Stehr,GASOLINE,2016,MINUS12,-10,-13,7.20kW/day,21,98,57,true,true
+20e2466c-059e-43b7-afab-55daed9f73ba,true,51141-0057,sem mauris laoreet,MKVSD-0749-o,"Steuber, Jenkins and Towne",NOT_APPLICABLE,2005,MINUS8,-23,-37,7.37kW/day,30,47,22,true,true
+fac054b7-5280-44a3-9c71-22aafb292c0c,true,16714-073,non velit donec,WBCOE-455-nz,"Bartoletti, Gleason and Rodriguez",SOLAR,2012,MINUS2,39,25,5.96kW/day,64,14,1,true,true
+9c76992c-9569-4129-85e2-f4d499dbe21b,false,49738-238,vel augue vestibulum,XT-93766-jfral,Schinner-Fritsch,NOT_APPLICABLE,1957,MINUS6,47,7,7.66kW/day,77,43,97,false,true
+e1fd9a48-a651-4d8d-8dc6-25e1e12d205d,false,53210-1003,pharetra magna,WL-8544-mct,Douglas Group,GASOLINE,1954,MINUS2,-4,45,4.42kW/day,74,29,10,true,true
+d57c9fb3-59d2-427b-9d42-092b39282325,false,61589-6012,iaculis congue,ZPH-6891-zsoj,"Davis, Beer and Schimmel",GASOLINE,2006,MINUS2,-3,44,9.44kW/day,13,34,53,true,false
+2dc46c8c-6c5f-4061-ab50-f5f555fe4357,true,75854-102,posuere cubilia curae,LPR-505-ae,Harvey-Lynch,SOLAR,1983,MINUS8,-46,-25,3.31kW/day,95,10,34,true,true
+25a0e83e-5a4f-4c74-a336-1cfa8f9d9960,false,41163-080,ipsum,MDJ-05629-x,Gusikowski Group,NOT_APPLICABLE,1963,MINUS8,41,29,0.53kW/day,59,61,26,true,false
+b7886fce-4efc-46bc-a9fd-e82849dac044,false,63629-1558,rhoncus,IHW-6-av,Champlin-Corkery,ELECTRIC,2017,MINUS10,-28,-8,7.34kW/day,33,20,82,false,true
+1804aaf6-7c94-4bbc-b46b-d2998f61c3db,true,66213-422,ac neque,EWSRO-3-y,Watsica-Nienow,NOT_APPLICABLE,2005,MINUS15,19,20,9.99kW/day,66,14,98,true,false
+dd720267-ee6d-4b84-8c13-403fbf218037,true,60505-3579,volutpat,GM-363-o,"Zemlak, Renner and Hoeger",ELECTRIC,2000,MINUS4,12,19,0.67kW/day,84,1,96,true,true
+53d303e1-fc2a-4aa8-88cb-b69e64e599e3,true,0527-1338,tempor convallis nulla,HEY-20-zp,Sporer Group,GASOLINE,1967,MINUS20,15,-17,0.93kW/day,48,80,49,true,false
+8d6b562e-431d-4488-8e6c-1df76a487dab,true,0641-6075,maecenas rhoncus,DIF-260-fdg,Koepp Inc,SOLAR,1977,MINUS19,27,-42,3.96kW/day,56,47,0,true,true
+454db2bf-58ec-47a4-b12c-be09f77261da,true,61919-065,donec,UJBNQ-29-ylfn,"Gottlieb, Predovic and Howell",GASOLINE,1961,MINUS13,21,-17,5.44kW/day,49,83,9,false,false
+6e7b2b62-4cf6-4d12-bb5d-53255cf02ac2,false,0051-8462,ligula,TBAL-6-rltk,"Trantow, MacGyver and Moore",NOT_APPLICABLE,2011,MINUS11,42,32,5.70kW/day,38,100,29,true,true
+3c4a9589-a461-419b-9953-15e4f8f28c53,false,68026-103,convallis tortor,UXFM-5-,"Heidenreich, Boehm and Hoppe",ELECTRIC,1950,MINUS6,1,9,2.64kW/day,72,50,3,true,false
+987aa183-d0c3-489e-b448-51705451ffcb,true,0472-0911,tortor,NXC-33-y,"Ruecker, Mertz and Johns",SOLAR,1981,MINUS16,32,-47,2.74kW/day,60,100,54,false,false
+f91074b5-328e-405e-81cf-29b3676125c7,false,36987-2910,vulputate vitae nisl,QXV-06-,"Hilpert, Wisoky and Davis",SOLAR,1988,MINUS11,7,-26,3.43kW/day,84,61,74,false,false
+dd2fbf61-0095-4d17-9f0d-9597d997f741,false,51460-1113,elementum pellentesque,NSYO-141-u,Schuppe-Jacobs,SOLAR,1966,MINUS5,-39,17,2.75kW/day,7,90,34,true,false
+b5cfa513-6633-43a5-a522-b13b0ed96a5a,false,41268-612,id consequat,LGTY-583-vlx,Botsford Inc,GASOLINE,1996,MINUS3,-6,-14,2.65kW/day,36,10,90,false,true
+a8964707-fb75-4bd2-ba0a-bf74a0a7b38e,false,68382-764,congue risus semper,JZ-40-,"Bechtelar, Schulist and Hauck",NOT_APPLICABLE,2004,MINUS18,-3,28,8.35kW/day,93,31,79,true,true
+a57b4146-530d-4672-b16c-377536d7a2fa,false,63629-4061,in,XSKID-81267-,Russel Group,NOT_APPLICABLE,1958,MINUS8,20,37,8.46kW/day,29,26,60,true,true
+b0586871-32c9-4b31-9493-352a1617a1be,true,68647-166,nulla integer pede,FA-6-a,"Larkin, O'Hara and Goyette",GASOLINE,1956,MINUS17,45,-48,8.63kW/day,94,34,12,false,true
+5eb4cb7f-a030-4061-a15d-37a6d68f6e1e,true,0185-5000,convallis,ZLEN-43-hgli,Bailey LLC,SOLAR,1966,MINUS11,-1,-49,6.54kW/day,85,81,78,false,false
+a03ccfa0-45e3-439c-bcf1-6e00f276b8b7,false,43742-0217,id,SO-8992-bi,Ward LLC,GASOLINE,2010,MINUS15,-3,-4,5.68kW/day,50,10,13,true,false
+08fa01e9-976c-4f4f-ba28-3498ad64a118,false,57344-138,dolor morbi,FPKUW-62-vj,"Rowe, Torphy and Hackett",GASOLINE,2000,MINUS14,-10,-40,7.33kW/day,99,30,80,false,true
+f9616871-4d69-447f-98d7-079a04dc09a2,true,0884-1706,non mauris,XJTLE-92851-,"Boehm, Klein and Kuhlman",NOT_APPLICABLE,2010,MINUS8,43,-16,6.99kW/day,24,95,57,false,false
+3e97a308-89ef-45bc-82ad-8bdf6927599a,true,59338-775,habitasse platea,KYMT-31577-vpd,Hane-Gorczany,NOT_APPLICABLE,2011,MINUS2,-11,-20,6.36kW/day,32,11,43,true,false
+76804728-388c-41cf-8612-5491eb6f8836,false,49348-890,at nulla suspendisse,EYZ-98307-aky,Larkin-Lindgren,ELECTRIC,1976,MINUS8,-45,-2,9.80kW/day,41,13,80,false,true
+1a028b9b-107a-4604-a738-deeab46054cf,true,0641-6114,diam cras,EYN-5077-rmu,Greenfelder and Sons,GASOLINE,2007,MINUS20,48,30,3.33kW/day,63,88,21,false,false
+7d8abf09-69b8-4659-8474-602ec458e6a7,true,59779-971,libero convallis,KHWQU-3-ias,"Konopelski, Schmidt and Dare",SOLAR,2011,MINUS2,40,9,3.58kW/day,82,58,90,false,false
+7470a781-24c3-4052-90a7-66be86dd84c7,true,54340-801,nulla suscipit ligula,SC-84-i,Osinski LLC,NOT_APPLICABLE,1992,MINUS11,48,36,7.44kW/day,70,26,62,false,false
+5e63d410-0cdd-4f24-98e2-f2c325220ba8,true,0409-4265,dapibus augue,ROQY-6-eiv,"Rutherford, Trantow and Ebert",NOT_APPLICABLE,1964,MINUS4,-4,39,9.08kW/day,89,60,65,false,true
+265bce45-4eb8-4e3c-9669-2d0f8f1e66ad,false,68151-3798,nascetur,PD-69-gh,Crist-Littel,NOT_APPLICABLE,1988,MINUS15,2,9,8.82kW/day,54,34,48,false,true
+ed3a8a18-ecfc-429e-b02d-947dcc6d8f38,true,65841-641,blandit,SY-36393-qlm,Cronin-Grimes,SOLAR,1994,MINUS3,5,-5,0.94kW/day,19,30,65,false,false
+4d13b30a-fc26-457f-bf76-1505f9c6753a,true,60505-0681,arcu,OIJC-4-f,Keeling-Wolff,NOT_APPLICABLE,1985,MINUS11,-49,11,3.83kW/day,5,71,38,true,false
+63fce8e1-2306-4d99-b25e-777b5da54ddc,false,49288-0926,quam sollicitudin vitae,ZMW-207-,"Emard, Leannon and Kuhn",SOLAR,1986,MINUS2,-47,18,1.99kW/day,77,31,90,true,true
+9f6f70aa-d8d1-49c8-ba21-c529704b72c3,false,63824-764,non,HI-0-cg,Weber-Ortiz,SOLAR,1953,MINUS7,40,36,6.05kW/day,44,77,28,false,true
+4a772358-c40c-4a30-a836-688a472a2d0b,true,0310-7820,dui maecenas tristique,GIXA-48281-lj,"Corkery, Mraz and Rosenbaum",SOLAR,1996,MINUS16,-10,16,5.74kW/day,93,73,19,true,true
+53c91b6a-fa78-495a-8a41-a10c04515e4d,false,55118-541,odio elementum eu,QHKTN-10503-pmiqf,Satterfield LLC,ELECTRIC,1995,MINUS10,-46,38,0.53kW/day,97,88,2,false,false
+0cd017d5-59ba-43d3-8239-fbee0ded3bc1,false,49349-957,integer non velit,BCZTH-1128-tpuxg,Rowe Group,ELECTRIC,2008,MINUS1,48,-35,8.08kW/day,18,53,96,false,true
+2b81f2ea-6a5f-4dd3-9406-ce90fd520c33,true,64893-400,nisl,TJGVN-87-v,Rau-Toy,NOT_APPLICABLE,1963,MINUS5,-32,10,1.20kW/day,19,90,65,false,false
+b02c299d-a2e0-4b49-a181-0e8c809b46ee,true,49288-0437,mus etiam,KWNU-7885-ctfvh,"King, Kris and Kris",ELECTRIC,2007,MINUS5,44,34,9.30kW/day,19,46,57,false,true
+4324e187-9cd1-424e-948d-9bc9c2da6c0d,true,0268-3051,vitae,NB-6026-,"Dare, Aufderhar and Dickens",ELECTRIC,1962,MINUS14,-20,-16,3.77kW/day,70,69,7,false,false
+0fd90935-bd0e-4977-90d3-d62ab5a350eb,false,67877-291,sit,WBARQ-07205-fam,"Reichert, Lemke and Larson",NOT_APPLICABLE,1955,MINUS17,-12,39,3.78kW/day,22,81,48,true,true
+d5507c5d-455d-4222-90f8-859bf193c80f,false,52937-001,odio condimentum id,CUWF-718-fisqk,Reynolds-Bailey,GASOLINE,1978,MINUS3,-4,-23,9.68kW/day,8,4,6,false,true
+725f3574-3d95-4ac2-8ff0-ffc45bdba41d,false,21695-496,lacus purus aliquet,MWHB-4-gszx,"Mante, Hessel and Shields",GASOLINE,1958,MINUS19,10,45,2.59kW/day,62,90,99,false,true
+e29153d8-95a6-423e-abf7-a91722524994,true,58118-0518,et ultrices,SCPJ-528-byk,Konopelski Inc,ELECTRIC,2000,MINUS4,7,-38,6.57kW/day,46,99,74,false,true
+6e781e21-b622-46de-b07c-0788425a91b0,false,43547-223,ultrices phasellus id,SD-8522-lwc,"Sawayn, Leannon and Robel",SOLAR,1978,MINUS10,-8,38,0.92kW/day,59,93,61,false,false
+07a8b911-9797-43cd-91e2-c43e76d02e5d,false,50458-592,tempus,HXID-30644-qwgb,Oberbrunner and Sons,GASOLINE,1967,MINUS10,-17,3,7.80kW/day,63,59,63,true,true
+2a8267d9-2a5c-42be-8e03-7423d4287c75,false,52959-124,molestie hendrerit at,TZDKM-06-odczx,Jaskolski and Sons,SOLAR,1970,MINUS10,40,21,6.25kW/day,76,62,58,false,true
+ef367f4c-e5f1-42be-a128-f1f800cf27e0,false,50184-4700,odio in hac,LEUD-2584-qva,Koepp LLC,SOLAR,1990,MINUS5,42,-32,9.69kW/day,96,49,81,true,false
+29577147-c15d-4548-8a2a-a6468408489c,false,68788-9945,ante ipsum primis,MZED-4955-tdexi,"Johnston, DuBuque and Kuhic",NOT_APPLICABLE,1997,MINUS17,41,36,8.73kW/day,59,35,20,true,false
+f15bf47a-99eb-43be-9e10-8f9f4ce515eb,true,57520-0642,quis odio consequat,SDG-8558-,Nienow-Cole,GASOLINE,2016,MINUS17,5,39,4.98kW/day,34,65,14,false,true
+387f5e74-97c2-48b0-bdf3-6462a3fd9148,false,57344-155,vulputate luctus cum,GZU-152-pxbi,Treutel-Oberbrunner,SOLAR,1971,MINUS16,-48,8,0.52kW/day,31,86,44,true,false
+47766a06-d76b-48db-b706-dea63d857334,true,66993-413,mauris ullamcorper,STA-02-,Dare-Braun,NOT_APPLICABLE,1962,MINUS13,17,27,3.85kW/day,19,25,5,false,false
+fa7b4ad7-3ad1-4d46-98b8-0b9d83a4261e,true,59746-015,in quam,BZE-17305-akt,"Hahn, Ratke and Dietrich",SOLAR,2003,MINUS8,-37,21,4.89kW/day,53,14,46,true,false
+183dd377-7479-42b4-a125-b07863abdb35,false,54868-3726,quis,OI-58090-qbe,"Davis, Olson and Tillman",GASOLINE,1997,MINUS2,-9,45,8.68kW/day,92,17,100,true,false
+7a8abc4e-c551-4e50-8251-977af46175b9,true,63039-1002,platea,GTK-78-duvq,"Johnson, Wilkinson and Hegmann",GASOLINE,1967,MINUS10,-24,-30,1.14kW/day,1,51,41,true,true
+62276c3b-db4f-4687-beb0-36df6bd43444,false,45802-140,in libero,XKRF-4-qbpel,Jacobson-Boyer,SOLAR,1965,MINUS2,44,-37,4.71kW/day,31,34,42,false,false
+9add7f02-8b1a-4ce5-84aa-a64355e9a5c0,true,54868-4851,consequat dui nec,ATW-602-jcfos,Aufderhar-Collins,NOT_APPLICABLE,1975,MINUS6,12,34,8.86kW/day,0,71,58,true,false
+bfe14bc0-3254-4dbb-9017-b102c81e7c70,false,58394-633,ipsum integer a,YNA-40-e,Kunze-Bins,GASOLINE,1975,MINUS6,-48,17,8.80kW/day,97,94,10,false,false
+28b02acb-830f-413e-9c3f-a85e153de512,false,10096-0184,erat quisque erat,RBP-7359-xhsf,Kris-Hermann,NOT_APPLICABLE,1982,MINUS6,10,16,2.01kW/day,97,92,75,true,true
+617b8260-2bc6-4a34-a6ea-0ced8837ab82,true,62802-295,nunc,BHFJR-05-gytx,"Hilpert, Kulas and Barton",ELECTRIC,1990,MINUS18,17,-10,8.43kW/day,96,83,39,true,false
+046ad290-11f1-4fcb-8e8d-8aed18a3e98f,false,67512-224,fusce consequat nulla,FMQYO-7-e,"Koch, Kirlin and Feil",GASOLINE,2001,MINUS8,50,-6,9.16kW/day,55,100,97,false,false
+0334b4eb-39da-428a-82f6-0967cd4fddc0,true,68196-604,fusce consequat nulla,QZID-34-mje,Bruen Inc,SOLAR,1990,MINUS11,-7,-26,8.96kW/day,74,68,70,true,false
+fdda15d3-6555-4374-b2a3-e54e2ec99abe,true,49288-0163,at ipsum,IJ-6-,Pfannerstill and Sons,NOT_APPLICABLE,1984,MINUS9,-25,-42,8.58kW/day,68,58,13,false,false
+bcdcd187-0b7e-4637-b84f-f01211e6d721,true,55154-1025,mauris eget massa,CAO-459-tudmq,Cassin-Jast,NOT_APPLICABLE,1975,MINUS1,-23,22,9.33kW/day,91,84,99,true,true
+077ac6ac-4315-42db-8893-f5521f35f7d8,false,34666-005,ut,LV-1519-aw,Hauck Group,ELECTRIC,1988,MINUS15,-50,2,9.52kW/day,36,51,75,true,true
+845164de-3442-44b4-9ea4-138ea1eb7834,true,0186-0777,est quam,PGHRS-71-lvs,Barton LLC,ELECTRIC,1965,MINUS5,-43,12,6.11kW/day,27,2,71,false,false
+d36f6794-7681-4e01-ae6e-b76ada3e4680,true,0517-1305,libero,YW-84833-mu,Gerhold-Osinski,GASOLINE,1966,MINUS20,-1,-11,5.86kW/day,84,75,17,true,true
+3ea0577e-2681-42ef-b494-d75719479664,false,65044-1746,sapien,PFJIW-00970-,Vandervort Group,ELECTRIC,1967,MINUS3,25,1,5.42kW/day,48,89,94,false,false
+857688a8-37ac-433a-aabf-e7481b569efa,false,52533-104,nec,HZS-24-ld,White Group,GASOLINE,1983,MINUS11,44,40,2.23kW/day,27,25,85,true,false
+d4ef6eef-aeb5-4802-bf62-4de6edf40c0e,false,55910-975,tincidunt,HXKU-517-rzis,Rodriguez and Sons,GASOLINE,1959,MINUS16,-4,34,5.64kW/day,31,90,9,false,false
+07e22b38-1d77-4f18-9742-ac8164542bce,false,52731-7053,tortor,RVQZF-6-coa,McLaughlin Group,ELECTRIC,2008,MINUS17,28,-7,2.41kW/day,79,95,18,false,true
+e4b05c01-97cc-4ff4-b73d-06bb19dc3a5c,false,0536-4086,sapien,HJFCX-53-,Howe-Murphy,SOLAR,1991,MINUS17,29,34,2.05kW/day,38,50,3,false,false
+83d635e1-b802-424c-92fa-3ac64a8d5668,true,61941-0227,sapien,CH-301-krac,Wunsch-Yost,GASOLINE,1967,MINUS13,11,28,4.95kW/day,35,24,78,true,true
+17d9ad70-5e79-486b-b6a6-40699c6c583b,true,67510-0487,augue vel,PH-436-yne,Hirthe Inc,SOLAR,1989,MINUS2,20,6,0.52kW/day,71,46,81,false,false
+4658953c-5757-41ad-a728-2bce443039bb,true,63736-015,luctus,CHWVY-33396-tpdk,"Fisher, Nicolas and Beahan",ELECTRIC,1956,MINUS17,39,14,8.34kW/day,31,40,9,true,true
+2a85ed39-a689-4a88-967d-f01f605a2533,false,36000-003,habitasse platea dictumst,MRKVD-956-l,Hagenes Group,SOLAR,1967,MINUS13,43,-28,9.68kW/day,38,84,44,true,true
+34b8219d-cc96-4edc-b9a3-19bd4d071220,false,0135-0468,eu massa donec,VZCB-58-,"Wolf, Beer and Trantow",SOLAR,1996,MINUS9,-10,-45,8.47kW/day,23,87,13,false,false
+cea519fe-1abf-4edf-8a20-8d05e401cfb1,false,44924-132,consequat,OJ-816-,Williamson and Sons,ELECTRIC,1957,MINUS17,-15,-18,8.78kW/day,7,66,86,true,false
+69b1e9ce-b7f4-4bbc-99fb-f6ff35377509,true,49288-0396,nulla,VGA-89-rv,Rohan-Murray,ELECTRIC,1981,MINUS15,41,23,3.73kW/day,23,35,1,true,false
+dbd1daba-f1dc-4cf9-859b-07c247be5aa1,true,36987-2621,posuere,XYO-7-nlkqy,Gorczany Group,SOLAR,1958,MINUS3,50,15,8.57kW/day,29,65,53,false,true
+2fa8340c-8465-49dc-88f0-d022dba6350d,false,66184-529,nec,HOEV-1-m,Hettinger and Sons,SOLAR,1967,MINUS17,-46,-21,9.46kW/day,20,54,48,true,true
+7107e01f-7177-4d3f-b767-935acab60027,true,16714-631,in quam,WYGIN-93-ha,Tillman Inc,NOT_APPLICABLE,1951,MINUS4,-15,-19,9.22kW/day,57,29,46,true,false
+8988ce47-2903-438e-a040-4ffa4e1fa470,false,52533-059,tortor,XP-674-fpw,Turner Group,SOLAR,1977,MINUS14,30,-26,5.46kW/day,28,81,86,true,false
+1c2832ca-b1b4-449f-be06-8ed800010123,true,55154-0674,sapien arcu,AWYJM-98-q,Beatty and Sons,ELECTRIC,1958,MINUS10,34,-17,2.36kW/day,2,100,84,false,false
+c67f85ec-e553-40cd-a1c5-96a307344eaa,false,21695-613,varius ut,VD-042-tcxz,Feil LLC,GASOLINE,1952,MINUS2,11,31,5.69kW/day,79,69,28,true,false
+5a8784ff-54a3-4a41-8167-d226218c30d9,true,0131-3265,viverra,KTGWM-70247-ylfd,"Feest, Runolfsdottir and Roob",ELECTRIC,1992,MINUS5,-29,-10,8.49kW/day,0,50,26,true,true
+ee242cc6-f243-4533-a91d-e4ac2786231f,false,11716-1189,tincidunt,OGVC-41-,O'Connell Inc,ELECTRIC,1985,MINUS12,0,35,1.78kW/day,56,20,13,false,false
+3852c150-7310-4d9c-891c-6207b3b6ff7c,true,41520-981,aenean,HI-65175-rkj,MacGyver-Abshire,SOLAR,1981,MINUS15,8,-23,4.17kW/day,18,71,90,false,true
+d196ed43-2298-4fb2-bcbf-0244235999b9,false,36987-2147,sem mauris,EAV-30-rqtjp,Schulist and Sons,ELECTRIC,1966,MINUS3,-26,43,6.15kW/day,77,47,26,true,false
+12ab52b4-2e8d-4435-82e3-4919410897cc,false,36987-1264,ut tellus nulla,MC-92-sdev,Beer Group,ELECTRIC,1998,MINUS2,-15,36,8.71kW/day,29,5,48,false,false
+b3fbf8c5-34c1-4530-9d23-48942ca03b21,true,10544-606,rhoncus,UL-654-m,Wyman Group,SOLAR,1980,MINUS19,21,-4,2.93kW/day,94,48,42,false,false
+b11eabc6-d563-4109-a830-41100ca84c55,true,42291-850,praesent lectus vestibulum,AJQEL-379-jd,Stark LLC,GASOLINE,1959,MINUS6,13,-10,2.74kW/day,15,28,70,true,true
+577d2b3e-36d4-4401-8756-b417751b99d8,false,11822-3207,congue vivamus,OJWN-62522-,"Parisian, Jones and Douglas",NOT_APPLICABLE,1978,MINUS17,20,-37,2.12kW/day,41,47,0,false,false
+ec52c4c2-27cd-4a12-b083-44402a1a7612,true,49738-809,volutpat erat,XWZH-9-tom,"Purdy, Wolff and Metz",NOT_APPLICABLE,1996,MINUS3,8,-32,5.82kW/day,3,0,44,true,true
+3c835877-4b24-4edf-a589-30b39de5698c,false,51345-061,eleifend pede libero,DXVA-5456-,Jerde LLC,SOLAR,2011,MINUS1,-6,-8,4.93kW/day,86,68,17,true,true
+2098ae43-7dea-4b27-ba4a-1916a1962bd5,true,54868-0325,eget tincidunt,YBHSN-1875-mzbc,"Bernhard, Schuster and Upton",ELECTRIC,1994,MINUS15,-8,-22,4.52kW/day,10,67,63,false,false
+e303f7d0-2acb-40fd-a084-e865b4402d8a,true,61047-812,quisque,DS-954-kg,Lebsack LLC,GASOLINE,1955,MINUS5,1,3,2.69kW/day,78,19,57,true,false
+52d71831-1669-40c4-83ee-e5ac436fdcda,false,13537-605,quam fringilla rhoncus,JUM-07-b,Herman Group,NOT_APPLICABLE,1952,MINUS10,-45,27,5.69kW/day,28,61,12,true,true
+dae5dae9-3fb6-44f2-8cf1-40a96a1f1957,true,67510-0506,rhoncus,TSXR-5-yg,Langworth-Heathcote,SOLAR,1969,MINUS18,1,-20,7.65kW/day,64,30,68,true,true
+268cb77b-d283-4a23-add0-55dc4db5151b,false,0264-8612,ac,TZ-153-,Jones Group,NOT_APPLICABLE,1977,MINUS7,-29,34,3.54kW/day,2,15,59,false,true
+388296f6-3f58-420f-a473-40738421d00f,true,52125-564,morbi quis tortor,CA-649-hm,Larkin and Sons,GASOLINE,1976,MINUS7,-47,-26,5.50kW/day,93,22,65,false,false
+c6eb5d5d-5465-4d2c-8a37-17a5be886b17,false,60760-016,platea dictumst,SG-08234-,Koelpin-Jaskolski,GASOLINE,2011,MINUS6,-11,-8,1.80kW/day,15,76,56,false,false
+d2e092eb-7f9d-4fae-b05c-1261bdceeecc,false,56062-496,sapien ut nunc,ENJ-1-nl,"Connelly, Cartwright and Kutch",ELECTRIC,1957,MINUS19,-22,17,7.17kW/day,4,45,1,true,false
+16e718c3-feb1-422d-92d2-0d16efff67f6,true,58118-6150,dapibus augue vel,GI-2-,Bergnaum-Rogahn,GASOLINE,2002,MINUS12,28,-28,4.67kW/day,15,100,17,true,true
+6c2aab60-3bf5-4dbc-a9b0-d498325b0cdc,true,14783-333,ultricies eu nibh,TD-1-,Rolfson-Thompson,SOLAR,2005,MINUS8,7,7,7.60kW/day,22,8,32,true,true
+52c70ae0-0a5e-46f5-82d6-3a875604fc64,true,36987-3149,pellentesque,OKQLF-33260-abcf,Collins Group,ELECTRIC,1969,MINUS1,11,-28,1.76kW/day,29,99,43,true,false
+2774a958-9ad6-46ea-8c07-532b412bbdff,true,0536-1025,nulla neque,EA-9-gbje,"Marquardt, Prohaska and Farrell",ELECTRIC,1999,MINUS9,35,3,9.39kW/day,35,26,61,true,true
+c93f84f2-aa0e-4484-a754-4032fb10ecd2,false,68001-209,mauris,UZ-618-,Ernser-Volkman,SOLAR,1988,MINUS9,26,-19,5.87kW/day,61,59,15,false,true
+0363b53c-682c-4467-9f52-213ec11439f4,false,0574-4072,diam,SAR-80933-zdr,"Funk, Crooks and Strosin",SOLAR,1975,MINUS20,22,-14,3.88kW/day,86,41,7,false,true
+1607b3d2-28d0-4160-bec0-1ad46c344c08,true,63972-006,consequat nulla nisl,DZHLI-2368-wtz,Weimann-Kihn,NOT_APPLICABLE,1974,MINUS5,-22,-49,6.27kW/day,97,64,79,true,false
+ee327fe8-6c0d-4556-b2f2-4696aef38ad7,true,43269-856,et,AU-8-fw,Dickens-Bergnaum,SOLAR,1995,MINUS8,-28,12,8.23kW/day,19,92,82,true,false
+f019babf-3590-44f6-b36e-e957b996de2c,false,63304-627,id ornare,LRUTP-424-wdh,"Ward, Schuppe and Reichert",SOLAR,1994,MINUS19,-13,-41,9.75kW/day,31,82,9,true,false
+e8a8670b-63c2-417c-88cd-63570408f300,false,68220-143,in quam fringilla,UBDHX-94-cgbqe,Stracke Inc,ELECTRIC,2003,MINUS7,-12,-42,3.23kW/day,57,90,68,true,true
+2869dabf-1949-4c28-a968-69ff54de3ebb,false,52380-1274,in,EKGJW-868-uaki,"Skiles, Lowe and Mayert",NOT_APPLICABLE,1979,MINUS16,48,-2,0.67kW/day,35,42,92,false,true
+e9734833-69f2-45cc-8110-1b5a7345785a,true,60512-6537,justo,WJZH-2-uboia,"Strosin, Veum and Frami",GASOLINE,1957,MINUS5,-45,22,2.69kW/day,37,83,73,true,true
+f08066d1-0988-45e5-bcf4-4814ed6dab58,false,51801-009,mus etiam,OQN-07949-,Huel-Botsford,SOLAR,2002,MINUS6,23,-37,8.55kW/day,61,60,94,true,true
+cf415724-bfee-4568-ba5b-1715f4e67a47,false,49288-0885,fusce lacus,NG-5300-eg,Hessel Group,SOLAR,2017,MINUS9,-21,46,1.89kW/day,57,61,86,true,false
+7bab4f00-3498-45aa-a1cf-d11e2f59de74,false,44577-704,sit,UQ-68-,Frami Inc,GASOLINE,1954,MINUS10,-5,6,7.65kW/day,86,20,62,false,true
+a1d98352-7c53-4c26-8557-cfc57fccaaca,false,60432-466,nibh in hac,RCHOI-312-fzlea,"Boehm, Orn and Klocko",GASOLINE,1997,MINUS16,-18,-6,1.50kW/day,61,62,9,false,false
+7a7dd5a6-64b9-48d7-82bc-14c3cc20cd6d,true,68196-798,eleifend luctus ultricies,EMGKD-1279-xp,Pfannerstill-Mann,NOT_APPLICABLE,2008,MINUS20,-37,39,3.66kW/day,99,57,12,true,false
+2f6aa5ca-69fd-4ed3-8871-a9edcd02efee,true,55154-5553,odio consequat varius,MGQP-200-dex,Kirlin and Sons,NOT_APPLICABLE,1959,MINUS18,20,-42,7.69kW/day,38,66,14,true,true
+03b57d9d-64f6-4136-b1a2-4cfca21f6f41,false,76420-782,curabitur gravida,CJGO-1-,"Kovacek, Shields and Orn",NOT_APPLICABLE,1967,MINUS6,4,-25,9.79kW/day,75,31,27,true,false
+7e35f867-88bc-4340-ad5f-828480e5cd5b,false,46708-036,mauris,NQV-0562-,Spinka LLC,ELECTRIC,1994,MINUS19,32,-43,3.51kW/day,77,64,44,true,false
+9e1409fd-bcf0-4d0c-b5e4-55796e9eff5d,true,16590-660,posuere cubilia,YQ-61-qjsdy,Treutel-Greenholt,NOT_APPLICABLE,1964,MINUS8,-18,11,8.01kW/day,17,18,61,true,false
+88df3a5b-1251-49e0-91bc-7b2bbb0eeeeb,false,68745-1127,lectus pellentesque,BWCMK-00391-,West and Sons,SOLAR,1958,MINUS16,11,-9,6.02kW/day,56,43,69,false,true
+75331dd5-87a7-4334-a34f-b40901c56684,true,68151-4069,hac,XYNC-4355-n,Mante-Thompson,GASOLINE,1976,MINUS2,33,10,8.88kW/day,62,68,37,false,false
+b9135bd7-bcf4-4db8-8e2a-6bece042beee,false,64117-961,vel accumsan tellus,UAQTB-209-,"Schowalter, Rowe and Schroeder",NOT_APPLICABLE,1990,MINUS5,32,48,9.95kW/day,59,23,79,true,false
+f0b88b95-d0ba-4f1c-8130-843633d988aa,false,49955-600,consequat in consequat,QZU-4851-xrq,Gerlach and Sons,GASOLINE,1968,MINUS15,-28,-50,5.38kW/day,19,27,61,false,false
+f6050ee7-4194-4417-916d-c02341c042fb,false,43473-805,faucibus,KDZJ-68-,"Klocko, Pagac and Doyle",NOT_APPLICABLE,1981,MINUS17,11,5,5.88kW/day,81,0,91,false,false
+51d03272-280e-4db3-8186-e8865ba34fcc,true,41163-422,aliquam sit amet,WVAE-2624-ex,Veum LLC,ELECTRIC,2010,MINUS9,-5,1,7.15kW/day,29,5,94,false,true
+10971bb3-030f-49dc-bd09-83d213da90d5,false,48951-6054,justo in blandit,DYMXV-84977-edhcl,Bergnaum-Beahan,GASOLINE,1963,MINUS5,4,-25,3.97kW/day,18,42,7,true,false
+e29e3d65-0c04-40d2-aebb-a8278f185bf1,false,63645-128,sit amet,SO-00714-bax,West and Sons,ELECTRIC,1964,MINUS15,-17,-40,6.74kW/day,28,79,64,false,false
+6e3a6bcd-c939-4a7a-83e6-72c0edb51b89,false,68645-456,nunc viverra,LWS-18-l,Murazik Group,GASOLINE,1995,MINUS1,-19,-24,2.79kW/day,18,41,100,true,true
+9a7feea3-eda1-4dcd-a731-c29c3c31dc8c,true,36987-2211,erat eros,OP-7-amo,Ebert-Hand,GASOLINE,2008,MINUS10,23,11,7.48kW/day,43,22,86,false,false
+5c04c106-75f0-424b-8b3b-ecf7d99ed462,false,51138-042,pellentesque,AON-318-z,Nolan-Corwin,SOLAR,2009,MINUS20,18,40,5.34kW/day,59,55,33,true,false
+95ac3018-4f96-454e-8b4b-60e9b9b56dbc,false,31722-335,sit amet,DJKW-248-f,"Langosh, Reichert and Walter",NOT_APPLICABLE,1992,MINUS6,47,-15,1.42kW/day,39,74,31,false,true
+09e627d1-c391-49fe-9f2d-25b91c677af6,true,51655-588,quis tortor id,NSYVE-1-,"Reinger, Bernhard and Weber",GASOLINE,1984,MINUS8,16,31,9.37kW/day,16,2,8,false,false
+7d6c4406-5b9a-4f1d-bbe0-9824632a4520,false,64990-609,dolor morbi vel,KAIYU-15212-c,Waters and Sons,GASOLINE,1999,MINUS2,-35,20,3.07kW/day,29,31,60,false,false
+3992ae64-46f1-40cf-aac3-e7256aa021ab,false,0904-5851,vel pede,QI-40-anhv,Harvey and Sons,GASOLINE,1990,MINUS20,-7,16,2.44kW/day,1,82,86,false,true
+04679420-3dc4-4cb9-a2e8-666e0dda4a56,true,62802-104,quam sapien,USQZC-95201-,Gutmann-Stanton,GASOLINE,1988,MINUS9,40,-39,2.95kW/day,69,53,26,false,false
+729f8064-2576-4271-b78c-44b28213622b,false,57520-0206,proin,CQEDL-3646-,"Wunsch, Johns and Mitchell",NOT_APPLICABLE,1971,MINUS6,41,18,9.55kW/day,17,69,21,false,true
+32102ed5-3590-4b69-bfe5-9e6d2cf2785a,false,54868-0147,vel nisl,AKDBO-7661-,Stoltenberg and Sons,NOT_APPLICABLE,1960,MINUS8,-13,42,8.94kW/day,16,6,55,true,true
+85e16685-47d1-4e57-921c-bfbdd27121e0,true,64778-0217,quisque ut erat,RMEGB-64-j,"Nitzsche, Jenkins and Cummerata",NOT_APPLICABLE,2008,MINUS8,29,42,5.75kW/day,18,87,74,false,false
+cf32ab21-4b83-4d84-92f5-237bee457cbb,true,10578-030,sed nisl,XKCEH-556-jtyvh,Quitzon-Parisian,SOLAR,1980,MINUS1,42,41,1.25kW/day,51,41,7,true,true
+80d3fadf-7b9e-4828-8c2a-2d4110619f44,false,0268-6305,ut nunc vestibulum,CPIJ-34791-icsq,"Kohler, Kub and Predovic",NOT_APPLICABLE,1954,MINUS15,31,38,8.43kW/day,90,22,45,false,false
+6df8dfb2-ae4e-454d-9424-ed397c3d68c1,false,52533-028,cursus vestibulum proin,VLJBQ-8690-f,Rempel and Sons,GASOLINE,2010,MINUS3,41,37,2.51kW/day,16,5,7,true,false
+9844b223-0e82-4fde-928d-d39e3c014fa6,true,24385-133,lacinia aenean,OBS-934-thrqj,Rowe and Sons,SOLAR,1983,MINUS16,-46,-49,2.77kW/day,39,99,94,false,false
+3fdd0247-1ee0-42fc-a9f6-8c0039889415,true,0603-5928,posuere cubilia,GLB-1-r,"Tremblay, Lakin and Rosenbaum",NOT_APPLICABLE,1962,MINUS17,17,47,8.34kW/day,3,52,39,false,false
+fe95d9b7-6f76-43c9-aa41-4c5bd6cc0e3a,false,43063-050,orci,LAI-20735-,Murray-Homenick,ELECTRIC,2007,MINUS4,-41,23,9.87kW/day,43,85,15,false,false
+08e25d32-3232-4c46-ada6-5f9c4d414f7d,true,61957-0116,est et,QUWX-514-,Reichel Group,NOT_APPLICABLE,2001,MINUS13,-45,37,6.31kW/day,53,10,29,true,false
+738059e6-3090-4fb5-883e-99de2c918d44,true,62175-156,pede posuere,ZM-872-tf,"Kuhic, Cormier and Kling",GASOLINE,2004,MINUS10,-36,-34,9.03kW/day,52,84,50,false,true
+44023ba2-5235-4dbf-b1d4-d9a53af72da4,false,43406-0019,curabitur in libero,NHLBT-877-atw,Johns-Hudson,GASOLINE,1995,MINUS20,30,6,6.41kW/day,58,8,3,false,false
+1a17dbfe-f5a3-4ae9-9c30-492b20a6414f,false,60758-802,ut dolor morbi,TGYK-03-fp,"Franecki, Reynolds and Kessler",GASOLINE,1963,MINUS7,47,9,6.48kW/day,34,75,46,true,false
+cbb81ac8-a81f-4e0c-b2f2-1a435a1247e9,false,52544-092,integer,NHMO-19924-uajst,Nitzsche and Sons,GASOLINE,1964,MINUS6,-12,-9,7.42kW/day,35,29,71,false,false
+67398921-aba6-4964-b3df-7e82c061db27,false,59900-117,at,MZP-5-pri,McDermott-Lubowitz,SOLAR,1951,MINUS8,6,-1,4.66kW/day,48,77,15,true,true
+d8e3f39f-fd60-4b89-874e-c15508d8213a,true,65044-1436,platea dictumst etiam,JEKVY-420-xcp,Bode LLC,GASOLINE,2001,MINUS19,-10,13,3.59kW/day,33,98,51,false,false
+f3209bf8-ee93-4db3-8b4e-448ca87d0d6c,false,52125-755,cum sociis natoque,EZ-953-g,Runte-Luettgen,ELECTRIC,1973,MINUS18,-33,-1,4.96kW/day,24,19,84,false,true
+36681e2b-3ee9-46ae-9c1a-c0606b186f43,true,68151-5652,aliquam erat volutpat,HEFG-82-pq,Mayer-Sipes,NOT_APPLICABLE,1990,MINUS5,-25,2,6.22kW/day,26,92,14,false,true
+0de3b29d-7a4f-4d4c-b3dc-b5a2c532bc8c,false,0078-0458,luctus cum sociis,LN-1021-lnyqo,Thiel-Mills,SOLAR,1955,MINUS6,-25,21,2.73kW/day,64,70,58,false,true
+2323b7c6-9878-45e0-ae5b-b4df594fe798,false,0924-0128,mi sit amet,IVH-766-m,Champlin-Grady,SOLAR,1989,MINUS18,15,-36,4.28kW/day,91,56,68,true,false
+3562da9c-e30b-480b-ad9b-cc13672e85d0,false,0316-1015,felis sed interdum,PX-80750-dk,"Stamm, Witting and Graham",GASOLINE,1961,MINUS18,-40,-10,9.42kW/day,84,15,22,true,true
+9739688f-3bda-4ef0-978f-557755c0a707,false,59762-1703,mauris,HU-9261-ofscq,Schaefer-Orn,GASOLINE,1967,MINUS7,28,-41,4.31kW/day,8,15,46,true,true
+e7ec7744-f11d-4d9c-87f2-7db5c926015f,true,61699-4888,non quam nec,WDTAS-58464-z,Grimes and Sons,NOT_APPLICABLE,2002,MINUS13,44,14,5.05kW/day,83,33,88,false,true
+2351a4dc-5f08-41f2-8dc6-28384c78a98a,false,52389-623,eu est,RYTGJ-13159-q,"Hamill, Goodwin and Jaskolski",NOT_APPLICABLE,2013,MINUS18,38,-1,6.74kW/day,6,45,29,true,false
+a83d7d4a-2e58-4460-bbcb-cfa63aaf0eff,false,0185-0820,morbi,CHNAT-7876-shlm,Beer-Gislason,GASOLINE,1993,MINUS7,14,-9,5.95kW/day,89,20,96,true,false
+3e4d98b6-e287-4750-92af-b00db7fd4b43,true,30727-339,morbi vel lectus,HTSBO-92-gcqso,"Mosciski, Hagenes and Kulas",SOLAR,1950,MINUS9,-18,9,6.65kW/day,12,37,77,true,true
+e98ff53c-ed19-45a1-a7e4-6e4adaaf2948,true,60505-0182,tortor,UEWVO-242-swlq,White and Sons,ELECTRIC,1953,MINUS16,23,-14,4.69kW/day,64,17,16,false,true
+181cd0e1-2c9c-41e5-8b23-4fba53287d23,false,55111-196,porttitor id consequat,AMT-43419-k,Yost and Sons,NOT_APPLICABLE,1986,MINUS1,30,27,6.52kW/day,76,3,52,false,false
+92f82e14-6f66-4c49-9350-64f480764ec2,false,49348-722,erat id mauris,YF-4-ocpud,Leuschke-Farrell,GASOLINE,2012,MINUS5,-15,10,3.76kW/day,25,100,9,false,true
+47cb2d05-0f13-4ee5-bb5f-8d92de447f4f,false,54575-241,vulputate,DYFMP-965-,Quigley Inc,ELECTRIC,1972,MINUS19,-32,-11,6.41kW/day,33,84,14,false,false
+6cce5caf-e90d-41f4-a1d3-bdf4a462465a,false,50942-001,vulputate elementum,LPAC-97765-,Weber-Beer,ELECTRIC,1998,MINUS7,37,-2,7.25kW/day,91,60,23,true,true
+aa8a3196-cbc8-4c77-9f57-fa2f0516bde8,true,66869-404,blandit lacinia,YCST-7-vk,"Stamm, Mueller and Marvin",SOLAR,1985,MINUS10,48,-47,6.10kW/day,13,2,32,false,false
+9a2e063f-b5b4-427e-9380-af788b70c0af,true,48324-773,vel ipsum praesent,VZ-833-ixg,"Muller, Lowe and Ortiz",ELECTRIC,1980,MINUS10,3,-2,8.65kW/day,42,91,95,false,true
+3ee60276-5b9d-48e0-a171-1cad67d2f459,true,29500-7820,dui,MGV-346-,Nienow-Bode,GASOLINE,1980,MINUS6,-27,31,7.85kW/day,76,19,27,false,false
+39cd3a61-d45b-4fbc-829f-4de2fcf2ad9f,true,51079-993,sapien placerat ante,AK-95-yu,Schroeder-Walsh,NOT_APPLICABLE,1977,MINUS15,-43,5,8.37kW/day,94,50,73,true,false
+430a9b65-b639-47cf-a5bd-6ea3a2038d61,false,13734-140,cubilia,RSUP-90-gfe,Homenick-Kessler,NOT_APPLICABLE,1984,MINUS9,18,35,2.40kW/day,38,1,77,false,true
+ad834b3c-6daf-4acc-a41d-e1d2c9736e60,false,42806-056,mollis molestie,GE-374-spl,Ortiz LLC,GASOLINE,1980,MINUS16,-29,50,9.53kW/day,21,15,36,false,false
+160507cf-013d-4fc9-9bc4-6fa2ccd14d9a,true,55154-9376,ipsum ac,SC-39400-,"Cartwright, Kohler and Schmidt",GASOLINE,2010,MINUS20,0,-27,5.88kW/day,81,85,86,false,false
+d9165d9e-fdaa-48a7-a2a5-e04de37a6b5a,false,49349-688,luctus,TOSR-8-tz,Nolan and Sons,NOT_APPLICABLE,1996,MINUS3,-36,45,0.74kW/day,77,5,5,true,true
+7c922898-36d0-4a4c-ab1b-5f2a4731677a,true,24477-517,nec,QSWT-349-,"Rowe, Paucek and Mosciski",GASOLINE,1984,MINUS16,-4,39,8.37kW/day,64,32,74,true,true
+c9e057ec-f87b-40fc-881d-c0cbae871d8d,true,76045-003,faucibus accumsan odio,VPC-3466-lb,Jerde-Beahan,SOLAR,1953,MINUS13,12,19,5.34kW/day,91,60,26,true,false
+36bff9b7-14cb-4be0-8def-541473a5536d,false,0591-2919,lobortis,YHTJ-13738-tes,Gleichner-Upton,NOT_APPLICABLE,1989,MINUS15,47,48,5.06kW/day,40,90,15,true,false
+3cbbe30f-9a35-4e6b-992a-d37ef624345d,true,0378-0032,enim in,QKU-4526-t,Toy LLC,NOT_APPLICABLE,1966,MINUS8,12,3,5.60kW/day,63,72,23,false,true
+d52fb231-5e7a-4c0c-8cb7-ae309c65f43d,false,68382-209,in,OKN-9686-,Doyle-McDermott,ELECTRIC,1968,MINUS15,-37,15,7.05kW/day,64,65,18,true,true
+d27720e0-493b-430b-acf5-654c1f1e2ce6,false,0363-0039,velit,UIV-9549-,Hodkiewicz-Ryan,SOLAR,2013,MINUS3,-8,47,7.70kW/day,46,65,99,true,false
+d63ce597-6b05-47cc-bf30-b065529c110a,false,58414-3509,congue risus semper,NWUK-4-ahmt,Goldner Inc,NOT_APPLICABLE,1978,MINUS4,3,-5,6.35kW/day,10,41,46,true,true
+1d3723b4-043e-4782-9496-7d38e105f9af,false,49502-605,pretium iaculis,KIDFA-2-lks,Effertz Inc,GASOLINE,2017,MINUS6,26,15,2.33kW/day,98,31,57,true,true
+f656a850-07ae-4878-a775-22125923474f,true,63629-2904,magna vulputate,MEVD-886-ics,"Feil, Deckow and Pfeffer",ELECTRIC,1956,MINUS7,48,-23,4.97kW/day,63,37,23,false,false
+67523d9a-b5b4-40ee-8a39-7bd24170aef8,true,76478-001,at vulputate vitae,IT-8-pv,Schaefer Group,ELECTRIC,1997,MINUS8,49,13,1.97kW/day,48,90,73,true,false
+ce14c95c-1e70-45db-a748-df7d97561e5f,false,49348-349,cubilia,ARZUV-7421-juzwh,"Maggio, Sanford and Cronin",SOLAR,1987,MINUS13,-9,-1,9.53kW/day,9,59,13,true,true
+e3dda868-013b-49a9-bb50-4230fdc1f157,true,10812-837,ut ultrices vel,MZEXQ-93-a,Blick Group,ELECTRIC,2003,MINUS7,17,-35,7.19kW/day,48,77,60,false,false
+70248ea8-20e6-4714-8080-38f91e31d1a5,false,47682-919,consectetuer eget,FLCK-2283-,"Monahan, Fahey and Bartoletti",SOLAR,1992,MINUS13,-14,18,7.53kW/day,93,39,94,true,true
+8c9cd090-dca7-4a0e-81c8-b5766b0c13c4,true,60681-1103,id,IJRP-9169-lcf,Kub and Sons,GASOLINE,1964,MINUS2,-25,11,4.33kW/day,14,8,91,true,false
+6af13504-f726-47b5-8ca7-518783a3abe6,false,51655-413,aliquam convallis nunc,BMW-4075-uwvjd,"Rowe, Rutherford and Deckow",GASOLINE,1958,MINUS19,24,38,7.08kW/day,81,58,94,true,false
+41ae0934-f4f9-4d98-8b56-832344d5e217,false,43406-0075,turpis,CKE-6950-bkh,Gaylord-Pfannerstill,ELECTRIC,2003,MINUS18,-8,27,1.02kW/day,50,98,70,true,true
+46df38d8-e0e1-48d8-94aa-b8e3a64eaf94,false,37000-790,dolor,OMYVH-2-sph,"Nader, Schuster and Koss",NOT_APPLICABLE,1972,MINUS18,-5,-31,7.62kW/day,24,57,56,false,true
+acbcd4ba-baf2-4e2c-af03-d791625bf80b,true,11822-9027,porttitor pede,SXNYF-52842-d,Schultz-Schmidt,SOLAR,2016,MINUS11,45,44,3.44kW/day,87,54,4,true,false
+a56a4a6a-04c0-488b-93b2-e259c578ac09,true,24286-1549,in,GISE-7635-cn,Bartell and Sons,SOLAR,1980,MINUS10,-3,-29,1.37kW/day,28,60,27,false,true
+408efa1a-8aad-42a0-9b8b-3466a71e8c55,true,75987-022,faucibus,YE-1-tv,Bogisich LLC,GASOLINE,2014,MINUS2,-37,-21,8.16kW/day,8,12,83,false,true
+382a5edc-a598-44d7-95f1-fd1bd682c544,true,76485-1004,sem fusce,KTF-95850-onfru,"Zieme, Bergstrom and Cartwright",GASOLINE,1982,MINUS14,-3,-39,5.68kW/day,50,58,36,false,true
+c5664cf4-7454-43aa-8256-30680959e9af,false,66521-114,aliquam,RZE-35-k,McClure-Gutkowski,GASOLINE,1998,MINUS20,-39,-32,2.18kW/day,73,41,84,true,false
+0e82488e-70ff-4bde-8103-1c9d9f5558fb,true,61722-084,libero nullam sit,KFLYI-42360-ncdy,Morar-Durgan,SOLAR,1978,MINUS4,8,-38,5.22kW/day,27,69,24,false,true
+695da46f-db75-47b9-98a5-c0f662b3b265,false,0536-3387,nisl,KW-74855-ysf,Paucek-Schoen,ELECTRIC,1956,MINUS19,13,-48,6.78kW/day,21,100,68,false,false
+be37d71b-2797-4180-8d36-439e4b3a9673,false,64376-630,in porttitor pede,DF-74318-vmzpf,"Thiel, Haag and Witting",SOLAR,1965,MINUS4,13,46,4.09kW/day,11,26,51,false,false
+8b3d5cb6-5e56-41bc-9030-e23cff4947d9,true,68382-133,purus,YLBU-99523-orwit,Turcotte-Prohaska,GASOLINE,2007,MINUS13,1,11,2.03kW/day,48,61,64,false,false
+d7f5f10c-44f9-426b-a07f-c000a5ba88f1,false,49502-901,lorem,WKBOA-5144-avpbx,Schumm-Kreiger,GASOLINE,1973,MINUS20,-10,38,1.21kW/day,14,55,70,false,true
+bcdeb46c-c81a-43e2-a8dc-fcba02b0f98a,true,55154-0407,semper est,XHTCN-232-,"Abshire, O'Kon and Cruickshank",GASOLINE,1975,MINUS11,-13,15,5.25kW/day,70,41,44,false,false
+74a384e6-7ef0-4c4a-83ce-b9dfbc8c9692,true,24571-111,pretium,JI-29026-alp,Erdman LLC,SOLAR,2014,MINUS15,-50,-27,4.44kW/day,67,42,49,true,true
+312b10fd-9378-427a-b226-532e6b09b8e4,false,43689-0003,elementum nullam varius,DL-6081-ph,Metz LLC,NOT_APPLICABLE,2007,MINUS8,28,40,1.82kW/day,70,50,81,false,true
+fe28afc0-7162-4241-843f-462ec53b2cbc,false,12121-006,orci,XGK-185-qpbuh,Osinski-Zboncak,SOLAR,1991,MINUS4,21,-33,3.41kW/day,10,89,75,false,true
+c6752d0e-a360-4cc3-a209-ac8a5f297bdd,true,61315-010,erat fermentum justo,DAB-9938-,"Roberts, Wiegand and Heaney",NOT_APPLICABLE,1957,MINUS1,-11,3,6.70kW/day,73,15,23,false,false
+c71ffe1f-02e1-4d8a-b503-8a835b36756e,true,0268-6121,eros,HR-11-w,"Osinski, Nicolas and Lind",SOLAR,1998,MINUS19,45,-37,4.75kW/day,53,79,61,true,false
+21cb9f65-a277-4d47-9f11-d2102b31250b,false,66336-337,nulla,WB-026-,"Murazik, Leffler and Swaniawski",GASOLINE,1965,MINUS7,-24,-13,9.44kW/day,15,52,66,true,false
+83fa57ad-77f7-48a7-aba7-696378b2a1ba,false,63629-1866,etiam faucibus,DR-04883-fjx,Wiegand-Friesen,SOLAR,2001,MINUS3,-47,50,2.77kW/day,40,81,22,false,false
+55f21f4b-dd8a-434a-9e74-b5f19a90c7aa,true,47219-202,dui,GICK-0-yc,Wintheiser-Bayer,GASOLINE,2013,MINUS7,-22,14,7.86kW/day,34,95,55,false,true
+09ec10e4-6149-44cb-adbd-62b7532bfdff,true,37808-375,non mi integer,OCLYD-95310-w,"Gorczany, Parisian and Fisher",SOLAR,1996,MINUS8,46,-34,7.95kW/day,19,59,52,false,false
+721703a8-c4a3-4236-ac92-9709de54ada9,true,43538-950,ultrices posuere,GFPU-7926-k,Jast Group,GASOLINE,1960,MINUS16,4,4,7.35kW/day,68,66,78,false,true
+a6e4d672-da47-4c15-a6a2-caaff4701985,false,0031-8732,lectus,OUXFS-89-g,"Skiles, Mohr and Schamberger",NOT_APPLICABLE,2006,MINUS1,6,18,6.23kW/day,73,85,86,true,true
+13dc09b2-b2e5-4a41-9083-63791b72e5c0,true,0781-1205,nulla,TC-13-pqedf,"Hessel, Baumbach and Gerlach",ELECTRIC,1983,MINUS16,39,-32,9.83kW/day,58,22,45,true,true
+681f4908-d3ac-4f78-85c0-51b36751a8ff,true,0536-3381,sem,WTRME-1-l,"Lubowitz, Borer and Stiedemann",ELECTRIC,1990,MINUS15,30,39,3.64kW/day,72,31,36,false,true
+0808c8e8-18b2-4619-bad6-540fa1f52a0b,false,57955-5979,non mi integer,ZJTP-1-,Hirthe LLC,ELECTRIC,1969,MINUS11,25,23,2.39kW/day,81,37,33,false,false
+6d7063b1-2421-4bf3-853e-9fe3450d0478,false,0941-0457,diam nam,ATJFW-94-diyvm,Yundt LLC,SOLAR,1983,MINUS7,21,32,0.78kW/day,31,47,80,true,true
+da5637cd-d24a-46a8-84af-27f21a54b1b4,false,51346-251,in lectus,CAT-1424-vx,Carter LLC,SOLAR,2013,MINUS19,12,-20,9.14kW/day,54,18,77,false,false
+0c795221-a02e-4dbc-a888-cae5660ffefc,true,63148-556,nulla ac,TGC-690-fjdno,McLaughlin-Larson,GASOLINE,1998,MINUS9,18,-19,5.55kW/day,49,66,100,true,false
+e7bcc24b-c015-436a-83d5-61acb1b00f84,true,65862-148,justo etiam,JSBLM-9124-,"Sanford, Rosenbaum and Hickle",ELECTRIC,1980,MINUS4,13,-34,4.34kW/day,13,51,24,true,true
+a89eb80e-40e4-4311-9046-5f3951bbc867,true,68828-061,aliquam augue quam,PB-27381-ne,Ullrich and Sons,NOT_APPLICABLE,2015,MINUS17,-28,-16,9.47kW/day,14,90,3,true,true
+b47e5b51-89c4-41c0-b8d4-9988b2583d58,true,51655-580,congue risus,IY-2398-ba,Klocko and Sons,NOT_APPLICABLE,1969,MINUS14,21,-39,2.83kW/day,43,76,85,true,false
+af89227f-9116-41a1-a2cb-3df5db1f0aa3,true,61715-052,tristique est,ITY-5635-us,"Bode, Fritsch and Kautzer",SOLAR,1981,MINUS19,12,-2,0.65kW/day,59,22,83,true,true
+209e37c6-59a9-45fb-92b1-28d0e4b8421a,true,41163-810,amet,ZTU-430-,"Murphy, Quigley and Greenholt",GASOLINE,1976,MINUS3,12,45,3.37kW/day,12,31,100,false,false
+c8129149-b661-4c0d-a728-6e5868b73a19,true,52380-1738,suspendisse,FJOQ-721-bwivq,Carter LLC,NOT_APPLICABLE,1975,MINUS10,0,-33,7.73kW/day,21,33,68,true,true
+2a1e4f21-d61c-48e1-ab6a-9c9440be27ae,false,58494-002,sagittis sapien,PSXHW-8747-jlbr,"Vandervort, Brakus and Mueller",GASOLINE,1951,MINUS15,-10,-37,5.57kW/day,35,65,57,false,false
+285fd631-557c-44ae-a561-a408d39c7366,true,17271-506,varius ut,LGZMU-8322-gau,Bednar-Kris,GASOLINE,1955,MINUS8,37,5,8.18kW/day,58,23,83,false,false
+242723ea-71ec-40aa-b35a-033730df664c,false,51346-157,enim,DV-00755-nr,Ritchie-Gusikowski,SOLAR,2002,MINUS15,20,-1,3.62kW/day,63,62,24,false,true
+037eca37-60b7-4050-aa5d-74e9a50673d4,true,0078-0383,justo,TIEM-0-fohs,Kirlin Group,NOT_APPLICABLE,1966,MINUS17,-32,17,5.65kW/day,80,7,72,true,true
+8a439788-95bf-4a1d-88ab-cc6c913f66d9,true,36987-1975,aliquam,YACWJ-696-,"Mitchell, Brown and Schaden",ELECTRIC,1981,MINUS7,-19,-26,3.82kW/day,97,49,63,false,true
+68ffe98b-9fe9-4c21-abfb-c65fa974f532,false,54868-6048,amet consectetuer adipiscing,JFPXK-55783-q,Wunsch-O'Connell,ELECTRIC,1992,MINUS2,18,15,9.68kW/day,10,100,82,true,false
+c01c9fb7-bda0-471e-b295-79867b3ad090,false,42291-370,et,XJSM-5-dpih,Robel-Labadie,NOT_APPLICABLE,1951,MINUS4,47,6,7.59kW/day,67,89,13,false,true
+07dfa366-cc69-445e-9fc4-0383c65452b3,true,16729-124,congue elementum in,ESZ-7-yqlje,"Hilll, Fisher and Mosciski",SOLAR,1956,MINUS7,-25,46,9.84kW/day,22,5,40,true,true
+ed3d4968-144e-4827-82e0-d51be9b1d42a,false,11673-260,convallis nulla neque,VLM-173-wbpv,Hudson LLC,ELECTRIC,2009,MINUS14,-49,-43,7.42kW/day,64,75,60,true,true
+e9b0cd46-4bd6-487a-a341-6e112a06089d,true,42998-302,non velit,XZ-9824-nf,Swift-Okuneva,GASOLINE,1995,MINUS8,-19,-47,4.07kW/day,56,43,13,false,false
+215ca980-611b-44f0-bc89-f3ea8020b9f6,true,0378-0427,vulputate ut,MF-44-d,"Veum, Berge and Lowe",NOT_APPLICABLE,2008,MINUS13,-15,-39,3.37kW/day,96,22,26,true,false
+47b0d2b4-16b6-4d0c-acb4-8280ee314b56,false,0069-2180,curabitur in,JO-43283-uxgy,Pollich and Sons,GASOLINE,1957,MINUS13,-10,-29,4.88kW/day,59,10,25,false,true
+ba136f81-c316-4337-b894-4fc1b2bbdba6,false,41163-816,augue aliquam,LKVGF-637-,Bins-Gaylord,SOLAR,1972,MINUS6,49,41,1.91kW/day,46,92,35,false,true
+f4041d74-78fd-42b2-950f-8e637817a422,false,61601-1117,nonummy,TDX-5093-ytr,"Brakus, Zieme and Marks",SOLAR,2000,MINUS18,49,49,3.24kW/day,20,84,77,false,false
+686bb6e5-8c9c-45e7-bc7b-855f164f46a3,true,50988-195,cum,RQSJW-73-aqcmr,"Howe, Brekke and Russel",ELECTRIC,1955,MINUS18,-13,-25,5.12kW/day,66,96,23,true,false
+67addf68-7284-487f-80c0-451329fa839f,false,21695-549,consequat,JONS-30-bvaw,Simonis LLC,SOLAR,1965,MINUS13,42,-5,9.12kW/day,53,5,60,false,true
+878776de-a7e3-45de-96c8-00df8db6ad26,false,52685-371,ut suscipit a,RUMS-4523-czl,Sipes Group,ELECTRIC,1985,MINUS20,-9,13,4.22kW/day,7,95,32,false,true
+e3df5a71-9332-4d68-91c6-d16b09313fe5,false,0268-0830,orci luctus et,EURZP-3909-dmqxa,"Torphy, Abbott and Zemlak",GASOLINE,1953,MINUS14,17,-33,7.47kW/day,86,29,25,true,true
+5c7e9811-54a2-4074-af86-e4e4f6cafe09,false,54868-0263,nulla,VP-994-x,Jast and Sons,NOT_APPLICABLE,1961,MINUS9,-42,-10,4.31kW/day,79,74,60,true,false
+93405d88-8685-4aed-bb54-8e901eccc155,true,51079-284,vitae,VPLN-410-bf,McKenzie LLC,SOLAR,1963,MINUS10,-6,35,3.66kW/day,6,57,75,false,true
+e640a6c5-badb-4a61-85e5-2489c748d9de,false,52343-046,at diam,YXBER-71938-ckr,Tremblay-Satterfield,SOLAR,1977,MINUS4,31,-16,4.82kW/day,99,37,3,false,false
+6384747f-e529-40c0-a195-963615976632,false,59726-690,duis bibendum morbi,YFP-929-sgerq,Bartoletti-Treutel,GASOLINE,2010,MINUS13,-15,-31,1.92kW/day,64,71,55,false,true
+671886b0-a042-48d4-a6c2-ce79625e1434,true,67296-0674,porttitor,DLIZ-4027-,Morar Group,SOLAR,1980,MINUS5,28,28,5.07kW/day,96,83,37,false,true
+02133f78-4315-460f-8d06-617ff867f03e,false,60760-267,sed justo pellentesque,JLO-542-wq,Renner-Auer,GASOLINE,2011,MINUS11,-28,-4,5.16kW/day,84,100,3,true,false
+0669a0e7-9b37-4111-90f2-29c6dbaec300,false,65862-674,sed lacus morbi,XDFG-7-vk,Abernathy-Boyer,ELECTRIC,1987,MINUS5,10,-22,2.38kW/day,7,71,6,true,true
+06ece12d-33a1-45aa-b95c-368b9c1d5696,true,13537-109,justo sit,FZV-8-rhxke,Doyle Group,NOT_APPLICABLE,1980,MINUS3,-10,-49,8.94kW/day,32,100,100,true,true
+c5562764-5a85-4cce-a233-8caa9e8e279c,true,76119-1213,ut,PUQ-4748-,Casper-Grimes,SOLAR,1970,MINUS15,-4,45,9.88kW/day,61,93,45,true,false
+004937a7-153a-4637-aa67-2d3bca27f690,true,65923-510,morbi ut odio,CR-48-dyao,Bogan Group,ELECTRIC,1960,MINUS10,34,-38,9.65kW/day,25,28,59,true,true
+8552f4d1-b122-4f40-8074-1605b12fe7fd,false,51672-1254,lobortis,EPYBU-6785-uenbo,Ernser LLC,ELECTRIC,2014,MINUS3,-32,-42,9.27kW/day,74,48,3,true,true
+65c1d2cc-c357-41bf-a5dd-4488ac8e1e6f,true,43269-769,sit,OBQRP-6612-ljev,Greenholt-Anderson,ELECTRIC,2011,MINUS17,-36,-13,1.57kW/day,35,94,23,false,false
+63d0cec9-def8-4267-8e24-cffa6cd285f9,false,42507-571,non,OBU-3-bg,Goodwin-Kertzmann,ELECTRIC,2001,MINUS9,30,-14,6.62kW/day,69,68,10,true,true
+0ff73be3-e7c2-4c7c-8c8d-556ac67d0dfa,true,63824-234,commodo placerat praesent,CH-0-pfu,"Heaney, Skiles and Terry",ELECTRIC,2003,MINUS11,39,46,7.85kW/day,48,71,96,false,true
+c161559c-9b5c-4821-b498-f9b1922aca23,false,41250-466,non,XZ-6-tr,Kshlerin-Trantow,NOT_APPLICABLE,1952,MINUS16,17,7,0.71kW/day,14,83,92,false,true
+f94068d3-6ed5-4119-bc7d-480acdc9ce94,true,37205-459,quis tortor,NDL-7-,Mueller Group,GASOLINE,1980,MINUS16,38,30,2.93kW/day,44,83,42,true,true
+bc086b9f-ed48-4a33-8d62-cb30b993818d,false,0456-2613,enim,CP-2-xzy,Hane LLC,SOLAR,1993,MINUS12,-49,40,2.84kW/day,78,12,16,false,true
+87b40ae9-a2db-40ed-a5ca-618354ded7ee,false,67777-233,sit amet cursus,ITR-4911-k,"Hyatt, Rippin and Parisian",NOT_APPLICABLE,1973,MINUS20,-35,38,2.03kW/day,53,53,11,false,true
+02e940ee-812b-4201-a5b2-6b157dee9f19,true,50844-392,pharetra,AESFP-0-yv,Cartwright LLC,GASOLINE,2010,MINUS4,-14,-30,1.01kW/day,17,58,17,true,true
+8d519466-51ca-4e9a-9c95-0a3df2baa339,false,49288-0240,nunc viverra dapibus,BOWYS-84-drohs,Murray and Sons,ELECTRIC,2001,MINUS1,24,-41,3.79kW/day,87,77,62,true,true
+befd49f2-093f-4f4d-809b-3b6d8f707458,false,43455-0014,ridiculus mus,LPAWC-21-gidah,Windler and Sons,SOLAR,1987,MINUS13,-12,23,0.98kW/day,32,52,71,true,false
+93a878ec-ce29-441e-8330-6f29324f94f4,true,54868-4442,in lacus,PU-4-kobh,"White, Schmidt and Stokes",ELECTRIC,1975,MINUS2,-27,-47,4.89kW/day,90,26,87,false,true
+ba5a2102-51b0-4235-8377-6b30a87b5f16,true,0781-9338,tincidunt lacus at,NRVS-4-gozxw,"Weissnat, Graham and Funk",SOLAR,2001,MINUS17,-11,26,8.39kW/day,53,51,66,false,true
+fe9b019e-7972-4586-8367-5788cbbfdddf,true,60760-346,eu est,FDU-513-bn,Maggio-Padberg,SOLAR,2012,MINUS5,11,5,3.00kW/day,65,43,59,true,false
+acab6f53-9847-4794-a748-2231da530d74,false,59779-433,nam nulla,LS-8826-,Ratke-Marquardt,NOT_APPLICABLE,1952,MINUS10,1,23,2.37kW/day,56,38,100,true,false
+7c777333-9fe8-4180-9f75-6b413446a71e,false,0032-1206,nunc vestibulum ante,VQ-819-,"Swift, Lueilwitz and Runte",NOT_APPLICABLE,1988,MINUS10,16,-46,4.34kW/day,29,22,69,true,false
+726b1c47-3513-4f13-9319-e7b6a8a479b6,true,64942-1135,in hac habitasse,QNFDJ-2954-zuey,Lakin-Cronin,ELECTRIC,2005,MINUS5,-23,3,1.20kW/day,61,14,10,true,true
+f3033005-a49c-4553-9146-b8b19b974205,false,63736-305,erat nulla tempus,DT-184-oxwv,"Flatley, Stehr and Armstrong",ELECTRIC,1998,MINUS7,43,-39,8.40kW/day,2,70,70,true,false
+73a6c4e3-2660-4acb-90ac-344f8763f0f9,true,67296-0152,in sagittis,JZTMX-6291-ld,Romaguera-Parisian,GASOLINE,1950,MINUS10,-9,-46,6.26kW/day,41,40,41,false,true
+730aaec0-8d31-4e7d-8e08-1142b7ce78c3,false,59779-314,est quam pharetra,SBKU-88483-,Effertz Group,NOT_APPLICABLE,1981,MINUS4,-43,9,6.12kW/day,27,35,63,false,false
+016e1771-64ab-4d20-965b-18e474256cd7,true,0641-0929,ipsum ac,JNYPH-8-bkrgi,O'Keefe-Collins,SOLAR,1951,MINUS18,-22,29,3.78kW/day,1,93,6,false,false
+91952e28-4840-4c7c-96af-53ca22f230ba,true,41190-664,pellentesque eget,TLDYA-10-,Cronin-Mayer,GASOLINE,1963,MINUS3,21,-50,2.34kW/day,38,30,94,true,false
+2d619d79-11b2-4a6b-9b5f-e6b1aa5bd64e,false,10812-013,eget,CQGDR-93181-,Schoen and Sons,SOLAR,1974,MINUS14,-13,-21,7.73kW/day,21,35,54,true,true
+d7aa3b28-b068-4c8c-bd80-4f7f73237988,true,76237-110,semper,JCQU-8465-ws,Hoppe and Sons,NOT_APPLICABLE,1960,MINUS13,-1,7,4.89kW/day,88,67,29,true,true
+f6a56332-ff10-4977-a47e-e663cae028a6,true,54868-6375,fusce lacus,WGS-4-msk,"Satterfield, Heidenreich and Gerlach",GASOLINE,1963,MINUS14,47,-45,6.71kW/day,67,33,38,false,false
+97dc4441-5046-48cb-a230-5868d28dc77a,true,42449-210,orci mauris,HYBL-829-ylpj,Balistreri-Wiza,ELECTRIC,2001,MINUS8,4,40,7.88kW/day,25,37,7,true,false
+a738ae3f-f35a-4832-a9da-8c40bdeac23f,true,68001-207,tortor,MOB-783-,Predovic-Satterfield,ELECTRIC,2016,MINUS17,18,-27,6.45kW/day,13,27,28,true,true
+8f3b17c0-17e8-45ef-9e17-be125ed85def,true,49288-0883,nam ultrices,TZ-34-b,"Pfannerstill, Feil and Bergstrom",SOLAR,1965,MINUS5,-35,-47,2.08kW/day,46,40,19,false,false
+94a0c64a-d07c-429b-810c-17e9683b0493,false,65044-0789,mus,YPFE-5131-ae,"Connelly, Botsford and Prosacco",ELECTRIC,1962,MINUS4,5,-32,6.02kW/day,15,18,56,true,false
+a4d6c3fb-2e0e-4199-a8bc-55e568e6821c,true,0942-6453,molestie,SPWY-6-hu,Murazik-O'Hara,ELECTRIC,1977,MINUS4,6,9,0.78kW/day,23,64,14,false,false
+dd9a364e-7313-4750-b375-6a9b8e32ef65,true,49288-0848,tellus,FYTJ-65690-wnxog,"Dach, Thiel and Hills",ELECTRIC,1999,MINUS11,-45,-47,5.29kW/day,25,71,84,false,true
+734f92a6-1a14-4bbd-9c82-2866bc13518f,false,45802-818,vulputate,YD-9-,Buckridge-Morissette,SOLAR,1977,MINUS20,33,13,2.37kW/day,54,91,6,true,true
+e787bf31-2225-416f-be1f-0474e7cf61b3,true,0363-0279,diam nam tristique,PS-5547-re,Beahan-Hilll,GASOLINE,1955,MINUS14,-33,-49,3.97kW/day,85,35,62,false,true
+0fde1214-9324-4ed5-855b-1b741b463e4d,true,0591-3169,ullamcorper purus,QJVK-9824-g,Daugherty-Larkin,NOT_APPLICABLE,1975,MINUS11,-19,-29,3.81kW/day,10,39,89,false,true
+b44e6551-5419-487c-aa8c-75235b56a755,true,57520-0149,morbi vel,ITF-93-f,Mraz Group,GASOLINE,1953,MINUS15,1,14,4.92kW/day,80,23,9,true,false
+f7d5da12-e63b-419a-880f-77ccfe078aa6,false,10056-707,quisque,MLBNZ-41494-izngv,Mante Inc,SOLAR,1955,MINUS8,1,39,2.22kW/day,95,15,5,false,false
+1322e04b-7ea5-4484-81f6-0d8af73e2ed2,false,50268-599,ut ultrices,WTG-80-,"Hills, Treutel and Rippin",SOLAR,1975,MINUS8,-19,-13,6.52kW/day,16,51,82,true,false
+db0fad81-3e8d-4b54-bf78-e1b22e866aab,false,65044-2050,porttitor,GCSJE-17-dqzli,Hickle Group,NOT_APPLICABLE,1969,MINUS17,-39,15,2.01kW/day,74,41,0,true,true
+b71116fb-12d1-4c8e-ad19-2b6876a10335,true,10157-9842,leo odio,QK-47601-ydj,"Treutel, Schinner and Towne",GASOLINE,1972,MINUS9,-8,13,7.70kW/day,53,1,76,true,true
+ec8321d0-0ce0-4473-b8b8-1dd02f28ae9b,true,11084-231,in,MIXYS-6438-rdqv,Klocko Group,NOT_APPLICABLE,1984,MINUS16,-38,17,4.29kW/day,86,13,8,true,true
+84f38dbd-2096-42fc-b58f-4fb2bd25ee5c,false,21695-795,dui maecenas,VLSO-83367-iohbr,Feest Inc,NOT_APPLICABLE,1971,MINUS2,0,32,4.12kW/day,73,92,44,false,false
+5757938a-29be-493b-ac95-642c72cebef2,false,49288-0702,praesent blandit lacinia,YK-177-,Kuhlman-Tremblay,ELECTRIC,1974,MINUS1,26,1,9.32kW/day,62,90,57,false,true
+2c8f15e7-21fc-4a65-a22f-1970371ffe8e,false,36987-1008,iaculis diam,UI-263-kwqg,Langworth Group,ELECTRIC,2003,MINUS17,-40,-5,5.93kW/day,17,19,2,false,true
+cb1e1e5d-a4d5-45cb-a45a-99ab1b38d609,true,0406-0552,vestibulum sit amet,IM-95-sq,Nicolas-Emard,GASOLINE,2001,MINUS12,-31,37,8.91kW/day,17,87,22,true,false
+cd352172-3fef-438a-b39e-747ab680db07,true,55714-4440,at ipsum ac,UIZQ-2872-y,Adams Inc,NOT_APPLICABLE,2014,MINUS3,20,-12,7.84kW/day,78,96,60,false,true
+d055fb10-bc5d-43b1-806e-6c650cf1f3fc,false,46084-111,nullam porttitor lacus,DJQ-53523-ygms,Fisher-Smitham,GASOLINE,2005,MINUS15,-35,-5,1.86kW/day,40,63,30,true,false
+940a7ace-c6ed-45db-a8e4-be7ea9e58f08,false,68258-3997,in sapien,EV-7-ynvz,Schmeler-Parisian,ELECTRIC,2014,MINUS19,42,-44,4.65kW/day,39,11,7,true,false
+013a143e-910d-4eb7-9045-3355a51d87b0,true,11822-0326,odio,MAU-1106-nvzbp,Reynolds Inc,SOLAR,1978,MINUS1,5,6,3.58kW/day,71,23,71,false,true
+3a5a704a-bacd-4eb2-86a9-f3f8fa8970d2,false,59970-051,in est,HPFIY-6-e,Stehr-Simonis,NOT_APPLICABLE,2006,MINUS8,-33,18,3.30kW/day,34,77,76,true,false
+b09698c2-b1c6-442b-99db-64ad321df501,false,53346-1323,massa volutpat convallis,XOTQ-90416-r,"Lindgren, Harris and Trantow",NOT_APPLICABLE,1993,MINUS1,-31,-4,1.27kW/day,51,24,89,true,true
+8e5da63b-3cc7-41e5-8e05-f3f58ccc0371,true,36987-3192,mauris non ligula,SDJI-27-aysbz,"Zemlak, Gulgowski and Boehm",SOLAR,1954,MINUS11,32,-19,3.70kW/day,31,35,85,true,false
+86c5b4f1-58b1-45a1-9af1-4b610161aaf2,true,52125-653,nulla pede ullamcorper,WX-448-tco,"Powlowski, Parker and Ziemann",ELECTRIC,1966,MINUS9,-40,47,9.03kW/day,19,23,38,true,false
+f4ae7260-c5c5-488c-9ac1-50c9c03274cd,false,24208-503,dapibus dolor vel,FTAH-1024-,Greenfelder-Hegmann,GASOLINE,2014,MINUS1,13,0,7.15kW/day,26,19,88,true,false
+6dff5515-d4f6-4f8b-aedd-18fbf72a755b,true,43547-251,libero nam,UAQJ-302-jlwx,"Morar, Muller and Koch",SOLAR,1976,MINUS14,48,50,9.70kW/day,62,54,54,false,false
+5a0fece6-1f26-4571-98e0-58dd33103568,true,21695-146,felis fusce posuere,CTYSD-5821-,Nienow and Sons,SOLAR,1991,MINUS9,-28,36,1.28kW/day,38,80,38,true,false
+59cdeb05-24e1-4ecb-89c2-c075e2828c6a,false,54575-970,ligula suspendisse ornare,UFA-931-wf,Miller-Hermann,ELECTRIC,1989,MINUS16,22,-46,4.12kW/day,54,50,52,false,false
+12f51451-f95e-4b0c-88e0-aa1729815643,true,50988-233,vestibulum sit amet,JXF-2-rdq,Graham-Erdman,ELECTRIC,1998,MINUS6,6,-19,3.92kW/day,53,41,3,false,true
+b9cc4e83-7ae7-4cf8-bdda-7d0a44f2f2c6,false,52125-744,molestie lorem quisque,ORM-14-nifmy,Kilback-Kertzmann,SOLAR,1973,MINUS18,-36,47,2.71kW/day,7,11,74,true,true
+87860907-e6a2-4a69-a7d5-56aacd37373b,false,63187-030,rutrum neque,BZ-746-sbhdm,Kub-Ritchie,ELECTRIC,1970,MINUS11,-42,-37,7.32kW/day,56,97,10,true,false
+21164c83-851f-4a36-8d0e-f9e038ad276d,true,17478-221,pellentesque,MRLY-57712-ilpn,"Klein, Hand and Hodkiewicz",ELECTRIC,1985,MINUS2,27,-13,3.29kW/day,42,6,0,true,false
+40c9ec40-200e-4a03-a7c3-d362564d24ce,true,55154-4056,enim sit,CDFMH-4-rixqo,Deckow-Morar,GASOLINE,1995,MINUS14,-24,-7,9.52kW/day,10,99,76,true,false
+e5d9cf52-18d3-4fd5-9f5a-a3a5cf39d54a,true,16590-144,ligula nec,UXPHO-74233-e,Morar Inc,NOT_APPLICABLE,1975,MINUS18,45,-18,2.42kW/day,26,18,44,true,true
+50aaec17-4974-4d69-b8ed-53af7911145f,true,62111-0213,quis,JY-9011-,"Hahn, Robel and Wehner",NOT_APPLICABLE,2009,MINUS10,-13,13,8.74kW/day,30,28,35,true,true
+9b85bf6a-3dab-4e92-b083-34f89b535af4,true,54868-6338,orci eget orci,BUOPF-7-ezbq,Cruickshank Group,NOT_APPLICABLE,1954,MINUS6,-30,-39,1.14kW/day,97,43,75,false,false
+8a7f108e-07fb-48c0-af74-7fbddde44209,false,43063-267,non,WXQR-4230-u,Bernier-Bartoletti,GASOLINE,1954,MINUS7,22,8,8.64kW/day,32,88,18,false,false
+8aec6f2f-e7f5-46fc-b5b1-bb9295274e42,true,63981-517,quis turpis sed,CUFQM-973-a,Mohr Inc,SOLAR,1970,MINUS16,6,17,3.29kW/day,87,46,96,false,false
+52b7747f-281c-4af3-ada0-1bb6e27da76c,false,41163-531,blandit,ER-610-sjf,"Will, Bosco and Rowe",ELECTRIC,1972,MINUS11,-47,-42,0.60kW/day,41,30,36,false,true
+768c2f9b-e268-40bc-81f5-a0c7cdcac08f,true,0299-5500,erat vestibulum sed,QZJTH-234-q,"Frami, Ondricka and Balistreri",ELECTRIC,1974,MINUS14,40,1,2.11kW/day,99,33,82,false,false
+25fda4f2-3a5f-4497-b6b7-075fa01705ad,true,0187-0842,amet sapien,FCHP-768-gh,Torp-Armstrong,ELECTRIC,1975,MINUS19,-28,32,3.10kW/day,96,29,50,false,false
+e20e5c4f-0d4e-4c46-8671-e8b5b364d3d2,false,60512-2002,nisi at nibh,OWHLI-6-exlad,Larson Inc,NOT_APPLICABLE,1990,MINUS13,9,-14,3.21kW/day,53,90,16,false,false
+01d8c66f-1886-4521-ba5e-cd6f84efeb5e,false,51660-035,cras non velit,YDG-95754-wzpi,"Lang, O'Conner and Ritchie",GASOLINE,1971,MINUS6,-24,-18,1.74kW/day,59,16,57,false,false
+ba7bf149-83ec-4c68-877f-f481935ecabb,false,62037-598,vestibulum,DHIUC-9-ycxg,Armstrong-Friesen,NOT_APPLICABLE,1978,MINUS17,32,19,5.83kW/day,49,97,31,true,false
+c90d1c7c-f659-4c13-975a-b0c87ea9a318,false,41595-1058,accumsan odio curabitur,QP-4474-tfr,"Waelchi, Ondricka and Haley",SOLAR,2013,MINUS12,44,8,3.97kW/day,54,67,82,false,true
+e9743bed-7e3f-450e-a6a1-093e5aaa45c4,true,52533-002,primis in,QKU-9194-pvn,"Hahn, Hickle and Emmerich",SOLAR,2011,MINUS9,-1,13,9.95kW/day,25,100,78,false,false
+f2b12411-cb7f-4da8-b066-f1cd77ffa377,true,42254-090,fusce posuere,QN-2-bg,Friesen-Koss,NOT_APPLICABLE,1995,MINUS9,-9,-19,4.65kW/day,71,60,52,true,false
+bd0598af-c718-4abb-9419-d613979ae38a,false,59667-0076,platea dictumst etiam,OUMY-8932-,Hirthe-Gaylord,ELECTRIC,2006,MINUS5,-2,-2,4.96kW/day,22,88,94,false,true
+8aede1f5-2836-4674-91e9-2dae1190a610,true,16714-440,interdum,ZXOHV-8-,"Sporer, Cole and Yost",NOT_APPLICABLE,1980,MINUS5,9,46,1.05kW/day,92,37,40,true,true
+2aa3f151-9a61-4e7c-bae9-87e3d18ad70f,true,53135-835,interdum mauris ullamcorper,ALN-5-fs,Watsica-McClure,NOT_APPLICABLE,2013,MINUS15,17,4,0.95kW/day,8,69,71,true,false
+1ea41513-b1af-41c1-93a1-f75f3a3c093c,true,57664-001,nam dui proin,ETL-9774-p,"Ritchie, Hoeger and McClure",SOLAR,1959,MINUS13,3,-32,8.45kW/day,12,48,39,true,false
+f044c643-3a02-450d-9027-62c52b56bd59,true,13537-505,nullam sit amet,SL-5167-,Shields-Pfeffer,ELECTRIC,2001,MINUS10,13,-44,1.80kW/day,2,43,74,false,false
+906601b7-4f3e-45ff-8de4-8cce98f16331,true,49349-069,nibh in,ZD-938-t,"Nikolaus, Rolfson and Marks",ELECTRIC,1963,MINUS9,46,-5,3.47kW/day,55,31,65,true,true
+4354ed79-469f-4855-9461-368f1857fc73,true,55154-3954,augue vestibulum,SH-8-mieob,Deckow Group,ELECTRIC,2004,MINUS2,-37,32,0.92kW/day,20,82,59,true,false
+41a1d731-8038-4035-ba7e-50da18331926,true,48951-9085,nunc,WOUEY-9-jeor,Smith-Block,GASOLINE,1978,MINUS18,-10,40,1.71kW/day,23,9,56,true,false
+f07efe1a-4235-49f8-ab06-f2394ebb70f6,false,68400-701,duis bibendum morbi,NGHWZ-1-ca,Boehm-Gorczany,SOLAR,1975,MINUS16,-8,16,1.40kW/day,3,9,35,false,false
+f84bbe44-15ff-4fa6-a9ec-39f8faa38e4c,true,53808-0586,in hac,BRVSQ-5-uz,O'Kon-Mertz,ELECTRIC,2012,MINUS20,22,40,5.93kW/day,77,30,35,true,true
+73106a01-f1d7-4e20-b244-d5e21bf8b090,false,60565-060,pretium iaculis,XHRBQ-685-azfjc,Fahey Inc,SOLAR,2004,MINUS18,16,-33,2.18kW/day,41,100,95,true,true
+f5c4bc0b-4e3a-42d4-9b2b-c5c33991d6c4,false,54868-0261,nisl venenatis lacinia,LCGTD-06-kp,"D'Amore, D'Amore and Koss",SOLAR,2017,MINUS10,-5,7,9.42kW/day,61,77,18,false,true
+afc33603-229c-4e31-8c8d-5b494d4437b4,true,0404-6620,nullam molestie nibh,ATO-24-mgo,Quitzon Inc,NOT_APPLICABLE,1970,MINUS5,31,-43,7.96kW/day,5,52,50,true,false
+241d0c10-26fd-46c3-8d9c-63c72ebccdd6,true,37000-813,proin interdum mauris,AG-956-ylj,Dicki-Lynch,ELECTRIC,1965,MINUS11,-11,28,0.81kW/day,77,45,76,false,true
+fa92530c-6354-4eed-96e8-b5160eef6da3,true,51079-958,ut odio,NT-59480-n,Lemke and Sons,ELECTRIC,1992,MINUS16,-19,-29,5.80kW/day,31,64,43,true,true
+bcfd5dc5-3f5e-42a3-9efa-9a03a3607318,false,21130-407,id nulla ultrices,SELA-27032-twznp,Feeney-Kutch,ELECTRIC,2007,MINUS16,-28,39,6.88kW/day,74,32,38,false,false
+c58495b0-7624-4789-a02b-147801fad0f1,false,55910-067,curabitur,RSLK-1474-xt,"Ledner, Tromp and Feest",ELECTRIC,2005,MINUS19,-17,34,7.76kW/day,59,18,3,true,false
+307f8996-30b6-4c16-8592-b3eb81edc6b4,false,43857-0050,nulla sed,ZMTY-972-wpi,Deckow-Green,GASOLINE,1996,MINUS9,6,-45,1.79kW/day,77,98,89,false,false
+39f7f280-a834-4b55-b03b-934c19d1ba0b,true,30056-007,elementum ligula,PQI-2-ked,"Marvin, Vandervort and Jacobs",ELECTRIC,1979,MINUS4,39,-50,8.29kW/day,69,20,22,true,false
+0fa2aa60-2321-4061-87f0-f42bd8d50e4b,false,42507-388,porta,ESJI-09-t,Mraz Inc,NOT_APPLICABLE,1952,MINUS6,34,7,5.49kW/day,49,11,11,false,true
+bc6e85ee-5efa-4308-99e7-b3087dbfffe8,true,68788-9051,sapien placerat,YFJR-7-bhkoc,"Morar, Quitzon and Trantow",SOLAR,1978,MINUS2,11,-48,0.89kW/day,61,93,87,true,false
+cebe8c07-94d3-461b-a198-65c98626a73f,true,65862-250,convallis nulla,TMOBW-4484-gbwkv,"Auer, White and Beatty",ELECTRIC,2008,MINUS9,14,9,5.61kW/day,18,23,51,false,true
+5b773792-4ca0-4b13-94ee-af378bb5bd7a,true,58748-001,diam vitae quam,YBQE-568-dlkba,Von and Sons,ELECTRIC,1990,MINUS3,40,7,1.69kW/day,9,12,19,true,false
+3707910a-1c54-4339-b29a-50d89ed2ecdf,true,49852-001,id nulla ultrices,ZLM-380-elqxn,Crist Inc,NOT_APPLICABLE,2006,MINUS1,7,28,4.94kW/day,35,21,80,true,false
+a7a73386-d49f-4492-9ece-7bdbaea5ed96,false,69238-1252,curae duis faucibus,GCPR-02-xlj,"Durgan, Bins and Smitham",ELECTRIC,2007,MINUS5,19,11,9.69kW/day,91,35,16,false,true
+8d8e1913-4177-478c-955f-3bfa0a2c280c,false,59779-422,pharetra magna vestibulum,VE-69845-trb,"Wilderman, Rippin and Sauer",SOLAR,2010,MINUS19,13,41,0.72kW/day,67,6,67,true,false
+ae2e7248-4ce7-474f-be8f-8812e53c1832,false,0113-0344,lectus in,AYOV-36529-z,Dickinson LLC,NOT_APPLICABLE,2015,MINUS6,25,-21,2.43kW/day,70,87,29,true,true
+280ccf61-443c-487e-bbf4-f078330b2ca1,true,36987-3136,ut nunc vestibulum,AE-08568-ymh,Williamson Group,SOLAR,2009,MINUS19,43,-47,1.76kW/day,43,12,82,false,false
+fdd083c3-5092-4941-9a3f-d420038342fd,false,55910-915,rhoncus,ER-00415-klv,Schimmel LLC,ELECTRIC,1981,MINUS4,0,25,7.87kW/day,54,16,89,true,false
+df3e1dd0-7e8a-4b77-a069-51168e14ed88,false,50419-344,lectus in,AHTYE-4-wdjh,Fisher Inc,ELECTRIC,1982,MINUS13,-13,35,0.73kW/day,87,21,99,true,true
+c046321a-9b65-4083-af80-38850267350b,false,53808-0306,sit amet nulla,YJKPC-283-tp,"Kilback, Labadie and Price",GASOLINE,1957,MINUS2,13,-21,9.00kW/day,18,37,81,false,true
+e77d2183-74ce-4dd3-bff8-faf402e611e4,false,35356-243,vestibulum ante,UJ-5-mblf,"Pouros, Yost and Lynch",NOT_APPLICABLE,1962,MINUS12,2,19,3.19kW/day,0,36,25,false,true
+3bc531e9-fc08-450a-b578-d705a639463f,false,55154-5476,blandit,UZAC-83-fwe,Armstrong LLC,ELECTRIC,1989,MINUS7,-3,-8,2.33kW/day,41,57,67,false,false
+f63fc70d-b2ad-4194-9ec9-7a9cc72c74d8,false,0032-1708,aliquam,XJQFP-3-xm,"Barrows, Stokes and Bosco",SOLAR,1982,MINUS6,-46,28,4.04kW/day,5,45,82,false,false
+9cf79dae-ecf8-4dd7-94f1-3e95f22c6d88,false,52125-131,ornare consequat lectus,SDTIF-05814-hsb,Hegmann-Schimmel,NOT_APPLICABLE,2006,MINUS17,-27,12,5.84kW/day,12,34,2,true,true
+545bf6ca-4dca-4fab-9494-3033f960eae0,true,50965-001,mi,HRWLE-9-wahf,Kessler Inc,GASOLINE,1965,MINUS3,-28,-8,6.61kW/day,89,74,48,true,true
+10a30e01-3503-437e-aeaf-cf1805c0211d,true,0409-1041,ante vel,BIET-37813-,"Ward, Toy and Doyle",ELECTRIC,1950,MINUS2,-47,34,2.99kW/day,86,50,13,true,true
+49e34476-75f7-493e-bd00-2024015ccc6b,false,21130-471,dolor morbi vel,CDZS-2-udm,"Brown, Adams and MacGyver",SOLAR,1974,MINUS18,-17,-44,2.15kW/day,87,72,30,false,true
+8cbc7b94-721e-4128-9075-4307f039e520,false,58690-1001,nullam orci pede,JVPU-7086-pwuo,Hamill Inc,NOT_APPLICABLE,1970,MINUS1,-41,-6,5.17kW/day,0,47,62,false,true
+b9d65bba-b11b-4492-bc4a-f5f7f05f6f39,false,11118-1100,amet,BRMPT-6-rkqfg,Jones-Beier,NOT_APPLICABLE,1985,MINUS13,-32,-40,4.46kW/day,50,51,28,true,false
+0d3b4248-1d0c-4f4f-a1d9-23b0a33070dd,false,63629-3408,orci,QLHV-1629-w,Howe and Sons,SOLAR,1985,MINUS9,-38,-50,3.87kW/day,18,15,30,true,true
+79588933-073f-4a41-9de2-ceecbeb77f4c,false,0075-0624,neque aenean auctor,WHM-269-li,Schulist-Corwin,SOLAR,1962,MINUS8,1,16,6.29kW/day,43,39,99,true,false
+e7f2614f-220a-46f4-88f0-7987fd34f5a8,false,50436-9995,amet,TXBF-3994-tmis,"Marks, Bradtke and Heidenreich",SOLAR,1986,MINUS15,29,3,5.65kW/day,75,92,56,false,true
+5662591b-4f02-4dee-b7ab-18919fdef9ba,true,46708-093,enim leo,CUY-6341-wvjlo,Gerlach-Christiansen,GASOLINE,1973,MINUS10,-32,37,4.94kW/day,24,59,42,false,true
+e163f2fd-f61d-49e0-95f9-03d7e6b3b31f,true,57627-153,justo,GNU-5480-vrw,Walsh-Huels,NOT_APPLICABLE,1963,MINUS14,-7,-39,2.59kW/day,53,11,22,true,true
+f93b1e1f-591d-49ff-8cbf-33902682119c,true,51785-455,ultricies eu nibh,WEVQO-8121-m,"Heidenreich, Schultz and Ziemann",SOLAR,1997,MINUS1,50,36,5.28kW/day,27,72,98,true,false
+5e4938b8-fd11-443b-a397-40d9825c4438,true,49349-683,maecenas,UTR-13-,"Corwin, Rath and Corkery",NOT_APPLICABLE,2011,MINUS1,14,-40,1.02kW/day,85,23,71,false,true
+f2d201e1-9e23-4e0e-9f0f-d32ff6fb2be9,true,10526-002,tellus nisi,VWAMG-796-k,Abshire Inc,SOLAR,1985,MINUS4,-42,-33,3.81kW/day,42,82,32,true,true
+e70a9249-00ed-403d-ab7c-3daf7a6b65f5,false,0904-6283,blandit,TKBW-8-tufe,Lind-Kshlerin,NOT_APPLICABLE,1992,MINUS2,15,4,4.46kW/day,49,62,56,true,true
+010cf6b0-8cea-4b58-9f2d-3c9ed5572fc8,false,36987-1900,tristique in tempus,MEXB-5-tsmaw,"Beier, Schroeder and Zieme",SOLAR,1962,MINUS15,-33,-13,7.21kW/day,35,57,78,false,false
+408cfe35-9479-4fe5-bc63-df9ce22c8050,false,0456-2280,volutpat convallis morbi,MNGZ-4275-msqft,Labadie-Russel,SOLAR,1990,MINUS9,11,-49,4.02kW/day,27,68,86,false,false
+c232ff31-2d62-47c4-980e-1daf309af133,true,57664-647,laoreet ut,SQVT-6-lbhj,"Haag, Beatty and Ernser",GASOLINE,1955,MINUS5,-21,7,9.48kW/day,0,3,21,false,false
+753af990-b2ef-4298-a62f-ba3acb718038,true,30698-201,etiam justo,UI-432-kq,Rolfson Group,GASOLINE,2014,MINUS3,-48,28,4.30kW/day,9,48,94,false,true
+1ad4da5b-f609-48bf-9cfb-4bb4b0c6a917,true,64679-422,turpis,OP-3510-,Bartoletti-Cartwright,GASOLINE,1998,MINUS20,-21,-14,3.99kW/day,4,84,0,false,true
+a7b6ece9-1be5-45d6-b554-9ab2331daa94,true,22700-098,tempor convallis nulla,VYBEP-1574-,Haley Group,GASOLINE,1980,MINUS9,-7,36,6.46kW/day,30,94,74,false,true
+5332b01f-7bc5-454a-853a-7bc96f0544cc,false,0093-4235,lacus curabitur at,BDL-38-jcuvs,Rogahn-Ernser,GASOLINE,1970,MINUS7,46,16,8.60kW/day,1,26,22,false,false
+a58dbf79-29dc-4499-9397-ddd6e8fb2e9c,true,51769-411,pede,FEGM-048-qjh,"Koepp, Steuber and Kassulke",NOT_APPLICABLE,1988,MINUS5,19,10,5.73kW/day,94,75,99,false,false
+2dd4778e-8f8b-49ba-a49d-4ab03bcaa18b,false,37205-607,suspendisse potenti,DQNA-40-jmhi,Stoltenberg Group,NOT_APPLICABLE,1979,MINUS3,35,-35,4.40kW/day,7,65,51,false,true
+fbfc1300-4de1-4ad7-9fc5-b893912d76cd,true,54868-5279,posuere cubilia,AV-39362-gavut,Witting-Rolfson,NOT_APPLICABLE,1986,MINUS11,-6,-30,4.26kW/day,18,9,2,false,false
+307d236b-d5af-4eaf-8fca-4b434155bf66,false,49483-343,sed ante,HWDQ-1-blorx,Nitzsche Inc,NOT_APPLICABLE,1986,MINUS16,-43,2,7.98kW/day,46,96,60,false,true
+6b2bb380-8539-4aa3-a959-f76e85675a04,true,65113-2428,ultrices,JD-1-ero,"Quitzon, Leuschke and Lueilwitz",SOLAR,1971,MINUS18,-10,-34,5.11kW/day,19,24,95,false,true
+7a060ab1-65fd-4cfb-9974-cfaee8e2cfdc,false,57520-0025,libero rutrum ac,CAUP-684-jvrk,Kulas-Miller,SOLAR,1982,MINUS8,-31,-44,1.61kW/day,69,82,28,false,false
+5bc19e9b-e6e1-4b03-a998-829a84721de6,true,63323-403,praesent blandit lacinia,KFX-1-,"Metz, Rice and Yundt",SOLAR,1996,MINUS20,16,8,5.61kW/day,45,36,68,true,true
+a97beae8-8c4d-4f9e-aa4a-03cfcafd282f,false,51393-6888,sed tristique,YZWLO-47-uzc,Raynor Group,GASOLINE,1962,MINUS6,-36,-46,6.87kW/day,67,62,69,false,false
+802ef578-44c9-47ce-bbf3-00755355ce87,false,67457-163,molestie lorem quisque,YMFO-617-qylk,Cronin Inc,SOLAR,2012,MINUS5,-22,-44,6.63kW/day,27,52,29,false,false
+192de954-e4ed-4927-bb70-401e69dcdaca,true,52125-819,semper porta volutpat,SIB-902-zstgf,Frami LLC,GASOLINE,1967,MINUS17,-12,10,5.46kW/day,49,1,24,false,false
+9f32f091-aac6-4ff5-a09a-6251fa0faa0b,false,0409-3213,aliquam non,GXRUE-10-enf,Reichel Inc,GASOLINE,1997,MINUS8,29,30,9.19kW/day,60,11,94,false,false
+1c01cfa0-cf9c-47c4-bd54-ce354f3d03c7,true,68428-055,vestibulum quam sapien,CJY-6-,Purdy-D'Amore,NOT_APPLICABLE,2008,MINUS15,-3,41,7.79kW/day,70,83,77,true,true
+084cda2a-7aa5-476c-8a0f-f53e51ae2771,false,65044-2484,lobortis,OZVYR-96812-dborx,"Schroeder, Mills and Hudson",GASOLINE,2017,MINUS19,-36,-23,9.59kW/day,71,68,98,true,true
+1a6a7977-54b8-43d8-9ccb-e044766be917,false,68258-6010,tempor convallis nulla,HTM-58565-lcya,"Heathcote, Fisher and Powlowski",GASOLINE,1967,MINUS17,0,-26,8.80kW/day,77,28,19,false,true
+f3699aa2-c4ac-4522-907a-949c91825e65,true,49884-641,orci,WHRL-9-reyxk,MacGyver and Sons,SOLAR,1996,MINUS6,42,18,0.67kW/day,30,99,98,false,true
+14266204-84f7-4ee0-ba9c-7c2860b01198,true,63354-370,quis,XY-535-sexai,"Senger, Simonis and Tremblay",GASOLINE,1993,MINUS11,39,-24,9.21kW/day,37,31,54,false,false
+16fdf4ca-903e-4adb-8ae4-92b7b122403b,false,58232-0805,odio,HUEC-35768-,"Schimmel, Durgan and Will",NOT_APPLICABLE,1984,MINUS6,-50,-10,5.96kW/day,27,95,53,true,false
+daf39777-b2da-422f-8042-80b9b5bc8a1f,false,67938-0732,non,VZ-3-,"Hintz, Romaguera and Harber",NOT_APPLICABLE,2001,MINUS16,10,-23,1.40kW/day,98,18,75,false,false
+a9db9960-0241-48f1-9403-941da9349e71,true,0113-0416,molestie sed,VP-499-y,Wolff LLC,GASOLINE,2001,MINUS7,-12,-26,6.66kW/day,67,97,29,false,true
+20c1346d-c648-4973-a1e6-944082d88166,false,10191-1245,in hac habitasse,EBMDW-19-bfhj,"Abbott, Hackett and Gottlieb",SOLAR,1996,MINUS18,31,-48,5.69kW/day,100,52,84,false,false
+289776af-30fb-40c8-b291-a2dd0964064f,false,42792-108,luctus et,TMSBR-741-wguoy,Grimes Group,NOT_APPLICABLE,1976,MINUS13,-39,31,9.24kW/day,31,0,44,true,true
+5e068638-5d1f-4602-9c9e-eaf27362e0f4,true,35356-789,orci luctus,RC-0-,Bartoletti-Little,NOT_APPLICABLE,1983,MINUS2,-25,-34,6.20kW/day,41,72,76,true,false
+fc6065e5-68c5-4b1b-9063-9926021ab32f,false,25010-711,molestie nibh,RG-9-ugeis,"McCullough, Predovic and Purdy",SOLAR,2002,MINUS16,16,9,1.62kW/day,25,15,13,true,false
+316d00b6-a212-4d9e-8139-5dc41de4c714,true,21695-339,ultrices posuere,SCTXW-6-zth,"Schroeder, Lang and Roob",NOT_APPLICABLE,1986,MINUS16,45,-37,7.53kW/day,75,24,67,true,false
+2cf21468-e089-4ed3-a26c-956c2d71fcee,true,47593-476,lorem ipsum dolor,MS-5-,Sanford and Sons,NOT_APPLICABLE,1980,MINUS16,-12,8,0.67kW/day,23,29,64,false,true
+7d858ca6-1f82-4cc0-b273-1ee630c74570,true,41268-422,tortor id,PBI-57609-rhbm,"Legros, Feil and Pollich",GASOLINE,2016,MINUS19,31,-11,8.99kW/day,81,46,85,false,true
+3eac3685-b4ca-42f8-b904-885ef5d0036e,false,56062-166,curae donec,HP-4-qypo,Lebsack-Runte,NOT_APPLICABLE,1993,MINUS8,48,-31,6.98kW/day,73,28,3,false,true
+f8f0ba6a-783a-47b1-a445-2ae5ae0de1d1,false,42507-296,eu,BPKYG-54-swav,Dare LLC,ELECTRIC,1973,MINUS1,24,-40,1.18kW/day,93,78,36,true,true
+bb03ffb5-d8cd-4d03-bdc9-39fc88f2b533,false,53808-0426,duis,ZKVRE-96105-,Littel Group,GASOLINE,1953,MINUS4,34,-43,2.57kW/day,92,94,3,true,false
+6649fa09-cdfe-400e-bcd0-5e7705f1100a,true,49035-917,curae donec,DV-48-tu,"Ruecker, Bayer and O'Keefe",ELECTRIC,2013,MINUS2,8,18,4.29kW/day,42,36,86,false,true
+205addb4-9610-434b-9d0c-95a1f077ee74,true,60681-1301,pede ullamcorper,HNEOD-47797-aq,Pouros-Bode,NOT_APPLICABLE,2011,MINUS1,-47,2,1.52kW/day,79,83,56,true,true
+9bddf7b5-e3d0-45b8-a21c-986ebb5adb03,true,55154-3349,eleifend,EY-3-n,Mante-Gleason,NOT_APPLICABLE,1950,MINUS19,-9,1,8.71kW/day,63,19,9,true,false
+31f54465-15d2-4fae-89d3-1ffb0cea7ee9,false,55154-7465,eget semper,CFPJV-27211-,Bosco-Tromp,NOT_APPLICABLE,2007,MINUS20,1,-23,0.90kW/day,100,13,69,false,true
+16062c85-8b32-44db-acb6-161b15f2ddab,true,47593-521,luctus et ultrices,FZQC-00-nzpxa,"Auer, Glover and Jones",GASOLINE,2008,MINUS16,40,5,2.82kW/day,81,88,29,true,true
+025e0ba4-ec66-4131-a9e5-2c81482cb5ae,true,54436-010,nibh in,STAD-399-clid,"Turcotte, Hagenes and Beahan",SOLAR,1987,MINUS17,36,-50,3.31kW/day,30,4,74,true,true
+b80d5c0e-7121-43c8-afa7-4c3d6a5494ed,true,68016-194,in hac habitasse,FJPH-03571-bcxh,Lakin Inc,ELECTRIC,1978,MINUS12,-30,-16,5.52kW/day,27,20,52,false,true
+92a4db1c-2c17-449a-ab13-f89c90b9b835,false,0172-2416,vestibulum,JSEC-149-ayz,Huels LLC,NOT_APPLICABLE,1997,MINUS8,-19,7,8.22kW/day,18,7,30,false,true
+98eae993-b0f2-4d2b-91f2-5444644de692,true,55910-035,vestibulum quam,KXTZP-237-mvfrz,Murazik and Sons,GASOLINE,1975,MINUS18,37,9,6.34kW/day,16,37,51,false,false
+15c82483-2d47-4848-8680-0cc6878840ca,true,41268-647,etiam pretium iaculis,BZM-84-jqwx,"Breitenberg, Anderson and Turcotte",NOT_APPLICABLE,1997,MINUS10,34,-1,5.18kW/day,97,94,39,true,true
+bee3158e-4292-44ea-9219-e5a6da9cf04c,false,16590-589,in felis eu,QS-8-m,"Kunde, Schmidt and Goldner",NOT_APPLICABLE,1962,MINUS5,-20,30,6.92kW/day,91,81,39,false,true
+7a1f94ed-d9a6-4e50-afb2-ee66984c5cda,false,17312-026,vestibulum,KUE-5-jk,Okuneva Group,SOLAR,1992,MINUS3,-42,13,3.08kW/day,17,24,92,true,true
+e7bd5be4-5779-4c52-ac04-e6b712fd9ba9,true,63629-4816,felis sed interdum,QU-0-rw,Kuphal-Reichert,NOT_APPLICABLE,1976,MINUS8,-37,-43,9.77kW/day,59,90,95,false,true
+8e4deb2b-483d-4c90-a6f6-4310f066456d,true,0140-0006,leo,PULW-59456-oszer,Cruickshank-Casper,NOT_APPLICABLE,1954,MINUS11,19,-16,4.71kW/day,82,35,0,false,true
+53195196-14ec-4de9-ae8c-0f828fde5b60,true,49035-912,donec,VL-424-cazkd,Wehner LLC,GASOLINE,1970,MINUS12,-39,-34,1.63kW/day,11,60,64,false,false
+5cbcb87a-5032-401e-8c96-66ee89c201e1,true,63739-520,natoque,VUDLK-5-ps,"DuBuque, Ruecker and Dicki",SOLAR,1952,MINUS2,-50,-5,1.58kW/day,32,45,88,false,false
+354ebaa8-3157-44c7-ac47-12ee0652292c,false,36987-1992,quisque arcu libero,VS-84-,Torphy-Will,NOT_APPLICABLE,1993,MINUS4,1,-16,8.89kW/day,74,27,47,true,false
+aefeebdb-a6d2-4e20-83e1-db34a2867d6e,true,59762-3328,libero quis orci,ZXLWI-336-vr,"Daniel, Berge and Rath",SOLAR,1970,MINUS15,-19,-29,7.33kW/day,22,40,97,false,false
+76603301-0520-46b2-98f0-7f96d65d7370,true,64942-1226,odio cras,OC-89726-ymk,Wisozk-Romaguera,NOT_APPLICABLE,2006,MINUS18,39,-31,3.39kW/day,69,81,3,true,false
+c84da814-83d9-4bd9-a585-fcb9d9bb0fa6,true,49288-0149,eu,PH-552-,"Wyman, Erdman and Reilly",GASOLINE,2008,MINUS7,36,50,6.51kW/day,74,70,65,true,true
+9e6f4f50-161b-4bd9-820b-7bbc42049cad,false,55670-473,sed,LK-11-,"Schumm, Schaden and Feest",ELECTRIC,2007,MINUS18,-4,45,3.50kW/day,1,17,92,false,false
+00c7394c-fcad-43de-bc96-6ac52cf25337,false,76439-252,in sapien,RZW-659-euwt,"Collins, Shanahan and Koss",ELECTRIC,1998,MINUS7,22,-41,7.74kW/day,1,66,51,true,true
+82e95c74-c795-4b0d-8c1e-985cc34e7ad9,true,0409-3178,habitasse,AIV-34603-pog,Nolan-O'Connell,ELECTRIC,2017,MINUS11,29,0,0.67kW/day,60,2,62,true,false
+4bbb6283-dffb-46a3-a3c5-e715c3af340c,false,43772-0036,cras non velit,IO-288-rtogb,Heidenreich LLC,NOT_APPLICABLE,1975,MINUS9,4,-41,1.34kW/day,26,93,92,false,false
+220c8ec6-a777-4bfc-a514-198af738bf06,true,58980-340,urna,DFT-449-dqnhb,Mante and Sons,ELECTRIC,1989,MINUS19,13,-48,7.98kW/day,54,6,75,true,false
+45487dd0-38ca-48ae-97c4-736d3d063f4e,false,21130-432,congue,OAUTK-3-psrht,"Heller, Tremblay and Schaden",SOLAR,2004,MINUS3,-34,-3,1.21kW/day,47,68,78,false,false
+9b413541-51a1-4050-acb7-8840dd11fd47,true,0093-0083,nec,ERNIA-08-,Little Inc,SOLAR,2009,MINUS11,-36,23,1.37kW/day,9,53,68,true,true
+9d83908c-ebd9-4095-9741-da480c1f60ca,false,0093-9643,nunc,ERMQI-1144-j,Funk Group,NOT_APPLICABLE,2010,MINUS10,28,4,1.27kW/day,22,19,90,true,true
+27d75b19-9ed3-4466-a29a-c12a6f521074,false,0641-6082,arcu,YS-265-cbdg,Crist-Towne,GASOLINE,1981,MINUS18,-26,-6,4.07kW/day,26,51,31,true,false
+066efe36-6c52-46b5-8f88-ed671247a441,true,60681-1005,aliquet maecenas,ZGWX-99847-r,"Dickens, Hoppe and Anderson",ELECTRIC,2013,MINUS5,1,-36,8.32kW/day,61,28,69,false,false
+110553d9-4007-4807-8d73-e530b82b08f3,true,0268-1117,sit,COA-421-sgfl,"Raynor, Christiansen and Ziemann",ELECTRIC,1990,MINUS1,20,-26,1.21kW/day,46,9,96,true,true
+68b98397-42df-4063-b0ab-20cdd70c6d0d,false,61786-001,primis in,DKIXQ-967-,O'Reilly-Lowe,SOLAR,2009,MINUS3,-22,-39,8.89kW/day,4,31,82,false,true
+3ef344c3-912b-48f9-95c6-99e3c1694598,true,42192-144,odio donec vitae,LXGWP-33-wp,"Heaney, Halvorson and Kautzer",GASOLINE,1950,MINUS1,-26,2,0.90kW/day,62,16,85,true,true
+bf73b57e-92b8-423a-9cd9-0f4b2034a682,true,43419-015,sagittis,SC-845-juxl,Schmeler and Sons,ELECTRIC,1980,MINUS19,30,-19,1.00kW/day,41,80,29,true,false
+139b0652-83df-404d-b52f-a0268a8cfc0d,true,58232-0504,quam pede,EI-2-sl,Swift LLC,GASOLINE,1952,MINUS5,47,50,4.57kW/day,64,47,26,true,true
+11914011-d31e-4eb8-bda8-84a8a99954e5,true,49726-006,in quam,GRPFZ-2777-ga,Johnson-Konopelski,GASOLINE,2002,MINUS11,-6,-19,8.90kW/day,90,20,71,false,false
+3b1a10d3-31a9-4cdc-9060-972059059b31,false,0268-6757,justo,PYIRZ-12-qt,Cummerata and Sons,GASOLINE,2017,MINUS18,49,-9,1.15kW/day,34,33,92,true,true
+e970b95c-11df-498d-a1ec-c68aa921a270,false,0179-1470,curabitur gravida,JCWHU-7229-yj,"Stiedemann, Heller and Kautzer",GASOLINE,1992,MINUS12,-12,-45,1.48kW/day,57,28,47,true,false
+82741a46-0261-4755-a54b-f5cda93fee4f,false,55154-8387,luctus,FOL-6095-rok,Mills-Cronin,GASOLINE,1965,MINUS3,10,35,9.96kW/day,72,56,89,false,false
+c66a53ac-26c8-449d-88d3-2f66c65847e4,true,0378-3266,faucibus orci,TIEFP-54-nmlt,"Terry, Runolfsson and Tromp",GASOLINE,1975,MINUS14,25,50,2.85kW/day,85,100,8,false,true
+cdb61a87-c5ea-4650-806b-0d688ae80668,false,16590-019,sodales,SCLT-568-,"Sauer, Pagac and Hessel",GASOLINE,2008,MINUS2,-28,30,1.94kW/day,17,36,0,true,true
+ca2a66e7-8d9b-4d9d-b9f8-bc755af2aca4,true,52904-448,justo morbi ut,URJ-09007-bje,Hoppe Inc,NOT_APPLICABLE,1995,MINUS15,11,-33,0.66kW/day,88,61,61,false,true
+618826f4-6458-4b2d-b179-d67096cdae70,false,54575-428,maecenas pulvinar,PYQ-9-j,Hauck-Friesen,GASOLINE,1983,MINUS7,45,-42,1.31kW/day,56,27,59,true,false
+c5dc86d2-03ba-4c0a-b2a7-4556567db3bb,true,57664-229,augue vestibulum ante,YBX-086-n,Lang-Lehner,GASOLINE,2013,MINUS7,27,33,3.52kW/day,61,30,25,true,false
+47e4779b-6187-4e4c-a191-3e542b95d669,false,61957-0110,felis sed,CBZFN-559-saljp,"Witting, Hintz and Cole",NOT_APPLICABLE,2008,MINUS6,-18,18,4.52kW/day,22,3,65,true,false
+b9dcf368-74a9-4acc-9020-373b76b43487,true,66184-143,in quam,BL-0196-,O'Connell Group,NOT_APPLICABLE,1989,MINUS11,-24,0,7.96kW/day,68,94,35,false,true
+ca5ec515-e042-4d29-b07b-2edce8f61dd3,false,49349-304,dis parturient,PBV-86-,Muller-Rolfson,ELECTRIC,2004,MINUS20,-31,-25,8.29kW/day,63,59,12,true,true
+3287a554-b556-47f3-b2c1-9c30d71da377,false,63629-3640,nulla pede ullamcorper,XM-15511-lnbuk,Mraz-Price,NOT_APPLICABLE,1999,MINUS18,8,10,6.09kW/day,38,88,53,false,true
+5b9e94c1-769a-4ee5-b3cb-edad4b1f63e5,false,0093-8238,nulla nisl nunc,GNK-588-j,"Kulas, Davis and Nicolas",NOT_APPLICABLE,1987,MINUS18,23,4,6.25kW/day,58,96,73,true,true
+eb13f14b-c071-4d80-a49d-384b952c6eaa,false,58411-194,semper rutrum,IFMJ-7587-,Skiles Inc,SOLAR,2010,MINUS13,38,2,5.85kW/day,36,59,54,false,true
+e8b22ab2-01e5-4a7c-87ac-a3e034772611,false,36987-1488,proin at,FWNOS-0-g,Kirlin Group,GASOLINE,1959,MINUS17,30,17,2.05kW/day,78,57,8,true,true
+4b858abd-b3b6-4174-ba3c-735c1a7b6500,true,63824-334,leo rhoncus,DE-77-,Stanton Group,ELECTRIC,2005,MINUS11,26,30,6.97kW/day,5,10,19,true,true
+91271207-993d-4a0b-bfe2-a00535ae75c5,true,50436-3897,fermentum,PGC-4-ryih,Schuster Inc,ELECTRIC,2010,MINUS15,-25,32,3.79kW/day,5,95,83,false,false
+7eb62e85-9a7a-42b6-a2d4-e24cffdb09a0,false,57451-5065,lacinia eget tincidunt,WAMSP-22497-s,Carter-Lehner,SOLAR,1983,MINUS20,-36,-50,3.60kW/day,92,14,99,false,false
+be697802-f53f-4b1e-8b9f-1c1bcdab5923,false,49999-860,leo odio condimentum,TNXS-7006-y,Waelchi-Robel,ELECTRIC,2005,MINUS2,-25,40,6.09kW/day,45,92,28,false,true
+127111ee-54e0-45aa-97a5-c94b18ce5141,true,21695-589,justo lacinia eget,VKYCI-14370-,Rodriguez Inc,ELECTRIC,1979,MINUS2,-5,14,6.96kW/day,0,94,41,true,false
+f25078ca-e92a-42d4-b9d6-e819777e3eb7,true,42891-4148,turpis integer aliquet,OAN-89-wqr,Gibson-Brown,SOLAR,1980,MINUS8,-39,12,6.96kW/day,86,84,76,false,true
+040a0cfa-c43f-437b-8e43-109c92d3dbf5,true,51346-198,ac,LHWAK-3359-kxojv,Block Inc,GASOLINE,1993,MINUS17,46,-24,4.39kW/day,77,30,49,true,false
+6df53683-ac38-45cf-9aeb-ed877bfd9aef,true,68084-484,tincidunt eget,XAKE-8192-pyrmz,Weissnat Group,NOT_APPLICABLE,1977,MINUS11,26,30,9.37kW/day,4,42,63,false,true
+55703c57-acc0-4874-aacf-2ff1dfeb83a8,true,49715-012,morbi quis tortor,XWM-266-uq,Larson Group,GASOLINE,1966,MINUS12,46,-40,2.76kW/day,54,97,88,false,false
+a1650cd8-4201-4895-bd62-a0fe35a3e303,true,55910-438,porttitor id,WA-94961-a,"Durgan, Cronin and Bode",ELECTRIC,1986,MINUS3,28,43,0.53kW/day,22,38,27,false,true
+db819503-63f0-4ce3-9b55-0711bd2ba0a9,true,62756-520,nec,SUTJ-09080-m,Rippin Inc,GASOLINE,1996,MINUS20,-38,-37,0.60kW/day,32,44,62,true,false
+fa287c9d-a95b-4d29-bab5-a041396ec977,true,63304-736,odio,QF-0163-fb,"Predovic, Leannon and Hudson",SOLAR,2016,MINUS2,-41,48,9.99kW/day,27,41,79,true,false
+cca104e2-7ba1-48da-92cc-7e14db9dba1a,true,49288-0727,nam,GY-02-f,Gulgowski-Moore,GASOLINE,1988,MINUS9,-44,22,0.73kW/day,50,21,61,true,true
+4d03edba-22ed-456d-8a35-14b606dcfa70,true,57520-0789,lobortis,QIDK-28208-y,"Kuhlman, Rempel and Heidenreich",ELECTRIC,1980,MINUS8,0,-19,0.74kW/day,93,16,61,false,true
+f7797d5d-3422-4c6f-ac9f-67987a54e13a,false,41167-0085,suspendisse ornare,BJ-0-,Jenkins and Sons,GASOLINE,1958,MINUS14,-8,-2,8.40kW/day,18,100,87,false,false
+8df2d8dd-a753-462f-8b3d-d61196156a48,true,52125-331,aliquam convallis nunc,LDYO-05998-,Osinski Group,SOLAR,1960,MINUS16,43,48,9.86kW/day,24,37,29,true,false
+916f905c-50d4-434d-b300-df119ef6114f,true,0642-0120,elit proin,QJUW-98-beni,Maggio Inc,SOLAR,1951,MINUS1,-9,33,5.64kW/day,53,94,98,true,true
+f589bc57-f577-4120-ba0a-0f98fe5bb79e,false,76439-242,eget massa,FWYNO-9-y,Robel-Halvorson,NOT_APPLICABLE,1971,MINUS14,-9,40,4.24kW/day,100,30,7,false,true
+cb2f95dc-fb2b-4425-b90a-4b4f242f4353,false,52083-482,lacus,JWRHG-55-ohd,"Hoeger, Lubowitz and Treutel",GASOLINE,1960,MINUS3,8,48,2.59kW/day,33,83,15,false,true
+39ee5bfb-ef8c-44cc-96fe-d4ed057a0204,false,49825-130,cras pellentesque volutpat,KEQXR-9-ogq,Schuster Inc,ELECTRIC,1969,MINUS9,-24,-14,1.41kW/day,93,54,67,false,true
+a1f8b200-1a79-451e-8d37-cb0e70cf58d6,false,43526-100,vestibulum sit,XHIE-88286-lp,Blick-Cole,ELECTRIC,2009,MINUS11,33,38,1.57kW/day,85,73,22,false,false
+38852abe-4580-4f14-b0ee-99570c55aae7,true,43353-847,odio justo sollicitudin,LHJZ-8-l,"Corwin, Lueilwitz and Hilll",ELECTRIC,1973,MINUS16,18,-37,8.69kW/day,21,11,20,true,true
+dd0f9379-0f01-494b-83c6-15a294fe0077,false,54868-2990,lectus,CKMO-7-y,"Sauer, Larson and Smith",NOT_APPLICABLE,1966,MINUS15,-43,12,2.00kW/day,43,78,39,true,true
+19f6f86e-8a5c-4579-922c-9698b1f6604b,false,16590-153,libero rutrum ac,HQ-97901-xbpol,"Grimes, Purdy and Fahey",GASOLINE,1954,MINUS12,-26,8,4.68kW/day,65,33,66,false,false
+6ae2d965-9f68-4a2a-9c4c-40e8f9e5c10e,true,45802-318,justo,QFM-41-mbvx,Douglas-Wilderman,NOT_APPLICABLE,1971,MINUS14,-11,-43,4.91kW/day,56,90,23,false,true
+18e08cb5-b869-4b81-8e9a-21107c31ab61,true,12634-944,sed augue aliquam,ECJP-0713-vluaw,Gibson LLC,NOT_APPLICABLE,1965,MINUS10,-19,8,1.51kW/day,12,72,56,true,false
+0f24abbb-4ebc-4db7-bf9d-385d395bfbaf,true,53808-0650,cubilia curae,RZM-8-,"Mohr, Ryan and Wintheiser",SOLAR,1969,MINUS5,23,-14,7.07kW/day,12,75,44,true,true
+340d2a19-c003-4f45-8663-ec65eadd5718,false,63629-3645,ante vestibulum ante,WV-346-hcra,Wisozk-Denesik,NOT_APPLICABLE,1992,MINUS7,45,19,3.28kW/day,57,80,77,false,false
+5cc0cbc5-f741-4290-a3ae-e1809c7dac92,false,61786-007,curae,NLPGR-862-h,"Effertz, Pfannerstill and Kiehn",GASOLINE,1962,MINUS19,32,11,6.88kW/day,32,12,84,false,false
+ef401ad0-37a0-4353-b668-c18f4ca6af3c,true,42507-131,erat nulla,BP-3920-n,"Stehr, Gleason and McGlynn",ELECTRIC,1994,MINUS1,-34,-16,8.19kW/day,66,83,67,false,false
+0fa0a97d-8d29-48f0-9dec-0b5d20c166e6,false,58118-3268,rutrum,ZUHW-4-jo,Bogisich and Sons,GASOLINE,1989,MINUS20,-2,28,7.88kW/day,73,80,12,true,true
+d3e11faf-a8f3-47e2-8d00-6693ec882998,true,54868-3934,tortor,JDOU-83-c,"Kemmer, Hane and MacGyver",SOLAR,2002,MINUS1,-28,-4,2.69kW/day,1,94,99,false,true
+e8d44378-2237-4c4f-938f-7477b740bbce,false,36987-1019,convallis,UX-2048-rl,"Romaguera, Rogahn and Schowalter",SOLAR,1954,MINUS19,6,-31,4.10kW/day,55,58,16,true,true
+d08b7445-2c2b-4895-bcf8-ef2431ff22d8,true,55154-6275,eget,HI-08-nf,"Dach, Nienow and Walsh",SOLAR,2003,MINUS16,-18,40,1.59kW/day,6,19,18,false,false
+c7b02fcc-7876-4302-b607-90599bb2527a,true,0006-0731,nisl ut,CT-5286-beljc,Heidenreich-Haley,NOT_APPLICABLE,1979,MINUS4,38,18,7.01kW/day,34,25,24,false,false
+3be9190a-11f5-4173-a47f-e9dd7ee3af6d,false,0781-1497,orci luctus,EYCN-7575-,Pfannerstill LLC,GASOLINE,2010,MINUS15,28,50,4.77kW/day,77,33,33,true,true
+3aeb7147-1dea-4dc4-a1ea-4829d8568421,false,68308-145,eros vestibulum,BVEHR-406-pv,Cummerata and Sons,GASOLINE,1958,MINUS18,34,-17,5.47kW/day,86,13,58,false,false
+98e6d00f-9986-4f68-ad70-359bd8e18977,false,59667-0078,posuere,RYNE-942-l,Johns and Sons,SOLAR,1958,MINUS12,-40,10,9.87kW/day,70,76,24,false,true
+ea32711e-08f7-4a82-bf65-979442bda0b9,true,63629-2949,lacinia nisi,BSAO-77625-bgm,"Hane, Wunsch and Lang",ELECTRIC,2010,MINUS12,40,23,8.30kW/day,7,60,90,false,false
+68ac0761-37d0-4ebe-b14f-3352e70251fd,false,58468-0100,eget rutrum,GETFC-947-yfeqj,"Murphy, Green and Metz",SOLAR,1978,MINUS19,-35,-32,1.32kW/day,87,15,54,true,true
+895f77b9-6b8e-400e-a182-2cf60ffb511e,true,54868-2199,libero,CQELU-52874-b,"Shields, Okuneva and Gutmann",GASOLINE,1965,MINUS11,-9,41,8.49kW/day,81,9,51,false,true
+80089b0f-c435-4b50-a495-29273ae698de,true,49580-0271,non,QZDO-80-tbmcj,Bradtke LLC,SOLAR,1981,MINUS2,-37,-34,4.48kW/day,31,31,24,false,true
+e62bdd7c-fee5-46af-a0cc-312bbbfb1ecf,false,66184-510,eleifend quam,SDEFB-0-vbegk,"Flatley, Crona and Erdman",NOT_APPLICABLE,1973,MINUS19,-37,-5,8.45kW/day,61,14,6,false,true
+b54b2a36-904e-46d7-bfd3-589a09c6574f,false,55154-2063,amet erat,NFDT-2874-qou,Padberg-Ondricka,SOLAR,1970,MINUS10,-7,-31,2.05kW/day,49,9,100,true,false
+ed9c4112-b6ec-4dac-8543-c6319d42b53b,true,58118-7355,egestas,ZSCVX-55-,Abshire Inc,SOLAR,1988,MINUS1,47,-25,2.36kW/day,96,6,2,false,false
+555c233b-0bdc-4bd2-a2b9-6c016aaa6965,false,54868-0024,vestibulum,QWRI-71363-dwu,Bergnaum Inc,ELECTRIC,1958,MINUS15,39,-12,6.42kW/day,51,46,44,true,true
+3ecb5369-5860-40de-a27f-88adf9071bef,true,21695-699,in lacus,FKGW-06276-ab,Monahan-Gutkowski,ELECTRIC,1989,MINUS7,-14,40,8.08kW/day,1,40,25,false,false
+f098625f-2990-4885-a03a-b593bef55059,false,35356-613,semper est quam,SBL-794-r,Hammes-Friesen,GASOLINE,1968,MINUS6,23,-1,3.23kW/day,22,47,99,false,false
+ea35b152-e7a0-4aa9-8755-cbfc1c22b18c,true,62581-1234,porta volutpat,XT-388-u,"Pacocha, Rice and Ryan",ELECTRIC,1958,MINUS13,26,-33,6.06kW/day,25,92,5,false,true
+d41aff91-7a49-4523-a384-12a9611e1dab,false,63629-3564,orci vehicula condimentum,ZTBXU-58-ksbtg,Abbott Group,ELECTRIC,1960,MINUS18,49,-6,8.23kW/day,72,32,43,true,false
+2f1fbf00-afe3-464a-b72b-e364e9789f4a,false,49884-214,suspendisse,JGDX-00-ak,"Huel, Kuvalis and Herman",NOT_APPLICABLE,1979,MINUS7,3,4,2.06kW/day,93,90,86,false,false
+878eb105-92cd-44e2-bdae-f0aeea1fe6bb,false,0904-6270,mattis,AFL-1963-b,"Conn, Purdy and Yost",NOT_APPLICABLE,2000,MINUS8,-42,-6,9.94kW/day,64,68,91,false,true
+f0dc897a-82e3-4a48-bfb9-2ef8df759b12,false,59503-6576,orci luctus et,QR-64-ayxf,"Kutch, Hoeger and Brakus",NOT_APPLICABLE,1961,MINUS15,-19,-23,3.03kW/day,56,6,36,true,false
+a04a1b73-83ff-4fb7-9462-9e7e19ccfe47,true,0168-0020,penatibus et magnis,NAHCU-187-iglj,Botsford and Sons,NOT_APPLICABLE,1990,MINUS9,23,-33,1.48kW/day,97,96,80,true,false
+e10b506f-eaaa-4c29-98d9-81a930c44e30,true,41520-474,ultrices enim lorem,NHGQZ-58265-ko,Kunze-Ortiz,NOT_APPLICABLE,2001,MINUS16,-48,-45,2.66kW/day,27,90,47,true,false
+fe68e976-fefc-43e2-84ce-de391f787f40,false,68788-9660,consequat morbi,UZQHN-3-,Lehner-O'Keefe,GASOLINE,2004,MINUS20,-24,49,2.11kW/day,56,30,40,false,true
+05dff267-0512-4ed1-8a85-efa08f6d5a8b,false,0268-1276,donec,RHY-10080-vyicb,Macejkovic-Thiel,ELECTRIC,1964,MINUS14,-42,41,3.19kW/day,7,46,38,false,false
+ed03ecb2-b636-4be6-81db-926b26e2d657,false,54868-0162,id nulla ultrices,HQCM-40642-rd,Eichmann-Blanda,NOT_APPLICABLE,2001,MINUS13,-35,-16,9.15kW/day,56,7,0,true,true
+4ccd5975-d788-4c89-846b-e9e7c26c7f20,false,55154-5399,ultrices,WAYQF-85-yhw,Murazik and Sons,ELECTRIC,1995,MINUS3,35,-29,5.79kW/day,15,27,44,false,true
+0cc70e73-a0f6-43ad-a925-46cdab6ef59d,true,23155-148,venenatis non,CR-9-ia,Green-Hegmann,ELECTRIC,1963,MINUS20,-30,-49,1.35kW/day,0,41,60,true,false
+a4b28419-e9cf-4fd3-a320-83611b784ebc,true,48951-9026,bibendum morbi non,ZJ-593-,Hirthe Inc,GASOLINE,1964,MINUS18,16,39,1.68kW/day,63,77,76,false,true
+320741bd-5dbf-4d6d-9a20-c453b25f4108,false,21695-362,nisi vulputate,RYFOX-77987-k,Purdy Group,SOLAR,1961,MINUS20,24,36,4.90kW/day,61,69,13,true,false
+3c06a394-3e33-4d21-8ee9-dffe3791d646,false,54868-5840,donec ut mauris,PEQK-1262-,"Bode, Hessel and Ankunding",GASOLINE,1991,MINUS8,-43,20,9.07kW/day,22,20,58,true,true
+5eb2122c-ebd6-41d4-a6c3-ecf570b31e57,true,59779-145,lacus at turpis,NSP-4435-,Gulgowski Inc,ELECTRIC,2002,MINUS7,46,-21,9.28kW/day,41,42,89,false,true
+1aacfe2a-b2b1-4a17-b162-68163e151015,true,47682-260,semper,IAJOR-6991-oqvtk,"Jaskolski, Green and MacGyver",GASOLINE,2000,MINUS10,20,49,5.46kW/day,55,33,74,true,false
+09219508-663a-4aa4-890c-2d5326c37970,true,16729-117,nec,FGIAS-74-koh,Schamberger-Goodwin,ELECTRIC,1950,MINUS3,1,27,4.60kW/day,61,24,55,false,true
+0e55bfd1-25ee-40e4-a597-c39521c1462d,false,0440-1385,duis,FANEU-30-pfj,"Botsford, Hermiston and Davis",ELECTRIC,1992,MINUS8,-28,48,2.17kW/day,16,83,92,false,true
+c1d5befc-5d3c-44f2-8976-9390862d87b9,true,54973-7507,aenean lectus pellentesque,AS-00-ebld,Hilll and Sons,NOT_APPLICABLE,1997,MINUS10,-22,-49,2.18kW/day,17,58,54,false,false
+fc7dfe3d-91a3-4e3c-989d-5b330b48c91c,false,37000-282,pellentesque eget,GFDXK-16107-f,"McKenzie, Emmerich and Kunde",ELECTRIC,1988,MINUS19,-25,20,8.98kW/day,94,1,13,false,false
+e74c30f0-81bd-4716-a093-2b711d0d26c0,true,65044-9943,lectus,CDUAB-98-x,"Carroll, Medhurst and Rath",ELECTRIC,1996,MINUS4,2,-8,7.28kW/day,89,57,62,true,false
+11523e48-8eb3-43c9-bd33-6db34e97250c,false,52959-983,non lectus aliquam,BM-42-o,Casper Inc,ELECTRIC,2017,MINUS8,-32,14,6.48kW/day,88,85,89,false,false
+a14e7550-3116-462b-a23e-03d8ce100d95,false,49288-0818,in hac habitasse,OTZ-8-fb,"Keebler, Balistreri and Gutkowski",ELECTRIC,1982,MINUS6,46,16,4.30kW/day,65,43,40,false,false
+d732d532-8600-4381-8a9b-092736ac8bb7,false,67544-154,dapibus dolor vel,GD-7824-jb,Hettinger-Schroeder,NOT_APPLICABLE,1950,MINUS7,22,-34,7.19kW/day,22,86,4,false,true
+b1122dc3-3a51-4aab-aa9b-85f796068723,true,10738-304,morbi odio,UWCNL-9-g,Kunze-Nienow,SOLAR,1977,MINUS11,-19,5,9.73kW/day,38,99,42,true,false
+18fcdcd0-ead5-444e-b746-acf8c22b2bb3,false,55648-954,leo,QGEYH-8-,"Lowe, Mraz and Sauer",ELECTRIC,1985,MINUS7,5,-29,7.30kW/day,42,73,14,false,true
+f2c57566-2373-48b6-8f6e-84a825a987b3,true,55316-886,adipiscing elit,WV-309-d,"Kuhn, Purdy and Kub",GASOLINE,2000,MINUS15,16,-37,9.15kW/day,29,18,24,true,true
+7a39d30b-2b1e-4503-9e7d-1f21a9731c5f,true,49348-001,cubilia,FJ-5431-jwemd,Klein Group,ELECTRIC,1957,MINUS10,-26,18,6.28kW/day,96,32,15,false,false
+72260f2d-0a06-4cad-af55-0869d42bb071,true,63629-1840,tristique,LBYR-6-ar,Koepp Inc,ELECTRIC,1957,MINUS11,6,-22,9.23kW/day,23,59,1,false,false
+88eb717d-681b-49e8-861d-ee2de902e0e2,true,42546-185,ultrices,IJM-0-m,Howell-Dicki,NOT_APPLICABLE,1975,MINUS11,-21,-9,5.58kW/day,57,76,20,false,false
+4176780a-76a5-4c9c-82e8-fe447f0ab8a0,false,67544-988,euismod scelerisque,WFA-9-b,Mraz Inc,GASOLINE,1962,MINUS1,-17,12,8.67kW/day,39,83,94,true,false
+8a384324-5f6d-43a5-8e24-45300b55037a,true,24275-0385,vitae mattis,PLZQ-826-pfbla,"Littel, Strosin and Stroman",SOLAR,1974,MINUS18,31,40,6.60kW/day,94,76,42,false,true
+d1318bce-6cdd-4d80-b7c2-117845718a84,false,50666-004,non ligula,FHRIX-599-,"Walsh, Ebert and Hirthe",SOLAR,2013,MINUS8,-16,9,8.27kW/day,22,0,25,false,true
+f89bddfa-e452-48de-a263-0a3ef949bcb3,false,63629-2548,magnis dis parturient,PTNY-42704-,Carroll and Sons,GASOLINE,1957,MINUS3,31,27,0.66kW/day,7,91,98,false,true
+eb7c63f1-14d1-42ed-abf9-fdabd1c49dff,false,50988-454,eu,DNBE-187-cyuk,"Feeney, Herman and Lakin",SOLAR,2007,MINUS18,18,-19,7.51kW/day,27,13,27,true,true
+f2195330-ffc5-4955-adb7-6ee7222463d9,true,65293-415,at ipsum ac,UXKA-2603-,Considine LLC,SOLAR,1997,MINUS14,47,-18,1.29kW/day,99,75,35,true,false
+1c11f461-dd5c-4c31-aeb0-1163b2924ed9,false,53807-204,tristique in tempus,CZIF-8489-ug,"Pfeffer, Torp and Rempel",GASOLINE,2016,MINUS16,18,-25,2.04kW/day,22,0,13,true,true
+a41bbcdf-4d7a-445a-8182-140a7d220cbe,false,43419-306,interdum venenatis turpis,ULREO-771-k,"Kling, Bergstrom and DuBuque",NOT_APPLICABLE,1997,MINUS17,-27,31,7.32kW/day,5,68,57,true,true
+7ecadc0f-6fb1-40bb-ae34-df1c0a955098,true,0591-3761,elit proin,AOGX-921-dra,Price LLC,GASOLINE,1988,MINUS9,22,29,4.33kW/day,95,61,45,true,true
+759da5f3-a463-4dc0-870b-1c28036d2366,true,36800-224,varius nulla,EANRP-76925-,Walter and Sons,SOLAR,2010,MINUS4,-28,-13,8.77kW/day,9,16,38,true,false
+c20a1959-f4df-4eb0-bc19-f9096e786091,false,43419-001,ipsum,DSEQA-8-t,Hessel Group,SOLAR,1989,MINUS5,23,30,9.06kW/day,66,47,33,true,true
+91c2ea45-2da2-47f3-9b28-a77bb9484177,true,0955-1703,nullam,BR-00197-e,"Schiller, O'Kon and Borer",ELECTRIC,1952,MINUS2,0,-48,7.57kW/day,27,94,40,true,false
+33ffa70e-c07c-4ff0-825d-49be7e09eabd,true,0904-5857,id,CQAIG-588-ey,"Gorczany, Cummerata and Hodkiewicz",NOT_APPLICABLE,1991,MINUS6,-13,-14,4.51kW/day,17,73,30,true,false
+c2e133b8-3961-49b2-8be8-e8160b225f85,true,49999-046,hac habitasse,CDXSU-4144-moi,Murphy LLC,ELECTRIC,1979,MINUS20,9,-49,8.33kW/day,51,18,93,false,false
+047a6a5b-86e2-49df-9494-b03b3347eab8,true,0009-3475,natoque penatibus et,LGWH-8-zn,"Powlowski, Bauch and Wisozk",SOLAR,1973,MINUS19,-37,33,6.34kW/day,42,49,2,true,false
+1e091804-d110-4767-b577-8c159174bdfa,false,54005-0002,magna vestibulum,GQVWA-71-bsn,Willms and Sons,ELECTRIC,2009,MINUS7,21,-26,6.56kW/day,56,24,48,false,true
+d02c0570-98b7-40bf-a3e2-d51d795e4a0a,true,0280-0925,justo lacinia,JGY-9159-uy,Grimes LLC,NOT_APPLICABLE,2014,MINUS13,-13,31,8.92kW/day,81,49,26,true,false
+1524fa1b-0429-4b38-8093-2cc7cf2223ed,true,50844-619,felis,WXLFN-5-,Adams Inc,NOT_APPLICABLE,1970,MINUS1,38,11,5.96kW/day,53,94,35,false,true
+57f6ba37-24ae-4596-9e47-1d66ecae2c95,true,54868-3781,nulla ultrices,CGO-45-yonpm,Kulas-Hahn,NOT_APPLICABLE,1953,MINUS6,-12,1,8.73kW/day,79,11,24,false,true
+b2afff1d-a6f8-4ca1-ad20-4eca6c6519fb,false,50573-3550,turpis,WFODB-91572-uf,"Kris, Mitchell and Koss",ELECTRIC,1988,MINUS19,5,41,8.04kW/day,26,36,8,true,false
+43ab2b08-99cf-4695-92c9-bcedb2413d69,false,61919-435,pellentesque ultrices,WQU-1891-lq,"Leuschke, Purdy and Will",NOT_APPLICABLE,1958,MINUS16,0,20,0.61kW/day,81,54,54,true,true
+583bf74d-8c06-479d-b955-7432cadd79f9,false,58118-0178,purus aliquet at,FBIY-0578-l,"Rowe, Reilly and Waelchi",GASOLINE,2005,MINUS9,26,-26,4.30kW/day,63,75,39,true,false
+f80f9158-1c1d-4e81-abd2-d75fc4f40e36,true,60432-831,duis aliquam convallis,WOJ-53527-x,"Hermiston, Bruen and Deckow",NOT_APPLICABLE,2017,MINUS17,-20,-9,8.91kW/day,29,84,21,true,false
+d891676a-acb7-40d9-a237-48493ab62e58,false,47781-267,volutpat convallis,XKUTB-6505-fuv,Schowalter-Heller,SOLAR,1972,MINUS14,-16,7,7.41kW/day,95,98,96,false,true
+594a6274-6e3f-4877-ba92-b96966fbabab,true,68850-005,semper sapien,VQY-60608-ihx,Bahringer-Kiehn,NOT_APPLICABLE,1978,MINUS6,-9,-48,1.39kW/day,85,93,48,false,true
+4a4e85c4-2e09-444d-b352-a307a6c71b3b,false,0135-0521,nisi nam ultrices,EBQOU-10453-omyp,Altenwerth Group,NOT_APPLICABLE,1957,MINUS3,-41,15,4.94kW/day,54,0,0,false,false
+3509d039-24a2-450c-8822-0d6dedd5119f,true,62011-0029,luctus tincidunt nulla,HKQV-91-d,Stamm Inc,GASOLINE,1957,MINUS9,15,-35,1.96kW/day,85,85,85,false,true
+931588ca-b0f8-4660-a69e-20220f02f897,false,68233-012,porta volutpat quam,WEVAZ-60462-abie,"Mraz, Borer and Harvey",NOT_APPLICABLE,2004,MINUS7,-46,19,3.68kW/day,30,29,6,true,true
+6ec286e3-6688-42be-96ae-39d99cbbcbc1,false,63323-286,justo sollicitudin,RFOSL-61319-trybm,Klein Inc,SOLAR,1960,MINUS8,28,22,9.07kW/day,81,98,10,false,true
+28e076b0-2b09-4fa4-b56f-e617f0de5edb,false,54868-5292,feugiat et eros,BDQU-65-ukwzv,"Crooks, Hodkiewicz and Witting",GASOLINE,1990,MINUS2,22,44,3.10kW/day,20,29,53,true,true
+19d51413-bd91-45a0-8972-7db567dee827,false,0093-4067,vehicula consequat,NH-8-uxv,"Considine, Ferry and Will",GASOLINE,1962,MINUS17,49,-11,4.12kW/day,20,98,89,false,false
+9bdb6056-1fc0-480d-9419-3556a4d6809c,false,55312-183,dui vel nisl,WUQ-6-cs,Lemke-Hammes,NOT_APPLICABLE,1986,MINUS10,2,-5,4.92kW/day,13,12,53,false,true
+931a7ceb-4907-4d1b-b4af-390e6044374a,false,61065-1001,orci mauris,BMYN-2-ovf,Gutkowski-Block,SOLAR,2000,MINUS19,-18,-49,7.31kW/day,73,23,37,true,true
+466dd6fa-7072-4dff-a78e-c774357c9eaa,false,0409-1941,dis,EQSV-27-zt,Bergnaum-Gutmann,GASOLINE,1965,MINUS7,48,-29,7.01kW/day,7,48,47,false,true
