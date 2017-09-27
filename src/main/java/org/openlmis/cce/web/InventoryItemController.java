@@ -45,14 +45,12 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import java.time.ZonedDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
 import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @Transactional
@@ -141,22 +139,19 @@ public class InventoryItemController extends BaseController {
           .getFacilitiesSupervisedByUser(userId, program.getId(), rightId));
     }
 
-    Set<InventoryItem> inventoryItems = new LinkedHashSet<>();
-    for (ProgramDto program : programs) {
-      for (FacilityDto facility : facilities) {
-        inventoryItems.addAll(
-            inventoryRepository.findByFacilityIdAndProgramId(facility.getId(), program.getId()));
-      }
-    }
+    List<UUID> facilityIds = facilities.stream()
+        .map(FacilityDto::getId)
+        .collect(Collectors.toList());
 
-    //TODO: remove this and create search method with database pagination and sort
-    List<InventoryItem> itemList = new ArrayList<>(inventoryItems);
-    Comparator<InventoryItem> comparator =
-        Comparator.comparing((InventoryItem item) -> item.getCatalogItem().getType())
-        .thenComparing(Comparator.comparing((InventoryItem item) -> item.getEquipmentTrackingId()));
-    Collections.sort(itemList, comparator);
+    List<UUID> programIds = programs.stream()
+        .map(ProgramDto::getId)
+        .collect(Collectors.toList());
 
-    return Pagination.getPage(inventoryItemDtoBuilder.build(itemList), pageable);
+    Page<InventoryItem> itemsPage = inventoryRepository
+        .search(facilityIds, programIds, pageable);
+
+    return Pagination.getPage(inventoryItemDtoBuilder.build(itemsPage.getContent()),
+        pageable, itemsPage.getTotalElements());
   }
 
   /**

@@ -15,22 +15,8 @@
 
 package org.openlmis.cce.web;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
-import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
-import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
-
 import com.jayway.restassured.response.Response;
-
+import guru.nidi.ramltester.junit.RamlMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.stubbing.answers.Returns;
@@ -60,14 +46,29 @@ import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserSupervisedFacilitiesReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserSupervisedProgramsReferenceDataService;
 import org.openlmis.cce.util.PageImplRepresentation;
+import org.openlmis.cce.util.Pagination;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-import guru.nidi.ramltester.junit.RamlMatchers;
-
 import java.util.Collections;
 import java.util.UUID;
+
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 
 @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.TooManyMethods"})
 public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTest {
@@ -213,8 +214,11 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     UUID programId = mockPrograms(userId);
     UUID facilityId = mockFacilities(userId, programId, rightId);
 
-    when(inventoryItemRepository.findByFacilityIdAndProgramId(facilityId, programId))
-        .thenReturn(Collections.singletonList(inventoryItem));
+    when(inventoryItemRepository.search(
+        eq(Collections.singletonList(facilityId)),
+        eq(Collections.singletonList(programId)),
+        any(Pageable.class)))
+        .thenReturn(Pagination.getPage(Collections.singletonList(inventoryItem), null, 1));
 
     PageImplRepresentation resultPage = getAllInventoryItems()
         .then()

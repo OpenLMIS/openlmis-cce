@@ -13,16 +13,16 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.repository;
+package org.openlmis.cce.repository.custom;
 
-import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.repository.custom.InvetoryItemRepositoryCustom;
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
+import java.util.List;
 import java.util.UUID;
 
-@JaversSpringDataAuditable
-public interface InventoryItemRepository extends CrudRepository<InventoryItem, UUID>,
-    InvetoryItemRepositoryCustom {
+public interface InvetoryItemRepositoryCustom {
+
+  Page<InventoryItem> search(List<UUID> facilityIds, List<UUID> programIds, Pageable pageable);
 }
