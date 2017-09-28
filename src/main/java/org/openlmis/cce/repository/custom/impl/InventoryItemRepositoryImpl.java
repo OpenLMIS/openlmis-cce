@@ -17,7 +17,7 @@ package org.openlmis.cce.repository.custom.impl;
 
 import org.apache.commons.collections.CollectionUtils;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.repository.custom.InvetoryItemRepositoryCustom;
+import org.openlmis.cce.repository.custom.InventoryItemRepositoryCustom;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -37,7 +37,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
-public class InventoryItemRepositoryImpl implements InvetoryItemRepositoryCustom {
+public class InventoryItemRepositoryImpl implements InventoryItemRepositoryCustom {
 
   private static final String FACILITY_ID = "facilityId";
   private static final String PROGRAM_ID = "programId";
@@ -50,6 +50,7 @@ public class InventoryItemRepositoryImpl implements InvetoryItemRepositoryCustom
   /**
    * This method is supposed to retrieve all inventory items with matched parameters.
    * Result is sorted and paginated by pageable parameter.
+   * You can use 'type' sort value and it will sort inventory items by their catalog item type.
    *
    * @param facilityIds list of facility ids
    * @param programIds  list of program ids

@@ -22,7 +22,7 @@ import org.springframework.data.domain.Pageable;
 import java.util.List;
 import java.util.UUID;
 
-public interface InvetoryItemRepositoryCustom {
+public interface InventoryItemRepositoryCustom {
 
   Page<InventoryItem> search(List<UUID> facilityIds, List<UUID> programIds, Pageable pageable);
 }
