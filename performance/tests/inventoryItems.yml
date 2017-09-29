@@ -2,6 +2,9 @@ execution:
   - concurreny: 1
     iterations: 20
     scenario: get-inventory-items
+  - concurreny: 1
+    iterations: 20
+    scenario: delete-inventory-item
 
 scenarios:
   get-user-token:
@@ -26,8 +29,92 @@ scenarios:
         label: GetInventoryItems
         headers:
           Authorization: Bearer ${access_token}
+  create-inventory-item:
+    requests:
+      - include-scenario: get-user-token
+      - url: ${__P(base-uri)}/api/inventoryItems
+        method: POST
+        label: CreateInventoryItem
+        jsr223:
+          execute: before
+          script-text: |
+            import groovy.json.JsonOutput;
+
+            def random = new Random();
+
+            def inventoryItem = new LinkedHashMap([
+              facility: new LinkedHashMap([
+                id: "e6799d64-d10d-4011-b8c2-0e4d4a3f65ce"
+              ]),
+              programId: "dce17f2e-af3e-40ad-8e00-3496adef44c3",
+              catalogItem: new LinkedHashMap([
+                id: "94c6e021-0020-4af3-b789-306f2cd1dabb"
+              ]),
+              equipmentTrackingId: random.nextInt(),
+              referenceName: "Reference Name",
+              utilization: "ACTIVE",
+              yearOfInstallation: 2017,
+              voltageStabilizer: "YES",
+              voltageRegulator: "YES",
+              backupGenerator: "YES",
+              manualTemperatureGauge: "BUILD_IN",
+              remoteTemperatureMonitor: "BUILD_IN",
+              functionalStatus: "FUNCTIONING"
+            ]);
+
+            vars.put("inventory_item", JsonOutput.toJson(inventoryItem));
+        body: ${inventory_item}
+        headers:
+          Authorization: Bearer ${access_token}
+          Content-Type: application/json
+        extract-jsonpath:
+          inventory_item_id: $.id
+  get-inventory-item:
+    requests:
+      - include-scenario: create-inventory-item
+      - url: ${__P(base-uri)}/api/inventoryItems/${inventory_item_id}
+        method: GET
+        label: GetInventoryItem
+        headers:
+          Authorization: Bearer ${access_token}
+  update-inventory-item:
+    requests:
+      - include-scenario: get-inventory-item
+      - url: ${__P(base-uri)}/api/inventoryItems/${inventory_item_id}
+        method: PUT
+        label: UpdateInventoryItem
+        jsr223:
+          execute: before
+          script-text: |
+            import groovy.json.JsonSlurper;
+            import groovy.json.JsonOutput;
+
+            def response = prev.getResponseDataAsString();
+
+            def jsonSlurper = new JsonSlurper();
+            def inventoryItem = jsonSlurper.parseText(response);
+
+            inventoryItem.referenceName = "New Reference Name";
+
+            vars.put("inventory_item", JsonOutput.toJson(inventoryItem));
+        body: ${inventory_item}
+        headers:
+          Authorization: Bearer ${access_token}
+          Content-Type: application/json
+  delete-inventory-item:
+    requests:
+      - include-scenario: update-inventory-item
+      - url: ${__P(base-uri)}/api/inventoryItems/${inventory_item_id}
+        method: GET
+        label: DeletetInventoryItem
+        headers:
+          Authorization: Bearer ${access_token}
 
 reporting:
     - module: passfail
       criteria:
       - p90 of GetInventoryItems>500ms
+      - p90 of GetInventoryItem>500ms
+      - p90 of CreateInventoryItem>500ms
+      - p90 of UpdateInventoryItem>500ms
+      - p90 of DeleteInventoryItem>500ms
