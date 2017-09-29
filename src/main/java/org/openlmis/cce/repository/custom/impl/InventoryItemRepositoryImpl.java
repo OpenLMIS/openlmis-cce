@@ -25,6 +25,7 @@ import org.springframework.data.domain.Sort;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.JoinType;
@@ -70,10 +71,17 @@ public class InventoryItemRepositoryImpl implements InventoryItemRepositoryCusto
 
     Long count = entityManager.createQuery(countQuery).getSingleResult();
 
-    List<InventoryItem> result = entityManager.createQuery(query)
-        .setMaxResults(pageable.getPageSize())
-        .setFirstResult(pageable.getPageNumber() * pageable.getPageSize())
-        .getResultList();
+    TypedQuery<InventoryItem> typedQuery = entityManager.createQuery(query);
+    List<InventoryItem> result;
+
+    if (pageable != null) {
+      result = typedQuery
+          .setMaxResults(pageable.getPageSize())
+          .setFirstResult(pageable.getPageNumber() * pageable.getPageSize())
+          .getResultList();
+    } else {
+      result = typedQuery.getResultList();
+    }
 
     return Pagination.getPage(result, pageable, count);
   }
