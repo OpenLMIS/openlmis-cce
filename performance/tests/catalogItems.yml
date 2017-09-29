@@ -10,7 +10,7 @@ execution:
     scenario: get-catalog-item
   - concurreny: 1
     iterations: 20
-    scenario: create-catalog-item
+    scenario: update-catalog-item
 
 scenarios:
   get-user-token:
@@ -62,8 +62,6 @@ scenarios:
           script-text: |
             import groovy.json.JsonOutput;
 
-            log.error(prev.getResponseDataAsString());
-
             def random = new Random();
 
             def catalogItem = new LinkedHashMap([
@@ -90,6 +88,31 @@ scenarios:
         headers:
           Authorization: Bearer ${access_token}
           Content-Type: application/json
+  update-catalog-item:
+    requests:
+      - include-scenario: create-catalog-item
+      - url: ${__P(base-uri)}/api/catalogItems/${catalog_item_id}
+        method: PUT
+        label: UpdateCatalogItem
+        jsr223:
+          execute: before
+          script-text: |
+            import groovy.json.JsonSlurper;
+            import groovy.json.JsonOutput;
+
+            def response = prev.getResponseDataAsString();
+
+            def jsonSlurper = new JsonSlurper();
+            def catalogItem = jsonSlurper.parseText(response);
+
+            catalogItem.dateOfPrequal = 2019;
+
+            vars.put("catalog_item_id", catalogItem.id);
+            vars.put("catalog_item", JsonOutput.toJson(catalogItem));
+        body: ${catalog_item}
+        headers:
+          Authorization: Bearer ${access_token}
+          Content-Type: application/json
 
 reporting:
     - module: passfail
@@ -98,3 +121,4 @@ reporting:
       - p90 of GetCatalogItemsCSV>500ms
       - p90 of GetCatalogItem>500ms
       - p90 of CreateCatalogItem>500ms
+      - p90 of UpdateCatalogItem>500ms
