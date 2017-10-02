@@ -57,6 +57,9 @@ scenarios:
       - url: ${__P(base-uri)}/api/catalogItems
         method: POST
         label: CreateCatalogItem
+        headers:
+          Authorization: Bearer ${access_token}
+          Content-Type: application/json
         jsr223:
           execute: before
           script-text: |
@@ -85,15 +88,15 @@ scenarios:
 
             vars.put("catalog_item", JsonOutput.toJson(catalogItem));
         body: ${catalog_item}
-        headers:
-          Authorization: Bearer ${access_token}
-          Content-Type: application/json
   update-catalog-item:
     requests:
       - include-scenario: create-catalog-item
       - url: ${__P(base-uri)}/api/catalogItems/${catalog_item_id}
         method: PUT
         label: UpdateCatalogItem
+        headers:
+          Authorization: Bearer ${access_token}
+          Content-Type: application/json
         jsr223:
           execute: before
           script-text: |
@@ -110,9 +113,6 @@ scenarios:
             vars.put("catalog_item_id", catalogItem.id);
             vars.put("catalog_item", JsonOutput.toJson(catalogItem));
         body: ${catalog_item}
-        headers:
-          Authorization: Bearer ${access_token}
-          Content-Type: application/json
 
 reporting:
     - module: passfail
