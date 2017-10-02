@@ -5,6 +5,9 @@ execution:
   - concurreny: 1
     iterations: 20
     scenario: delete-inventory-item
+  - concurreny: 1
+    iterations: 20
+    scenario: update-inventory-item
 
 scenarios:
   get-user-token:
@@ -42,6 +45,9 @@ scenarios:
 
             def random = new Random();
 
+            // Facility - Comfort Health Clinic
+            // Program - Family Planning
+            // Catalog Item - Medical RCW 50 EG
             def inventoryItem = new LinkedHashMap([
               facility: new LinkedHashMap([
                 id: "e6799d64-d10d-4011-b8c2-0e4d4a3f65ce"
@@ -103,9 +109,9 @@ scenarios:
           Content-Type: application/json
   delete-inventory-item:
     requests:
-      - include-scenario: update-inventory-item
+      - include-scenario: get-inventory-item
       - url: ${__P(base-uri)}/api/inventoryItems/${inventory_item_id}
-        method: GET
+        method: DELETE
         label: DeletetInventoryItem
         headers:
           Authorization: Bearer ${access_token}
