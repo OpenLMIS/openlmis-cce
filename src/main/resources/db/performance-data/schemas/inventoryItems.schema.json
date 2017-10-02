@@ -24,7 +24,7 @@
       "name": "catalogItemId",
       "null_percentage": 0,
       "type": "Dataset Column",
-      "dataset": "1k catalog items",
+      "dataset": "500 active catalog items",
       "column": "id",
       "selectionStyle": "random",
       "formula": ""

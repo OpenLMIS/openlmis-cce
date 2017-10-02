@@ -137,7 +137,13 @@
     {
       "name": "archived",
       "null_percentage": 0,
-      "type": "Boolean",
+      "type": "Custom List",
+      "values": [
+        "true",
+        "false"
+      ],
+      "selectionStyle": "sequential",
+      "distribution": null,
       "formula": ""
     }
   ]
