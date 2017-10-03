@@ -33,6 +33,9 @@ scenarios:
         headers:
           Authorization: Bearer ${access_token}
   create-inventory-item:
+    # Facility - Comfort Health Clinic
+    # Program - Family Planning
+    # Catalog Item - Medical RCW 50 EG
     requests:
       - include-scenario: get-user-token
       - url: ${__P(base-uri)}/api/inventoryItems
@@ -45,9 +48,6 @@ scenarios:
 
             def random = new Random();
 
-            // Facility - Comfort Health Clinic
-            // Program - Family Planning
-            // Catalog Item - Medical RCW 50 EG
             def inventoryItem = new LinkedHashMap([
               facility: new LinkedHashMap([
                 id: "e6799d64-d10d-4011-b8c2-0e4d4a3f65ce"
