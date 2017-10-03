@@ -11,6 +11,9 @@ execution:
   - concurreny: 1
     iterations: 20
     scenario: update-catalog-item
+  - concurreny: 1
+    iterations: 10
+    scenario: upload-catalog-items
 
 scenarios:
   get-user-token:
@@ -113,6 +116,46 @@ scenarios:
             vars.put("catalog_item_id", catalogItem.id);
             vars.put("catalog_item", JsonOutput.toJson(catalogItem));
         body: ${catalog_item}
+  upload-catalog-items:
+    requests:
+      - include-scenario: get-user-token
+      - url: ${__P(base-uri)}/api/catalogItems?format=csv
+        method: POST
+        label: UploadCatalogItems
+        jsr223:
+          execute: before
+          script-text: |
+            def suffix = vars.get("catalog_item_suffix");
+
+            if (suffix == null) {
+              suffix = 1;
+            } else {
+              suffix = suffix.toInteger();
+            }
+
+            def csvContent = "From PQS catalog,PQS equipment code,Type,Model,Manufacturer,Energy " +
+              "source,Date of prequal,Storage temperature,Max operating temp (degrees C),Min " +
+              "operating temp (degrees C),Energy consumption (NA for solar),Holdover time (hours)" +
+              ",Gross volume,Net volume,Dimensions,Visible in catalog,Archived";
+
+            (1..1000).each {
+              csvContent += "\nY,";
+              csvContent += suffix + ",";
+              csvContent += "Gas,";
+              csvContent += suffix + ",";
+              csvContent += suffix + ",";
+              csvContent += "GASOLINE,2007,MINUS5,43,5,3.50kW/day,4,,24,,Y,N";
+              suffix++;
+            }
+
+            vars.put("catalog_item_suffix", suffix.toString());
+            new File("/tmp/artifacts/catalog_items.csv").write(csvContent);
+        upload-files:
+          - param: file
+            path: /tmp/artifacts/catalog_items.csv
+
+        headers:
+          Authorization: Bearer ${access_token}
 
 reporting:
     - module: passfail
@@ -122,3 +165,4 @@ reporting:
       - p90 of GetCatalogItem>500ms
       - p90 of CreateCatalogItem>500ms
       - p90 of UpdateCatalogItem>500ms
+      - p90 of UploadCatalogItems>500ms
