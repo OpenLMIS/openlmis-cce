@@ -11,6 +11,9 @@ execution:
   - concurreny: 1
     iterations: 20
     scenario: update-catalog-item
+  - concurreny: 1
+    iterations: 10
+    scenario: get-catalog-item-2
 
 scenarios:
   get-user-token:
@@ -113,6 +116,31 @@ scenarios:
             vars.put("catalog_item_id", catalogItem.id);
             vars.put("catalog_item", JsonOutput.toJson(catalogItem));
         body: ${catalog_item}
+  upload-catalog-items:
+    requests:
+      - include-scenario: get-user-token
+      - url: ${__P(base-uri)}/api/catalogItems?format=csv
+        method: POST
+        label: UploadCatalogItems
+        upload-files:
+          - param: file
+            path: catalog_items.csv
+
+        headers:
+          Authorization: Bearer ${access_token}
+
+  get-catalog-item-2:
+    requests:
+      - include-scenario: upload-catalog-items
+      - url: ${__P(base-uri)}/api/catalogItems/94c6e021-0020-4af3-b789-306f2cd1dabb
+        method: GET
+        label: GetCatalogItem
+        headers:
+          Authorization: Bearer ${access_token}
+        jsr223:
+          execute: before
+          script-text: |
+            log.error(prev.getResponseDataAsString());
 
 reporting:
     - module: passfail
@@ -122,3 +150,4 @@ reporting:
       - p90 of GetCatalogItem>500ms
       - p90 of CreateCatalogItem>500ms
       - p90 of UpdateCatalogItem>500ms
+      - p90 of UploadCatalogItems>500ms
