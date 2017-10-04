@@ -41,6 +41,9 @@ scenarios:
       - url: ${__P(base-uri)}/api/inventoryItems
         method: POST
         label: CreateInventoryItem
+        headers:
+          Authorization: Bearer ${access_token}
+          Content-Type: application/json
         jsr223:
           execute: before
           script-text: |
@@ -70,9 +73,6 @@ scenarios:
 
             vars.put("inventory_item", JsonOutput.toJson(inventoryItem));
         body: ${inventory_item}
-        headers:
-          Authorization: Bearer ${access_token}
-          Content-Type: application/json
         extract-jsonpath:
           inventory_item_id: $.id
   get-inventory-item:
@@ -89,6 +89,9 @@ scenarios:
       - url: ${__P(base-uri)}/api/inventoryItems/${inventory_item_id}
         method: PUT
         label: UpdateInventoryItem
+        headers:
+          Authorization: Bearer ${access_token}
+          Content-Type: application/json
         jsr223:
           execute: before
           script-text: |
@@ -104,9 +107,6 @@ scenarios:
 
             vars.put("inventory_item", JsonOutput.toJson(inventoryItem));
         body: ${inventory_item}
-        headers:
-          Authorization: Bearer ${access_token}
-          Content-Type: application/json
   delete-inventory-item:
     requests:
       - include-scenario: get-inventory-item

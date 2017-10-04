@@ -12,7 +12,7 @@ execution:
     iterations: 20
     scenario: update-catalog-item
   - concurreny: 1
-    iterations: 10
+    hold-for: 1m
     scenario: upload-catalog-items
 
 scenarios:
@@ -44,14 +44,6 @@ scenarios:
       - url: ${__P(base-uri)}/api/catalogItems?type=csv
         method: GET
         label: GetCatalogItemsCSV
-        headers:
-          Authorization: Bearer ${access_token}
-  get-catalog-item:
-    requests:
-      - include-scenario: get-user-token
-      - url: ${__P(base-uri)}/api/catalogItems/94c6e021-0020-4af3-b789-306f2cd1dabb
-        method: GET
-        label: GetCatalogItem
         headers:
           Authorization: Bearer ${access_token}
   create-catalog-item:
@@ -91,6 +83,16 @@ scenarios:
 
             vars.put("catalog_item", JsonOutput.toJson(catalogItem));
         body: ${catalog_item}
+        extract-jsonpath:
+          catalog_item_id: $.id
+  get-catalog-item:
+    requests:
+      - include-scenario: create-catalog-item
+      - url: ${__P(base-uri)}/api/catalogItems/${catalog_item_id}
+        method: GET
+        label: GetCatalogItem
+        headers:
+          Authorization: Bearer ${access_token}
   update-catalog-item:
     requests:
       - include-scenario: create-catalog-item
@@ -113,7 +115,6 @@ scenarios:
 
             catalogItem.dateOfPrequal = 2019;
 
-            vars.put("catalog_item_id", catalogItem.id);
             vars.put("catalog_item", JsonOutput.toJson(catalogItem));
         body: ${catalog_item}
   upload-catalog-items:
@@ -122,6 +123,8 @@ scenarios:
       - url: ${__P(base-uri)}/api/catalogItems?format=csv
         method: POST
         label: UploadCatalogItems
+        headers:
+          Authorization: Bearer ${access_token}
         jsr223:
           execute: before
           script-text: |
@@ -153,9 +156,6 @@ scenarios:
         upload-files:
           - param: file
             path: /tmp/artifacts/catalog_items.csv
-
-        headers:
-          Authorization: Bearer ${access_token}
 
 reporting:
     - module: passfail
