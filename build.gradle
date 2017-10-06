@@ -107,6 +107,12 @@ sourceSets {
         }
         resources.srcDir file('src/integration-test/resources')
     }
+
+    main {
+        resources {
+            srcDirs "src/main/resources", "build/data"
+        }
+    }
 }
 
 configurations {
@@ -164,7 +170,7 @@ task checkApiIsRaml(type:Exec) {
 
 task demoDataSeed(type:Exec) {
     executable "./demo-data/demo_seed.sh"
-    args "demo-data", "build/demo-data", "demo-data/generator.js"
+    args "demo-data", "build/data/demo-data", "demo-data/generator.js"
 }
 
 configure(checkApiIsRaml) {
@@ -234,6 +240,8 @@ integrationTest {
 }
 
 processResources {
+    dependsOn demoDataSeed
+
     // we want the generated swagger spec file included in the output jar
     finalizedBy ramlToSwagger
     // update version information in build
@@ -263,5 +271,4 @@ check {
 build {
     dependsOn jacocoTestReport
     dependsOn check
-    dependsOn demoDataSeed
 }
