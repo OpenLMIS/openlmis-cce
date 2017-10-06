@@ -10,7 +10,8 @@ var query = "INSERT INTO %s (SELECT * FROM json_populate_recordset(NULL::%s, '%s
 // This presents the order that must be kept for proper data insertion.
 // Tables not included here are populated in random order
 var filesOrdered = [
-    "cce.cce_catalog_items"
+    "cce.cce_catalog_items",
+    "cce.cce_inventory_items"
 ]
 
 // Detects if the given key/value pair represents a foreign key.
