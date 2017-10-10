@@ -23,6 +23,11 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import java.util.UUID;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
@@ -33,10 +38,6 @@ import javax.persistence.criteria.Order;
 import javax.persistence.criteria.Path;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import java.util.UUID;
 
 public class InventoryItemRepositoryImpl implements InventoryItemRepositoryCustom {
 
@@ -103,21 +104,11 @@ public class InventoryItemRepositoryImpl implements InventoryItemRepositoryCusto
     Predicate predicate = builder.conjunction();
 
     if (!CollectionUtils.isEmpty(facilityIds)) {
-      Predicate facilityPredicate = builder.disjunction();
-      for (UUID facilityId : facilityIds) {
-        facilityPredicate = builder.or(facilityPredicate,
-            builder.equal(root.get(FACILITY_ID), facilityId));
-      }
-      predicate = builder.and(predicate, facilityPredicate);
+      predicate = builder.and(predicate, root.get(FACILITY_ID).in(facilityIds));
     }
 
     if (!CollectionUtils.isEmpty(programIds)) {
-      Predicate programPredicate = builder.disjunction();
-      for (UUID programId : programIds) {
-        programPredicate = builder.or(programPredicate,
-            builder.equal(root.get(PROGRAM_ID), programId));
-      }
-      predicate = builder.and(predicate, programPredicate);
+      predicate = builder.and(predicate, root.get(PROGRAM_ID).in(programIds));
     }
 
     query.where(predicate);
