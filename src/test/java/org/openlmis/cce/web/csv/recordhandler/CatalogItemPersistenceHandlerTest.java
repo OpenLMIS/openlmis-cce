@@ -36,8 +36,8 @@ public class CatalogItemPersistenceHandlerTest {
   private ArgumentCaptor<CatalogItem> catalogItemCaptor;
 
   private static final String EQCODE = "eqcode";
-  public static final String SOME_MAKE = "someManufacturer";
-  public static final String SOME_MODEL = "someModel";
+  private static final String SOME_MAKE = "someManufacturer";
+  private static final String SOME_MODEL = "someModel";
 
   @Mock
   private CatalogItemRepository catalogItemRepository;

@@ -128,7 +128,6 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
-
   @Test
   public void shouldFindCatalogItemsWithGivenParameters() throws IOException {
     List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);

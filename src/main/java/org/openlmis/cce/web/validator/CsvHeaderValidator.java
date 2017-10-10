@@ -49,8 +49,7 @@ public class CsvHeaderValidator {
   private void validateNullHeaders(List<String> headers) throws ValidationMessageException {
     for (int i = 0; i < headers.size(); i++) {
       if (headers.get(i) == null) {
-        String missingHeaderPosition = i + 1 + "";
-        throw new ValidationMessageException(ERROR_UPLOAD_HEADER_MISSING, missingHeaderPosition);
+        throw new ValidationMessageException(ERROR_UPLOAD_HEADER_MISSING, String.valueOf(i + 1));
       }
     }
   }
@@ -73,16 +72,10 @@ public class CsvHeaderValidator {
   }
 
   private List<String> findMissingFields(List<String> headers, ModelClass modelClass) {
-    List<String> missingFields = new ArrayList<>();
-    for (ModelField field : modelClass.getImportFields()) {
-      if (field.isMandatory()) {
-        String fieldName = field.getName();
-        if (!headers.contains(fieldName.toLowerCase())) {
-          missingFields.add(fieldName);
-        }
-      }
-    }
-    return missingFields;
+    return modelClass.getImportFields().stream()
+        .filter((ModelField fields) -> fields.isMandatory()
+            && !headers.contains(fields.getName().toLowerCase()))
+        .map(ModelField::getName).collect(Collectors.toList());
   }
 
   private List<String> getAllImportedFieldNames(ModelClass modelClass) {

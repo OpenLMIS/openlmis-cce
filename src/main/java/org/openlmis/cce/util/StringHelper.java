@@ -15,8 +15,8 @@
 
 package org.openlmis.cce.util;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class StringHelper {
 
@@ -24,11 +24,9 @@ public class StringHelper {
    * Make every string in given list lowerCase.
    */
   public static List<String> lowerCase(List<String> strings) {
-    List<String> lowerCaseStrings = new ArrayList<>();
-    for (String one : strings) {
-      lowerCaseStrings.add(one.toLowerCase());
-    }
-    return lowerCaseStrings;
+    return strings.stream()
+        .map(String::toLowerCase)
+        .collect(Collectors.toList());
   }
 
 }

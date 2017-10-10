@@ -25,9 +25,17 @@ public abstract class AbstractPersistenceHandler<M extends BaseEntity, T extends
     implements RecordHandler {
 
   /**
+   * Persists a record based on it's transfer representation.
+   */
+  public void execute(BaseDto currentRecord) {
+    M record = importDto((T)currentRecord);
+    execute(record);
+  }
+
+  /**
    * Persists each record of the uploaded file.
    */
-  public void execute(BaseEntity currentRecord) {
+  protected void execute(BaseEntity currentRecord) {
     BaseEntity existing = getExisting((M)currentRecord);
 
     if (existing != null) {
@@ -35,14 +43,6 @@ public abstract class AbstractPersistenceHandler<M extends BaseEntity, T extends
     }
 
     save((M)currentRecord);
-  }
-
-  /**
-   * Persists a record based on it's transfer representation.
-   */
-  public void execute(BaseDto currentRecord) {
-    M record = importDto((T)currentRecord);
-    execute(record);
   }
 
   /**
