@@ -44,11 +44,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.time.ZonedDateTime;
 import java.util.Collection;
-import java.util.LinkedHashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -130,28 +129,33 @@ public class InventoryItemController extends BaseController {
   public Page<InventoryItemDto> getAll(Pageable pageable) {
     UUID userId = authenticationHelper.getCurrentUser().getId();
     UUID rightId = authenticationHelper.getRight(CCE_INVENTORY_VIEW).getId();
+
     Collection<ProgramDto> programs = supervisedProgramsReferenceDataService
         .getProgramsSupervisedByUser(userId);
 
-    Set<FacilityDto> facilities = new LinkedHashSet<>();
-    for (ProgramDto program : programs) {
-      facilities.addAll(supervisedFacilitiesReferenceDataService
-          .getFacilitiesSupervisedByUser(userId, program.getId(), rightId));
-    }
-
-    List<UUID> facilityIds = facilities.stream()
-        .map(FacilityDto::getId)
-        .collect(Collectors.toList());
-
-    List<UUID> programIds = programs.stream()
+    List<UUID> programIds = programs
+        .stream()
         .map(ProgramDto::getId)
         .collect(Collectors.toList());
 
-    Page<InventoryItem> itemsPage = inventoryRepository
-        .search(facilityIds, programIds, pageable);
+    Collection<FacilityDto> facilities = programIds
+        .stream()
+        .map(programId -> supervisedFacilitiesReferenceDataService
+            .getFacilitiesSupervisedByUser(userId, programId, rightId))
+        .flatMap(Collection::stream)
+        .collect(Collectors.toSet());
 
-    return Pagination.getPage(inventoryItemDtoBuilder.build(itemsPage.getContent()),
-        pageable, itemsPage.getTotalElements());
+    List<UUID> facilityIds = facilities
+        .stream()
+        .map(FacilityDto::getId)
+        .collect(Collectors.toList());
+
+    Page<InventoryItem> itemsPage = inventoryRepository.search(facilityIds, programIds, pageable);
+    List<InventoryItemDto> dtos = inventoryItemDtoBuilder.build(
+        itemsPage.getContent(), facilities
+    );
+
+    return Pagination.getPage(dtos, pageable, itemsPage.getTotalElements());
   }
 
   /**

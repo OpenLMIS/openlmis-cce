@@ -16,6 +16,7 @@
 package org.openlmis.cce.web;
 
 import org.openlmis.cce.domain.InventoryItem;
+import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
@@ -24,6 +25,9 @@ import org.springframework.stereotype.Component;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @Component
@@ -41,8 +45,16 @@ public class InventoryItemDtoBuilder {
    * @param inventoryItems a list of inventory items that will be converted into DTOs.
    * @return a list of {@link InventoryItemDto}
    */
-  public List<InventoryItemDto> build(Collection<InventoryItem> inventoryItems) {
-    return inventoryItems.stream().map(this::build).collect(Collectors.toList());
+  public List<InventoryItemDto> build(Collection<InventoryItem> inventoryItems,
+                                      Collection<FacilityDto> facilities) {
+    return inventoryItems
+        .stream()
+        .map(item -> build(item, facilities))
+        .collect(Collectors.toList());
+  }
+
+  public InventoryItemDto build(InventoryItem inventoryItem) {
+    return build(inventoryItem, null);
   }
 
   /**
@@ -52,7 +64,7 @@ public class InventoryItemDtoBuilder {
    * @return new instance of {@link InventoryItemDto}. {@code null} if passed argument is {@code
    * null}.
    */
-  public InventoryItemDto build(InventoryItem inventoryItem) {
+  public InventoryItemDto build(InventoryItem inventoryItem, Collection<FacilityDto> facilities) {
     if (null == inventoryItem) {
       return null;
     }
@@ -60,8 +72,7 @@ public class InventoryItemDtoBuilder {
     InventoryItemDto inventoryItemDto = new InventoryItemDto();
     inventoryItem.export(inventoryItemDto);
 
-    inventoryItemDto.setFacility(facilityReferenceDataService
-        .findOne(inventoryItem.getFacilityId()));
+    inventoryItemDto.setFacility(getFacility(inventoryItem.getFacilityId(), facilities));
 
     if (inventoryItem.getLastModifierId() != null) {
       inventoryItemDto.setLastModifier(userReferenceDataService
@@ -69,5 +80,20 @@ public class InventoryItemDtoBuilder {
     }
 
     return inventoryItemDto;
+  }
+
+  private FacilityDto getFacility(UUID facilityId, Collection<FacilityDto> facilities) {
+    Optional<FacilityDto> found;
+
+    if (null == facilities) {
+      found = Optional.empty();
+    } else {
+      found = facilities
+          .stream()
+          .filter(facility -> Objects.equals(facility.getId(), facilityId))
+          .findFirst();
+    }
+
+    return found.orElseGet(() -> facilityReferenceDataService.findOne(facilityId));
   }
 }
