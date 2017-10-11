@@ -119,8 +119,8 @@ scenarios:
 reporting:
     - module: passfail
       criteria:
-      - p90 of GetInventoryItems>500ms
-      - p90 of GetInventoryItem>500ms
-      - p90 of CreateInventoryItem>500ms
-      - p90 of UpdateInventoryItem>500ms
-      - p90 of DeleteInventoryItem>500ms
+      - Get Inventory Items too slow: p90 of GetInventoryItems>500ms
+      - Get Inventory Item too slow: p90 of GetInventoryItem>500ms
+      - Create Inventory Items too slow: p90 of CreateInventoryItem>500ms
+      - Update Inventory Items too slow: p90 of UpdateInventoryItem>500ms
+      - Delete Inventory Items too slow: p90 of DeleteInventoryItem>500ms
