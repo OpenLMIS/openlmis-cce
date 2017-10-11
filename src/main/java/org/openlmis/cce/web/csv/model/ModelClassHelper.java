@@ -24,6 +24,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
+/**
+ * This class contains a list of {@link ModelField} for each dto class. It only retrieve class
+ * fields on the first time. Any additional execution will simple return cached list. This should
+ * slightly speed up the process of creating {@link ModelClass}.
+ */
 class ModelClassHelper {
   private static final Map<Class<?>, List<ModelField>> MAP = Maps.newConcurrentMap();
 

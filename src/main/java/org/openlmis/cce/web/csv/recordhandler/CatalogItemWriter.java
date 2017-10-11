@@ -21,6 +21,9 @@ import org.openlmis.cce.repository.CatalogItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * This class is responsible for saving {@link CatalogItem} instances to the database.
+ */
 @Component
 public class CatalogItemWriter extends AbstractRecordWriter<CatalogItem> {
 

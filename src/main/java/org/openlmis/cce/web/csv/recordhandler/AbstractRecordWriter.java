@@ -18,7 +18,8 @@ package org.openlmis.cce.web.csv.recordhandler;
 import org.openlmis.cce.domain.BaseEntity;
 
 /**
- * AbstractRecordWriter is a base class used for processing each record of the uploaded file.
+ * AbstractRecordWriter is a base class used for writing each record of the uploaded file to the
+ * database.
  */
 public abstract class AbstractRecordWriter<T extends BaseEntity> implements RecordWriter<T> {
 
