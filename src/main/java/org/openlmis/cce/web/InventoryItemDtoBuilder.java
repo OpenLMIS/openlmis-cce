@@ -16,14 +16,18 @@
 package org.openlmis.cce.web;
 
 import org.openlmis.cce.domain.InventoryItem;
+import org.openlmis.cce.dto.BaseDto;
 import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
+import org.openlmis.cce.dto.UserDto;
+import org.openlmis.cce.service.BaseCommunicationService;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
@@ -46,15 +50,16 @@ public class InventoryItemDtoBuilder {
    * @return a list of {@link InventoryItemDto}
    */
   public List<InventoryItemDto> build(Collection<InventoryItem> inventoryItems,
-                                      Collection<FacilityDto> facilities) {
+                                      Collection<FacilityDto> facilities,
+                                      Collection<UserDto> users) {
     return inventoryItems
         .stream()
-        .map(item -> build(item, facilities))
+        .map(item -> build(item, facilities, users))
         .collect(Collectors.toList());
   }
 
   public InventoryItemDto build(InventoryItem inventoryItem) {
-    return build(inventoryItem, null);
+    return build(inventoryItem, null, null);
   }
 
   /**
@@ -64,7 +69,8 @@ public class InventoryItemDtoBuilder {
    * @return new instance of {@link InventoryItemDto}. {@code null} if passed argument is {@code
    * null}.
    */
-  public InventoryItemDto build(InventoryItem inventoryItem, Collection<FacilityDto> facilities) {
+  public InventoryItemDto build(InventoryItem inventoryItem, Collection<FacilityDto> facilities,
+                                Collection<UserDto> users) {
     if (null == inventoryItem) {
       return null;
     }
@@ -75,25 +81,33 @@ public class InventoryItemDtoBuilder {
     inventoryItemDto.setFacility(getFacility(inventoryItem.getFacilityId(), facilities));
 
     if (inventoryItem.getLastModifierId() != null) {
-      inventoryItemDto.setLastModifier(userReferenceDataService
-          .findOne(inventoryItem.getLastModifierId()));
+      inventoryItemDto.setLastModifier(getUser(inventoryItem.getLastModifierId(), users));
     }
 
     return inventoryItemDto;
   }
 
   private FacilityDto getFacility(UUID facilityId, Collection<FacilityDto> facilities) {
-    Optional<FacilityDto> found;
+    return get(facilityId, facilities, facilityReferenceDataService);
+  }
 
-    if (null == facilities) {
+  private UserDto getUser(UUID userId, Collection<UserDto> users) {
+    return get(userId, users, userReferenceDataService);
+  }
+
+  private <T extends BaseDto> T get(UUID id, Collection<T> collection,
+                                    BaseCommunicationService<T> service) {
+    Optional<T> found;
+
+    if (null == collection) {
       found = Optional.empty();
     } else {
-      found = facilities
+      found = collection
           .stream()
-          .filter(facility -> Objects.equals(facility.getId(), facilityId))
+          .filter(elem -> Objects.equals(elem.getId(), id))
           .findFirst();
     }
 
-    return found.orElseGet(() -> facilityReferenceDataService.findOne(facilityId));
+    return found.orElseGet(() -> service.findOne(id));
   }
 }

@@ -26,9 +26,8 @@ import java.util.UUID;
 
 @Getter
 @Setter
-@EqualsAndHashCode
-public class UserDto {
-  private UUID id;
+@EqualsAndHashCode(callSuper = true)
+public class UserDto extends BaseDto {
   private String username;
   private String firstName;
   private String lastName;
