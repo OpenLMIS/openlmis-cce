@@ -45,7 +45,9 @@ import java.util.stream.Collectors;
 
 /**
  * This class has logic to invoke corresponding respective record handler to parse data from input
- * stream into the corresponding model.
+ * stream into the corresponding model. To speed up the process for huge files the stream is divided
+ * into smaller chunks. The chunk size is set by {@code csvParser.chunkSize} property. Each chunk is
+ * executed asynchronously in the thread pool with size set by {@code csvParser.poolSize}.
  */
 @Component
 @NoArgsConstructor
