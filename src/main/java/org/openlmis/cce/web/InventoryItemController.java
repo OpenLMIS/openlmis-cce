@@ -27,6 +27,7 @@ import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.PermissionService;
+import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserSupervisedFacilitiesReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserSupervisedProgramsReferenceDataService;
 import org.openlmis.cce.util.AuthenticationHelper;
@@ -63,6 +64,9 @@ public class InventoryItemController extends BaseController {
 
   @Autowired
   private UserSupervisedFacilitiesReferenceDataService supervisedFacilitiesReferenceDataService;
+
+  @Autowired
+  private UserReferenceDataService userReferenceDataService;
 
   @Autowired
   private PermissionService permissionService;
@@ -152,7 +156,7 @@ public class InventoryItemController extends BaseController {
 
     Page<InventoryItem> itemsPage = inventoryRepository.search(facilityIds, programIds, pageable);
     List<InventoryItemDto> dtos = inventoryItemDtoBuilder.build(
-        itemsPage.getContent(), facilities
+        itemsPage.getContent(), facilities, userReferenceDataService.findAll()
     );
 
     return Pagination.getPage(dtos, pageable, itemsPage.getTotalElements());
