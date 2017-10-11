@@ -1,12 +1,12 @@
 execution:
   - concurreny: 1
-    iterations: 20
+    iterations: 50
     scenario: get-inventory-items
   - concurreny: 1
-    iterations: 20
+    iterations: 50
     scenario: delete-inventory-item
   - concurreny: 1
-    iterations: 20
+    iterations: 50
     scenario: update-inventory-item
 
 scenarios:
