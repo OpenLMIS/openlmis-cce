@@ -15,8 +15,26 @@
 
 package org.openlmis.cce.web;
 
+import static java.util.Collections.emptyList;
+import static java.util.Collections.singletonList;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
+
 import com.jayway.restassured.response.Response;
-import guru.nidi.ramltester.junit.RamlMatchers;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.stubbing.answers.Returns;
@@ -52,23 +70,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-import java.util.Collections;
-import java.util.UUID;
+import guru.nidi.ramltester.junit.RamlMatchers;
 
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
-import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
-import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
+import java.util.UUID;
 
 @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.TooManyMethods"})
 public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTest {
@@ -126,22 +130,24 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     catalogItem.export(catalogItemDto);
 
     inventoryItemDto = new InventoryItemDto(
-      facility, catalogItemDto, UUID.randomUUID(), "eqTrackingId",
-      "Some Reference Name", 2010, 2020, "some source",
-      FunctionalStatus.FUNCTIONING,  ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
-      Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
-      VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
-      RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId", "example notes", null, null, userDto
+        facility, catalogItemDto, UUID.randomUUID(), "eqTrackingId",
+        "Some Reference Name", 2010, 2020, "some source",
+        FunctionalStatus.FUNCTIONING, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
+        Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
+        VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
+        RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId", "example notes", null, null, userDto
     );
 
-    inventoryItem = InventoryItem.newInstance(inventoryItemDto, null);
+    inventoryItem = InventoryItem.newInstance(inventoryItemDto, USER_ID);
 
-    when(inventoryItemRepository.save(any(InventoryItem.class)))
-        .thenAnswer(new SaveAnswer<InventoryItem>());
-    when(facilityReferenceDataService.findOne(any(UUID.class)))
-        .thenAnswer(new Returns(facility));
-    when(userReferenceDataService.findOne(any(UUID.class)))
-        .thenAnswer(new Returns(userDto));
+    given(inventoryItemRepository.save(any(InventoryItem.class)))
+        .willAnswer(new SaveAnswer<InventoryItem>());
+
+    given(facilityReferenceDataService.findAll()).willAnswer(new Returns(singletonList(facility)));
+    given(facilityReferenceDataService.findOne(any(UUID.class))).willAnswer(new Returns(facility));
+
+    given(userReferenceDataService.findAll()).willAnswer(new Returns(singletonList(userDto)));
+    given(userReferenceDataService.findOne(any(UUID.class))).willAnswer(new Returns(userDto));
   }
 
   @Test
@@ -215,10 +221,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     UUID facilityId = mockFacilities(userId, programId, rightId);
 
     when(inventoryItemRepository.search(
-        eq(Collections.singletonList(facilityId)),
-        eq(Collections.singletonList(programId)),
+        eq(singletonList(facilityId)),
+        eq(singletonList(programId)),
         any(Pageable.class)))
-        .thenReturn(Pagination.getPage(Collections.singletonList(inventoryItem), null, 1));
+        .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
 
     PageImplRepresentation resultPage = getAllInventoryItems()
         .then()
@@ -382,7 +388,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   private UUID mockUser() {
     UserDto user = new UserDto();
-    user.setId(UUID.randomUUID());
+    user.setId(USER_ID);
     when(authenticationHelper.getCurrentUser()).thenReturn(user);
     return user.getId();
   }
@@ -400,7 +406,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     ProgramDto program = new ProgramDto();
     program.setId(UUID.randomUUID());
     when(supervisedProgramsReferenceDataService.getProgramsSupervisedByUser(userId))
-        .thenReturn(Collections.singletonList(program));
+        .thenReturn(singletonList(program));
     return program.getId();
   }
 
@@ -409,7 +415,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     facility.setId(UUID.randomUUID());
     when(supervisedFacilitiesReferenceDataService
         .getFacilitiesSupervisedByUser(userId, programId, rightId)
-    ).thenReturn(Collections.singletonList(facility));
+    ).thenReturn(singletonList(facility));
     return facility.getId();
   }
 
