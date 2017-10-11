@@ -28,9 +28,10 @@ import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.util.Message;
 import org.openlmis.cce.util.Pagination;
 import org.openlmis.cce.web.csv.format.CsvFormatter;
-import org.openlmis.cce.web.csv.recordhandler.CatalogItemPersistenceHandler;
+import org.openlmis.cce.web.csv.recordhandler.CatalogItemProcessor;
 import org.openlmis.cce.web.csv.model.ModelClass;
 import org.openlmis.cce.web.csv.parser.CsvParser;
+import org.openlmis.cce.web.csv.recordhandler.CatalogItemWriter;
 import org.openlmis.cce.web.validator.CatalogItemValidator;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -80,7 +81,10 @@ public class CatalogItemController extends BaseController {
   private PermissionService permissionService;
 
   @Autowired
-  private CatalogItemPersistenceHandler catalogItemPersistenceHandler;
+  private CatalogItemProcessor catalogItemProcessor;
+
+  @Autowired
+  private CatalogItemWriter catalogItemWriter;
 
   @Autowired
   private CsvParser csvParser;
@@ -197,11 +201,13 @@ public class CatalogItemController extends BaseController {
     }
 
     validateCsvFile(file);
-    ModelClass modelClass = new ModelClass(CatalogItemDto.class);
+    ModelClass<CatalogItemDto> modelClass = new ModelClass<>(CatalogItemDto.class);
 
     try {
-      int result = csvParser.process(
-          file.getInputStream(), modelClass, catalogItemPersistenceHandler, csvHeaderValidator);
+      int result = csvParser.parse(
+          file.getInputStream(), modelClass, csvHeaderValidator,
+          catalogItemProcessor, catalogItemWriter
+      );
       return new UploadResultDto(result);
     } catch (IOException ex) {
       throw new ValidationMessageException(ex, MessageKeys.ERROR_IO, ex.getMessage());
@@ -230,7 +236,7 @@ public class CatalogItemController extends BaseController {
 
     try {
       csvFormatter.process(
-          response.getOutputStream(), new ModelClass(CatalogItemDto.class), catalogItems);
+          response.getOutputStream(), new ModelClass<>(CatalogItemDto.class), catalogItems);
     } catch (IOException ex) {
       throw new ValidationMessageException(ex, MessageKeys.ERROR_IO, ex.getMessage());
     }

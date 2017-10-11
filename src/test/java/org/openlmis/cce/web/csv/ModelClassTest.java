@@ -18,14 +18,14 @@ package org.openlmis.cce.web.csv;
 import static org.hamcrest.CoreMatchers.is;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
+import static org.openlmis.cce.web.csv.processor.CsvCellProcessors.STRING_TYPE;
 import static org.openlmis.cce.web.dummy.DummyTransferObject.MANDATORY_STRING_FIELD;
 import static org.openlmis.cce.web.dummy.DummyTransferObject.OPTIONAL_NESTED_FIELD;
-import static org.openlmis.cce.web.csv.processor.CsvCellProcessors.STRING_TYPE;
 
 import org.junit.Test;
-import org.openlmis.cce.web.dummy.DummyTransferObject;
 import org.openlmis.cce.web.csv.model.ModelClass;
 import org.openlmis.cce.web.csv.model.ModelField;
+import org.openlmis.cce.web.dummy.DummyTransferObject;
 
 import java.util.Arrays;
 import java.util.List;
@@ -38,7 +38,7 @@ public class ModelClassTest {
     List<String> headers =
         Arrays.asList(MANDATORY_STRING_FIELD, "mandatoryIntField", OPTIONAL_NESTED_FIELD);
 
-    ModelClass modelClass = new ModelClass(DummyTransferObject.class);
+    ModelClass<DummyTransferObject> modelClass = new ModelClass<>(DummyTransferObject.class);
     final String[] mappings = modelClass.getFieldNameMappings(
         headers.toArray(new String[headers.size()]));
     assertThat(mappings[0], is("mandatoryStringField"));
@@ -48,7 +48,7 @@ public class ModelClassTest {
 
   @Test
   public void shouldFindImportFieldWithName() {
-    ModelClass modelClass = new ModelClass(DummyTransferObject.class);
+    ModelClass<DummyTransferObject> modelClass = new ModelClass<>(DummyTransferObject.class);
     ModelField importFieldWithName = modelClass.findImportFieldWithName(MANDATORY_STRING_FIELD);
 
     assertEquals(importFieldWithName.getName(), MANDATORY_STRING_FIELD);

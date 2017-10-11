@@ -48,7 +48,7 @@ public class CsvHeaderValidatorTest {
   public void shouldNotThrowExceptionWhileValidatingHeadersWithMismatchCase() {
     List<String> headers = Arrays.asList("MANDAtory String Field", "mandatoryIntFIELD");
 
-    ModelClass modelClass = new ModelClass(DummyTransferObject.class);
+    ModelClass<DummyTransferObject> modelClass = new ModelClass<>(DummyTransferObject.class);
     csvHeaderValidator.validateHeaders(headers, modelClass, false);
   }
 
@@ -61,7 +61,7 @@ public class CsvHeaderValidatorTest {
     expectedEx.expectMessage(
         new Message(ERROR_UPLOAD_HEADER_INVALID, "[not existing field]").toString());
 
-    ModelClass modelClass = new ModelClass(DummyTransferObject.class);
+    ModelClass<DummyTransferObject> modelClass = new ModelClass<>(DummyTransferObject.class);
     csvHeaderValidator.validateHeaders(headers, modelClass, false);
   }
 
@@ -70,7 +70,7 @@ public class CsvHeaderValidatorTest {
     List<String> headers =
         Arrays.asList("not existing field", MANDATORY_STRING_FIELD, "mandatoryIntField");
 
-    ModelClass modelClass = new ModelClass(DummyTransferObject.class);
+    ModelClass<DummyTransferObject> modelClass = new ModelClass<>(DummyTransferObject.class);
     csvHeaderValidator.validateHeaders(headers, modelClass, true);
   }
 
@@ -83,7 +83,7 @@ public class CsvHeaderValidatorTest {
     expectedEx.expectMessage(
         new Message(ERROR_UPLOAD_HEADER_MISSING, "2").toString());
 
-    ModelClass modelClass = new ModelClass(DummyTransferObject.class);
+    ModelClass<DummyTransferObject> modelClass = new ModelClass<>(DummyTransferObject.class);
     csvHeaderValidator.validateHeaders(headers, modelClass, false);
   }
 
@@ -97,7 +97,7 @@ public class CsvHeaderValidatorTest {
         new Message(ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS,
             "[Mandatory String Field, mandatoryIntField]").toString());
 
-    ModelClass modelClass = new ModelClass(DummyTransferObject.class);
+    ModelClass<DummyTransferObject> modelClass = new ModelClass<>(DummyTransferObject.class);
     csvHeaderValidator.validateHeaders(headers, modelClass, false);
   }
 

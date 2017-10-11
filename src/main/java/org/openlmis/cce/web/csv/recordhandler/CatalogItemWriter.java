@@ -15,49 +15,41 @@
 
 package org.openlmis.cce.web.csv.recordhandler;
 
+import org.openlmis.cce.domain.BaseEntity;
 import org.openlmis.cce.domain.CatalogItem;
-import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.repository.CatalogItemRepository;
-import org.openlmis.cce.web.validator.CatalogItemValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-/**
- * CatalogItemPersistenceHandler is used for uploads of Catalog Item.
- * It uploads each catalog item record by record.
- */
 @Component
-public class CatalogItemPersistenceHandler
-    extends AbstractPersistenceHandler<CatalogItem, CatalogItemDto> {
+public class CatalogItemWriter extends AbstractRecordWriter<CatalogItem> {
 
   @Autowired
   private CatalogItemRepository catalogItemRepository;
 
-  @Autowired
-  private CatalogItemValidator catalogItemValidator;
-
   @Override
-  protected CatalogItem getExisting(CatalogItem record) {
-    if (record.getEquipmentCode() != null
-        && catalogItemRepository.existsByEquipmentCode(record.getEquipmentCode())) {
-      return catalogItemRepository.findByEquipmentCode(record.getEquipmentCode());
-    } else if (catalogItemRepository.existsByManufacturerAndModel(record.getManufacturer(),
-        record.getModel())) {
-      return catalogItemRepository.findByManufacturerAndModel(record.getManufacturer(),
-          record.getModel());
+  protected BaseEntity getExisting(CatalogItem record) {
+    String equipmentCode = record.getEquipmentCode();
+
+    if (null != equipmentCode
+        && catalogItemRepository.existsByEquipmentCode(equipmentCode)) {
+      return catalogItemRepository.findByEquipmentCode(equipmentCode);
     }
+
+    String manufacturer = record.getManufacturer();
+    String model = record.getModel();
+
+    if (null != manufacturer
+        && null != model
+        && catalogItemRepository.existsByManufacturerAndModel(manufacturer, model)) {
+      return catalogItemRepository.findByManufacturerAndModel(manufacturer, model);
+    }
+
     return null;
   }
 
   @Override
-  protected CatalogItem importDto(CatalogItemDto record) {
-    catalogItemValidator.validateExistingCatalogItem(record);
-    return CatalogItem.newInstance(record);
+  protected void save(Iterable<CatalogItem> records) {
+    catalogItemRepository.save(records);
   }
-
-  @Override
-  protected void save(CatalogItem record) {
-    catalogItemRepository.save(record);
-  }
-
 }

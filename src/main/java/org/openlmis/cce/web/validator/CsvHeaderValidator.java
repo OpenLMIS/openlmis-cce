@@ -15,8 +15,8 @@
 
 package org.openlmis.cce.web.validator;
 
-import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_HEADER_MISSING;
 import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_HEADER_INVALID;
+import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_HEADER_MISSING;
 import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
 import static org.openlmis.cce.util.StringHelper.lowerCase;
 
@@ -25,6 +25,7 @@ import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.web.csv.model.ModelClass;
 import org.openlmis.cce.web.csv.model.ModelField;
 import org.springframework.stereotype.Component;
+
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -34,9 +35,8 @@ public class CsvHeaderValidator {
   /**
    * Validate csv header names.
    */
-  public void validateHeaders(List<String> headers,
-                              ModelClass modelClass,
-                              boolean acceptExtraHeaders) {
+  public void validateHeaders(List<String> headers, ModelClass<?> modelClass,
+                              boolean  acceptExtraHeaders) {
     validateNullHeaders(headers);
     List<String> lowerCaseHeaders = lowerCase(headers);
     if (!acceptExtraHeaders) {
@@ -70,15 +70,19 @@ public class CsvHeaderValidator {
     }
   }
 
-  private List<String> findMissingFields(List<String> headers, ModelClass modelClass) {
-    return modelClass.getImportFields().stream()
-        .filter((ModelField fields) -> fields.isMandatory()
-            && !headers.contains(fields.getName().toLowerCase()))
-        .map(ModelField::getName).collect(Collectors.toList());
+  private List<String> findMissingFields(List<String> headers, ModelClass<?> modelClass) {
+    return modelClass
+        .getImportFields()
+        .stream()
+        .filter(fields -> fields.isMandatory() && !headers.contains(fields.getName().toLowerCase()))
+        .map(ModelField::getName)
+        .collect(Collectors.toList());
   }
 
-  private List<String> getAllImportedFieldNames(ModelClass modelClass) {
-    return modelClass.getImportFields().stream()
+  private List<String> getAllImportedFieldNames(ModelClass<?> modelClass) {
+    return modelClass
+        .getImportFields()
+        .stream()
         .map(ModelField::getName)
         .collect(Collectors.toList());
   }

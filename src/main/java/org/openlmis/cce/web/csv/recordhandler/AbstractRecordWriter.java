@@ -15,13 +15,34 @@
 
 package org.openlmis.cce.web.csv.recordhandler;
 
-import org.openlmis.cce.dto.BaseDto;
+import org.openlmis.cce.domain.BaseEntity;
 
 /**
- * This interface is implemented by all record handlers.
+ * AbstractRecordWriter is a base class used for processing each record of the uploaded file.
  */
-public interface RecordHandler {
+public abstract class AbstractRecordWriter<T extends BaseEntity> implements RecordWriter<T> {
 
-  void execute(BaseDto importable);
+  @Override
+  public void write(Iterable<T> entities) {
+    for (T entity : entities) {
+      BaseEntity existing = getExisting(entity);
 
+      if (existing != null) {
+        entity.setId(existing.getId());
+      }
+    }
+
+    save(entities);
+  }
+
+  /**
+   * Implementations should return an existing record, if there is one, based on however the
+   * record's identity is determined.
+   *
+   * @param record the record an implementation should use to look for an "existing" record.
+   * @return the record that exists that has the same identity as the given record.
+   */
+  protected abstract BaseEntity getExisting(T record);
+
+  protected abstract void save(Iterable<T> records);
 }

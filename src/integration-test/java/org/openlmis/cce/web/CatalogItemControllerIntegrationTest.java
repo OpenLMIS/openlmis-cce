@@ -19,6 +19,7 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.never;
@@ -201,7 +202,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .statusCode(200)
         .extract().as(UploadResultDto.class);
 
-    verify(catalogItemRepository).save(any(CatalogItem.class));
+    verify(catalogItemRepository).save(anyListOf(CatalogItem.class));
     assertEquals(1, result.getAmount().intValue());
     // changed to responseChecks because file parameter is required
     // and RAML check does not recognizes it in request
@@ -218,7 +219,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .statusCode(200)
         .extract().as(UploadResultDto.class);
 
-    verify(catalogItemRepository).save(any(CatalogItem.class));
+    verify(catalogItemRepository).save(anyListOf(CatalogItem.class));
     assertEquals(1, result.getAmount().intValue());
     // changed to responseChecks because file parameter is required
     // and RAML check does not recognizes it in request
@@ -236,7 +237,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .body(MESSAGE, equalTo(getMessage(
             ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS, "[From PQS catalog, Archived]")));
 
-    verify(catalogItemRepository, never()).save(any(CatalogItem.class));
+    verify(catalogItemRepository, never()).save(anyListOf(CatalogItem.class));
     // changed to responseChecks because file parameter is required
     // and RAML check does not recognizes it in request
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.responseChecks());

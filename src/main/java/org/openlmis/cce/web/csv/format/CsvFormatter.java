@@ -32,8 +32,8 @@ import java.io.OutputStream;
 import java.util.List;
 
 /**
- * This class has logic to invoke corresponding respective record handler to parse data from
- * input stream into the corresponding model.
+ * This class has logic to invoke corresponding respective record handler to parse data from input
+ * stream into the corresponding model.
  */
 @Component
 @NoArgsConstructor
@@ -42,14 +42,14 @@ public class CsvFormatter {
   /**
    * Parses data from input stream into the corresponding model.
    *
-   * @param outputStream  input stream of csv file
-   * @param modelClass    java model to which the csv row will be mapped
+   * @param outputStream input stream of csv file
+   * @param modelClass   java model to which the csv row will be mapped
    */
-  public void process(OutputStream outputStream,
-                      ModelClass modelClass,
-                      List<? extends BaseDto> dtos) throws IOException {
+  public <T extends BaseDto> void process(OutputStream outputStream,
+                                          ModelClass<T> modelClass,
+                                          List<T> dtos) throws IOException {
 
-    CsvBeanWriter csvBeanWriter = new CsvBeanWriter(modelClass, outputStream);
+    CsvBeanWriter<T> csvBeanWriter = new CsvBeanWriter<>(modelClass, outputStream);
 
     try {
       csvBeanWriter.writeWithCellProcessors(dtos);

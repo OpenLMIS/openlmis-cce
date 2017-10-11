@@ -37,9 +37,9 @@ import java.util.List;
  * This class has responsibility to instantiate a dozerBeanReader from given inputStream,
  * and CsvPreferences. Also is responsible for validating headers.
  */
-class CsvBeanReader {
+class CsvBeanReader<T extends BaseDto> {
 
-  private ModelClass modelClass;
+  private ModelClass<T> modelClass;
   private CsvDozerBeanReader dozerBeanReader;
   private CsvHeaderValidator csvHeaderValidator;
   private CellProcessor[] processors;
@@ -47,7 +47,7 @@ class CsvBeanReader {
   @Getter
   private String[] headers;
 
-  CsvBeanReader(ModelClass modelClass,
+  CsvBeanReader(ModelClass<T> modelClass,
                 InputStream inputStream,
                 CsvHeaderValidator csvHeaderValidator) throws IOException {
     this.modelClass = modelClass;
@@ -56,7 +56,7 @@ class CsvBeanReader {
     configureProcessors();
   }
 
-  BaseDto readWithCellProcessors() throws IOException {
+  T readWithCellProcessors() throws IOException {
     return dozerBeanReader.read(modelClass.getClazz(), processors);
   }
 

@@ -30,13 +30,13 @@ import java.util.Optional;
  */
 @Data
 @NoArgsConstructor
-public class ModelClass {
+public class ModelClass<T extends BaseDto> {
 
-  private Class<? extends BaseDto> clazz;
+  private Class<T> clazz;
 
   private List<ModelField> importFields;
 
-  public ModelClass(Class<? extends BaseDto> clazz) {
+  public ModelClass(Class<T> clazz) {
     this.clazz = clazz;
     importFields = fieldsWithImportFieldAnnotation();
   }

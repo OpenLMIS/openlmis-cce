@@ -17,12 +17,17 @@ package org.openlmis.cce.web.csv.parser;
 
 import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_RECORD_INVALID;
 
+import com.google.common.collect.Lists;
+
+import org.openlmis.cce.domain.BaseEntity;
 import org.openlmis.cce.dto.BaseDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.util.Message;
 import org.openlmis.cce.web.csv.model.ModelClass;
-import org.openlmis.cce.web.csv.recordhandler.RecordHandler;
+import org.openlmis.cce.web.csv.recordhandler.RecordProcessor;
+import org.openlmis.cce.web.csv.recordhandler.RecordWriter;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.supercsv.exception.SuperCsvException;
 import org.supercsv.util.CsvContext;
@@ -31,34 +36,50 @@ import lombok.NoArgsConstructor;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
+import java.util.stream.Collectors;
 
 /**
- * This class has logic to invoke corresponding respective record handler to parse data from
- * input stream into the corresponding model.
+ * This class has logic to invoke corresponding respective record handler to parse data from input
+ * stream into the corresponding model.
  */
 @Component
 @NoArgsConstructor
 public class CsvParser {
 
+  @Value("${csvParser.chunkSize}")
+  private int chunkSize;
+
   /**
    * Parses data from input stream into the corresponding model.
    *
-   * @param inputStream   input stream of csv file
-   * @param modelClass    java model to which the csv row will be mapped
-   * @param recordHandler record persistance handler
    * @return number of uploaded records
    */
-  public int process(
-      InputStream inputStream, ModelClass modelClass, RecordHandler recordHandler,
-      CsvHeaderValidator csvHeaderValidator) throws IOException {
-
-    CsvBeanReader csvBeanReader = new CsvBeanReader(modelClass, inputStream, csvHeaderValidator);
+  public <D extends BaseDto, E extends BaseEntity> int parse(InputStream inputStream,
+                                                             ModelClass<D> modelClass,
+                                                             CsvHeaderValidator headerValidator,
+                                                             RecordProcessor<D, E> processor,
+                                                             RecordWriter<E> writer)
+      throws IOException {
+    CsvBeanReader<D> csvBeanReader = new CsvBeanReader<>(
+        modelClass, inputStream, headerValidator
+    );
     csvBeanReader.validateHeaders();
 
     try {
-      BaseDto importedModel;
-      while ((importedModel = csvBeanReader.readWithCellProcessors()) != null) {
-        recordHandler.execute(importedModel);
+      while (true) {
+        List<D> imported = doRead(csvBeanReader);
+
+        if (imported.isEmpty()) {
+          break;
+        }
+
+        List<E> entities = imported
+            .stream()
+            .map(processor::process)
+            .collect(Collectors.toList());
+
+        writer.write(entities);
       }
     } catch (SuperCsvException err) {
       Message message = getCsvRowErrorMessage(err);
@@ -66,6 +87,22 @@ public class CsvParser {
     }
 
     return csvBeanReader.getRowNumber() - 1;
+  }
+
+  private <D extends BaseDto> List<D> doRead(CsvBeanReader<D> csvBeanReader) throws IOException {
+    List<D> list = Lists.newArrayList();
+
+    for (int i = 0; i < chunkSize; ++i) {
+      D imported = csvBeanReader.readWithCellProcessors();
+
+      if (null == imported) {
+        break;
+      }
+
+      list.add(imported);
+    }
+
+    return list;
   }
 
   private Message getCsvRowErrorMessage(SuperCsvException err) {
