@@ -42,9 +42,7 @@ public class CatalogItemWriter extends AbstractRecordWriter<CatalogItem> {
     String manufacturer = record.getManufacturer();
     String model = record.getModel();
 
-    if (null != manufacturer
-        && null != model
-        && catalogItemRepository.existsByManufacturerAndModel(manufacturer, model)) {
+    if (catalogItemRepository.existsByManufacturerAndModel(manufacturer, model)) {
       return catalogItemRepository.findByManufacturerAndModel(manufacturer, model);
     }
 
