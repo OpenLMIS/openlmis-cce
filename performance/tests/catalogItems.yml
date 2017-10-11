@@ -1,15 +1,15 @@
 execution:
   - concurreny: 1
-    iterations: 20
+    hold-for: 1m
     scenario: get-catalog-items
   - concurreny: 1
-    iterations: 20
+    hold-for: 1m
     scenario: get-catalog-items-csv
   - concurreny: 1
-    iterations: 20
+    hold-for: 1m
     scenario: get-catalog-item
   - concurreny: 1
-    iterations: 20
+    hold-for: 1m
     scenario: update-catalog-item
   - concurreny: 1
     hold-for: 1m
