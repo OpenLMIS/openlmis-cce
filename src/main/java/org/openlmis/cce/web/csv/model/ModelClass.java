@@ -21,9 +21,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * This class represents a Java model to which the csv row is mapped.
@@ -38,7 +36,7 @@ public class ModelClass<T extends BaseDto> {
 
   public ModelClass(Class<T> clazz) {
     this.clazz = clazz;
-    importFields = fieldsWithImportFieldAnnotation();
+    importFields = ModelClassHelper.getModelFields(clazz);
   }
 
   /**
@@ -46,10 +44,13 @@ public class ModelClass<T extends BaseDto> {
    */
   public String[] getFieldNameMappings(String[] headers) {
     List<String> fieldMappings = new ArrayList<>();
+
     for (String header : headers) {
       ModelField importField = findImportFieldWithName(header);
+
       if (importField != null) {
         String nestedProperty = importField.getNested();
+
         if (nestedProperty.isEmpty()) {
           fieldMappings.add(importField.getField().getName());
         } else {
@@ -70,22 +71,11 @@ public class ModelClass<T extends BaseDto> {
    * @return import field with given name.
    */
   public ModelField findImportFieldWithName(final String name) {
-    Optional<ModelField> fieldOptional = importFields.stream()
+    return importFields
+        .stream()
         .filter(field -> field.hasName(name))
-        .findAny();
-
-    return fieldOptional.orElse(null);
+        .findFirst()
+        .orElse(null);
   }
 
-  private List<ModelField> fieldsWithImportFieldAnnotation() {
-    List<java.lang.reflect.Field> fieldsList = Arrays.asList(clazz.getDeclaredFields());
-    List<ModelField> result = new ArrayList<>();
-    for (java.lang.reflect.Field field : fieldsList) {
-      if (field.isAnnotationPresent(ImportField.class)) {
-        result.add(new ModelField(field, field.getAnnotation(ImportField.class)));
-      }
-    }
-
-    return result;
-  }
 }

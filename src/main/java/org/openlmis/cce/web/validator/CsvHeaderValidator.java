@@ -36,7 +36,7 @@ public class CsvHeaderValidator {
    * Validate csv header names.
    */
   public void validateHeaders(List<String> headers, ModelClass<?> modelClass,
-                              boolean  acceptExtraHeaders) {
+                              boolean acceptExtraHeaders) {
     validateNullHeaders(headers);
     List<String> lowerCaseHeaders = lowerCase(headers);
     if (!acceptExtraHeaders) {

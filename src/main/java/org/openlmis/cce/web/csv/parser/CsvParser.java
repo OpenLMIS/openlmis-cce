@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.web.csv.parser;
 
+import static java.util.concurrent.CompletableFuture.runAsync;
 import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_RECORD_INVALID;
 
 import com.google.common.collect.Lists;
@@ -37,6 +38,9 @@ import lombok.NoArgsConstructor;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 
 /**
@@ -49,6 +53,9 @@ public class CsvParser {
 
   @Value("${csvParser.chunkSize}")
   private int chunkSize;
+
+  @Value("${csvParser.poolSize}")
+  private int poolSize;
 
   /**
    * Parses data from input stream into the corresponding model.
@@ -66,6 +73,9 @@ public class CsvParser {
     );
     csvBeanReader.validateHeaders();
 
+    ExecutorService executor = Executors.newFixedThreadPool(Math.min(1, poolSize));
+    List<CompletableFuture<Void>> futures = Lists.newArrayList();
+
     try {
       while (true) {
         List<D> imported = doRead(csvBeanReader);
@@ -74,35 +84,43 @@ public class CsvParser {
           break;
         }
 
-        List<E> entities = imported
-            .stream()
-            .map(processor::process)
-            .collect(Collectors.toList());
-
-        writer.write(entities);
+        Runnable runnable = () -> doWrite(processor, writer, imported);
+        CompletableFuture<Void> future = runAsync(runnable, executor);
+        futures.add(future);
       }
-    } catch (SuperCsvException err) {
-      Message message = getCsvRowErrorMessage(err);
-      throw new ValidationMessageException(err, message);
+    } finally {
+      futures.forEach(CompletableFuture::join);
     }
 
     return csvBeanReader.getRowNumber() - 1;
   }
 
   private <D extends BaseDto> List<D> doRead(CsvBeanReader<D> csvBeanReader) throws IOException {
-    List<D> list = Lists.newArrayList();
+    try {
+      List<D> list = Lists.newArrayList();
 
-    for (int i = 0; i < chunkSize; ++i) {
-      D imported = csvBeanReader.readWithCellProcessors();
+      for (int i = 0; i < chunkSize; ++i) {
+        D imported = csvBeanReader.readWithCellProcessors();
 
-      if (null == imported) {
-        break;
+        if (null == imported) {
+          break;
+        }
+
+        list.add(imported);
       }
 
-      list.add(imported);
+      return list;
+    } catch (SuperCsvException err) {
+      Message message = getCsvRowErrorMessage(err);
+      throw new ValidationMessageException(err, message);
     }
+  }
 
-    return list;
+  private <D extends BaseDto, E extends BaseEntity> void doWrite(RecordProcessor<D, E> processor,
+                                                                 RecordWriter<E> writer,
+                                                                 List<D> imported) {
+    List<E> entities = imported.stream().map(processor::process).collect(Collectors.toList());
+    writer.write(entities);
   }
 
   private Message getCsvRowErrorMessage(SuperCsvException err) {
