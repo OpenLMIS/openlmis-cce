@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.web;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
@@ -64,11 +65,13 @@ public class InventoryItemDtoBuilderTest {
 
     when(inventoryItem.getFacilityId()).thenReturn(UUID.randomUUID());
     when(inventoryItem.getLastModifierId()).thenReturn(UUID.randomUUID());
+
+    when(userReferenceDataService.findAll()).thenReturn(singletonList(user));
   }
 
   @Test
   public void shouldBuildDtoForList() throws Exception {
-    builder.build(singletonList(inventoryItem), singletonList(facility), singletonList(user));
+    builder.build(singletonList(inventoryItem), singletonList(facility));
 
     verify(facilityReferenceDataService).findOne(inventoryItem.getFacilityId());
     verify(userReferenceDataService).findOne(inventoryItem.getLastModifierId());
@@ -88,8 +91,9 @@ public class InventoryItemDtoBuilderTest {
 
     when(facility.getId()).thenReturn(facilityId);
     when(inventoryItem.getFacilityId()).thenReturn(facilityId);
+    when(userReferenceDataService.findAll()).thenReturn(emptyList());
 
-    builder.build(inventoryItem, singletonList(facility), singletonList(user));
+    builder.build(singletonList(inventoryItem), singletonList(facility));
 
     verify(facilityReferenceDataService, never()).findOne(any(UUID.class));
     verify(userReferenceDataService).findOne(inventoryItem.getLastModifierId());
@@ -102,7 +106,7 @@ public class InventoryItemDtoBuilderTest {
     when(user.getId()).thenReturn(userId);
     when(inventoryItem.getLastModifierId()).thenReturn(userId);
 
-    builder.build(inventoryItem, singletonList(facility), singletonList(user));
+    builder.build(singletonList(inventoryItem), singletonList(facility));
 
     verify(facilityReferenceDataService).findOne(inventoryItem.getFacilityId());
     verify(userReferenceDataService, never()).findOne(any(UUID.class));

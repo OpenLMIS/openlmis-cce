@@ -49,16 +49,13 @@ public class InventoryItemDtoBuilder {
    * @return a list of {@link InventoryItemDto}
    */
   public List<InventoryItemDto> build(Collection<InventoryItem> inventoryItems,
-                                      Collection<FacilityDto> facilities,
-                                      Collection<UserDto> users) {
+                                      Collection<FacilityDto> facilities) {
+    List<UserDto> users = userReferenceDataService.findAll();
+
     return inventoryItems
         .stream()
         .map(item -> build(item, facilities, users))
         .collect(Collectors.toList());
-  }
-
-  public InventoryItemDto build(InventoryItem inventoryItem) {
-    return build(inventoryItem, null, null);
   }
 
   /**
@@ -68,8 +65,14 @@ public class InventoryItemDtoBuilder {
    * @return new instance of {@link InventoryItemDto}. {@code null} if passed argument is {@code
    * null}.
    */
-  public InventoryItemDto build(InventoryItem inventoryItem, Collection<FacilityDto> facilities,
-                                Collection<UserDto> users) {
+  public InventoryItemDto build(InventoryItem inventoryItem) {
+    return build(inventoryItem, null, null);
+  }
+
+
+  private InventoryItemDto build(InventoryItem inventoryItem,
+                                 Collection<FacilityDto> facilities,
+                                 Collection<UserDto> users) {
     if (null == inventoryItem) {
       return null;
     }
