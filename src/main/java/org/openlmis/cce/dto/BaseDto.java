@@ -29,5 +29,5 @@ public class BaseDto {
 
   @Getter
   @Setter
-  protected UUID id;
+  private UUID id;
 }

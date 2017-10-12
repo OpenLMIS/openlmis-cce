@@ -43,7 +43,7 @@ public class BasicFacilityDto extends BaseDto {
    * @param exporter exporter to export to
    */
   public void export(Exporter exporter) {
-    exporter.setId(id);
+    exporter.setId(getId());
     exporter.setCode(code);
     exporter.setName(name);
   }
