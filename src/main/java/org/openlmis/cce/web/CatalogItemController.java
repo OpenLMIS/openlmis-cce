@@ -15,6 +15,8 @@
 
 package org.openlmis.cce.web;
 
+import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_FORMAT_NOT_ALLOWED;
+
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.UploadResultDto;
@@ -28,12 +30,15 @@ import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.util.Message;
 import org.openlmis.cce.util.Pagination;
 import org.openlmis.cce.web.csv.format.CsvFormatter;
-import org.openlmis.cce.web.csv.recordhandler.CatalogItemProcessor;
 import org.openlmis.cce.web.csv.model.ModelClass;
 import org.openlmis.cce.web.csv.parser.CsvParser;
+import org.openlmis.cce.web.csv.recordhandler.CatalogItemProcessor;
 import org.openlmis.cce.web.csv.recordhandler.CatalogItemWriter;
 import org.openlmis.cce.web.validator.CatalogItemValidator;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
+import org.slf4j.ext.XLogger;
+import org.slf4j.ext.XLoggerFactory;
+import org.slf4j.profiler.Profiler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,23 +58,25 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
-import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_FORMAT_NOT_ALLOWED;
+import javax.servlet.http.HttpServletResponse;
 
 @Controller
 @Transactional
 public class CatalogItemController extends BaseController {
+  private static final XLogger XLOGGER = XLoggerFactory.getXLogger(CatalogItemController.class);
 
   private static final String DISPOSITION_BASE = "attachment; filename=";
   private static final String RESOURCE_URL = "/catalogItems";
   private static final String FORMAT = "format";
   private static final String CSV = "csv";
+
+  private static final String PROFILER_CREATE_DTO = "PROFILER_CREATE_DTO";
 
   @Autowired
   private MessageService messageService;
@@ -108,15 +115,30 @@ public class CatalogItemController extends BaseController {
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public CatalogItemDto create(@RequestBody CatalogItemDto catalogItemDto) {
+    XLOGGER.entry(catalogItemDto);
+    Profiler profiler = new Profiler("CREATE_CATALOG_ITEM");
+    profiler.setLogger(XLOGGER);
+
+    profiler.start("CHECK_PERMISSION");
     permissionService.canManageCce();
 
+    profiler.start("VALIDATE");
     catalogItemValidator.validateNewCatalogItem(catalogItemDto);
 
+    profiler.start("CREATE_DOMAIN_INSTANCE");
     catalogItemDto.setId(null);
     CatalogItem catalogItem = CatalogItem.newInstance(catalogItemDto);
 
+    profiler.start("SAVE");
     CatalogItem newCatalogItem = catalogRepository.save(catalogItem);
-    return toDto(newCatalogItem);
+
+    profiler.start(PROFILER_CREATE_DTO);
+    CatalogItemDto dto = toDto(newCatalogItem);
+
+    profiler.stop().log();
+    XLOGGER.exit(dto);
+
+    return dto;
   }
 
   /**
@@ -132,15 +154,28 @@ public class CatalogItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public Page<CatalogItemDto> search(
-              @RequestParam(value = "type", required = false) String type,
-              @RequestParam(value = "archived", required = false) Boolean archived,
-              @RequestParam(value = "visibleInCatalog", required = false) Boolean visibleInCatalog,
-              Pageable pageable) {
+      @RequestParam(value = "type", required = false) String type,
+      @RequestParam(value = "archived", required = false) Boolean archived,
+      @RequestParam(value = "visibleInCatalog", required = false) Boolean visibleInCatalog,
+      Pageable pageable) {
+    XLOGGER.entry(type, archived, visibleInCatalog, pageable);
+    Profiler profiler = new Profiler("SEARCH_CATALOG_ITEMS");
+    profiler.setLogger(XLOGGER);
+
+    profiler.start("SEARCH_IN_DB");
     Page<CatalogItem> itemsPage = catalogRepository.search(type, archived,
         visibleInCatalog, pageable);
 
-    return Pagination.getPage(toDto(itemsPage.getContent()), pageable,
-        itemsPage.getTotalElements());
+    profiler.start(PROFILER_CREATE_DTO);
+    List<CatalogItemDto> dtos = toDto(itemsPage.getContent());
+
+    profiler.start("CREATE_PAGE");
+    Page<CatalogItemDto> page = Pagination.getPage(dtos, pageable, itemsPage.getTotalElements());
+
+    profiler.stop().log();
+    XLOGGER.exit(page);
+
+    return page;
   }
 
   /**
@@ -153,11 +188,25 @@ public class CatalogItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public CatalogItemDto getCatalogItem(@PathVariable("id") UUID catalogItemId) {
+    XLOGGER.entry(catalogItemId);
+    Profiler profiler = new Profiler("GET_CATALOG_ITEM_BY_ID");
+    profiler.setLogger(XLOGGER);
+
+    profiler.start("SEARCH_IN_DB");
     CatalogItem catalogItem = catalogRepository.findOne(catalogItemId);
     if (catalogItem == null) {
+      profiler.stop().log();
+      XLOGGER.exit();
+
       throw new NotFoundException(CatalogItemMessageKeys.ERROR_ITEM_NOT_FOUND);
     } else {
-      return toDto(catalogItem);
+      profiler.start(PROFILER_CREATE_DTO);
+      CatalogItemDto dto = toDto(catalogItem);
+
+      profiler.stop().log();
+      XLOGGER.exit(dto);
+
+      return dto;
     }
   }
 
@@ -173,14 +222,30 @@ public class CatalogItemController extends BaseController {
   @ResponseBody
   public CatalogItemDto updateCatalogItem(@RequestBody CatalogItemDto catalogItemDto,
                                           @PathVariable("id") UUID catalogItemId) {
+    XLOGGER.entry(catalogItemId);
+    Profiler profiler = new Profiler("UPDATE_CATALOG_ITEM");
+    profiler.setLogger(XLOGGER);
+
+    profiler.start("CHECK_PERMISSION");
     permissionService.canManageCce();
 
+    profiler.start("VALIDATE");
     catalogItemValidator.validateExistingCatalogItem(catalogItemDto);
 
+    profiler.start("CREATE_DOMAIN_INSTANCE");
     CatalogItem catalogItem = CatalogItem.newInstance(catalogItemDto);
     catalogItem.setId(catalogItemId);
+
+    profiler.start("SAVE");
     catalogRepository.save(catalogItem);
-    return toDto(catalogItem);
+
+    profiler.start(PROFILER_CREATE_DTO);
+    CatalogItemDto dto = toDto(catalogItem);
+
+    profiler.stop().log();
+    XLOGGER.exit(dto);
+
+    return dto;
   }
 
   /**
@@ -194,22 +259,45 @@ public class CatalogItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   public UploadResultDto upload(@RequestParam(FORMAT) String format,
                                 @RequestPart("file") MultipartFile file) {
+    XLOGGER.entry(format);
+    Profiler profiler = new Profiler("UPLOAD_CATALOG_ITEMS_FILE");
+    profiler.setLogger(XLOGGER);
+
+    profiler.start("CHECK_PERMISSION");
     permissionService.canManageCce();
 
     if (!CSV.equals(format)) {
+      profiler.stop().log();
+      XLOGGER.exit();
+
       throw new NotFoundException(new Message(ERROR_FORMAT_NOT_ALLOWED, format, CSV));
     }
 
+    profiler.start("VALIDATE");
     validateCsvFile(file);
+
+    profiler.start("CREATE_MODEL_CLASS");
     ModelClass<CatalogItemDto> modelClass = new ModelClass<>(CatalogItemDto.class);
 
     try {
+
+      profiler.start("PARSE_FILE");
       int result = csvParser.parse(
           file.getInputStream(), modelClass, csvHeaderValidator,
           catalogItemProcessor, catalogItemWriter
       );
-      return new UploadResultDto(result);
+
+      profiler.start("CREATE_RESPONSE");
+      UploadResultDto uploadResult = new UploadResultDto(result);
+
+      profiler.stop().log();
+      XLOGGER.exit(uploadResult);
+
+      return uploadResult;
     } catch (IOException ex) {
+      profiler.stop().log();
+      XLOGGER.exit();
+
       throw new ValidationMessageException(ex, MessageKeys.ERROR_IO, ex.getMessage());
     }
   }
@@ -222,23 +310,38 @@ public class CatalogItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   public void download(@RequestParam(FORMAT) String format,
                        HttpServletResponse response) throws IOException {
+    XLOGGER.entry(format);
+    Profiler profiler = new Profiler("DOWNLOAD_CATALOG_ITEMS_AS_FILE");
+    profiler.setLogger(XLOGGER);
+
     if (!CSV.equals(format)) {
+      profiler.stop().log();
+      XLOGGER.exit();
+
       response.sendError(HttpServletResponse.SC_BAD_REQUEST,
           messageService.localize(new Message(ERROR_FORMAT_NOT_ALLOWED, format, CSV)).asMessage());
       return;
     }
 
-    List<CatalogItemDto> catalogItems = toDto(catalogRepository.findAll());
+    profiler.start("FIND_ALL");
+    Iterable<CatalogItem> items = catalogRepository.findAll();
+
+    profiler.start(PROFILER_CREATE_DTO);
+    List<CatalogItemDto> catalogItems = toDto(items);
 
     response.setContentType("text/csv");
     response.addHeader(HttpHeaders.CONTENT_DISPOSITION,
         DISPOSITION_BASE + "catalog_items.csv");
 
     try {
+      profiler.start("WRITE_TO_OUTPUT");
       csvFormatter.process(
           response.getOutputStream(), new ModelClass<>(CatalogItemDto.class), catalogItems);
     } catch (IOException ex) {
       throw new ValidationMessageException(ex, MessageKeys.ERROR_IO, ex.getMessage());
+    } finally {
+      profiler.stop().log();
+      XLOGGER.exit();
     }
   }
 

@@ -32,6 +32,9 @@ import org.openlmis.cce.service.referencedata.UserSupervisedProgramsReferenceDat
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Pagination;
 import org.openlmis.cce.web.validator.InventoryItemValidator;
+import org.slf4j.ext.XLogger;
+import org.slf4j.ext.XLoggerFactory;
+import org.slf4j.profiler.Profiler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -54,6 +57,9 @@ import java.util.stream.Collectors;
 @Controller
 @Transactional
 public class InventoryItemController extends BaseController {
+  private static final XLogger XLOGGER = XLoggerFactory.getXLogger(InventoryItemController.class);
+
+  private static final String PROFILER_CHECK_PERMISSION = "CHECK_PERMISSION";
 
   @Autowired
   private InventoryItemRepository inventoryRepository;
@@ -89,13 +95,27 @@ public class InventoryItemController extends BaseController {
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public InventoryItemDto create(@RequestBody InventoryItemDto inventoryItemDto) {
+    XLOGGER.entry(inventoryItemDto);
+    Profiler profiler = new Profiler("CREATE_INVENTORY_ITEM");
+    profiler.setLogger(XLOGGER);
+
+    profiler.start(PROFILER_CHECK_PERMISSION);
     permissionService.canEditInventory(
         inventoryItemDto.getProgramId(), inventoryItemDto.getFacility().getId());
+
+    profiler.start("VALIDATE");
     validator.validate(inventoryItemDto);
+
+    profiler.start("CREATE_DOMAIN_INSTANCE");
     inventoryItemDto.setId(null);
     InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
 
-    return saveInventory(inventoryItem);
+    profiler.start("SAVE_AND_CREATE_DTO");
+    InventoryItemDto dto = saveInventory(inventoryItem);
+
+    profiler.stop().log();
+    XLOGGER.exit(dto);
+    return dto;
   }
 
   /**
@@ -108,14 +128,28 @@ public class InventoryItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public InventoryItemDto getInventoryItem(@PathVariable("id") UUID inventoryItemId) {
+    XLOGGER.entry(inventoryItemId);
+    Profiler profiler = new Profiler("GET_INVENTORY_ITEM_BY_ID");
+    profiler.setLogger(XLOGGER);
+
+    profiler.start("FIND_IN_DB");
     InventoryItem inventoryItem = inventoryRepository.findOne(inventoryItemId);
     if (inventoryItem == null) {
+      profiler.stop().log();
+      XLOGGER.exit(inventoryItemId);
+
       throw new NotFoundException(ERROR_ITEM_NOT_FOUND);
     }
 
+    profiler.start(PROFILER_CHECK_PERMISSION);
     permissionService.canViewInventory(inventoryItem);
 
-    return inventoryItemDtoBuilder.build(inventoryItem);
+    profiler.start("PROFILER_CREATE_DTO");
+    InventoryItemDto dto = inventoryItemDtoBuilder.build(inventoryItem);
+
+    profiler.stop().log();
+    XLOGGER.exit(dto);
+    return dto;
   }
 
   /**
@@ -127,17 +161,27 @@ public class InventoryItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public Page<InventoryItemDto> getAll(Pageable pageable) {
+    XLOGGER.entry(pageable);
+    Profiler profiler = new Profiler("GET_INVENTORY_ITEMS");
+    profiler.setLogger(XLOGGER);
+
+    profiler.start("GET_CURRENT_USER");
     UUID userId = authenticationHelper.getCurrentUser().getId();
+
+    profiler.start("GET_RIGHT_ID");
     UUID rightId = authenticationHelper.getRight(CCE_INVENTORY_VIEW).getId();
 
+    profiler.start("GET_PROGRAMS_SUPERVISED_BY_USER");
     Collection<ProgramDto> programs = supervisedProgramsReferenceDataService
         .getProgramsSupervisedByUser(userId);
 
+    profiler.start("MAP_PROGRAMS_TO_ID");
     List<UUID> programIds = programs
         .stream()
         .map(ProgramDto::getId)
         .collect(Collectors.toList());
 
+    profiler.start("GET_FACILITIES_SUPERVISED_BY_USER");
     Collection<FacilityDto> facilities = programIds
         .stream()
         .map(programId -> supervisedFacilitiesReferenceDataService
@@ -145,15 +189,24 @@ public class InventoryItemController extends BaseController {
         .flatMap(Collection::stream)
         .collect(Collectors.toSet());
 
+    profiler.start("MAP_FACILITIES_TO_ID");
     List<UUID> facilityIds = facilities
         .stream()
         .map(FacilityDto::getId)
         .collect(Collectors.toList());
 
+    profiler.start("SEARCH");
     Page<InventoryItem> itemsPage = inventoryRepository.search(facilityIds, programIds, pageable);
+
+    profiler.start("CREATE_DTOS");
     List<InventoryItemDto> dtos = inventoryItemDtoBuilder.build(itemsPage.getContent(), facilities);
 
-    return Pagination.getPage(dtos, pageable, itemsPage.getTotalElements());
+    profiler.start("CREATE_PAGE");
+    Page<InventoryItemDto> page = Pagination.getPage(dtos, pageable, itemsPage.getTotalElements());
+
+    profiler.stop().log();
+    XLOGGER.exit(page);
+    return page;
   }
 
   /**
@@ -168,16 +221,30 @@ public class InventoryItemController extends BaseController {
   @ResponseBody
   public InventoryItemDto updateInventoryItem(@RequestBody InventoryItemDto inventoryItemDto,
                                               @PathVariable("id") UUID inventoryItemId) {
+    XLOGGER.entry(inventoryItemId);
+    Profiler profiler = new Profiler("UPDATE_INVENTORY_ITEM");
+    profiler.setLogger(XLOGGER);
+
+    profiler.start("FIND_IN_DB");
     InventoryItem existingInventory = inventoryRepository.findOne(inventoryItemId);
+
+    profiler.start(PROFILER_CHECK_PERMISSION);
     if (existingInventory != null) {
       permissionService.canEditInventory(existingInventory);
     } else {
       permissionService.canEditInventory(
           inventoryItemDto.getProgramId(), inventoryItemDto.getFacility().getId());
     }
+
+    profiler.start("VALIDATE");
     validator.validate(inventoryItemDto);
 
-    return updateInventory(inventoryItemDto, inventoryItemId, existingInventory);
+    profiler.start("UPDATE_AND_CREATE_DTO");
+    InventoryItemDto dto = updateInventory(inventoryItemDto, inventoryItemId, existingInventory);
+
+    profiler.stop().log();
+    XLOGGER.exit(dto);
+    return dto;
   }
 
   /**
@@ -186,14 +253,27 @@ public class InventoryItemController extends BaseController {
   @RequestMapping(value = "/inventoryItems/{id}", method = RequestMethod.DELETE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteInventoryItem(@PathVariable("id") UUID id) {
+    XLOGGER.entry(id);
+    Profiler profiler = new Profiler("DELETE_INVENTORY_ITEM");
+    profiler.setLogger(XLOGGER);
+
+    profiler.start("FIND_IN_DB");
     InventoryItem inventoryItem = inventoryRepository.findOne(id);
     if (inventoryItem == null) {
+      profiler.stop().log();
+      XLOGGER.exit(id);
+
       throw new NotFoundException(ERROR_ITEM_NOT_FOUND);
     }
 
+    profiler.start(PROFILER_CHECK_PERMISSION);
     permissionService.canEditInventory(inventoryItem);
 
+    profiler.start("DELETE");
     inventoryRepository.delete(inventoryItem);
+
+    profiler.stop().log();
+    XLOGGER.exit();
   }
 
   private InventoryItemDto updateInventory(InventoryItemDto inventoryItemDto,
