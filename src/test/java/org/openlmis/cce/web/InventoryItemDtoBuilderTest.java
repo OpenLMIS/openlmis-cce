@@ -15,7 +15,10 @@
 
 package org.openlmis.cce.web;
 
+import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static org.mockito.Matchers.any;
+import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -62,6 +65,9 @@ public class InventoryItemDtoBuilderTest {
 
     when(inventoryItem.getFacilityId()).thenReturn(UUID.randomUUID());
     when(inventoryItem.getLastModifierId()).thenReturn(UUID.randomUUID());
+
+    when(userReferenceDataService.findAll()).thenReturn(singletonList(user));
+    when(facilityReferenceDataService.findAll()).thenReturn(singletonList(facility));
   }
 
   @Test
@@ -78,6 +84,34 @@ public class InventoryItemDtoBuilderTest {
 
     verify(facilityReferenceDataService).findOne(inventoryItem.getFacilityId());
     verify(userReferenceDataService).findOne(inventoryItem.getLastModifierId());
+  }
+  
+  @Test
+  public void shouldUseFacilityFromListIfIdsMatch() throws Exception {
+    UUID facilityId = UUID.randomUUID();
+    
+    when(facility.getId()).thenReturn(facilityId);
+    when(inventoryItem.getFacilityId()).thenReturn(facilityId);
+    when(userReferenceDataService.findAll()).thenReturn(emptyList());
+
+    builder.build(singletonList(inventoryItem));
+
+    verify(facilityReferenceDataService, never()).findOne(any(UUID.class));
+    verify(userReferenceDataService).findOne(inventoryItem.getLastModifierId());
+  }
+ 
+  @Test
+  public void shouldUseUserFromListIfIdsMatch() throws Exception {
+    UUID userId = UUID.randomUUID();
+    
+    when(user.getId()).thenReturn(userId);
+    when(inventoryItem.getLastModifierId()).thenReturn(userId);
+    when(facilityReferenceDataService.findAll()).thenReturn(emptyList());
+
+    builder.build(singletonList(inventoryItem));
+    
+    verify(facilityReferenceDataService).findOne(inventoryItem.getFacilityId());
+    verify(userReferenceDataService, never()).findOne(any(UUID.class));
   }
 
 }
