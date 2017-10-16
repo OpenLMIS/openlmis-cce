@@ -1,18 +1,18 @@
 execution:
   - concurreny: 1
-    iterations: 50
+    hold-for: 2m
     scenario: get-catalog-items
   - concurreny: 1
-    iterations: 50
+    hold-for: 2m
     scenario: get-catalog-items-csv
   - concurreny: 1
-    iterations: 50
+    hold-for: 2m
     scenario: get-catalog-item
   - concurreny: 1
-    iterations: 50
+    hold-for: 2m
     scenario: update-catalog-item
   - concurreny: 1
-    hold-for: 1m
+    hold-for: 2m
     scenario: upload-catalog-items
 
 scenarios:

@@ -1,12 +1,12 @@
 execution:
   - concurreny: 1
-    iterations: 50
+    hold-for: 2m
     scenario: get-inventory-items
   - concurreny: 1
-    iterations: 50
+    hold-for: 2m
     scenario: delete-inventory-item
   - concurreny: 1
-    iterations: 50
+    hold-for: 2m
     scenario: update-inventory-item
 
 scenarios:
