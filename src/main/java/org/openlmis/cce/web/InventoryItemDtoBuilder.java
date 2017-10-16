@@ -28,16 +28,11 @@ import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import lombok.AllArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
 import java.util.UUID;
-import java.util.function.Function;
 
 @Component
 public class InventoryItemDtoBuilder {
@@ -52,13 +47,9 @@ public class InventoryItemDtoBuilder {
    * Create a list of {@link InventoryItemDto} based on passed data.
    *
    * @param inventoryItems a list of inventory items that will be converted into DTOs.
-   * @param facilities     a list of facilities. The collection can be {@code null}.
    * @return a list of {@link InventoryItemDto}
    */
-  public List<InventoryItemDto> build(Collection<InventoryItem> inventoryItems,
-                                      Collection<FacilityDto> facilities) {
-    List<UserDto> users = userReferenceDataService.findAll();
-
+  public List<InventoryItemDto> build(Collection<InventoryItem> inventoryItems) {
     Map<UUID, FacilityDto> facilityCache = Maps.newHashMap();
     Map<UUID, UserDto> userCache = Maps.newHashMap();
 
@@ -72,10 +63,10 @@ public class InventoryItemDtoBuilder {
       InventoryItemDto dto = new InventoryItemDto();
       item.export(dto);
 
-      dto.setFacility(getFacility(item.getFacilityId(), facilities, facilityCache));
+      dto.setFacility(getFacility(item.getFacilityId(), facilityCache));
 
       if (null != item.getLastModifierId()) {
-        dto.setLastModifier(getUser(item.getLastModifierId(), users, userCache));
+        dto.setLastModifier(getUser(item.getLastModifierId(), userCache));
       }
 
       built.add(dto);
@@ -111,40 +102,16 @@ public class InventoryItemDtoBuilder {
   }
 
 
-  private FacilityDto getFacility(UUID facilityId, Collection<FacilityDto> facilities,
-                                  Map<UUID, FacilityDto> facilityCache) {
-    return get(facilityId, facilities, facilityCache, facilityReferenceDataService);
+  private FacilityDto getFacility(UUID facilityId, Map<UUID, FacilityDto> facilityCache) {
+    return get(facilityId, facilityCache, facilityReferenceDataService);
   }
 
-  private UserDto getUser(UUID userId, Collection<UserDto> users, Map<UUID, UserDto> userCache) {
-    return get(userId, users, userCache, userReferenceDataService);
+  private UserDto getUser(UUID userId, Map<UUID, UserDto> userCache) {
+    return get(userId, userCache, userReferenceDataService);
   }
 
-  private <T extends BaseDto> T get(UUID id, Collection<T> collection, Map<UUID, T> cache,
+  private <T extends BaseDto> T get(UUID id, Map<UUID, T> cache,
                                     BaseCommunicationService<T> service) {
-    return cache.computeIfAbsent(id, new FindElement<>(collection, service));
-  }
-
-  @AllArgsConstructor
-  private static final class FindElement<T extends BaseDto> implements Function<UUID, T> {
-    private Collection<T> collection;
-    private BaseCommunicationService<T> service;
-
-    @Override
-    public T apply(UUID id) {
-      Optional<T> found;
-
-      if (null == collection) {
-        found = Optional.empty();
-      } else {
-        found = collection
-            .stream()
-            .filter(elem -> Objects.equals(elem.getId(), id))
-            .findFirst();
-      }
-
-      return found.orElseGet(() -> service.findOne(id));
-    }
-
+    return cache.computeIfAbsent(id, service::findOne);
   }
 }

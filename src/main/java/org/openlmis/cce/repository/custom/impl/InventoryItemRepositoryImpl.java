@@ -24,6 +24,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
@@ -59,8 +60,8 @@ public class InventoryItemRepositoryImpl implements InventoryItemRepositoryCusto
    * @param pageable    pagination and sort parameters
    * @return Page of Catalog Items matching the parameters.
    */
-  public Page<InventoryItem> search(List<UUID> facilityIds,
-                                    List<UUID> programIds,
+  public Page<InventoryItem> search(Collection<UUID> facilityIds,
+                                    Collection<UUID> programIds,
                                     Pageable pageable) {
     CriteriaBuilder builder = entityManager.getCriteriaBuilder();
 
@@ -88,8 +89,8 @@ public class InventoryItemRepositoryImpl implements InventoryItemRepositoryCusto
   }
 
   private <T> CriteriaQuery<T> prepareQuery(CriteriaQuery<T> query,
-                                            List<UUID> facilityIds,
-                                            List<UUID> programIds,
+                                            Collection<UUID> facilityIds,
+                                            Collection<UUID> programIds,
                                             Pageable pageable,
                                             boolean count) {
 

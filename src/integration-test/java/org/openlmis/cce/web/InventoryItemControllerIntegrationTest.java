@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.web;
 
+import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
@@ -52,7 +53,7 @@ import org.openlmis.cce.domain.VoltageStabilizerStatus;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
-import org.openlmis.cce.dto.ProgramDto;
+import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
@@ -60,8 +61,6 @@ import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
-import org.openlmis.cce.service.referencedata.UserSupervisedFacilitiesReferenceDataService;
-import org.openlmis.cce.service.referencedata.UserSupervisedProgramsReferenceDataService;
 import org.openlmis.cce.util.PageImplRepresentation;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -90,12 +89,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @MockBean
   private PermissionService permissionService;
-
-  @MockBean
-  private UserSupervisedProgramsReferenceDataService supervisedProgramsReferenceDataService;
-
-  @MockBean
-  private UserSupervisedFacilitiesReferenceDataService supervisedFacilitiesReferenceDataService;
 
   @MockBean
   private InventoryStatusProcessor inventoryStatusProcessor;
@@ -214,14 +207,18 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldRetrieveAllInventoryItems() {
-    UUID rightId = mockRight();
     UUID userId = mockUser();
-    UUID programId = mockPrograms(userId);
-    UUID facilityId = mockFacilities(userId, programId, rightId);
+    UUID programId = UUID.randomUUID();
+    UUID facilityId = UUID.randomUUID();
+
+    when(userReferenceDataService.getPermissionStrings(userId))
+        .thenReturn(singletonList(PermissionStringDto.from(
+            CCE_INVENTORY_VIEW + "|" + facilityId + "|" + programId
+        )));
 
     when(inventoryItemRepository.search(
-        eq(singletonList(facilityId)),
-        eq(singletonList(programId)),
+        eq(singleton(facilityId)),
+        eq(singleton(programId)),
         any(Pageable.class)))
         .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
 
@@ -399,23 +396,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .thenReturn(right);
 
     return right.getId();
-  }
-
-  private UUID mockPrograms(UUID userId) {
-    ProgramDto program = new ProgramDto();
-    program.setId(UUID.randomUUID());
-    when(supervisedProgramsReferenceDataService.getProgramsSupervisedByUser(userId))
-        .thenReturn(singletonList(program));
-    return program.getId();
-  }
-
-  private UUID mockFacilities(UUID userId, UUID programId, UUID rightId) {
-    FacilityDto facility = new FacilityDto();
-    facility.setId(UUID.randomUUID());
-    when(supervisedFacilitiesReferenceDataService
-        .getFacilitiesSupervisedByUser(userId, programId, rightId)
-    ).thenReturn(singletonList(facility));
-    return facility.getId();
   }
 
   private Response postInventoryItem() {

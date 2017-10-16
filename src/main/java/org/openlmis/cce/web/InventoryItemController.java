@@ -15,20 +15,21 @@
 
 package org.openlmis.cce.web;
 
+import static org.apache.commons.lang3.StringUtils.equalsIgnoreCase;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 
+import com.google.common.collect.Sets;
+
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
-import org.openlmis.cce.dto.ProgramDto;
+import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.PermissionService;
-import org.openlmis.cce.service.referencedata.UserSupervisedFacilitiesReferenceDataService;
-import org.openlmis.cce.service.referencedata.UserSupervisedProgramsReferenceDataService;
+import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Pagination;
 import org.openlmis.cce.web.validator.InventoryItemValidator;
@@ -49,10 +50,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.ZonedDateTime;
-import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 @Transactional
@@ -63,12 +63,6 @@ public class InventoryItemController extends BaseController {
 
   @Autowired
   private InventoryItemRepository inventoryRepository;
-
-  @Autowired
-  private UserSupervisedProgramsReferenceDataService supervisedProgramsReferenceDataService;
-
-  @Autowired
-  private UserSupervisedFacilitiesReferenceDataService supervisedFacilitiesReferenceDataService;
 
   @Autowired
   private PermissionService permissionService;
@@ -84,6 +78,9 @@ public class InventoryItemController extends BaseController {
 
   @Autowired
   private InventoryStatusProcessor inventoryStatusProcessor;
+
+  @Autowired
+  private UserReferenceDataService userReferenceDataService;
 
   /**
    * Allows creating new CCE Inventory item. If the id is specified, it will be ignored.
@@ -168,38 +165,26 @@ public class InventoryItemController extends BaseController {
     profiler.start("GET_CURRENT_USER");
     UUID userId = authenticationHelper.getCurrentUser().getId();
 
-    profiler.start("GET_RIGHT_ID");
-    UUID rightId = authenticationHelper.getRight(CCE_INVENTORY_VIEW).getId();
+    profiler.start("GET_PERMISSION_STRINGS");
+    List<PermissionStringDto> permissionStrings = userReferenceDataService
+        .getPermissionStrings(userId);
 
-    profiler.start("GET_PROGRAMS_SUPERVISED_BY_USER");
-    Collection<ProgramDto> programs = supervisedProgramsReferenceDataService
-        .getProgramsSupervisedByUser(userId);
+    profiler.start("GET_PROGRAMS_AND_FACILITIES");
+    Set<UUID> programIds = Sets.newHashSet();
+    Set<UUID> facilityIds = Sets.newHashSet();
 
-    profiler.start("MAP_PROGRAMS_TO_ID");
-    List<UUID> programIds = programs
-        .stream()
-        .map(ProgramDto::getId)
-        .collect(Collectors.toList());
-
-    profiler.start("GET_FACILITIES_SUPERVISED_BY_USER");
-    Collection<FacilityDto> facilities = programIds
-        .stream()
-        .map(programId -> supervisedFacilitiesReferenceDataService
-            .getFacilitiesSupervisedByUser(userId, programId, rightId))
-        .flatMap(Collection::stream)
-        .collect(Collectors.toSet());
-
-    profiler.start("MAP_FACILITIES_TO_ID");
-    List<UUID> facilityIds = facilities
-        .stream()
-        .map(FacilityDto::getId)
-        .collect(Collectors.toList());
+    for (PermissionStringDto permissionString : permissionStrings) {
+      if (equalsIgnoreCase(CCE_INVENTORY_VIEW, permissionString.getRightName())) {
+        facilityIds.add(permissionString.getFacilityId());
+        programIds.add(permissionString.getProgramId());
+      }
+    }
 
     profiler.start("SEARCH");
     Page<InventoryItem> itemsPage = inventoryRepository.search(facilityIds, programIds, pageable);
 
     profiler.start("CREATE_DTOS");
-    List<InventoryItemDto> dtos = inventoryItemDtoBuilder.build(itemsPage.getContent(), facilities);
+    List<InventoryItemDto> dtos = inventoryItemDtoBuilder.build(itemsPage.getContent());
 
     profiler.start("CREATE_PAGE");
     Page<InventoryItemDto> page = Pagination.getPage(dtos, pageable, itemsPage.getTotalElements());

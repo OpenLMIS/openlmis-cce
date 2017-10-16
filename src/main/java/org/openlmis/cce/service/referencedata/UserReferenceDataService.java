@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.service.referencedata;
 
+import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.dto.ResultDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.RequestParameters;
@@ -61,18 +62,18 @@ public class UserReferenceDataService extends BaseReferenceDataService<UserDto> 
   /**
    * Searches users by the given right ID, program ID, supervisory node ID and warehouse ID.
    *
-   * @param right  (required) the right UUID
-   * @param program  (optional) the program UUID
-   * @param supervisoryNode  (optional) the supervisory node UUID
-   * @param warehouse  (optional) the warehouse UUID
+   * @param right           (required) the right UUID
+   * @param program         (optional) the program UUID
+   * @param supervisoryNode (optional) the supervisory node UUID
+   * @param warehouse       (optional) the warehouse UUID
    * @return the list of all matching users
    */
   public List<UserDto> findUsers(UUID right, UUID program, UUID supervisoryNode, UUID warehouse) {
     RequestParameters parameters = RequestParameters.init()
-            .set("rightId", right)
-            .set("programId", program)
-            .set("supervisoryNodeId", supervisoryNode)
-            .set("warehouseId", warehouse);
+        .set("rightId", right)
+        .set("programId", program)
+        .set("supervisoryNodeId", supervisoryNode)
+        .set("warehouseId", warehouse);
 
     return findAll("/rightSearch", parameters);
   }
@@ -80,13 +81,12 @@ public class UserReferenceDataService extends BaseReferenceDataService<UserDto> 
   /**
    * Check if user has a right with certain criteria.
    *
-   * @param user     id of user to check for right
-   * @param right    right to check
-   * @param program  program to check (for supervision rights, can be {@code null})
-   * @param facility facility to check (for supervision rights, can be {@code null})
+   * @param user      id of user to check for right
+   * @param right     right to check
+   * @param program   program to check (for supervision rights, can be {@code null})
+   * @param facility  facility to check (for supervision rights, can be {@code null})
    * @param warehouse warehouse to check (for fulfillment rights, can be {@code null})
-   * @return an instance of {@link ResultDto} with true or false depending on if user has the
-   *         right.
+   * @return an instance of {@link ResultDto} with true or false depending on if user has the right.
    */
   public ResultDto<Boolean> hasRight(UUID user, UUID right, UUID program, UUID facility,
                                      UUID warehouse) {
@@ -98,5 +98,18 @@ public class UserReferenceDataService extends BaseReferenceDataService<UserDto> 
         .set("warehouseId", warehouse);
 
     return getResult(user + "/hasRight", parameters, Boolean.class);
+  }
+
+  /**
+   * Gets all permissions strings for the given user.
+   *
+   * @param user ID of user.
+   * @return a list of parsed permission strings.
+   * @see PermissionStringDto
+   */
+  public List<PermissionStringDto> getPermissionStrings(UUID user) {
+    return PermissionStringDto.from(
+        findAll(user + "/permissionStrings", String[].class)
+    );
   }
 }
