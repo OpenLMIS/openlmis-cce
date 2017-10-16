@@ -19,8 +19,12 @@ import org.openlmis.cce.domain.CatalogItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
+import java.util.List;
+
 public interface CatalogItemRepositoryCustom {
 
   Page<CatalogItem> search(String type, Boolean archived,
                            Boolean visibleInCatalog, Pageable pageable);
+
+  List<CatalogItem> findExisting(List<CatalogItem> items);
 }

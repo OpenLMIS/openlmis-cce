@@ -15,11 +15,17 @@
 
 package org.openlmis.cce.repository.custom.impl;
 
+import static org.openlmis.cce.domain.CatalogItem.EQUIPMENT_CODE;
+import static org.openlmis.cce.domain.CatalogItem.MANUFACTURER;
+import static org.openlmis.cce.domain.CatalogItem.MODEL;
+
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.repository.custom.CatalogItemRepositoryCustom;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
@@ -27,7 +33,6 @@ import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
-import java.util.List;
 
 public class CatalogItemRepositoryImpl implements CatalogItemRepositoryCustom {
 
@@ -39,8 +44,8 @@ public class CatalogItemRepositoryImpl implements CatalogItemRepositoryCustom {
   private EntityManager entityManager;
 
   /**
-   * This method is supposed to retrieve all catalog items with matched parameters.
-   * To find all wanted Catalog Items by type we use criteria query and equals operator.
+   * This method is supposed to retrieve all catalog items with matched parameters. To find all
+   * wanted Catalog Items by type we use criteria query and equals operator.
    *
    * @param type             type of catalog item
    * @param archived         if catalog item is archived
@@ -66,6 +71,42 @@ public class CatalogItemRepositoryImpl implements CatalogItemRepositoryCustom {
         .getResultList();
 
     return Pagination.getPage(result, pageable, count);
+  }
+
+  @Override
+  public List<CatalogItem> findExisting(List<CatalogItem> items) {
+    CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+    CriteriaQuery<CatalogItem> query = builder.createQuery(CatalogItem.class);
+    Root<CatalogItem> root = query.from(CatalogItem.class);
+
+    int size = items.size();
+    Predicate[] predicates = new Predicate[size];
+
+    for (int i = 0; i < size; i++) {
+      CatalogItem catalogItem = items.get(i);
+      Predicate predicate;
+
+      if (null == catalogItem.getEquipmentCode()) {
+        predicate = builder.and(
+            builder.equal(root.get(MANUFACTURER), catalogItem.getManufacturer()),
+            builder.equal(root.get(MODEL), catalogItem.getModel())
+        );
+      } else {
+        predicate = builder.or(
+            builder.equal(root.get(EQUIPMENT_CODE), catalogItem.getEquipmentCode()),
+            builder.and(
+                builder.equal(root.get(MANUFACTURER), catalogItem.getManufacturer()),
+                builder.equal(root.get(MODEL), catalogItem.getModel())
+            )
+        );
+      }
+
+      predicates[i] = predicate;
+    }
+
+    query.where(builder.or(predicates));
+
+    return entityManager.createQuery(query).getResultList();
   }
 
   private <T> CriteriaQuery<T> prepareQuery(CriteriaQuery<T> query, String type,

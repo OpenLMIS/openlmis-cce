@@ -28,6 +28,9 @@ import org.openlmis.cce.web.csv.model.ModelClass;
 import org.openlmis.cce.web.csv.recordhandler.RecordProcessor;
 import org.openlmis.cce.web.csv.recordhandler.RecordWriter;
 import org.openlmis.cce.web.validator.CsvHeaderValidator;
+import org.slf4j.ext.XLogger;
+import org.slf4j.ext.XLoggerFactory;
+import org.slf4j.profiler.Profiler;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import org.supercsv.exception.SuperCsvException;
@@ -52,6 +55,7 @@ import java.util.stream.Collectors;
 @Component
 @NoArgsConstructor
 public class CsvParser {
+  private static final XLogger XLOGGER = XLoggerFactory.getXLogger(CsvParser.class);
 
   @Value("${csvParser.chunkSize}")
   private int chunkSize;
@@ -70,15 +74,24 @@ public class CsvParser {
                                                              RecordProcessor<D, E> processor,
                                                              RecordWriter<E> writer)
       throws IOException {
+    XLOGGER.entry();
+    Profiler profiler = new Profiler("PARSE");
+    profiler.setLogger(XLOGGER);
+
+    profiler.start("NEW_CSV_BEAN_READER");
     CsvBeanReader<D> csvBeanReader = new CsvBeanReader<>(
         modelClass, inputStream, headerValidator
     );
+
+    profiler.start("VALIDATE_HEADERS");
     csvBeanReader.validateHeaders();
 
+    profiler.start("CREATE_EXECUTOR_SERVICE");
     ExecutorService executor = Executors.newFixedThreadPool(Math.min(1, poolSize));
     List<CompletableFuture<Void>> futures = Lists.newArrayList();
 
     try {
+      profiler.start("HANDLE_FILE");
       while (true) {
         List<D> imported = doRead(csvBeanReader);
 
@@ -91,10 +104,16 @@ public class CsvParser {
         futures.add(future);
       }
     } finally {
+      profiler.start("WAIT_FOR_THREADS");
       futures.forEach(CompletableFuture::join);
     }
 
-    return csvBeanReader.getRowNumber() - 1;
+    int count = csvBeanReader.getRowNumber() - 1;
+
+    profiler.stop().log();
+    XLOGGER.exit(count);
+
+    return count;
   }
 
   private <D extends BaseDto> List<D> doRead(CsvBeanReader<D> csvBeanReader) throws IOException {

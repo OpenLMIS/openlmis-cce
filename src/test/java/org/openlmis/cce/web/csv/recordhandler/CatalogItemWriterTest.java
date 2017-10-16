@@ -15,8 +15,11 @@
 
 package org.openlmis.cce.web.csv.recordhandler;
 
+import static java.util.Collections.singletonList;
+import static org.assertj.core.util.Lists.emptyList;
 import static org.assertj.core.util.Lists.newArrayList;
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -30,7 +33,7 @@ import org.mockito.MockitoAnnotations;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.repository.CatalogItemRepository;
 
-import java.util.Collections;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -50,7 +53,7 @@ public class CatalogItemWriterTest {
   private CatalogItemWriter catalogItemWriter;
 
   private CatalogItem catalogItem;
-  private Iterable<CatalogItem> catalogItems;
+  private List<CatalogItem> catalogItems;
 
   @Before
   public void setUp() {
@@ -59,7 +62,7 @@ public class CatalogItemWriterTest {
     catalogItem = new CatalogItem();
     catalogItem.setEquipmentCode(EQCODE);
 
-    catalogItems = Collections.singletonList(catalogItem);
+    catalogItems = singletonList(catalogItem);
   }
 
   @Test
@@ -67,8 +70,8 @@ public class CatalogItemWriterTest {
     CatalogItem existingCatalogItem = new CatalogItem();
     existingCatalogItem.setId(UUID.randomUUID());
 
-    when(catalogItemRepository.existsByEquipmentCode(EQCODE)).thenReturn(true);
-    when(catalogItemRepository.findByEquipmentCode(EQCODE)).thenReturn(existingCatalogItem);
+    when(catalogItemRepository.findExisting(anyListOf(CatalogItem.class)))
+        .thenReturn(singletonList(existingCatalogItem));
 
     catalogItemWriter.write(catalogItems);
 
@@ -88,11 +91,8 @@ public class CatalogItemWriterTest {
     catalogItem.setManufacturer(SOME_MAKE);
     catalogItem.setModel(SOME_MODEL);
 
-    when(catalogItemRepository.existsByEquipmentCode(EQCODE)).thenReturn(false);
-    when(catalogItemRepository.existsByManufacturerAndModel(SOME_MAKE, SOME_MODEL))
-        .thenReturn(true);
-    when(catalogItemRepository.findByManufacturerAndModel(SOME_MAKE, SOME_MODEL))
-        .thenReturn(existingCatalogItem);
+    when(catalogItemRepository.findExisting(anyListOf(CatalogItem.class)))
+        .thenReturn(singletonList(existingCatalogItem));
 
     catalogItemWriter.write(catalogItems);
 
@@ -105,9 +105,8 @@ public class CatalogItemWriterTest {
 
   @Test
   public void shouldNotSetIdIfExistingItemNotFound() {
-    when(catalogItemRepository.existsByEquipmentCode(EQCODE)).thenReturn(false);
-    when(catalogItemRepository.existsByManufacturerAndModel(SOME_MAKE, SOME_MODEL))
-        .thenReturn(false);
+    when(catalogItemRepository.findExisting(anyListOf(CatalogItem.class)))
+        .thenReturn(emptyList());
 
     catalogItemWriter.write(catalogItems);
 

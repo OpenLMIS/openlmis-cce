@@ -17,11 +17,13 @@ package org.openlmis.cce.web.csv.recordhandler;
 
 import org.openlmis.cce.domain.BaseEntity;
 
+import java.util.List;
+
 /**
  * This interface is implemented by all record writers.
  */
 public interface RecordWriter<T extends BaseEntity> {
 
-  void write(Iterable<T> entities);
+  void write(List<T> entities);
 
 }

@@ -15,11 +15,20 @@
 
 package org.openlmis.cce.repository;
 
+import static java.util.Collections.singletonList;
+import static org.hamcrest.Matchers.allOf;
+import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.hasProperty;
+import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.openlmis.cce.domain.CatalogItem.EQUIPMENT_CODE;
+import static org.openlmis.cce.domain.CatalogItem.MANUFACTURER;
+import static org.openlmis.cce.domain.CatalogItem.MODEL;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -32,10 +41,13 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.CrudRepository;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceException;
+import java.util.List;
 import java.util.UUID;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
+
+@SuppressWarnings({"PMD.TooManyMethods"})
 public class CatalogItemRepositoryIntegrationTest
     extends BaseCrudRepositoryIntegrationTest<CatalogItem> {
 
@@ -179,5 +191,32 @@ public class CatalogItemRepositoryIntegrationTest
     assertEquals("other-type", items.getContent().get(0).getType());
     assertEquals(false, items.getContent().get(0).getArchived());
     assertEquals(false, items.getContent().get(0).getVisibleInCatalog());
+  }
+
+  @Test
+  public void shouldFindExistingByEquipmentCode() throws Exception {
+    CatalogItem item = generateInstance();
+    repository.save(item);
+
+    List<CatalogItem> found = repository.findExisting(singletonList(item));
+
+    assertThat(found, hasSize(1));
+    assertThat(found.get(0), hasProperty(EQUIPMENT_CODE, equalTo(item.getEquipmentCode())));
+  }
+
+  @Test
+  public void shouldFindExistingByManufacturerAndModel() throws Exception {
+    CatalogItem item = generateInstance();
+    item.setEquipmentCode(null);
+
+    repository.save(item);
+
+    List<CatalogItem> found = repository.findExisting(singletonList(item));
+
+    assertThat(found, hasSize(1));
+    assertThat(found.get(0), allOf(
+        hasProperty(MANUFACTURER, equalTo(item.getManufacturer())),
+        hasProperty(MODEL, equalTo(item.getModel()))
+    ));
   }
 }
