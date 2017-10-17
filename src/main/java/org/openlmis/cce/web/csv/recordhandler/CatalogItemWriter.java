@@ -17,6 +17,8 @@ package org.openlmis.cce.web.csv.recordhandler;
 
 import static org.springframework.util.CollectionUtils.isEmpty;
 
+import com.google.common.collect.Maps;
+
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openlmis.cce.domain.CatalogItem;
@@ -30,7 +32,6 @@ import org.springframework.stereotype.Component;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 /**
  * This class is responsible for saving {@link CatalogItem} instances to the database.
@@ -52,28 +53,38 @@ public class CatalogItemWriter implements RecordWriter<CatalogItem> {
     List<CatalogItem> existing = catalogItemRepository.findExisting(entities);
 
     if (!isEmpty(existing)) {
-      profiler.start("GROUP_BY_EQUIPMENT_CODE");
-      Map<String, UUID> groupByEquipmentCode = existing
-          .stream()
-          .collect(Collectors.toMap(CatalogItem::getEquipmentCode, CatalogItem::getId));
+      profiler.start("CREATE_GROUPS");
+      Map<String, UUID> groupByEquipmentCode = Maps.newHashMap();
+      Map<Pair<String, String>, UUID> groupByManufacturerAndModel = Maps.newHashMap();
 
-      profiler.start("GROUP_BY_MANUFACTURER_AND_MODEL");
-      Map<Pair<String, String>, UUID> groupByManufacturerAndModel = existing
-          .stream()
-          .collect(Collectors.toMap(
-              item -> ImmutablePair.of(item.getManufacturer(), item.getModel()),
-              CatalogItem::getId
-          ));
+      for (CatalogItem item : existing) {
+        UUID id = item.getId();
+        String equipmentCode = item.getEquipmentCode();
+
+        if (null != equipmentCode) {
+          groupByEquipmentCode.put(equipmentCode, id);
+        }
+
+        String manufacturer = item.getManufacturer();
+        String model = item.getModel();
+        Pair<String, String> key = ImmutablePair.of(manufacturer, model);
+
+        groupByManufacturerAndModel.put(key, id);
+      }
 
       profiler.start("FIND_IN_GROUPS");
       for (int i = 0, size = entities.size(); i < size; ++i) {
         CatalogItem item = entities.get(i);
-        UUID existingId = groupByEquipmentCode.get(item.getEquipmentCode());
+        String equipmentCode = item.getEquipmentCode();
+        UUID existingId;
 
-        if (null == existingId) {
-          existingId = groupByManufacturerAndModel.get(
-              ImmutablePair.of(item.getManufacturer(), item.getModel())
+        if (null != equipmentCode) {
+          existingId = groupByEquipmentCode.get(equipmentCode);
+        } else {
+          ImmutablePair<String, String> key = ImmutablePair.of(
+              item.getManufacturer(), item.getModel()
           );
+          existingId = groupByManufacturerAndModel.get(key);
         }
 
         if (null != existingId) {

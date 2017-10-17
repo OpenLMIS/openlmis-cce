@@ -53,6 +53,7 @@ public class CatalogItemWriterTest {
   private CatalogItemWriter catalogItemWriter;
 
   private CatalogItem catalogItem;
+  private CatalogItem existingCatalogItem;
   private List<CatalogItem> catalogItems;
 
   @Before
@@ -61,15 +62,20 @@ public class CatalogItemWriterTest {
 
     catalogItem = new CatalogItem();
     catalogItem.setEquipmentCode(EQCODE);
+    catalogItem.setManufacturer(SOME_MAKE);
+    catalogItem.setModel(SOME_MODEL);
+
+    existingCatalogItem = new CatalogItem();
+    existingCatalogItem.setId(UUID.randomUUID());
+    existingCatalogItem.setEquipmentCode(EQCODE);
+    existingCatalogItem.setManufacturer(SOME_MAKE);
+    existingCatalogItem.setModel(SOME_MODEL);
 
     catalogItems = singletonList(catalogItem);
   }
 
   @Test
   public void shouldSetIdIfExistingItemFoundByCode() {
-    CatalogItem existingCatalogItem = new CatalogItem();
-    existingCatalogItem.setId(UUID.randomUUID());
-
     when(catalogItemRepository.findExisting(anyListOf(CatalogItem.class)))
         .thenReturn(singletonList(existingCatalogItem));
 
@@ -84,9 +90,6 @@ public class CatalogItemWriterTest {
 
   @Test
   public void shouldSetIdIfExistingItemFoundByTypeAndModel() {
-    CatalogItem existingCatalogItem = new CatalogItem();
-    existingCatalogItem.setId(UUID.randomUUID());
-
     catalogItem.setEquipmentCode(null);
     catalogItem.setManufacturer(SOME_MAKE);
     catalogItem.setModel(SOME_MODEL);
