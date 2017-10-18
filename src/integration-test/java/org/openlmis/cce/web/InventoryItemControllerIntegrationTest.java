@@ -211,10 +211,12 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     UUID programId = UUID.randomUUID();
     UUID facilityId = UUID.randomUUID();
 
+    PermissionStringDto permission = PermissionStringDto.create(
+        CCE_INVENTORY_VIEW, facilityId, programId
+    );
+
     when(userReferenceDataService.getPermissionStrings(userId))
-        .thenReturn(singletonList(PermissionStringDto.from(
-            CCE_INVENTORY_VIEW + "|" + facilityId + "|" + programId
-        )));
+        .thenReturn(singletonList(permission.toString()));
 
     when(inventoryItemRepository.search(
         eq(singleton(facilityId)),

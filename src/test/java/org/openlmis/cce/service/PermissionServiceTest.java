@@ -20,6 +20,7 @@ import static org.mockito.Mockito.when;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
+import static org.openlmis.cce.service.PermissionService.CCE_MANAGE;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -29,8 +30,6 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.dto.ResultDto;
-import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.exception.PermissionMessageException;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
@@ -40,6 +39,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 
+import java.util.Collections;
 import java.util.UUID;
 
 @SuppressWarnings("PMD.TooManyMethods")
@@ -52,15 +52,6 @@ public class PermissionServiceTest {
 
   @Mock
   private AuthenticationHelper authenticationHelper;
-
-  @Mock
-  private RightDto cceManageRight;
-
-  @Mock
-  private RightDto viewInventoryRight;
-
-  @Mock
-  private RightDto editInventoryRight;
 
   @Mock
   private UserDto user;
@@ -79,9 +70,6 @@ public class PermissionServiceTest {
 
   private SecurityContext securityContext;
   private UUID userId = UUID.randomUUID();
-  private UUID cceManageRightId = UUID.randomUUID();
-  private UUID viewInventoryRightId = UUID.randomUUID();
-  private UUID editInventoryRightId = UUID.randomUUID();
 
   @Before
   public void setUp() {
@@ -90,23 +78,11 @@ public class PermissionServiceTest {
     initSecurityContext();
     when(authenticationHelper.getCurrentUser()).thenReturn(user);
     when(user.getId()).thenReturn(userId);
-
-    when(authenticationHelper.getRight(PermissionService.CCE_MANAGE))
-        .thenReturn(cceManageRight);
-    when(cceManageRight.getId()).thenReturn(cceManageRightId);
-
-    when(authenticationHelper.getRight(CCE_INVENTORY_VIEW))
-        .thenReturn(viewInventoryRight);
-    when(viewInventoryRight.getId()).thenReturn(viewInventoryRightId);
-
-    when(authenticationHelper.getRight(CCE_INVENTORY_EDIT))
-        .thenReturn(editInventoryRight);
-    when(editInventoryRight.getId()).thenReturn(editInventoryRightId);
   }
 
   @Test
   public void userCanManageCceIfHasRight() throws Exception {
-    stubHasRight(cceManageRightId);
+    stubHasRight(CCE_MANAGE);
 
     permissionService.canManageCce();
   }
@@ -115,7 +91,7 @@ public class PermissionServiceTest {
   public void userCannotManageCceIfHasNoRight() throws Exception {
     exception.expect(PermissionMessageException.class);
     exception.expectMessage(
-        new Message(ERROR_NO_FOLLOWING_PERMISSION, PermissionService.CCE_MANAGE).toString());
+        new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_MANAGE).toString());
 
     permissionService.canManageCce();
   }
@@ -130,7 +106,7 @@ public class PermissionServiceTest {
   @Test
   public void userCanViewInventoryIfHasRight() throws Exception {
     stubProgramAndFacilityInInventoryItem();
-    stubHasRight(viewInventoryRightId, inventoryItem.getProgramId(), inventoryItem.getFacilityId());
+    stubHasRight(CCE_INVENTORY_VIEW, inventoryItem.getProgramId(), inventoryItem.getFacilityId());
 
     permissionService.canViewInventory(inventoryItem);
   }
@@ -155,7 +131,7 @@ public class PermissionServiceTest {
   @Test
   public void userCanEditInventoryIfHasRight() throws Exception {
     stubProgramAndFacilityInInventoryItem();
-    stubHasRight(editInventoryRightId, inventoryItem.getProgramId(), inventoryItem.getFacilityId());
+    stubHasRight(CCE_INVENTORY_EDIT, inventoryItem.getProgramId(), inventoryItem.getFacilityId());
 
     permissionService.canEditInventory(inventoryItem);
   }
@@ -190,14 +166,16 @@ public class PermissionServiceTest {
     when(clientAuthentication.isClientOnly()).thenReturn(true);
   }
 
-  private void stubHasRight(UUID rightId) {
-    when(userReferenceDataService.hasRight(userId, rightId, null, null, null))
-        .thenReturn(new ResultDto<>(true));
+  private void stubHasRight(String rightName) {
+    when(userReferenceDataService.getPermissionStrings(userId))
+        .thenReturn(Collections.singletonList(rightName));
   }
 
-  private void stubHasRight(UUID rightId, UUID programId, UUID faciliyId) {
-    when(userReferenceDataService.hasRight(userId, rightId, programId, faciliyId, null))
-        .thenReturn(new ResultDto<>(true));
+  private void stubHasRight(String rightName, UUID programId, UUID faciliyId) {
+    String permission = String.join("|", rightName, faciliyId.toString(), programId.toString());
+
+    when(userReferenceDataService.getPermissionStrings(userId))
+        .thenReturn(Collections.singletonList(permission));
   }
 
 }

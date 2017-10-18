@@ -166,8 +166,9 @@ public class InventoryItemController extends BaseController {
     UUID userId = authenticationHelper.getCurrentUser().getId();
 
     profiler.start("GET_PERMISSION_STRINGS");
-    List<PermissionStringDto> permissionStrings = userReferenceDataService
-        .getPermissionStrings(userId);
+    List<PermissionStringDto> permissionStrings = PermissionStringDto.from(
+        userReferenceDataService.getPermissionStrings(userId)
+    );
 
     profiler.start("GET_PROGRAMS_AND_FACILITIES");
     Set<UUID> programIds = Sets.newHashSet();

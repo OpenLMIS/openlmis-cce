@@ -107,9 +107,7 @@ public class UserReferenceDataService extends BaseReferenceDataService<UserDto> 
    * @return a list of parsed permission strings.
    * @see PermissionStringDto
    */
-  public List<PermissionStringDto> getPermissionStrings(UUID user) {
-    return PermissionStringDto.from(
-        findAll(user + "/permissionStrings", String[].class)
-    );
+  public List<String> getPermissionStrings(UUID user) {
+    return findAll(user + "/permissionStrings", String[].class);
   }
 }

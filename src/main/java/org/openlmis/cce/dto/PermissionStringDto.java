@@ -52,4 +52,23 @@ public class PermissionStringDto {
     return new PermissionStringDto(rightName, facilityId, programId);
   }
 
+  public static PermissionStringDto create(String rightName, UUID facilityId, UUID programId) {
+    return new PermissionStringDto(rightName, facilityId, programId);
+  }
+
+  @Override
+  public String toString() {
+    StringBuilder builder = new StringBuilder(rightName);
+
+    if (null != facilityId) {
+      builder = builder.append("|").append(facilityId);
+    }
+
+    if (null != programId) {
+      builder = builder.append("|").append(programId);
+    }
+
+    return builder.toString();
+  }
+
 }

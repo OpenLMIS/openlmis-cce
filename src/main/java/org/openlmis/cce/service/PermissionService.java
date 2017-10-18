@@ -19,8 +19,7 @@ package org.openlmis.cce.service;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.dto.ResultDto;
-import org.openlmis.cce.dto.RightDto;
+import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.exception.PermissionMessageException;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
@@ -30,6 +29,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -97,11 +98,12 @@ public class PermissionService {
     if (isClientOnly()) {
       return true;
     }
+
     UserDto user = authenticationHelper.getCurrentUser();
-    RightDto right = authenticationHelper.getRight(rightName);
-    ResultDto<Boolean> result =
-        userReferenceDataService.hasRight(user.getId(), right.getId(), program, facility, null);
-    return null != result && result.getResult();
+    List<String> permissions = userReferenceDataService.getPermissionStrings(user.getId());
+    PermissionStringDto permission = PermissionStringDto.create(rightName, facility, program);
+
+    return permissions.contains(permission.toString());
   }
 
   private boolean isClientOnly() {
