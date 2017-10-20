@@ -20,9 +20,7 @@ import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PER
 
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.PermissionStringDto;
-import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.exception.PermissionMessageException;
-import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +28,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -44,7 +41,7 @@ public class PermissionService {
   private AuthenticationHelper authenticationHelper;
 
   @Autowired
-  private UserReferenceDataService userReferenceDataService;
+  private PermissionStrings permissionStrings;
 
   /**
    * Checks if current user has permission to manage CCE.
@@ -99,11 +96,11 @@ public class PermissionService {
       return true;
     }
 
-    UserDto user = authenticationHelper.getCurrentUser();
-    List<String> permissions = userReferenceDataService.getPermissionStrings(user.getId());
+    UUID user = authenticationHelper.getCurrentUser().getId();
+    PermissionStrings.Handler handler = getPermissionStrings(user);
     PermissionStringDto permission = PermissionStringDto.create(rightName, facility, program);
 
-    return permissions.contains(permission.toString());
+    return handler.get().contains(permission.toString());
   }
 
   private boolean isClientOnly() {
@@ -112,6 +109,10 @@ public class PermissionService {
 
   private OAuth2Authentication getAuthentication() {
     return (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+  }
+
+  public PermissionStrings.Handler getPermissionStrings(UUID userId) {
+    return permissionStrings.forUser(userId);
   }
 
 }

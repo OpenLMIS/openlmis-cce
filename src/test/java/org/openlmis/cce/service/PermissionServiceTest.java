@@ -30,9 +30,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.openlmis.cce.domain.InventoryItem;
+import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.exception.PermissionMessageException;
-import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Message;
 import org.springframework.security.core.context.SecurityContext;
@@ -48,13 +48,16 @@ public class PermissionServiceTest {
   public final ExpectedException exception = ExpectedException.none();
 
   @Mock
-  private UserReferenceDataService userReferenceDataService;
-
-  @Mock
   private AuthenticationHelper authenticationHelper;
 
   @Mock
+  private PermissionStrings permissionStrings;
+
+  @Mock
   private UserDto user;
+
+  @Mock
+  private PermissionStrings.Handler handler;
 
   @Mock
   private OAuth2Authentication userAuthentication;
@@ -78,6 +81,7 @@ public class PermissionServiceTest {
     initSecurityContext();
     when(authenticationHelper.getCurrentUser()).thenReturn(user);
     when(user.getId()).thenReturn(userId);
+    when(permissionStrings.forUser(userId)).thenReturn(handler);
   }
 
   @Test
@@ -167,15 +171,12 @@ public class PermissionServiceTest {
   }
 
   private void stubHasRight(String rightName) {
-    when(userReferenceDataService.getPermissionStrings(userId))
-        .thenReturn(Collections.singletonList(rightName));
+    stubHasRight(rightName, null, null);
   }
 
   private void stubHasRight(String rightName, UUID programId, UUID faciliyId) {
-    String permission = String.join("|", rightName, faciliyId.toString(), programId.toString());
-
-    when(userReferenceDataService.getPermissionStrings(userId))
-        .thenReturn(Collections.singletonList(permission));
+    PermissionStringDto permission = PermissionStringDto.create(rightName, faciliyId, programId);
+    when(handler.get()).thenReturn(Collections.singletonList(permission.toString()));
   }
 
 }

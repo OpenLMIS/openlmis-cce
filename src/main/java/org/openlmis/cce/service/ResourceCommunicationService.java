@@ -19,6 +19,7 @@ import org.openlmis.cce.util.DynamicPageTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.HttpStatusCodeException;
 
 import java.util.List;
@@ -36,7 +37,7 @@ public abstract class ResourceCommunicationService<T> extends BaseCommunicationS
    */
   public T findOne(UUID id) {
     try {
-      return execute(id.toString(), null, null, HttpMethod.GET, getResultClass()).getBody();
+      return execute(id.toString(), getResultClass()).getBody();
     } catch (HttpStatusCodeException ex) {
       // rest template will handle 404 as an exception, instead of returning null
       if (HttpStatus.NOT_FOUND == ex.getStatusCode()) {
@@ -63,7 +64,7 @@ public abstract class ResourceCommunicationService<T> extends BaseCommunicationS
    * @param parameters  Map of query parameters.
    * @return all reference data T objects.
    */
-  protected List<T> findAll(String resourceUrl, RequestParameters parameters) {
+  public List<T> findAll(String resourceUrl, RequestParameters parameters) {
     return findAll(resourceUrl, parameters, null, HttpMethod.GET, getArrayResultClass());
   }
 
@@ -82,6 +83,23 @@ public abstract class ResourceCommunicationService<T> extends BaseCommunicationS
     }
   }
 
+  protected <P> ServiceResponse<List<P>> tryFindAll(String resourceUrl, Class<P[]> type,
+                                                    String etag) {
+    try {
+      RequestHeaders headers = RequestHeaders.init().setIfNoneMatch(etag);
+      ResponseEntity<P[]> response = execute(resourceUrl, null, headers, HttpMethod.GET, type);
+
+      if (response.getStatusCode() == HttpStatus.NOT_MODIFIED) {
+        return new ServiceResponse<>(null, response.getHeaders(), false);
+      } else {
+        List<P> list = Stream.of(response.getBody()).collect(Collectors.toList());
+        return new ServiceResponse<>(list, response.getHeaders(), true);
+      }
+    } catch (HttpStatusCodeException ex) {
+      throw buildDataRetrievalException(ex);
+    }
+  }
+
   /**
    * Return all reference data T objects for Page that need to be retrieved with POST request.
    *
@@ -90,7 +108,7 @@ public abstract class ResourceCommunicationService<T> extends BaseCommunicationS
    * @param payload     body to include with the outgoing request.
    * @return Page of reference data T objects.
    */
-  protected Page<T> getPage(String resourceUrl, RequestParameters parameters, Object payload) {
+  public Page<T> getPage(String resourceUrl, RequestParameters parameters, Object payload) {
     try {
       DynamicPageTypeReference<T> type = new DynamicPageTypeReference<>(getResultClass());
       return execute(resourceUrl, parameters, payload, HttpMethod.POST, type).getBody();

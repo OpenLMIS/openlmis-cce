@@ -44,21 +44,43 @@ public abstract class BaseCommunicationService<T> {
 
   protected abstract Class<T[]> getArrayResultClass();
 
+  protected <P> ResponseEntity<P> execute(String resourceUrl, Class<P> type) {
+    return execute(resourceUrl, null, null, null, HttpMethod.GET, type);
+  }
+
   protected <P> ResponseEntity<P> execute(String resourceUrl, RequestParameters parameters,
                                           Object payload, HttpMethod method, Class<P> type) {
+    return execute(resourceUrl, parameters, null, payload, method, type);
+  }
+
+  protected <P> ResponseEntity<P> execute(String resourceUrl, RequestParameters parameters,
+                                          RequestHeaders headers, Object payload,
+                                          HttpMethod method, Class<P> type) {
     String url = getServiceUrl() + getUrl() + resourceUrl;
     URI uri = createUri(url, parameters);
-    HttpEntity<Object> entity = createEntity(authService.obtainAccessToken(), payload);
+    HttpEntity<Object> entity = createEntity(payload, addAuthHeader(headers));
     return restTemplate.exchange(uri, method, entity, type);
   }
 
   protected <P> ResponseEntity<P> execute(String resourceUrl, RequestParameters parameters,
                                           Object payload, HttpMethod method,
                                           ParameterizedTypeReference<P> type) {
+    return execute(resourceUrl, parameters, null, payload, method, type);
+  }
+
+  protected <P> ResponseEntity<P> execute(String resourceUrl, RequestParameters parameters,
+                                          RequestHeaders headers, Object payload,
+                                          HttpMethod method, ParameterizedTypeReference<P> type) {
     String url = getServiceUrl() + getUrl() + resourceUrl;
     URI uri = createUri(url, parameters);
-    HttpEntity<Object> entity = createEntity(authService.obtainAccessToken(), payload);
+    HttpEntity<Object> entity = createEntity(payload, addAuthHeader(headers));
     return restTemplate.exchange(uri, method, entity, type);
+  }
+
+  private RequestHeaders addAuthHeader(RequestHeaders headers) {
+    return null == headers
+        ? RequestHeaders.init().setAuth(authService.obtainAccessToken())
+        : headers.setAuth(authService.obtainAccessToken());
   }
 
   @Autowired

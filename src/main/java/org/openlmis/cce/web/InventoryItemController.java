@@ -29,7 +29,7 @@ import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.PermissionService;
-import org.openlmis.cce.service.referencedata.UserReferenceDataService;
+import org.openlmis.cce.service.PermissionStrings;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Pagination;
 import org.openlmis.cce.web.validator.InventoryItemValidator;
@@ -78,9 +78,6 @@ public class InventoryItemController extends BaseController {
 
   @Autowired
   private InventoryStatusProcessor inventoryStatusProcessor;
-
-  @Autowired
-  private UserReferenceDataService userReferenceDataService;
 
   /**
    * Allows creating new CCE Inventory item. If the id is specified, it will be ignored.
@@ -166,9 +163,8 @@ public class InventoryItemController extends BaseController {
     UUID userId = authenticationHelper.getCurrentUser().getId();
 
     profiler.start("GET_PERMISSION_STRINGS");
-    List<PermissionStringDto> permissionStrings = PermissionStringDto.from(
-        userReferenceDataService.getPermissionStrings(userId)
-    );
+    PermissionStrings.Handler handler = permissionService.getPermissionStrings(userId);
+    List<PermissionStringDto> permissionStrings = PermissionStringDto.from(handler.get());
 
     profiler.start("GET_PROGRAMS_AND_FACILITIES");
     Set<UUID> programIds = Sets.newHashSet();

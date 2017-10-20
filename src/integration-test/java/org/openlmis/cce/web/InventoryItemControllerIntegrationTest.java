@@ -25,6 +25,7 @@ import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
@@ -58,6 +59,7 @@ import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.PermissionService;
+import org.openlmis.cce.service.PermissionStrings;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.openlmis.cce.util.PageImplRepresentation;
@@ -214,8 +216,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         CCE_INVENTORY_VIEW, facilityId, programId
     );
 
-    when(userReferenceDataService.getPermissionStrings(userId))
-        .thenReturn(singletonList(permission.toString()));
+    PermissionStrings.Handler handler = mock(PermissionStrings.Handler.class);
+    when(handler.get()).thenReturn(singletonList(permission.toString()));
+
+    when(permissionService.getPermissionStrings(userId)).thenReturn(handler);
 
     when(inventoryItemRepository.search(
         eq(singleton(facilityId)),

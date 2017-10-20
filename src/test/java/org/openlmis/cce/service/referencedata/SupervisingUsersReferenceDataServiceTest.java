@@ -24,6 +24,7 @@ import static org.mockito.Mockito.spy;
 import org.junit.Test;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.RequestParameters;
+
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
@@ -39,10 +40,14 @@ public class SupervisingUsersReferenceDataServiceTest {
   public void shouldFindAll() {
     SupervisingUsersReferenceDataService spy = spy(new SupervisingUsersReferenceDataService());
     List<UserDto> users = Collections.singletonList(spy(UserDto.class));
+    RequestParameters parameters = RequestParameters
+        .init()
+        .set("rightId", right)
+        .set("programId", program);
+
     doReturn(users)
         .when(spy)
-        .findAll(eq(supervisoryNode + "/supervisingUsers"),
-            refEq(RequestParameters.init().set("rightId", right).set("programId", program)));
+        .findAll(eq(supervisoryNode + "/supervisingUsers"), refEq(parameters));
 
     Collection<UserDto> foundUsers = spy.findAll(supervisoryNode, right, program);
 

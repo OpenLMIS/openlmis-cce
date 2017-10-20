@@ -16,11 +16,12 @@
 package org.openlmis.cce.util;
 
 import org.openlmis.cce.exception.EncodingException;
+import org.openlmis.cce.service.RequestHeaders;
 import org.openlmis.cce.service.RequestParameters;
 import org.springframework.http.HttpEntity;
-import org.springframework.http.HttpHeaders;
 import org.springframework.web.util.UriComponentsBuilder;
 import org.springframework.web.util.UriUtils;
+
 import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.nio.charset.StandardCharsets;
@@ -60,33 +61,10 @@ public final class RequestHelper {
   }
 
   /**
-   * Creates an {@link HttpEntity} with the given payload as a body and adds an authorization
-   * header with the provided token.
-   * @param payload the body of the request, pass null if no body
-   * @param token the token to put into the authorization header
-   * @param <E> the type of the body for the request
-   * @return the {@link HttpEntity} to use
+   * Creates an {@link HttpEntity} with the given payload as a body and headers.
    */
-  public static <E> HttpEntity<E> createEntity(String token, E payload) {
-    if (payload == null) {
-      return createEntity(token);
-    } else {
-      return new HttpEntity<>(payload, createHeadersWithAuth(token));
-    }
+  public static <E> HttpEntity<E> createEntity(E payload, RequestHeaders headers) {
+    return new HttpEntity<>(payload, headers.toHeaders());
   }
 
-  /**
-   * Creates an {@link HttpEntity} and adds an authorization header with the provided token.
-   * @param token the token to put into the authorization header
-   * @return the {@link HttpEntity} to use
-   */
-  public static <E> HttpEntity<E> createEntity(String token) {
-    return new HttpEntity<>(createHeadersWithAuth(token));
-  }
-
-  private static HttpHeaders createHeadersWithAuth(String token) {
-    HttpHeaders headers = new HttpHeaders();
-    headers.set(HttpHeaders.AUTHORIZATION, "Bearer " + token);
-    return headers;
-  }
 }

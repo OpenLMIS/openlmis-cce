@@ -17,16 +17,20 @@ package org.openlmis.cce.service.notifier;
 
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.AuthService;
+import org.openlmis.cce.service.RequestHeaders;
 import org.openlmis.cce.util.RequestHelper;
 import org.openlmis.util.NotificationRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
+
+import java.net.URI;
 
 @Service
 public class NotificationService {
@@ -62,14 +66,16 @@ public class NotificationService {
         + "\n to: " + request.getTo());
 
     try {
-      restTemplate.postForObject(
-          RequestHelper.createUri(notificationUrl),
-          RequestHelper.createEntity(authService.obtainAccessToken(), request),
-          Object.class);
+      RequestHeaders headers = RequestHeaders.init().setAuth(authService.obtainAccessToken());
+      URI uri = RequestHelper.createUri(notificationUrl);
+      HttpEntity<NotificationRequest> entity = RequestHelper.createEntity(request, headers);
+
+      restTemplate.postForObject(uri, entity, Object.class);
     } catch (RestClientException ex) {
       logger.error("Can not send notification ", ex);
       return false;
     }
+
     return true;
   }
 }
