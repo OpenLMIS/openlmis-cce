@@ -22,7 +22,7 @@ import org.openlmis.cce.dto.BaseDto;
 import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.UserDto;
-import org.openlmis.cce.service.BaseCommunicationService;
+import org.openlmis.cce.service.ResourceCommunicationService;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -120,14 +120,14 @@ public class InventoryItemDtoBuilder {
   }
 
   private <T extends BaseDto> T get(UUID id, Collection<T> collection, Map<UUID, T> cache,
-                                    BaseCommunicationService<T> service) {
+                                    ResourceCommunicationService<T> service) {
     return cache.computeIfAbsent(id, new FindElement<>(collection, service));
   }
 
   @AllArgsConstructor
   private static final class FindElement<T extends BaseDto> implements Function<UUID, T> {
     private Collection<T> collection;
-    private BaseCommunicationService<T> service;
+    private ResourceCommunicationService<T> service;
 
     @Override
     public T apply(UUID id) {

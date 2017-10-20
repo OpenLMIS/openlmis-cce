@@ -15,10 +15,10 @@
 
 package org.openlmis.cce.service.referencedata;
 
-import org.openlmis.cce.service.BaseCommunicationService;
+import org.openlmis.cce.service.ResourceCommunicationService;
 import org.springframework.beans.factory.annotation.Value;
 
-public abstract class BaseReferenceDataService<T> extends BaseCommunicationService<T> {
+public abstract class BaseReferenceDataService<T> extends ResourceCommunicationService<T> {
 
   @Value("${referencedata.url}")
   private String referenceDataUrl;

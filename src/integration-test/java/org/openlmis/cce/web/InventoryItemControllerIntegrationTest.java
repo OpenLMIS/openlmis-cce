@@ -54,7 +54,6 @@ import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.PermissionStringDto;
-import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.InventoryStatusProcessor;
@@ -389,15 +388,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     user.setId(USER_ID);
     when(authenticationHelper.getCurrentUser()).thenReturn(user);
     return user.getId();
-  }
-
-  private UUID mockRight() {
-    RightDto right = new RightDto();
-    right.setId(UUID.randomUUID());
-    when(authenticationHelper.getRight(CCE_INVENTORY_VIEW))
-        .thenReturn(right);
-
-    return right.getId();
   }
 
   private Response postInventoryItem() {

@@ -15,13 +15,10 @@
 
 package org.openlmis.cce.util;
 
-import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_RIGHT_NOT_FOUND;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_USER_NOT_FOUND;
 
-import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.exception.AuthenticationMessageException;
-import org.openlmis.cce.service.referencedata.RightReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -32,9 +29,6 @@ public class AuthenticationHelper {
 
   @Autowired
   private UserReferenceDataService userReferenceDataService;
-
-  @Autowired
-  private RightReferenceDataService rightReferenceDataService;
 
   /**
    * Method returns current user based on Spring context
@@ -55,20 +49,4 @@ public class AuthenticationHelper {
     return user;
   }
 
-  /**
-   * Method returns a correct right and fetches his data from reference-data service.
-   *
-   * @param name right name
-   * @return RightDto entity of right.
-   * @throws AuthenticationMessageException if right cannot be found.
-   */
-  public RightDto getRight(String name) {
-    RightDto right = rightReferenceDataService.findRight(name);
-
-    if (null == right) {
-      throw new AuthenticationMessageException(new Message(ERROR_RIGHT_NOT_FOUND, name));
-    }
-
-    return right;
-  }
 }
