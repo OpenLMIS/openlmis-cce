@@ -37,7 +37,7 @@ public abstract class ResourceCommunicationService<T> extends BaseCommunicationS
    */
   public T findOne(UUID id) {
     try {
-      return execute(id.toString(), getResultClass()).getBody();
+      return execute(id.toString(), null, null, null, HttpMethod.GET, getResultClass()).getBody();
     } catch (HttpStatusCodeException ex) {
       // rest template will handle 404 as an exception, instead of returning null
       if (HttpStatus.NOT_FOUND == ex.getStatusCode()) {
@@ -76,7 +76,7 @@ public abstract class ResourceCommunicationService<T> extends BaseCommunicationS
                                 Object payload, HttpMethod method, Class<P[]> type) {
     try {
       return Stream
-          .of(execute(resourceUrl, parameters, payload, method, type).getBody())
+          .of(execute(resourceUrl, parameters, null, payload, method, type).getBody())
           .collect(Collectors.toList());
     } catch (HttpStatusCodeException ex) {
       throw buildDataRetrievalException(ex);
@@ -87,7 +87,9 @@ public abstract class ResourceCommunicationService<T> extends BaseCommunicationS
                                                     String etag) {
     try {
       RequestHeaders headers = RequestHeaders.init().setIfNoneMatch(etag);
-      ResponseEntity<P[]> response = execute(resourceUrl, null, headers, HttpMethod.GET, type);
+      ResponseEntity<P[]> response = execute(
+          resourceUrl, null, headers, null, HttpMethod.GET, type
+      );
 
       if (response.getStatusCode() == HttpStatus.NOT_MODIFIED) {
         return new ServiceResponse<>(null, response.getHeaders(), false);
@@ -111,7 +113,7 @@ public abstract class ResourceCommunicationService<T> extends BaseCommunicationS
   public Page<T> getPage(String resourceUrl, RequestParameters parameters, Object payload) {
     try {
       DynamicPageTypeReference<T> type = new DynamicPageTypeReference<>(getResultClass());
-      return execute(resourceUrl, parameters, payload, HttpMethod.POST, type).getBody();
+      return execute(resourceUrl, parameters, null, payload, HttpMethod.POST, type).getBody();
     } catch (HttpStatusCodeException ex) {
       throw buildDataRetrievalException(ex);
     }
