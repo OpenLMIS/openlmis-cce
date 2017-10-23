@@ -20,12 +20,10 @@ import lombok.Setter;
 
 import java.util.Objects;
 import java.util.Set;
-import java.util.UUID;
 
 @Getter
 @Setter
-public class RightDto {
-  private UUID id;
+public class RightDto extends BaseDto {
   private String name;
   private RightType type;
   private String description;

@@ -15,9 +15,14 @@
 
 package org.openlmis.cce.service.referencedata;
 
+import static org.springframework.util.CollectionUtils.isEmpty;
+
 import org.openlmis.cce.dto.SupervisoryNodeDto;
+import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.RequestParameters;
 import org.springframework.stereotype.Service;
+
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -50,9 +55,26 @@ public class SupervisoryNodeReferenceDataService
     requestBody.put("facilityId", facility);
     requestBody.put("programId", program);
 
-    List<SupervisoryNodeDto> content =
-        getPage("search", RequestParameters.init(), requestBody).getContent();
-    return content.size() > 0 ? content.get(0) : null;
+    List<SupervisoryNodeDto> nodes = getPage("search", RequestParameters.init(), requestBody)
+        .getContent();
+
+    return isEmpty(nodes) ? null : nodes.get(0);
+  }
+
+  /**
+   * Get a list of supervising users for a certain supervisory node, program and right.
+   *
+   * @param supervisoryNode the UUID of the supervisory node.
+   * @param right the UUID of the right.
+   * @param program the UUID of the program.
+   * @return a collection of supervising users.
+   */
+  public Collection<UserDto> findSupervisingUsers(UUID supervisoryNode, UUID right, UUID program) {
+    RequestParameters params = RequestParameters.init()
+        .set("rightId", right)
+        .set("programId", program);
+
+    return findAll(supervisoryNode + "/supervisingUsers", params, UserDto[].class);
   }
 
 }

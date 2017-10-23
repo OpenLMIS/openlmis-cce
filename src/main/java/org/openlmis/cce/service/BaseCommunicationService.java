@@ -30,19 +30,17 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 
-public abstract class BaseCommunicationService<T> {
+public abstract class BaseCommunicationService {
   protected final Logger logger = LoggerFactory.getLogger(getClass());
 
-  private RestOperations restTemplate = new RestTemplate();
+  @Autowired
   private AuthService authService;
+
+  private RestOperations restTemplate = new RestTemplate();
 
   protected abstract String getServiceUrl();
 
   protected abstract String getUrl();
-
-  protected abstract Class<T> getResultClass();
-
-  protected abstract Class<T[]> getArrayResultClass();
 
   protected <P> ResponseEntity<P> execute(String resourceUrl, RequestParameters parameters,
                                           RequestHeaders headers, Object payload,
@@ -66,14 +64,5 @@ public abstract class BaseCommunicationService<T> {
     return null == headers
         ? RequestHeaders.init().setAuth(authService.obtainAccessToken())
         : headers.setAuth(authService.obtainAccessToken());
-  }
-
-  @Autowired
-  public void setAuthService(AuthService authService) {
-    this.authService = authService;
-  }
-
-  void setRestTemplate(RestOperations template) {
-    this.restTemplate = template;
   }
 }

@@ -22,7 +22,7 @@ import lombok.Getter;
 
 @Getter
 @AllArgsConstructor
-class ServiceResponse<T> {
+public class ServiceResponse<T> {
   private T body;
   private HttpHeaders headers;
   private boolean modified;

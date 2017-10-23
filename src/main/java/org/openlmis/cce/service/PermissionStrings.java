@@ -28,13 +28,13 @@ import java.util.function.Supplier;
 
 @Component
 public class PermissionStrings {
-  private static final Map<UUID, Handler> HANDLERS = Maps.newConcurrentMap();
+  private final Map<UUID, Handler> handlers = Maps.newConcurrentMap();
 
   @Autowired
   private UserReferenceDataService userReferenceDataService;
 
   Handler forUser(UUID user) {
-    return HANDLERS.computeIfAbsent(user, Handler::new);
+    return handlers.computeIfAbsent(user, Handler::new);
   }
 
   public class Handler implements Supplier<List<String>> {
@@ -49,9 +49,8 @@ public class PermissionStrings {
 
     @Override
     public synchronized List<String> get() {
-      ServiceResponse<List<String>> response = userReferenceDataService.tryFindAll(
-          userId + "/permissionStrings", String[].class, etag
-      );
+      ServiceResponse<List<String>> response = userReferenceDataService
+          .getPermissionStrings(userId, etag);
 
       if (response.isModified()) {
         permissionStrings = response.getBody();

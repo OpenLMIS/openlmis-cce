@@ -15,33 +15,34 @@
 
 package org.openlmis.cce.service.referencedata;
 
-import org.openlmis.cce.dto.UserDto;
-import org.openlmis.cce.service.RequestParameters;
-import org.springframework.stereotype.Service;
-import java.util.Collection;
-import java.util.UUID;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertThat;
 
-@Service
-public class SupervisingUsersReferenceDataService extends UserReferenceDataService {
+import org.junit.Before;
+import org.junit.Test;
+import org.openlmis.cce.dto.BaseDto;
+import org.openlmis.cce.service.ResourceCommunicationServiceTest;
+import org.springframework.test.util.ReflectionTestUtils;
+
+public abstract class BaseReferenceDataServiceTest<T extends BaseDto>
+    extends ResourceCommunicationServiceTest<T> {
+  private static final String SERVICE_URL = "http://localhost:8080";
 
   @Override
-  protected String getUrl() {
-    return "/api/supervisoryNodes/";
+  @Before
+  public void setUp() throws Exception {
+    super.setUp();
+    ReflectionTestUtils.setField(getService(), "referenceDataUrl", SERVICE_URL);
   }
 
-  /**
-   * Get a list of supervising users for a certain supervisory node, program and right.
-   *
-   * @param supervisoryNode the UUID of the supervisory node.
-   * @param right the UUID of the right.
-   * @param program the UUID of the program.
-   * @return a collection of supervising users.
-   */
-  public Collection<UserDto> findAll(UUID supervisoryNode, UUID right, UUID program) {
-    RequestParameters params = RequestParameters.init()
-        .set("rightId", right)
-        .set("programId", program);
-
-    return findAll(supervisoryNode + "/supervisingUsers", params);
+  @Test
+  public void shouldHaveCorrectServiceUrl() throws Exception {
+    assertThat(
+        ReflectionTestUtils.getField(getService(), "referenceDataUrl"),
+        equalTo(SERVICE_URL)
+    );
   }
+
+  @Override
+  protected abstract BaseReferenceDataService<T> getService();
 }

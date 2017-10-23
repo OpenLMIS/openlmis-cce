@@ -16,67 +16,66 @@
 package org.openlmis.cce.service.referencedata;
 
 import static java.util.Collections.singletonList;
-import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasEntry;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
-import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
-import org.openlmis.cce.dto.SupervisoryNodeDto;
 import org.openlmis.cce.dto.UserDto;
+import org.openlmis.cce.service.ServiceResponse;
 import org.openlmis.cce.util.PageImplRepresentation;
 import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 
 import java.net.URI;
-import java.util.Collection;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
-public class SupervisoryNodeReferenceDataServiceTest
-    extends BaseReferenceDataServiceTest<SupervisoryNodeDto> {
+public class UserReferenceDataServiceTest extends BaseReferenceDataServiceTest<UserDto> {
+  private static final String USER_NAME = "admin";
 
-  private final SupervisoryNodeReferenceDataService service =
-      new SupervisoryNodeReferenceDataService();
+  private final UserReferenceDataService service = new UserReferenceDataService();
 
   @Override
-  protected SupervisoryNodeReferenceDataService getService() {
+  protected UserReferenceDataService getService() {
     return service;
   }
 
   @Override
-  protected SupervisoryNodeDto generateInstance() {
-    SupervisoryNodeDto dto = new SupervisoryNodeDto();
+  protected UserDto generateInstance() {
+    UserDto dto = new UserDto();
     dto.setId(UUID.randomUUID());
+    dto.setUsername(USER_NAME);
 
     return dto;
   }
 
   @Test
-  public void shouldFindNodeByFacilityIdAndProgramId() throws Exception {
+  public void shouldFindUserByUsername() throws Exception {
     // given
-    SupervisoryNodeDto instance = generateInstance();
-    UUID facility = UUID.randomUUID();
-    UUID program = UUID.randomUUID();
+    UserDto instance = generateInstance();
 
     // when
     mockPageRequest();
     mockPageResponse(response -> {
-      PageImplRepresentation<SupervisoryNodeDto> page = new PageImplRepresentation<>();
+      PageImplRepresentation<UserDto> page = new PageImplRepresentation<>();
       page.setContent(singletonList(instance));
 
       when(response.getBody()).thenReturn(page);
     });
 
-    SupervisoryNodeDto found = service.findSupervisoryNode(facility, program);
+    UserDto found = service.findUser(USER_NAME);
 
     // then
     assertThat(found, equalTo(instance));
@@ -91,28 +90,25 @@ public class SupervisoryNodeReferenceDataServiceTest
     assertThat(body, instanceOf(Map.class));
 
     Map<String, Object> map = (Map<String, Object>) body;
-    assertThat(map, hasEntry("facilityId", facility));
-    assertThat(map, hasEntry("programId", program));
+    assertThat(map, hasEntry("username", USER_NAME));
   }
 
   @Test
   public void shouldReturnFirstIfThereIsMoreElements() throws Exception {
     // given
-    SupervisoryNodeDto instance1 = generateInstance();
-    SupervisoryNodeDto instance2 = generateInstance();
-    UUID facility = UUID.randomUUID();
-    UUID program = UUID.randomUUID();
+    UserDto instance1 = generateInstance();
+    UserDto instance2 = generateInstance();
 
     // when
     mockPageRequest();
     mockPageResponse(response -> {
-      PageImplRepresentation<SupervisoryNodeDto> page = new PageImplRepresentation<>();
+      PageImplRepresentation<UserDto> page = new PageImplRepresentation<>();
       page.setContent(Lists.newArrayList(instance1, instance2));
 
       when(response.getBody()).thenReturn(page);
     });
 
-    SupervisoryNodeDto found = service.findSupervisoryNode(facility, program);
+    UserDto found = service.findUser(USER_NAME);
 
     // then
     assertThat(found, equalTo(instance1));
@@ -127,22 +123,17 @@ public class SupervisoryNodeReferenceDataServiceTest
     assertThat(body, instanceOf(Map.class));
 
     Map<String, Object> map = (Map<String, Object>) body;
-    assertThat(map, hasEntry("facilityId", facility));
-    assertThat(map, hasEntry("programId", program));
+    assertThat(map, hasEntry("username", USER_NAME));
   }
 
   @Test
   public void shouldReturnNullIfUserCouldNotBeFound() throws Exception {
-    // given
-    UUID facility = UUID.randomUUID();
-    UUID program = UUID.randomUUID();
-
     // when
     mockPageRequest();
     mockPageResponse(response ->
         when(response.getBody()).thenReturn(new PageImplRepresentation<>()));
 
-    SupervisoryNodeDto found = service.findSupervisoryNode(facility, program);
+    UserDto found = service.findUser(USER_NAME);
 
     // then
     assertThat(found, is(nullValue()));
@@ -157,36 +148,64 @@ public class SupervisoryNodeReferenceDataServiceTest
     assertThat(body, instanceOf(Map.class));
 
     Map<String, Object> map = (Map<String, Object>) body;
-    assertThat(map, hasEntry("facilityId", facility));
-    assertThat(map, hasEntry("programId", program));
+    assertThat(map, hasEntry("username", USER_NAME));
   }
 
   @Test
-  public void shouldFindSupervisingUsersForNodeProgramAndRight() throws Exception {
-    // given
-    SupervisoryNodeDto instance = generateInstance();
-    UserDto user = mock(UserDto.class);
-    UUID program = UUID.randomUUID();
-    UUID right = UUID.randomUUID();
+  public void shouldRetrievePermissionStrings() throws Exception {
+    UserDto instance = generateInstance();
+    String etag = RandomStringUtils.random(10);
 
     // when
-    mockArrayRequest(HttpMethod.GET, UserDto[].class);
-    mockArrayResponse(response -> when(response.getBody()).thenReturn(new Object[]{user}));
+    mockArrayRequest(HttpMethod.GET, String[].class);
+    mockArrayResponse(response ->
+        when(response.getBody()).thenReturn(new String[]{"PERMISSION_STRING"}));
 
-    Collection<UserDto> found = service.findSupervisingUsers(instance.getId(), right, program);
+    ServiceResponse<List<String>> found = service.getPermissionStrings(instance.getId(), etag);
 
     // then
-    assertThat(found, hasSize(1));
-    assertThat(found.iterator().next(), equalTo(user));
+    ResponseEntity response = getArrayResponse();
+
+    assertThat(found.getBody(), hasItem("PERMISSION_STRING"));
+    assertThat(found.getHeaders(), equalTo(response.getHeaders()));
+    assertThat(found.isModified(), is(true));
 
     URI uri = getUri();
-    String url = getRequestUrl(service, instance.getId() + "/supervisingUsers");
-    assertThat(uri.toString(), startsWith(url));
-    assertThat(uri.toString(), containsString("rightId=" + right));
-    assertThat(uri.toString(), containsString("programId=" + program));
+    String url = getRequestUrl(service, instance.getId() + "/permissionStrings");
+    assertThat(uri.toString(), equalTo(url));
 
     HttpEntity entity = getEntity();
 
     assertThat(entity.getBody(), is(nullValue()));
+    assertThat(entity.getHeaders(), hasEntry(HttpHeaders.IF_NONE_MATCH, singletonList(etag)));
+  }
+
+  @Test
+  public void shouldNotRetrievePermissionStringsIfThereWasNoChange() throws Exception {
+    UserDto instance = generateInstance();
+    String etag = RandomStringUtils.random(10);
+
+    // when
+    mockArrayRequest(HttpMethod.GET, String[].class);
+    mockArrayResponse(response ->
+        when(response.getStatusCode()).thenReturn(HttpStatus.NOT_MODIFIED));
+
+    ServiceResponse<List<String>> found = service.getPermissionStrings(instance.getId(), etag);
+
+    // then
+    ResponseEntity response = getArrayResponse();
+
+    assertThat(found.getBody(), is(nullValue()));
+    assertThat(found.getHeaders(), equalTo(response.getHeaders()));
+    assertThat(found.isModified(), is(false));
+
+    URI uri = getUri();
+    String url = getRequestUrl(service, instance.getId() + "/permissionStrings");
+    assertThat(uri.toString(), equalTo(url));
+
+    HttpEntity entity = getEntity();
+
+    assertThat(entity.getBody(), is(nullValue()));
+    assertThat(entity.getHeaders(), hasEntry(HttpHeaders.IF_NONE_MATCH, singletonList(etag)));
   }
 }

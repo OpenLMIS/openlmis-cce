@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.service;
 
+import org.openlmis.cce.dto.BaseDto;
 import org.openlmis.cce.util.DynamicPageTypeReference;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpMethod;
@@ -27,7 +28,12 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-public abstract class ResourceCommunicationService<T> extends BaseCommunicationService<T> {
+public abstract class ResourceCommunicationService<T extends BaseDto>
+    extends BaseCommunicationService {
+
+  protected abstract Class<T> getResultClass();
+
+  protected abstract Class<T[]> getArrayResultClass();
 
   /**
    * Return one object from service.
@@ -54,7 +60,7 @@ public abstract class ResourceCommunicationService<T> extends BaseCommunicationS
   }
 
   public List<T> findAll() {
-    return findAll("", getArrayResultClass());
+    return findAll("", null, getArrayResultClass());
   }
 
   /**
@@ -64,19 +70,14 @@ public abstract class ResourceCommunicationService<T> extends BaseCommunicationS
    * @param parameters  Map of query parameters.
    * @return all reference data T objects.
    */
-  public List<T> findAll(String resourceUrl, RequestParameters parameters) {
-    return findAll(resourceUrl, parameters, null, HttpMethod.GET, getArrayResultClass());
+  protected List<T> findAll(String resourceUrl, RequestParameters parameters) {
+    return findAll(resourceUrl, parameters, getArrayResultClass());
   }
 
-  protected <P> List<P> findAll(String resourceUrl, Class<P[]> type) {
-    return findAll(resourceUrl, RequestParameters.init(), null, HttpMethod.GET, type);
-  }
-
-  protected <P> List<P> findAll(String resourceUrl, RequestParameters parameters,
-                                Object payload, HttpMethod method, Class<P[]> type) {
+  protected <P> List<P> findAll(String resourceUrl, RequestParameters parameters, Class<P[]> type) {
     try {
       return Stream
-          .of(execute(resourceUrl, parameters, null, payload, method, type).getBody())
+          .of(execute(resourceUrl, parameters, null, null, HttpMethod.GET, type).getBody())
           .collect(Collectors.toList());
     } catch (HttpStatusCodeException ex) {
       throw buildDataRetrievalException(ex);
@@ -110,7 +111,7 @@ public abstract class ResourceCommunicationService<T> extends BaseCommunicationS
    * @param payload     body to include with the outgoing request.
    * @return Page of reference data T objects.
    */
-  public Page<T> getPage(String resourceUrl, RequestParameters parameters, Object payload) {
+  protected Page<T> getPage(String resourceUrl, RequestParameters parameters, Object payload) {
     try {
       DynamicPageTypeReference<T> type = new DynamicPageTypeReference<>(getResultClass());
       return execute(resourceUrl, parameters, null, payload, HttpMethod.POST, type).getBody();

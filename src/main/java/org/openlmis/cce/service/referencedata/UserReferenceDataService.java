@@ -15,13 +15,17 @@
 
 package org.openlmis.cce.service.referencedata;
 
+import static org.springframework.util.CollectionUtils.isEmpty;
+
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.RequestParameters;
-import org.springframework.data.domain.Page;
+import org.openlmis.cce.service.ServiceResponse;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 @Service
 public class UserReferenceDataService extends BaseReferenceDataService<UserDto> {
@@ -51,7 +55,11 @@ public class UserReferenceDataService extends BaseReferenceDataService<UserDto> 
     Map<String, Object> requestBody = new HashMap<>();
     requestBody.put("username", name);
 
-    Page<UserDto> users = getPage("search", RequestParameters.init(), requestBody);
-    return users.getContent().isEmpty() ? null : users.getContent().get(0);
+    List<UserDto> users = getPage("search", RequestParameters.init(), requestBody).getContent();
+    return isEmpty(users) ? null : users.get(0);
+  }
+
+  public ServiceResponse<List<String>> getPermissionStrings(UUID user, String etag) {
+    return tryFindAll(user + "/permissionStrings", String[].class, etag);
   }
 }

@@ -35,7 +35,7 @@ public final class RequestHeaders {
   }
 
   public RequestHeaders setAuth(String token) {
-    return set(HttpHeaders.AUTHORIZATION, "Bearer " + token);
+    return isNotBlank(token) ? set(HttpHeaders.AUTHORIZATION, "Bearer " + token) : this;
   }
 
   RequestHeaders setIfNoneMatch(String value) {
@@ -67,7 +67,7 @@ public final class RequestHeaders {
     return httpHeaders;
   }
 
-  private void forEach(Consumer<Map.Entry<String, String>> action) {
+  void forEach(Consumer<Map.Entry<String, String>> action) {
     headers.entrySet().forEach(action);
   }
 

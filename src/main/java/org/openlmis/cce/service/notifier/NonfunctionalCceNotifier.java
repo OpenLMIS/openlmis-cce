@@ -29,7 +29,6 @@ import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.service.referencedata.RightReferenceDataService;
-import org.openlmis.cce.service.referencedata.SupervisingUsersReferenceDataService;
 import org.openlmis.cce.service.referencedata.SupervisoryNodeReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.openlmis.cce.util.Message;
@@ -46,9 +45,6 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
 
   @Autowired
   private RightReferenceDataService rightReferenceDataService;
-
-  @Autowired
-  private SupervisingUsersReferenceDataService supervisingUsersReferenceDataService;
 
   @Autowired
   private SupervisoryNodeReferenceDataService supervisoryNodeReferenceDataService;
@@ -102,8 +98,8 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
     logger.debug("Supervisory node found: " + supervisoryNode.getName());
 
     RightDto right = rightReferenceDataService.findRight(CCE_INVENTORY_EDIT);
-    return supervisingUsersReferenceDataService
-        .findAll(supervisoryNode.getId(), right.getId(), inventoryItem.getProgramId());
+    return supervisoryNodeReferenceDataService
+        .findSupervisingUsers(supervisoryNode.getId(), right.getId(), inventoryItem.getProgramId());
   }
 
   private Map<String, String> getValuesMap(InventoryItem inventoryItem) {

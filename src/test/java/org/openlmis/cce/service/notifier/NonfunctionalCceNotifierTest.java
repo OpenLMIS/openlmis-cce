@@ -46,7 +46,6 @@ import org.openlmis.cce.i18n.MessageService;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.service.referencedata.RightReferenceDataService;
-import org.openlmis.cce.service.referencedata.SupervisingUsersReferenceDataService;
 import org.openlmis.cce.service.referencedata.SupervisoryNodeReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.openlmis.cce.util.Message;
@@ -98,9 +97,6 @@ public class NonfunctionalCceNotifierTest {
 
   @Mock
   private RightReferenceDataService rightReferenceDataService;
-
-  @Mock
-  private SupervisingUsersReferenceDataService supervisingUsersReferenceDataService;
 
   @Mock
   private SupervisoryNodeReferenceDataService supervisoryNodeReferenceDataService;
@@ -196,7 +192,8 @@ public class NonfunctionalCceNotifierTest {
 
   @Test
   public void shouldNotNotifyWhenUserIsNull() {
-    when(supervisingUsersReferenceDataService.findAll(supervisoryNodeId, rightId, programId))
+    when(supervisoryNodeReferenceDataService
+        .findSupervisingUsers(supervisoryNodeId, rightId, programId))
         .thenReturn(Collections.emptyList());
 
     notifier.notify(inventoryItem);
@@ -270,7 +267,8 @@ public class NonfunctionalCceNotifierTest {
     when(rightReferenceDataService.findRight(CCE_INVENTORY_EDIT)).thenReturn(right);
     when(right.getId()).thenReturn(rightId);
 
-    when(supervisingUsersReferenceDataService.findAll(supervisoryNodeId, rightId, programId))
+    when(supervisoryNodeReferenceDataService
+        .findSupervisingUsers(supervisoryNodeId, rightId, programId))
         .thenReturn(users);
   }
 

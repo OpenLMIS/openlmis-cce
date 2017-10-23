@@ -15,18 +15,24 @@
 
 package org.openlmis.cce.service.referencedata;
 
-import org.openlmis.cce.dto.BaseDto;
-import org.openlmis.cce.service.ResourceCommunicationService;
-import org.springframework.beans.factory.annotation.Value;
+import org.openlmis.cce.dto.FacilityDto;
 
-public abstract class BaseReferenceDataService<T extends BaseDto>
-    extends ResourceCommunicationService<T> {
+import java.util.UUID;
 
-  @Value("${referencedata.url}")
-  private String referenceDataUrl;
+public class FacilityReferenceDataServiceTest extends BaseReferenceDataServiceTest<FacilityDto> {
+  private final FacilityReferenceDataService service = new FacilityReferenceDataService();
 
   @Override
-  protected String getServiceUrl() {
-    return referenceDataUrl;
+  protected BaseReferenceDataService<FacilityDto> getService() {
+    return service;
   }
+
+  @Override
+  protected FacilityDto generateInstance() {
+    FacilityDto dto = new FacilityDto();
+    dto.setId(UUID.randomUUID());
+
+    return dto;
+  }
+
 }
