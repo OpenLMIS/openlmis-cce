@@ -17,11 +17,17 @@ package org.openlmis.cce;
 
 import static org.openlmis.cce.util.Pagination.DEFAULT_PAGE_NUMBER;
 
+import java.util.List;
+import java.util.Map;
+
 import org.javers.core.Javers;
 import org.javers.core.metamodel.object.CdoSnapshot;
 import org.javers.repository.jql.QueryBuilder;
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.openlmis.cce.domain.BaseEntity;
+import org.slf4j.ext.XLogger;
+import org.slf4j.ext.XLoggerFactory;
+import org.slf4j.profiler.Profiler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.context.ApplicationContext;
@@ -33,9 +39,6 @@ import org.springframework.data.repository.CrudRepository;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
-import java.util.Map;
-
 /**
  * AuditLogInitializer runs after its associated Spring application has loaded.
  * It examines each domain object in the database and registers them with JaVers
@@ -44,8 +47,9 @@ import java.util.Map;
  */
 
 @Component
-@Profile("!test")
+@Profile("refresh-db")
 public class AuditLogInitializer implements CommandLineRunner {
+  private static final XLogger LOGGER = XLoggerFactory.getXLogger(AuditLogInitializer.class);
 
   @Autowired
   private ApplicationContext applicationContext;
@@ -58,17 +62,32 @@ public class AuditLogInitializer implements CommandLineRunner {
    * @param args Main method arguments.
    */
   public void run(String... args) {
+    LOGGER.entry();
+    Profiler profiler = new Profiler("RUN_AUDIT_LOG_INIT");
+    profiler.setLogger(LOGGER);
+
+    profiler.start("GET_AUDITABLE_REPOSITORIES");
     //Get all JaVers repositories.
     Map<String,Object> repositoryMap =
             applicationContext.getBeansWithAnnotation(JaversSpringDataAuditable.class);
 
     //For each one...
-    for (Object object : repositoryMap.values()) {
-      if (object instanceof PagingAndSortingRepository) {
-        createSnapshots((PagingAndSortingRepository<?, ?>) object);
-      } else if (object instanceof CrudRepository) {
-        createSnapshots((CrudRepository<?, ?>) object);
-      }
+    for (Map.Entry<String, Object> entry : repositoryMap.entrySet()) {
+      String beanName = entry.getKey();
+      Object bean = entry.getValue();
+      profiler.start("CREATE_SNAPSHOTS_OF_" + beanName);
+      createSnapshots(bean);
+    }
+
+    profiler.stop().log();
+    LOGGER.exit();
+  }
+
+  private void createSnapshots(Object bean) {
+    if (bean instanceof PagingAndSortingRepository) {
+      createSnapshots((PagingAndSortingRepository<?, ?>) bean);
+    } else if (bean instanceof CrudRepository) {
+      createSnapshots((CrudRepository<?, ?>) bean);
     }
   }
 
