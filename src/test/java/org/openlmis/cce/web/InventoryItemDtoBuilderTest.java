@@ -15,8 +15,8 @@
 
 package org.openlmis.cce.web;
 
-import static java.util.Collections.emptyList;
 import static java.util.Collections.singletonList;
+import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -29,18 +29,16 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.dto.FacilityDto;
+import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.UserDto;
-import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
-
+import org.springframework.test.util.ReflectionTestUtils;
 import java.util.UUID;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InventoryItemDtoBuilderTest {
 
-  @Mock
-  private FacilityReferenceDataService facilityReferenceDataService;
+  private static final String SERVICE_URL = "localhost";
 
   @Mock
   private UserReferenceDataService userReferenceDataService;
@@ -49,54 +47,43 @@ public class InventoryItemDtoBuilderTest {
   private InventoryItemDtoBuilder builder;
 
   @Mock
-  private InventoryItem inventoryItem;
-
-  @Mock
-  private FacilityDto facility;
-
-  @Mock
   private UserDto user;
+
+  private InventoryItem inventoryItem = new InventoryItem();
 
   @Before
   public void setUp() throws Exception {
-    when(facility.getId()).thenReturn(UUID.randomUUID());
-
     when(user.getId()).thenReturn(UUID.randomUUID());
 
-    when(inventoryItem.getFacilityId()).thenReturn(UUID.randomUUID());
-    when(inventoryItem.getLastModifierId()).thenReturn(UUID.randomUUID());
+    inventoryItem.setFacilityId(UUID.randomUUID());
+    inventoryItem.setLastModifierId(UUID.randomUUID());
 
     when(userReferenceDataService.findAll()).thenReturn(singletonList(user));
-    when(facilityReferenceDataService.findAll()).thenReturn(singletonList(facility));
+
+    ReflectionTestUtils.setField(builder, "serviceUrl", SERVICE_URL);
   }
 
   @Test
   public void shouldBuildDtoForList() throws Exception {
     builder.build(singletonList(inventoryItem));
 
-    verify(facilityReferenceDataService).findOne(inventoryItem.getFacilityId());
     verify(userReferenceDataService).findOne(inventoryItem.getLastModifierId());
   }
 
   @Test
   public void shouldBuildDto() throws Exception {
-    builder.build(inventoryItem);
+    InventoryItemDto build = builder.build(inventoryItem);
 
-    verify(facilityReferenceDataService).findOne(inventoryItem.getFacilityId());
+    assertEquals(
+        SERVICE_URL + BaseController.API_PATH + InventoryItemController.RESOURCE_PATH,
+        build.getFacility().getHref());
     verify(userReferenceDataService).findOne(inventoryItem.getLastModifierId());
   }
   
   @Test
-  public void shouldUseFacilityFromListIfIdsMatch() throws Exception {
-    UUID facilityId = UUID.randomUUID();
-    
-    when(facility.getId()).thenReturn(facilityId);
-    when(inventoryItem.getFacilityId()).thenReturn(facilityId);
-    when(userReferenceDataService.findAll()).thenReturn(emptyList());
-
+  public void shouldNotUseUserFromListIfIdsMismatchMatch() throws Exception {
     builder.build(singletonList(inventoryItem));
 
-    verify(facilityReferenceDataService, never()).findOne(any(UUID.class));
     verify(userReferenceDataService).findOne(inventoryItem.getLastModifierId());
   }
  
@@ -105,12 +92,10 @@ public class InventoryItemDtoBuilderTest {
     UUID userId = UUID.randomUUID();
     
     when(user.getId()).thenReturn(userId);
-    when(inventoryItem.getLastModifierId()).thenReturn(userId);
-    when(facilityReferenceDataService.findAll()).thenReturn(emptyList());
+    inventoryItem.setLastModifierId(userId);
 
     builder.build(singletonList(inventoryItem));
     
-    verify(facilityReferenceDataService).findOne(inventoryItem.getFacilityId());
     verify(userReferenceDataService, never()).findOne(any(UUID.class));
   }
 

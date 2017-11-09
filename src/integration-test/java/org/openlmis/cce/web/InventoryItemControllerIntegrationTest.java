@@ -35,7 +35,7 @@ import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PER
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 
 import com.jayway.restassured.response.Response;
-
+import guru.nidi.ramltester.junit.RamlMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.stubbing.answers.Returns;
@@ -52,8 +52,8 @@ import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
 import org.openlmis.cce.dto.CatalogItemDto;
-import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
+import org.openlmis.cce.dto.ObjectReferenceDto;
 import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
@@ -68,12 +68,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-
-import guru.nidi.ramltester.junit.RamlMatchers;
-
 import java.util.UUID;
 
-@SuppressWarnings({"PMD.UnusedPrivateField", "PMD.TooManyMethods"})
+@SuppressWarnings("PMD.TooManyMethods")
 public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTest {
 
   private static final String RESOURCE_URL = "/api/inventoryItems";
@@ -99,7 +96,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private String editPermission = PermissionService.CCE_INVENTORY_EDIT;
   private String viewPermission = PermissionService.CCE_INVENTORY_VIEW;
   private UUID inventoryId = UUID.randomUUID();
-  private FacilityDto facility = new FacilityDto();
+  private ObjectReferenceDto facility = new ObjectReferenceDto(UUID.randomUUID());
   private UserDto userDto = new UserDto();
   private CatalogItemDto catalogItemDto = new CatalogItemDto();
 
@@ -108,7 +105,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     mockUserAuthenticated();
 
     userDto.setId(USER_ID);
-    facility.setId(UUID.randomUUID());
 
     CatalogItem catalogItem = new CatalogItem();
     catalogItem.setFromPqsCatalog(true);

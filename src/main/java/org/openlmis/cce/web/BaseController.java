@@ -17,6 +17,7 @@ package org.openlmis.cce.web;
 
 import static org.openlmis.cce.i18n.MessageKeys.ERROR_FILE_IS_EMPTY;
 import static org.openlmis.cce.i18n.MessageKeys.ERROR_INCORRECT_FILE_FORMAT;
+import static org.openlmis.cce.web.BaseController.API_PATH;
 
 import org.apache.commons.lang3.StringUtils;
 import org.javers.core.Javers;
@@ -33,8 +34,10 @@ import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 import java.util.UUID;
 
-@RequestMapping("/api")
+@RequestMapping(API_PATH)
 public abstract class BaseController {
+
+  static final String API_PATH = "/api";
 
   @Autowired
   private Javers javers;

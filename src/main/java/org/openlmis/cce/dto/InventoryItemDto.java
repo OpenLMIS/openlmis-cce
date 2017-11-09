@@ -46,7 +46,7 @@ import java.util.UUID;
 public class InventoryItemDto extends BaseDto
     implements InventoryItem.Exporter, InventoryItem.Importer {
 
-  private FacilityDto facility;
+  private ObjectReferenceDto facility;
 
   private CatalogItemDto catalogItem;
 
@@ -100,8 +100,7 @@ public class InventoryItemDto extends BaseDto
 
   @Override
   public void setFacilityId(UUID facilityId) {
-    this.facility = new FacilityDto();
-    this.facility.setId(facilityId);
+    this.facility = new ObjectReferenceDto(facilityId);
   }
 
   @Override

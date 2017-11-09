@@ -46,11 +46,10 @@ import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
 import org.openlmis.cce.dto.CatalogItemDto;
-import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
+import org.openlmis.cce.dto.ObjectReferenceDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.util.Message;
-
 import java.util.UUID;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -67,15 +66,14 @@ public class InventoryItemValidatorTest {
 
   private CatalogItemDto catalogItemDto;
 
-  private FacilityDto facility;
+  private ObjectReferenceDto facility;
 
   @Before
   public void before() {
     catalogItemDto = new CatalogItemDto();
     catalogItemDto.setId(UUID.randomUUID());
 
-    facility = new FacilityDto();
-    facility.setId(UUID.randomUUID());
+    facility = new ObjectReferenceDto(UUID.randomUUID());
 
     inventoryItemDto = new InventoryItemDto(facility, catalogItemDto, UUID.randomUUID(),
         "eqTrackingId", "Some Reference Name", 2010, 2020,

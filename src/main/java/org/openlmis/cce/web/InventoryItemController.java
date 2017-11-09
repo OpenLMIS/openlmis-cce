@@ -18,6 +18,7 @@ package org.openlmis.cce.web;
 import static org.apache.commons.lang3.StringUtils.equalsIgnoreCase;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
+import static org.openlmis.cce.web.InventoryItemController.RESOURCE_PATH;
 
 import com.google.common.collect.Sets;
 
@@ -56,9 +57,11 @@ import java.util.UUID;
 
 @Controller
 @Transactional
+@RequestMapping(RESOURCE_PATH)
 public class InventoryItemController extends BaseController {
   private static final XLogger XLOGGER = XLoggerFactory.getXLogger(InventoryItemController.class);
 
+  static final String RESOURCE_PATH = API_PATH + "/inventoryItems";
   private static final String PROFILER_CHECK_PERMISSION = "CHECK_PERMISSION";
 
   @Autowired
@@ -85,7 +88,7 @@ public class InventoryItemController extends BaseController {
    * @param inventoryItemDto A CCE Inventory item bound to the request body.
    * @return created CCE Inventory item.
    */
-  @RequestMapping(value = "/inventoryItems", method = RequestMethod.POST)
+  @RequestMapping(value = "", method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public InventoryItemDto create(@RequestBody InventoryItemDto inventoryItemDto) {
@@ -118,7 +121,7 @@ public class InventoryItemController extends BaseController {
    * @param inventoryItemId UUID of CCE Inventory item which we want to get
    * @return CCE Inventory item.
    */
-  @RequestMapping(value = "/inventoryItems/{id}", method = RequestMethod.GET)
+  @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public InventoryItemDto getInventoryItem(@PathVariable("id") UUID inventoryItemId) {
@@ -151,7 +154,7 @@ public class InventoryItemController extends BaseController {
    *
    * @return CCE Inventory items.
    */
-  @RequestMapping(value = "/inventoryItems", method = RequestMethod.GET)
+  @RequestMapping(value = "", method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public Page<InventoryItemDto> getAll(Pageable pageable) {
@@ -198,7 +201,7 @@ public class InventoryItemController extends BaseController {
    * @param inventoryItemDto Inventory item that will be updated
    * @return updated CCE Inventory item.
    */
-  @RequestMapping(value = "/inventoryItems/{id}", method = RequestMethod.PUT)
+  @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public InventoryItemDto updateInventoryItem(@RequestBody InventoryItemDto inventoryItemDto,
@@ -232,7 +235,7 @@ public class InventoryItemController extends BaseController {
   /**
    * Deletes CCE Inventory item with the given id.
    */
-  @RequestMapping(value = "/inventoryItems/{id}", method = RequestMethod.DELETE)
+  @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
   @ResponseStatus(HttpStatus.NO_CONTENT)
   public void deleteInventoryItem(@PathVariable("id") UUID id) {
     XLOGGER.entry(id);

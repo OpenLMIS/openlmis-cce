@@ -10,7 +10,7 @@
     },
     "facility": {
       "type": "object",
-      "$ref": "basicFacilityDto.json",
+      "$ref": "referenceObjectDto.json",
       "title": "facility"
     },
     "catalogItem": {

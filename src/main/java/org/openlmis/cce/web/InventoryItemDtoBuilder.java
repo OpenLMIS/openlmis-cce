@@ -16,20 +16,16 @@
 package org.openlmis.cce.web;
 
 import com.google.common.collect.Maps;
-
+import lombok.AllArgsConstructor;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.BaseDto;
-import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.ResourceCommunicationService;
-import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-
-import lombok.AllArgsConstructor;
-
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -42,8 +38,8 @@ import java.util.function.Function;
 @Component
 public class InventoryItemDtoBuilder {
 
-  @Autowired
-  private FacilityReferenceDataService facilityReferenceDataService;
+  @Value("${service.url}")
+  private String serviceUrl;
 
   @Autowired
   private UserReferenceDataService userReferenceDataService;
@@ -55,10 +51,8 @@ public class InventoryItemDtoBuilder {
    * @return a list of {@link InventoryItemDto}
    */
   public List<InventoryItemDto> build(Collection<InventoryItem> inventoryItems) {
-    List<FacilityDto> facilities = facilityReferenceDataService.findAll();
     List<UserDto> users = userReferenceDataService.findAll();
 
-    Map<UUID, FacilityDto> facilityCache = Maps.newHashMap();
     Map<UUID, UserDto> userCache = Maps.newHashMap();
 
     List<InventoryItemDto> built = new ArrayList<>();
@@ -68,10 +62,7 @@ public class InventoryItemDtoBuilder {
         continue;
       }
 
-      InventoryItemDto dto = new InventoryItemDto();
-      item.export(dto);
-
-      dto.setFacility(getFacility(item.getFacilityId(), facilities, facilityCache));
+      InventoryItemDto dto = export(item);
 
       if (null != item.getLastModifierId()) {
         dto.setLastModifier(getUser(item.getLastModifierId(), users, userCache));
@@ -95,11 +86,7 @@ public class InventoryItemDtoBuilder {
       return null;
     }
 
-    InventoryItemDto inventoryItemDto = new InventoryItemDto();
-    inventoryItem.export(inventoryItemDto);
-
-    inventoryItemDto.setFacility(facilityReferenceDataService
-        .findOne(inventoryItem.getFacilityId()));
+    InventoryItemDto inventoryItemDto = export(inventoryItem);
 
     if (inventoryItem.getLastModifierId() != null) {
       inventoryItemDto.setLastModifier(userReferenceDataService
@@ -109,11 +96,18 @@ public class InventoryItemDtoBuilder {
     return inventoryItemDto;
   }
 
-
-  private FacilityDto getFacility(UUID facilityId, Collection<FacilityDto> facilities,
-                                  Map<UUID, FacilityDto> facilityCache) {
-    return get(facilityId, facilities, facilityCache, facilityReferenceDataService);
+  private InventoryItemDto export(InventoryItem item) {
+    InventoryItemDto dto = new InventoryItemDto();
+    item.export(dto);
+    setHrefProperties(dto);
+    return dto;
   }
+
+  private void setHrefProperties(InventoryItemDto dto) {
+    dto.getFacility()
+        .setHref(serviceUrl + BaseController.API_PATH + InventoryItemController.RESOURCE_PATH);
+  }
+
 
   private UserDto getUser(UUID userId, Collection<UserDto> users, Map<UUID, UserDto> userCache) {
     return get(userId, users, userCache, userReferenceDataService);
