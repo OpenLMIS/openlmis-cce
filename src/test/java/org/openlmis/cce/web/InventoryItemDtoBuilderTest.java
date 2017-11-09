@@ -28,6 +28,7 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.UserDto;
@@ -49,7 +50,7 @@ public class InventoryItemDtoBuilderTest {
   @Mock
   private UserDto user;
 
-  private InventoryItem inventoryItem = new InventoryItem();
+  private InventoryItem inventoryItem = new InventoryItemDataBuilder().build();
 
   @Before
   public void setUp() throws Exception {
