@@ -56,9 +56,6 @@ public class InventoryItemDtoBuilderTest {
   public void setUp() throws Exception {
     when(user.getId()).thenReturn(UUID.randomUUID());
 
-    inventoryItem.setFacilityId(UUID.randomUUID());
-    inventoryItem.setLastModifierId(UUID.randomUUID());
-
     when(userReferenceDataService.findAll()).thenReturn(singletonList(user));
 
     ReflectionTestUtils.setField(builder, "serviceUrl", SERVICE_URL);
