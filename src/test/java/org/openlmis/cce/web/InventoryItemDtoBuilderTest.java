@@ -76,7 +76,7 @@ public class InventoryItemDtoBuilderTest {
     InventoryItemDto build = builder.build(inventoryItem);
 
     assertEquals(
-        SERVICE_URL + BaseController.API_PATH + InventoryItemController.RESOURCE_PATH,
+        SERVICE_URL + InventoryItemController.RESOURCE_PATH,
         build.getFacility().getHref());
     verify(userReferenceDataService).findOne(inventoryItem.getLastModifierId());
   }

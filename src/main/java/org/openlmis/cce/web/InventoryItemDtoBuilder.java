@@ -105,7 +105,7 @@ public class InventoryItemDtoBuilder {
 
   private void setHrefProperties(InventoryItemDto dto) {
     dto.getFacility()
-        .setHref(serviceUrl + BaseController.API_PATH + InventoryItemController.RESOURCE_PATH);
+        .setHref(serviceUrl + InventoryItemController.RESOURCE_PATH);
   }
 
 
