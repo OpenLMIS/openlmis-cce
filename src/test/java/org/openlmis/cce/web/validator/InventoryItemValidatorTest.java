@@ -73,10 +73,10 @@ public class InventoryItemValidatorTest {
     catalogItemDto = new CatalogItemDto();
     catalogItemDto.setId(UUID.randomUUID());
 
-    facility = new ObjectReferenceDto(UUID.randomUUID());
+    facility = new ObjectReferenceDto(UUID.randomUUID(), "facilities");
 
-    inventoryItemDto = new InventoryItemDto(facility, catalogItemDto, UUID.randomUUID(),
-        "eqTrackingId", "Some Reference Name", 2010, 2020,
+    inventoryItemDto = new InventoryItemDto("localhost", facility, catalogItemDto,
+        UUID.randomUUID(), "eqTrackingId", "Some Reference Name", 2010, 2020,
         "some source", FunctionalStatus.FUNCTIONING,
         ReasonNotWorkingOrNotInUse.NOT_APPLICABLE, Utilization.ACTIVE,
         VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,

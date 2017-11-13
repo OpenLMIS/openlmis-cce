@@ -88,7 +88,7 @@ public class InventoryItemController extends BaseController {
    * @param inventoryItemDto A CCE Inventory item bound to the request body.
    * @return created CCE Inventory item.
    */
-  @RequestMapping(value = "", method = RequestMethod.POST)
+  @RequestMapping(method = RequestMethod.POST)
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   public InventoryItemDto create(@RequestBody InventoryItemDto inventoryItemDto) {
@@ -154,7 +154,7 @@ public class InventoryItemController extends BaseController {
    *
    * @return CCE Inventory items.
    */
-  @RequestMapping(value = "", method = RequestMethod.GET)
+  @RequestMapping(method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public Page<InventoryItemDto> getAll(Pageable pageable) {

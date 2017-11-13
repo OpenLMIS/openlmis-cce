@@ -37,7 +37,7 @@ import java.util.UUID;
 @RequestMapping(API_PATH)
 public abstract class BaseController {
 
-  static final String API_PATH = "/api";
+  public static final String API_PATH = "/api";
 
   @Autowired
   private Javers javers;

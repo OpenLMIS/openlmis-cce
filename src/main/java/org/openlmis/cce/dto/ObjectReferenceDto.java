@@ -15,11 +15,16 @@
 
 package org.openlmis.cce.dto;
 
+import static org.apache.commons.lang3.StringUtils.joinWith;
+
 import lombok.Getter;
 import lombok.Setter;
+import org.openlmis.cce.web.BaseController;
 import java.util.UUID;
 
 public class ObjectReferenceDto extends BaseDto {
+
+  public static final String SEPARATOR = "/";
 
   @Getter
   @Setter
@@ -32,7 +37,18 @@ public class ObjectReferenceDto extends BaseDto {
    *
    * @param id   object id
    */
-  public ObjectReferenceDto(UUID id) {
+  public ObjectReferenceDto(UUID id, String href) {
     setId(id);
+    this.href = href;
   }
+
+  public static ObjectReferenceDto ofFacility(UUID id, String serviceUrl) {
+    return create(id, serviceUrl, "facilities");
+  }
+
+  public static ObjectReferenceDto create(UUID id, String serviceUrl, String resourceName) {
+    return new ObjectReferenceDto(id,
+        joinWith(SEPARATOR, serviceUrl + BaseController.API_PATH, resourceName, id));
+  }
+
 }

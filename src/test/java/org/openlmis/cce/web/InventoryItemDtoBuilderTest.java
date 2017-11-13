@@ -31,6 +31,7 @@ import org.mockito.runners.MockitoJUnitRunner;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
+import org.openlmis.cce.dto.ObjectReferenceDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.springframework.test.util.ReflectionTestUtils;
@@ -72,9 +73,11 @@ public class InventoryItemDtoBuilderTest {
   public void shouldBuildDto() throws Exception {
     InventoryItemDto build = builder.build(inventoryItem);
 
+    ObjectReferenceDto facility = build.getFacility();
+    assertEquals(inventoryItem.getFacilityId(), facility.getId());
     assertEquals(
-        SERVICE_URL + InventoryItemController.RESOURCE_PATH,
-        build.getFacility().getHref());
+        SERVICE_URL + BaseController.API_PATH + "/facilities/" + inventoryItem.getFacilityId(),
+        facility.getHref());
     verify(userReferenceDataService).findOne(inventoryItem.getLastModifierId());
   }
   

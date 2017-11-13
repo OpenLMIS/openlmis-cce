@@ -98,16 +98,10 @@ public class InventoryItemDtoBuilder {
 
   private InventoryItemDto export(InventoryItem item) {
     InventoryItemDto dto = new InventoryItemDto();
+    dto.setServiceUrl(serviceUrl);
     item.export(dto);
-    setHrefProperties(dto);
     return dto;
   }
-
-  private void setHrefProperties(InventoryItemDto dto) {
-    dto.getFacility()
-        .setHref(serviceUrl + InventoryItemController.RESOURCE_PATH);
-  }
-
 
   private UserDto getUser(UUID userId, Collection<UserDto> users, Map<UUID, UserDto> userCache) {
     return get(userId, users, userCache, userReferenceDataService);

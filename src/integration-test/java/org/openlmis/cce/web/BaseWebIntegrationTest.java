@@ -43,12 +43,14 @@ import org.openlmis.cce.i18n.MessageService;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
+import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import guru.nidi.ramltester.RamlDefinition;
@@ -61,7 +63,9 @@ import javax.annotation.PostConstruct;
 
 
 @RunWith(SpringRunner.class)
+@SpringBootConfiguration
 @SpringBootTest(webEnvironment = RANDOM_PORT)
+@TestPropertySource(properties = {"service.url=" + BaseWebIntegrationTest.SERVICE_URL})
 @ActiveProfiles("test")
 @DirtiesContext
 @SuppressWarnings("PMD.TooManyMethods")
@@ -74,6 +78,7 @@ public abstract class BaseWebIntegrationTest {
   protected static final String RAML_ASSERT_MESSAGE =
       "HTTP request/response should match RAML definition.";
   protected static final UUID USER_ID = UUID.randomUUID();
+  protected static final String SERVICE_URL = "http://localhost";
 
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(80);
@@ -178,3 +183,4 @@ public abstract class BaseWebIntegrationTest {
 
   }
 }
+

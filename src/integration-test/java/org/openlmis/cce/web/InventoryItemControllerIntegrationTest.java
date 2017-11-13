@@ -17,6 +17,7 @@ package org.openlmis.cce.web;
 
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
+import static org.apache.commons.lang3.StringUtils.joinWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -30,9 +31,11 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.openlmis.cce.dto.ObjectReferenceDto.SEPARATOR;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
+import static org.openlmis.cce.web.BaseController.API_PATH;
 
 import com.jayway.restassured.response.Response;
 import guru.nidi.ramltester.junit.RamlMatchers;
@@ -96,7 +99,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private String editPermission = PermissionService.CCE_INVENTORY_EDIT;
   private String viewPermission = PermissionService.CCE_INVENTORY_VIEW;
   private UUID inventoryId = UUID.randomUUID();
-  private ObjectReferenceDto facility = new ObjectReferenceDto(UUID.randomUUID());
+  private final UUID facilityId = UUID.randomUUID();
+  private ObjectReferenceDto facility =
+      new ObjectReferenceDto(facilityId,
+          joinWith(SEPARATOR, SERVICE_URL + API_PATH, "facilities", facilityId));
   private UserDto userDto = new UserDto();
   private CatalogItemDto catalogItemDto = new CatalogItemDto();
 
@@ -118,7 +124,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     catalogItemDto = new CatalogItemDto();
     catalogItem.export(catalogItemDto);
 
-    inventoryItemDto = new InventoryItemDto(
+    inventoryItemDto = new InventoryItemDto(null,
         facility, catalogItemDto, UUID.randomUUID(), "eqTrackingId",
         "Some Reference Name", 2010, 2020, "some source",
         FunctionalStatus.FUNCTIONING, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
@@ -234,7 +240,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldNotUpdateInvariantInventoryItemFieldsIfInventoryExists() {
-    InventoryItemDto existing = new InventoryItemDto(
+    InventoryItemDto existing = new InventoryItemDto(null,
         facility, catalogItemDto, UUID.randomUUID(), "eqTrackingId2",
         "Some Reference Name", 2005, 2025, "some other source",
         FunctionalStatus.NON_FUNCTIONING, ReasonNotWorkingOrNotInUse.DEAD,
@@ -379,6 +385,8 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private void checkResponseAndRaml(InventoryItemDto response) {
     assertNotNull(response.getModifiedDate());
     inventoryItemDto.setModifiedDate(response.getModifiedDate());
+    assertEquals(inventoryItemDto.getFacility().getId(), response.getFacility().getId());
+    assertEquals(inventoryItemDto.getFacility().getHref(), response.getFacility().getHref());
     assertEquals(inventoryItemDto, response);
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }

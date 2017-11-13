@@ -38,54 +38,97 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
-@Setter
-@Getter
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
 public class InventoryItemDto extends BaseDto
     implements InventoryItem.Exporter, InventoryItem.Importer {
 
+  @Setter
+  private String serviceUrl;
+
+  @Setter
+  @Getter
   private ObjectReferenceDto facility;
 
+  @Setter
+  @Getter
   private CatalogItemDto catalogItem;
 
+  @Setter
+  @Getter
   private UUID programId;
 
+  @Setter
+  @Getter
   private String equipmentTrackingId;
 
+  @Setter
+  @Getter
   private String referenceName;
 
+  @Setter
+  @Getter
   private Integer yearOfInstallation;
 
+  @Setter
+  @Getter
   private Integer yearOfWarrantyExpiry;
 
+  @Setter
+  @Getter
   private String source;
 
+  @Setter
+  @Getter
   private FunctionalStatus functionalStatus;
 
+  @Setter
+  @Getter
   private ReasonNotWorkingOrNotInUse reasonNotWorkingOrNotInUse;
 
+  @Setter
+  @Getter
   private Utilization utilization;
 
+  @Setter
+  @Getter
   private VoltageStabilizerStatus voltageStabilizer;
 
+  @Setter
+  @Getter
   private BackupGeneratorStatus backupGenerator;
 
+  @Setter
+  @Getter
   private VoltageRegulatorStatus voltageRegulator;
 
+  @Setter
+  @Getter
   private ManualTemperatureGaugeType manualTemperatureGauge;
 
+  @Setter
+  @Getter
   private RemoteTemperatureMonitorType remoteTemperatureMonitor;
 
+  @Setter
+  @Getter
   private String remoteTemperatureMonitorId;
 
+  @Setter
+  @Getter
   private String additionalNotes;
 
+  @Setter
+  @Getter
   private LocalDate decommissionDate;
 
+  @Setter
+  @Getter
   private ZonedDateTime modifiedDate;
 
+  @Setter
+  @Getter
   private UserDto lastModifier;
 
   @Override
@@ -100,7 +143,7 @@ public class InventoryItemDto extends BaseDto
 
   @Override
   public void setFacilityId(UUID facilityId) {
-    this.facility = new ObjectReferenceDto(facilityId);
+    this.facility = ObjectReferenceDto.ofFacility(facilityId, serviceUrl);
   }
 
   @Override
