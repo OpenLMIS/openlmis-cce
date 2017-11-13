@@ -55,7 +55,6 @@ import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.service.PermissionStrings;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
-import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.openlmis.cce.util.PageImplRepresentation;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -75,9 +74,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @MockBean
   private FacilityReferenceDataService facilityReferenceDataService;
-
-  @MockBean(name = "userReferenceDataService")
-  private UserReferenceDataService userReferenceDataService;
 
   @MockBean
   private PermissionService permissionService;
@@ -123,9 +119,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
     given(facilityReferenceDataService.findAll()).willAnswer(new Returns(singletonList(facility)));
     given(facilityReferenceDataService.findOne(any(UUID.class))).willAnswer(new Returns(facility));
-
-    given(userReferenceDataService.findAll()).willAnswer(new Returns(singletonList(lastModifier)));
-    given(userReferenceDataService.findOne(any(UUID.class))).willAnswer(new Returns(lastModifier));
   }
 
   @Test
