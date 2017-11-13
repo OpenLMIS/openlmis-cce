@@ -22,10 +22,12 @@ import static org.openlmis.cce.service.ResourceNames.PROGRAMS;
 import static org.openlmis.cce.service.ResourceNames.SEPARATOR;
 import static org.openlmis.cce.service.ResourceNames.USERS;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import java.util.UUID;
 
+@EqualsAndHashCode(callSuper = false)
 public class ObjectReferenceDto extends BaseDto {
 
   @Getter

@@ -51,7 +51,6 @@ public class InventoryItemDto extends BaseDto
   @Getter
   private ObjectReferenceDto facility;
 
-  @Setter
   @Getter
   private CatalogItemDto catalogItem;
 

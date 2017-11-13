@@ -39,18 +39,12 @@ import guru.nidi.ramltester.junit.RamlMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.stubbing.answers.Returns;
-import org.openlmis.cce.domain.BackupGeneratorStatus;
+import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.EnergySource;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.domain.ManualTemperatureGaugeType;
-import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
-import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
 import org.openlmis.cce.domain.StorageTemperature;
-import org.openlmis.cce.domain.Utilization;
-import org.openlmis.cce.domain.VoltageRegulatorStatus;
-import org.openlmis.cce.domain.VoltageStabilizerStatus;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ObjectReferenceDto;
@@ -99,9 +93,8 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private final UUID facilityId = UUID.randomUUID();
   private final UUID programId = UUID.randomUUID();
   private ObjectReferenceDto facility = ObjectReferenceDto.ofFacility(facilityId, SERVICE_URL);
-  private ObjectReferenceDto userDto = ObjectReferenceDto.ofUser(USER_ID, SERVICE_URL);
-  private ObjectReferenceDto program = ObjectReferenceDto.ofUser(programId, SERVICE_URL);
-  private CatalogItemDto catalogItemDto = new CatalogItemDto();
+  private ObjectReferenceDto lastModifier = ObjectReferenceDto.ofUser(USER_ID, SERVICE_URL);
+  private ObjectReferenceDto program = ObjectReferenceDto.ofProgram(programId, SERVICE_URL);
 
   @Before
   public void setUp() {
@@ -116,19 +109,14 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     catalogItem.setStorageTemperature(StorageTemperature.MINUS10);
     catalogItem.setArchived(false);
 
-    catalogItemDto = new CatalogItemDto();
-    catalogItem.export(catalogItemDto);
+    inventoryItem = new InventoryItemDataBuilder()
+        .withCatalogItem(catalogItem)
+        .withLastModifierId(USER_ID)
+        .withFacilityId(facilityId)
+        .withProgramId(programId)
+        .build();
 
-    inventoryItemDto = new InventoryItemDto(null,
-        facility, catalogItemDto, program, "eqTrackingId",
-        "Some Reference Name", 2010, 2020, "some source",
-        FunctionalStatus.FUNCTIONING, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
-        Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
-        VoltageRegulatorStatus.NO, ManualTemperatureGaugeType.BUILD_IN,
-        RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId", "example notes", null, null, userDto
-    );
-
-    inventoryItem = InventoryItem.newInstance(inventoryItemDto, USER_ID);
+    inventoryItemDto = toDto(inventoryItem);
 
     given(inventoryItemRepository.save(any(InventoryItem.class)))
         .willAnswer(new SaveAnswer<InventoryItem>());
@@ -136,8 +124,8 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     given(facilityReferenceDataService.findAll()).willAnswer(new Returns(singletonList(facility)));
     given(facilityReferenceDataService.findOne(any(UUID.class))).willAnswer(new Returns(facility));
 
-    given(userReferenceDataService.findAll()).willAnswer(new Returns(singletonList(userDto)));
-    given(userReferenceDataService.findOne(any(UUID.class))).willAnswer(new Returns(userDto));
+    given(userReferenceDataService.findAll()).willAnswer(new Returns(singletonList(lastModifier)));
+    given(userReferenceDataService.findOne(any(UUID.class))).willAnswer(new Returns(lastModifier));
   }
 
   @Test
@@ -166,7 +154,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @Test
   public void shouldRetrieveInventoryItem() {
     when(inventoryItemRepository.findOne(inventoryId))
-        .thenReturn(InventoryItem.newInstance(inventoryItemDto, USER_ID));
+        .thenReturn(inventoryItem);
 
     InventoryItemDto response = getInventoryItem()
         .then()
@@ -235,18 +223,22 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldNotUpdateInvariantInventoryItemFieldsIfInventoryExists() {
-    InventoryItemDto existing = new InventoryItemDto(null,
-        facility, catalogItemDto, program, "eqTrackingId2",
-        "Some Reference Name", 2005, 2025, "some other source",
-        FunctionalStatus.NON_FUNCTIONING, ReasonNotWorkingOrNotInUse.DEAD,
-        Utilization.NOT_IN_USE, VoltageStabilizerStatus.UNKNOWN,
-        BackupGeneratorStatus.NOT_APPLICABLE, VoltageRegulatorStatus.NOT_APPLICABLE,
-        ManualTemperatureGaugeType.NO_GAUGE, RemoteTemperatureMonitorType.BUILD_IN,
-        "someMonitorId2", "other example notes", null, null, null
-    );
+    CatalogItem catalogItem = new CatalogItem();
+    catalogItem.setFromPqsCatalog(false);
+    catalogItem.setType("type2");
+    catalogItem.setModel("model2");
+    catalogItem.setManufacturer("manufacturer2");
+    catalogItem.setEnergySource(EnergySource.GASOLINE);
+    catalogItem.setStorageTemperature(StorageTemperature.MINUS3);
+    catalogItem.setArchived(true);
 
-    InventoryItem existingItem = InventoryItem.newInstance(existing, null);
-    when(inventoryItemRepository.findOne(inventoryId)).thenReturn(existingItem);
+    InventoryItem existing = new InventoryItemDataBuilder()
+        .withCatalogItem(catalogItem)
+        .withProgramId(UUID.randomUUID())
+        .withFacilityId(UUID.randomUUID())
+        .build();
+
+    when(inventoryItemRepository.findOne(inventoryId)).thenReturn(existing);
 
     InventoryItemDto response = putInventoryItem(inventoryId)
         .then()
@@ -254,9 +246,13 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .extract().as(InventoryItemDto.class);
 
     assertEquals(inventoryId, response.getId());
-    assertEquals(existing.getFacility().getId(), response.getFacility().getId());
+    assertEquals(existing.getFacilityId(), response.getFacilityId());
     assertEquals(existing.getProgramId(), response.getProgramId());
-    assertEquals(existing.getCatalogItem(), response.getCatalogItem());
+
+    CatalogItemDto catalogItemDto = new CatalogItemDto();
+    catalogItem.export(catalogItemDto);
+    assertEquals(catalogItemDto, response.getCatalogItem());
+
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -375,6 +371,16 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, editPermission)));
 
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  private InventoryItemDto toDto(InventoryItem domain) {
+    InventoryItemDto dto = new InventoryItemDto();
+    domain.export(dto);
+    dto.setProgram(program);
+    dto.setFacility(facility);
+    dto.setLastModifier(lastModifier);
+
+    return dto;
   }
 
   private void checkResponseAndRaml(InventoryItemDto response) {

@@ -54,13 +54,45 @@ public class InventoryItemDataBuilder {
   private String additionalNotes = "some additional notes";
   private LocalDate decommissionDate = LocalDate.of(2020, 10, 10);
   private ZonedDateTime modifiedDate =
-      ZonedDateTime.parse("2016-12-03T10:15:30+01:00[Europe/Paris]");
+      ZonedDateTime.parse("2016-12-03T09:15:30Z[UTC]");
   private UUID lastModifierId = UUID.randomUUID();
 
   /**
    * Returns instance of {@link InventoryItemDataBuilder} with sample data.
    */
   public InventoryItemDataBuilder() {}
+
+  /**
+   * Sets {@link CatalogItem}.
+   */
+  public InventoryItemDataBuilder withCatalogItem(CatalogItem catalogItem) {
+    this.catalogItem = catalogItem;
+    return this;
+  }
+
+  /**
+   * Sets {@link CatalogItem}.
+   */
+  public InventoryItemDataBuilder withLastModifierId(UUID lastModifierId) {
+    this.lastModifierId = lastModifierId;
+    return this;
+  }
+
+  /**
+   * Sets {@link CatalogItem}.
+   */
+  public InventoryItemDataBuilder withProgramId(UUID programId) {
+    this.programId = programId;
+    return this;
+  }
+
+  /**
+   * Sets {@link CatalogItem}.
+   */
+  public InventoryItemDataBuilder withFacilityId(UUID facilityId) {
+    this.facilityId = facilityId;
+    return this;
+  }
 
   /**
    * Builds instance of {@link InventoryItem}.
