@@ -71,7 +71,7 @@ public class InventoryItemDataBuilder {
   }
 
   /**
-   * Sets {@link CatalogItem}.
+   * Sets last modifier {@link UUID}.
    */
   public InventoryItemDataBuilder withLastModifierId(UUID lastModifierId) {
     this.lastModifierId = lastModifierId;
@@ -79,7 +79,7 @@ public class InventoryItemDataBuilder {
   }
 
   /**
-   * Sets {@link CatalogItem}.
+   * Sets program {@link UUID}.
    */
   public InventoryItemDataBuilder withProgramId(UUID programId) {
     this.programId = programId;
@@ -87,7 +87,7 @@ public class InventoryItemDataBuilder {
   }
 
   /**
-   * Sets {@link CatalogItem}.
+   * Sets facility {@link UUID}.
    */
   public InventoryItemDataBuilder withFacilityId(UUID facilityId) {
     this.facilityId = facilityId;
