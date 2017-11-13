@@ -129,7 +129,7 @@ public class InventoryItemDto extends BaseDto
 
   @Setter
   @Getter
-  private UserDto lastModifier;
+  private ObjectReferenceDto lastModifier;
 
   @Override
   public void setCatalogItem(CatalogItem catalogItem) {
@@ -148,8 +148,7 @@ public class InventoryItemDto extends BaseDto
 
   @Override
   public void setLastModifierId(UUID lastModifierId) {
-    this.lastModifier = new UserDto();
-    this.lastModifier.setId(lastModifierId);
+    this.lastModifier = ObjectReferenceDto.ofUser(lastModifierId, serviceUrl);
   }
 
   @JsonIgnore

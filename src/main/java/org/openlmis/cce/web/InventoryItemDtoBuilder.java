@@ -15,34 +15,19 @@
 
 package org.openlmis.cce.web;
 
-import com.google.common.collect.Maps;
-import lombok.AllArgsConstructor;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.dto.BaseDto;
 import org.openlmis.cce.dto.InventoryItemDto;
-import org.openlmis.cce.dto.UserDto;
-import org.openlmis.cce.service.ResourceCommunicationService;
-import org.openlmis.cce.service.referencedata.UserReferenceDataService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
-import java.util.function.Function;
 
 @Component
 public class InventoryItemDtoBuilder {
 
   @Value("${service.url}")
   private String serviceUrl;
-
-  @Autowired
-  private UserReferenceDataService userReferenceDataService;
 
   /**
    * Create a list of {@link InventoryItemDto} based on passed data.
@@ -51,9 +36,6 @@ public class InventoryItemDtoBuilder {
    * @return a list of {@link InventoryItemDto}
    */
   public List<InventoryItemDto> build(Collection<InventoryItem> inventoryItems) {
-    List<UserDto> users = userReferenceDataService.findAll();
-
-    Map<UUID, UserDto> userCache = Maps.newHashMap();
 
     List<InventoryItemDto> built = new ArrayList<>();
 
@@ -63,10 +45,6 @@ public class InventoryItemDtoBuilder {
       }
 
       InventoryItemDto dto = export(item);
-
-      if (null != item.getLastModifierId()) {
-        dto.setLastModifier(getUser(item.getLastModifierId(), users, userCache));
-      }
 
       built.add(dto);
     }
@@ -86,14 +64,7 @@ public class InventoryItemDtoBuilder {
       return null;
     }
 
-    InventoryItemDto inventoryItemDto = export(inventoryItem);
-
-    if (inventoryItem.getLastModifierId() != null) {
-      inventoryItemDto.setLastModifier(userReferenceDataService
-          .findOne(inventoryItem.getLastModifierId()));
-    }
-
-    return inventoryItemDto;
+    return export(inventoryItem);
   }
 
   private InventoryItemDto export(InventoryItem item) {
@@ -103,34 +74,4 @@ public class InventoryItemDtoBuilder {
     return dto;
   }
 
-  private UserDto getUser(UUID userId, Collection<UserDto> users, Map<UUID, UserDto> userCache) {
-    return get(userId, users, userCache, userReferenceDataService);
-  }
-
-  private <T extends BaseDto> T get(UUID id, Collection<T> collection, Map<UUID, T> cache,
-                                    ResourceCommunicationService<T> service) {
-    return cache.computeIfAbsent(id, new FindElement<>(collection, service));
-  }
-
-  @AllArgsConstructor
-  private static final class FindElement<T extends BaseDto> implements Function<UUID, T> {
-    private Collection<T> collection;
-    private ResourceCommunicationService<T> service;
-
-    @Override
-    public T apply(UUID id) {
-      Optional<T> found;
-
-      if (null == collection) {
-        found = Optional.empty();
-      } else {
-        found = collection
-            .stream()
-            .filter(elem -> Objects.equals(elem.getId(), id))
-            .findFirst();
-      }
-
-      return found.orElseGet(() -> service.findOne(id));
-    }
-  }
 }

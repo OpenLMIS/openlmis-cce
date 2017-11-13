@@ -103,14 +103,12 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private ObjectReferenceDto facility =
       new ObjectReferenceDto(facilityId,
           joinWith(SEPARATOR, SERVICE_URL + API_PATH, "facilities", facilityId));
-  private UserDto userDto = new UserDto();
+  private ObjectReferenceDto userDto = ObjectReferenceDto.ofUser(USER_ID, SERVICE_URL);
   private CatalogItemDto catalogItemDto = new CatalogItemDto();
 
   @Before
   public void setUp() {
     mockUserAuthenticated();
-
-    userDto.setId(USER_ID);
 
     CatalogItem catalogItem = new CatalogItem();
     catalogItem.setFromPqsCatalog(true);
