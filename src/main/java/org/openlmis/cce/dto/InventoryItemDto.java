@@ -57,7 +57,7 @@ public class InventoryItemDto extends BaseDto
 
   @Setter
   @Getter
-  private UUID programId;
+  private ObjectReferenceDto program;
 
   @Setter
   @Getter
@@ -151,9 +151,20 @@ public class InventoryItemDto extends BaseDto
     this.lastModifier = ObjectReferenceDto.ofUser(lastModifierId, serviceUrl);
   }
 
+  @Override
+  public void setProgramId(UUID programId) {
+    this.program = ObjectReferenceDto.ofProgram(programId, serviceUrl);
+  }
+
   @JsonIgnore
   @Override
   public UUID getFacilityId() {
     return facility.getId();
+  }
+
+  @JsonIgnore
+  @Override
+  public UUID getProgramId() {
+    return program.getId();
   }
 }

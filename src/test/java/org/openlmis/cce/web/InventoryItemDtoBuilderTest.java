@@ -56,15 +56,29 @@ public class InventoryItemDtoBuilderTest {
   public void shouldBuildDto() throws Exception {
     InventoryItemDto build = builder.build(inventoryItem);
 
-    ObjectReferenceDto facility = build.getFacility();
-    assertEquals(inventoryItem.getFacilityId(), facility.getId());
-    assertEquals(
-        SERVICE_URL + BaseController.API_PATH + "/facilities/" + inventoryItem.getFacilityId(),
-        facility.getHref());
-    ObjectReferenceDto user = build.getLastModifier();
+    checkLastModifier(build.getLastModifier());
+    checkFacility(build.getFacility());
+    checkProgram(build.getProgram());
+  }
+
+  private void checkLastModifier(ObjectReferenceDto user) {
     assertEquals(inventoryItem.getLastModifierId(), user.getId());
     assertEquals(
         SERVICE_URL + BaseController.API_PATH + "/users/" + inventoryItem.getLastModifierId(),
         user.getHref());
+  }
+
+  private void checkFacility(ObjectReferenceDto facility) {
+    assertEquals(inventoryItem.getFacilityId(), facility.getId());
+    assertEquals(
+        SERVICE_URL + BaseController.API_PATH + "/facilities/" + inventoryItem.getFacilityId(),
+        facility.getHref());
+  }
+
+  private void checkProgram(ObjectReferenceDto program) {
+    assertEquals(inventoryItem.getProgramId(), program.getId());
+    assertEquals(
+        SERVICE_URL + BaseController.API_PATH + "/programs/" + inventoryItem.getProgramId(),
+        program.getHref());
   }
 }

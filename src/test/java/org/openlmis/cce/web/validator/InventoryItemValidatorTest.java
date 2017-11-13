@@ -63,20 +63,23 @@ public class InventoryItemValidatorTest {
   private InventoryItemValidator inventoryItemValidator;
 
   private InventoryItemDto inventoryItemDto;
-
   private CatalogItemDto catalogItemDto;
-
   private ObjectReferenceDto facility;
+  private ObjectReferenceDto program;
 
   @Before
   public void before() {
     catalogItemDto = new CatalogItemDto();
     catalogItemDto.setId(UUID.randomUUID());
 
-    facility = new ObjectReferenceDto(UUID.randomUUID(), "facilities");
+    UUID facilityId = UUID.randomUUID();
+    facility = new ObjectReferenceDto(facilityId, "localhost/facilities" + facilityId);
+
+    UUID programId = UUID.randomUUID();
+    program = new ObjectReferenceDto(facilityId, "localhost/programs" + programId);
 
     inventoryItemDto = new InventoryItemDto("localhost", facility, catalogItemDto,
-        UUID.randomUUID(), "eqTrackingId", "Some Reference Name", 2010, 2020,
+        program, "eqTrackingId", "Some Reference Name", 2010, 2020,
         "some source", FunctionalStatus.FUNCTIONING,
         ReasonNotWorkingOrNotInUse.NOT_APPLICABLE, Utilization.ACTIVE,
         VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,

@@ -50,6 +50,10 @@ public class ObjectReferenceDto extends BaseDto {
     return create(id, serviceUrl, "users");
   }
 
+  public static ObjectReferenceDto ofProgram(UUID id, String serviceUrl) {
+    return create(id, serviceUrl, "programs");
+  }
+
   public static ObjectReferenceDto create(UUID id, String serviceUrl, String resourceName) {
     return new ObjectReferenceDto(id,
         joinWith(SEPARATOR, serviceUrl + BaseController.API_PATH, resourceName, id));

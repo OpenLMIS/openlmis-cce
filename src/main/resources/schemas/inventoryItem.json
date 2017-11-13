@@ -18,8 +18,9 @@
       "$ref": "catalogItem.json",
       "title": "catalogItem"
     },
-    "programId": {
-      "type": "string",
+    "program": {
+      "type": "object",
+      "$ref": "referenceObjectDto.json",
       "title": "programId"
     },
     "equipmentTrackingId": {
@@ -139,7 +140,7 @@
   "required": [
     "catalogItem",
     "facility",
-    "programId",
+    "program",
     "yearOfInstallation",
     "functionalStatus",
     "referenceName",

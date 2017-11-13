@@ -97,8 +97,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private String viewPermission = PermissionService.CCE_INVENTORY_VIEW;
   private UUID inventoryId = UUID.randomUUID();
   private final UUID facilityId = UUID.randomUUID();
+  private final UUID programId = UUID.randomUUID();
   private ObjectReferenceDto facility = ObjectReferenceDto.ofFacility(facilityId, SERVICE_URL);
   private ObjectReferenceDto userDto = ObjectReferenceDto.ofUser(USER_ID, SERVICE_URL);
+  private ObjectReferenceDto program = ObjectReferenceDto.ofUser(programId, SERVICE_URL);
   private CatalogItemDto catalogItemDto = new CatalogItemDto();
 
   @Before
@@ -118,7 +120,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     catalogItem.export(catalogItemDto);
 
     inventoryItemDto = new InventoryItemDto(null,
-        facility, catalogItemDto, UUID.randomUUID(), "eqTrackingId",
+        facility, catalogItemDto, program, "eqTrackingId",
         "Some Reference Name", 2010, 2020, "some source",
         FunctionalStatus.FUNCTIONING, ReasonNotWorkingOrNotInUse.NOT_APPLICABLE,
         Utilization.ACTIVE, VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES,
@@ -234,7 +236,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @Test
   public void shouldNotUpdateInvariantInventoryItemFieldsIfInventoryExists() {
     InventoryItemDto existing = new InventoryItemDto(null,
-        facility, catalogItemDto, UUID.randomUUID(), "eqTrackingId2",
+        facility, catalogItemDto, program, "eqTrackingId2",
         "Some Reference Name", 2005, 2025, "some other source",
         FunctionalStatus.NON_FUNCTIONING, ReasonNotWorkingOrNotInUse.DEAD,
         Utilization.NOT_IN_USE, VoltageStabilizerStatus.UNKNOWN,
