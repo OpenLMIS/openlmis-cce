@@ -17,7 +17,6 @@ package org.openlmis.cce.web;
 
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
-import static org.apache.commons.lang3.StringUtils.joinWith;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -31,11 +30,9 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
-import static org.openlmis.cce.dto.ObjectReferenceDto.SEPARATOR;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
-import static org.openlmis.cce.web.BaseController.API_PATH;
 
 import com.jayway.restassured.response.Response;
 import guru.nidi.ramltester.junit.RamlMatchers;
@@ -100,9 +97,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private String viewPermission = PermissionService.CCE_INVENTORY_VIEW;
   private UUID inventoryId = UUID.randomUUID();
   private final UUID facilityId = UUID.randomUUID();
-  private ObjectReferenceDto facility =
-      new ObjectReferenceDto(facilityId,
-          joinWith(SEPARATOR, SERVICE_URL + API_PATH, "facilities", facilityId));
+  private ObjectReferenceDto facility = ObjectReferenceDto.ofFacility(facilityId, SERVICE_URL);
   private ObjectReferenceDto userDto = ObjectReferenceDto.ofUser(USER_ID, SERVICE_URL);
   private CatalogItemDto catalogItemDto = new CatalogItemDto();
 
