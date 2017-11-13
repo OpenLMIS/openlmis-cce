@@ -27,6 +27,7 @@ import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ObjectReferenceDto;
+import org.openlmis.cce.service.ResourceNames;
 import org.springframework.test.util.ReflectionTestUtils;
 import java.util.List;
 
@@ -64,21 +65,21 @@ public class InventoryItemDtoBuilderTest {
   private void checkLastModifier(ObjectReferenceDto user) {
     assertEquals(inventoryItem.getLastModifierId(), user.getId());
     assertEquals(
-        SERVICE_URL + BaseController.API_PATH + "/users/" + inventoryItem.getLastModifierId(),
+        SERVICE_URL + ResourceNames.getUsersPath() + inventoryItem.getLastModifierId(),
         user.getHref());
   }
 
   private void checkFacility(ObjectReferenceDto facility) {
     assertEquals(inventoryItem.getFacilityId(), facility.getId());
     assertEquals(
-        SERVICE_URL + BaseController.API_PATH + "/facilities/" + inventoryItem.getFacilityId(),
+        SERVICE_URL + ResourceNames.getFacilitiesPath() + inventoryItem.getFacilityId(),
         facility.getHref());
   }
 
   private void checkProgram(ObjectReferenceDto program) {
     assertEquals(inventoryItem.getProgramId(), program.getId());
     assertEquals(
-        SERVICE_URL + BaseController.API_PATH + "/programs/" + inventoryItem.getProgramId(),
+        SERVICE_URL + ResourceNames.getProgramsPath() + inventoryItem.getProgramId(),
         program.getHref());
   }
 }

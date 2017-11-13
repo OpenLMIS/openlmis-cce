@@ -18,6 +18,7 @@ package org.openlmis.cce.web;
 import static org.apache.commons.lang3.StringUtils.equalsIgnoreCase;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
+import static org.openlmis.cce.service.ResourceNames.BASE_PATH;
 import static org.openlmis.cce.web.InventoryItemController.RESOURCE_PATH;
 
 import com.google.common.collect.Sets;
@@ -61,7 +62,7 @@ import java.util.UUID;
 public class InventoryItemController extends BaseController {
   private static final XLogger XLOGGER = XLoggerFactory.getXLogger(InventoryItemController.class);
 
-  static final String RESOURCE_PATH = API_PATH + "/inventoryItems";
+  static final String RESOURCE_PATH = BASE_PATH + "/inventoryItems";
   private static final String PROFILER_CHECK_PERMISSION = "CHECK_PERMISSION";
 
   @Autowired

@@ -17,8 +17,8 @@ package org.openlmis.cce.service.referencedata;
 
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.service.RequestParameters;
+import org.openlmis.cce.service.ResourceNames;
 import org.springframework.stereotype.Service;
-
 import java.util.List;
 
 @Service
@@ -26,7 +26,7 @@ public class RightReferenceDataService extends BaseReferenceDataService<RightDto
 
   @Override
   protected String getUrl() {
-    return "/api/rights/";
+    return ResourceNames.getRightsPath();
   }
 
   @Override

@@ -16,15 +16,17 @@
 package org.openlmis.cce.dto;
 
 import static org.apache.commons.lang3.StringUtils.joinWith;
+import static org.openlmis.cce.service.ResourceNames.BASE_PATH;
+import static org.openlmis.cce.service.ResourceNames.FACILITIES;
+import static org.openlmis.cce.service.ResourceNames.PROGRAMS;
+import static org.openlmis.cce.service.ResourceNames.SEPARATOR;
+import static org.openlmis.cce.service.ResourceNames.USERS;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.openlmis.cce.web.BaseController;
 import java.util.UUID;
 
 public class ObjectReferenceDto extends BaseDto {
-
-  public static final String SEPARATOR = "/";
 
   @Getter
   @Setter
@@ -43,20 +45,20 @@ public class ObjectReferenceDto extends BaseDto {
   }
 
   public static ObjectReferenceDto ofFacility(UUID id, String serviceUrl) {
-    return create(id, serviceUrl, "facilities");
+    return create(id, serviceUrl, FACILITIES);
   }
 
   public static ObjectReferenceDto ofUser(UUID id, String serviceUrl) {
-    return create(id, serviceUrl, "users");
+    return create(id, serviceUrl, USERS);
   }
 
   public static ObjectReferenceDto ofProgram(UUID id, String serviceUrl) {
-    return create(id, serviceUrl, "programs");
+    return create(id, serviceUrl, PROGRAMS);
   }
 
   public static ObjectReferenceDto create(UUID id, String serviceUrl, String resourceName) {
     return new ObjectReferenceDto(id,
-        joinWith(SEPARATOR, serviceUrl + BaseController.API_PATH, resourceName, id));
+        joinWith(SEPARATOR, serviceUrl + BASE_PATH, resourceName, id));
   }
 
 }

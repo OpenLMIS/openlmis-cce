@@ -19,6 +19,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.RequestParameters;
+import org.openlmis.cce.service.ResourceNames;
 import org.openlmis.cce.service.ServiceResponse;
 import org.springframework.stereotype.Service;
 
@@ -32,7 +33,7 @@ public class UserReferenceDataService extends BaseReferenceDataService<UserDto> 
 
   @Override
   protected String getUrl() {
-    return "/api/users/";
+    return ResourceNames.getUsersPath();
   }
 
   @Override

@@ -16,6 +16,7 @@
 package org.openlmis.cce.service.referencedata;
 
 import org.openlmis.cce.dto.FacilityDto;
+import org.openlmis.cce.service.ResourceNames;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +24,7 @@ public class FacilityReferenceDataService extends BaseReferenceDataService<Facil
 
   @Override
   protected String getUrl() {
-    return "/api/facilities/";
+    return ResourceNames.getFacilitiesPath();
   }
 
   @Override

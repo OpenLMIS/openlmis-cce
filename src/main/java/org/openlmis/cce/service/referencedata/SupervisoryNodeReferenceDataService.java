@@ -20,6 +20,7 @@ import static org.springframework.util.CollectionUtils.isEmpty;
 import org.openlmis.cce.dto.SupervisoryNodeDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.RequestParameters;
+import org.openlmis.cce.service.ResourceNames;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -34,7 +35,7 @@ public class SupervisoryNodeReferenceDataService
 
   @Override
   protected String getUrl() {
-    return "/api/supervisoryNodes/";
+    return ResourceNames.getSupervisoryNodesPath();
   }
 
   @Override
