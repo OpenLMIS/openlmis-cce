@@ -31,6 +31,7 @@ import java.util.UUID;
 
 public class InventoryItemDataBuilder {
 
+  private UUID id = UUID.randomUUID();
   private UUID facilityId = UUID.randomUUID();
   private CatalogItem catalogItem = null;
   private UUID programId = UUID.randomUUID();
@@ -65,12 +66,15 @@ public class InventoryItemDataBuilder {
    * Builds instance of {@link InventoryItem}.
    */
   public InventoryItem build() {
-    return new InventoryItem(facilityId, catalogItem, programId, equipmentTrackingId, referenceName,
+    InventoryItem inventoryItem =
+        new InventoryItem(facilityId, catalogItem, programId, equipmentTrackingId, referenceName,
         yearOfInstallation, yearOfWarrantyExpiry, source, functionalStatus,
         reasonNotWorkingOrNotInUse, utilization, voltageStabilizer, backupGenerator,
         voltageRegulator, manualTemperatureGauge, remoteTemperatureMonitor,
         remoteTemperatureMonitorId, additionalNotes, decommissionDate, modifiedDate,
         lastModifierId);
+    inventoryItem.setId(id);
+    return inventoryItem;
   }
 
 }
