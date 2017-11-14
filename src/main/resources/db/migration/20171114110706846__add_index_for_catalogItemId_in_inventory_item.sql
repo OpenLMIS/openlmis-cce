@@ -1,0 +1,1 @@
+CREATE INDEX cce_inventory_items_catalogItemId_idx ON cce_inventory_items (catalogItemId);
