@@ -51,14 +51,16 @@ scenarios:
 
             def random = new Random();
 
-            def inventoryItem = new LinkedHashMap([
-              facility: new LinkedHashMap([
+            def inventoryItem = [
+              facility: [
                 id: "e6799d64-d10d-4011-b8c2-0e4d4a3f65ce"
-              ]),
-              programId: "dce17f2e-af3e-40ad-8e00-3496adef44c3",
-              catalogItem: new LinkedHashMap([
+              ],
+              program: [
+                id: "dce17f2e-af3e-40ad-8e00-3496adef44c3"
+              ],
+              catalogItem: [
                 id: "94c6e021-0020-4af3-b789-306f2cd1dabb"
-              ]),
+              ],
               equipmentTrackingId: random.nextInt(),
               referenceName: "Reference Name",
               utilization: "ACTIVE",
@@ -69,7 +71,7 @@ scenarios:
               manualTemperatureGauge: "BUILD_IN",
               remoteTemperatureMonitor: "BUILD_IN",
               functionalStatus: "FUNCTIONING"
-            ]);
+            ];
 
             vars.put("inventory_item", JsonOutput.toJson(inventoryItem));
         body: ${inventory_item}
