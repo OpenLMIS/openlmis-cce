@@ -73,5 +73,6 @@ public class PermissionStringDtoTest {
     assertThat(parsed.getRightName(), equalTo(rightName));
     assertThat(parsed.getFacilityId(), equalTo(facilityId));
     assertThat(parsed.getProgramId(), equalTo(programId));
+    assertThat(parsed.toString(), equalTo(permissionString));
   }
 }

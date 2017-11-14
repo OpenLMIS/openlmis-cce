@@ -176,7 +176,7 @@ public class PermissionServiceTest {
 
   private void stubHasRight(String rightName, UUID programId, UUID faciliyId) {
     PermissionStringDto permission = PermissionStringDto.create(rightName, faciliyId, programId);
-    when(handler.get()).thenReturn(Collections.singletonList(permission.toString()));
+    when(handler.get()).thenReturn(Collections.singleton(permission));
   }
 
 }

@@ -15,11 +15,15 @@
 
 package org.openlmis.cce.dto;
 
+import static org.apache.commons.lang3.StringUtils.splitByWholeSeparator;
+
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
-import java.util.List;
+import java.util.Collection;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -27,14 +31,25 @@ import java.util.stream.Collectors;
  * Object representation of single permission string.
  */
 @Getter
+@EqualsAndHashCode
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class PermissionStringDto {
   private String rightName;
   private UUID facilityId;
   private UUID programId;
 
-  public static List<PermissionStringDto> from(List<String> permissionStrings) {
-    return permissionStrings.stream().map(PermissionStringDto::from).collect(Collectors.toList());
+  /**
+   * Parses a collection of string representation of permissionString to set with object
+   * representation.
+   *
+   * @param permissionStrings a collection of string representation
+   * @return a set with {@link PermissionStringDto} instances
+   */
+  public static Set<PermissionStringDto> from(Collection<String> permissionStrings) {
+    return permissionStrings
+        .parallelStream()
+        .map(PermissionStringDto::from)
+        .collect(Collectors.toSet());
   }
 
   /**
@@ -44,12 +59,12 @@ public class PermissionStringDto {
    * @return {@link PermissionStringDto}
    */
   public static PermissionStringDto from(String permissionString) {
-    String[] elements = permissionString.split("\\|");
+    String[] elements = splitByWholeSeparator(permissionString, "|");
     String rightName = elements[0];
     UUID facilityId = elements.length > 1 ? UUID.fromString(elements[1]) : null;
     UUID programId = elements.length > 2 ? UUID.fromString(elements[2]) : null;
 
-    return new PermissionStringDto(rightName, facilityId, programId);
+    return create(rightName, facilityId, programId);
   }
 
   public static PermissionStringDto create(String rightName, UUID facilityId, UUID programId) {

@@ -35,7 +35,7 @@ import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PER
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 
 import com.jayway.restassured.response.Response;
-import guru.nidi.ramltester.junit.RamlMatchers;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.stubbing.answers.Returns;
@@ -61,6 +61,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+
+import guru.nidi.ramltester.junit.RamlMatchers;
+
 import java.util.UUID;
 
 @SuppressWarnings("PMD.TooManyMethods")
@@ -195,7 +198,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     );
 
     PermissionStrings.Handler handler = mock(PermissionStrings.Handler.class);
-    when(handler.get()).thenReturn(singletonList(permission.toString()));
+    when(handler.get()).thenReturn(singleton(permission));
 
     when(permissionService.getPermissionStrings(userId)).thenReturn(handler);
 

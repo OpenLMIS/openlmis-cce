@@ -17,12 +17,14 @@ package org.openlmis.cce.service;
 
 import com.google.common.collect.Maps;
 
+import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.function.Supplier;
 
@@ -37,10 +39,10 @@ public class PermissionStrings {
     return handlers.computeIfAbsent(user, Handler::new);
   }
 
-  public class Handler implements Supplier<List<String>> {
+  public class Handler implements Supplier<Set<PermissionStringDto>> {
     private UUID userId;
 
-    private List<String> permissionStrings;
+    private Set<PermissionStringDto> permissionStrings;
     private String etag;
 
     Handler(UUID userId) {
@@ -48,12 +50,12 @@ public class PermissionStrings {
     }
 
     @Override
-    public synchronized List<String> get() {
+    public synchronized Set<PermissionStringDto> get() {
       ServiceResponse<List<String>> response = userReferenceDataService
           .getPermissionStrings(userId, etag);
 
       if (response.isModified()) {
-        permissionStrings = response.getBody();
+        permissionStrings = PermissionStringDto.from(response.getBody());
         etag = response.getETag();
       }
 

@@ -100,7 +100,7 @@ public class PermissionService {
     PermissionStrings.Handler handler = getPermissionStrings(user);
     PermissionStringDto permission = PermissionStringDto.create(rightName, facility, program);
 
-    return handler.get().contains(permission.toString());
+    return handler.get().contains(permission);
   }
 
   private boolean isClientOnly() {

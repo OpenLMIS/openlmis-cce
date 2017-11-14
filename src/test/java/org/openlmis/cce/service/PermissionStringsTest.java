@@ -30,11 +30,13 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 
 import java.lang.reflect.Field;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -91,7 +93,7 @@ public class PermissionStringsTest {
     when(response.isModified()).thenReturn(true);
     when(response.getETag()).thenReturn(etag);
     when(response.getBody()).thenReturn(singletonList(random(5)));
-    List<String> one = handler.get();
+    Set<PermissionStringDto> one = handler.get();
 
     assertThat(one, hasSize(1));
 
@@ -100,7 +102,7 @@ public class PermissionStringsTest {
         .thenThrow(new IllegalArgumentException());
     when(userReferenceDataService.getPermissionStrings(USER, etag)).thenReturn(response);
     when(response.getBody()).thenReturn(singletonList(random(5)));
-    List<String> two = handler.get();
+    Set<PermissionStringDto> two = handler.get();
 
     assertThat(two, hasSize(1));
 
@@ -117,7 +119,7 @@ public class PermissionStringsTest {
     when(response.isModified()).thenReturn(true);
     when(response.getETag()).thenReturn(etag);
     when(response.getBody()).thenReturn(singletonList(random(5)));
-    List<String> one = handler.get();
+    Set<PermissionStringDto> one = handler.get();
 
     assertThat(one, hasSize(1));
 
@@ -126,7 +128,7 @@ public class PermissionStringsTest {
         .thenThrow(new IllegalArgumentException());
     when(userReferenceDataService.getPermissionStrings(USER, etag)).thenReturn(response);
     when(response.isModified()).thenReturn(false);
-    List<String> two = handler.get();
+    Set<PermissionStringDto> two = handler.get();
 
     assertThat(two, hasSize(1));
 
