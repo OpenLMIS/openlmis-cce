@@ -114,8 +114,14 @@ public class InventoryItemRepositoryImpl implements InventoryItemRepositoryCusto
 
     query.where(predicate);
 
-    if (!count && pageable != null && pageable.getSort() != null) {
-      query = addSortProperties(query, root, pageable);
+    if (!count) {
+      // with this single line we removed X additional db calls only to retrieve catalog items.
+      // X - number of returned inventory items.
+      root.fetch(CATALOG_ITEM);
+
+      if (null != pageable && null != pageable.getSort()) {
+        query = addSortProperties(query, root, pageable);
+      }
     }
 
     return query;
