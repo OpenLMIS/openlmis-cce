@@ -1,12 +1,12 @@
 execution:
   - concurreny: 1
-    hold-for: 2m
+    hold-for: 5m
     scenario: get-inventory-items
   - concurreny: 1
-    hold-for: 2m
+    hold-for: 5m
     scenario: delete-inventory-item
   - concurreny: 1
-    hold-for: 2m
+    hold-for: 5m
     scenario: update-inventory-item
 
 scenarios:

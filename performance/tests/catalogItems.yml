@@ -1,18 +1,18 @@
 execution:
   - concurreny: 1
-    hold-for: 2m
+    hold-for: 5m
     scenario: get-catalog-items
   - concurreny: 1
-    hold-for: 2m
+    hold-for: 5m
     scenario: get-catalog-items-csv
   - concurreny: 1
-    hold-for: 2m
+    hold-for: 5m
     scenario: get-catalog-item
   - concurreny: 1
-    hold-for: 2m
+    hold-for: 5m
     scenario: update-catalog-item
   - concurreny: 1
-    hold-for: 2m
+    hold-for: 5m
     scenario: upload-catalog-items
 
 scenarios:
