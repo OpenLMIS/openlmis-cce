@@ -15,141 +15,61 @@
 
 package org.openlmis.cce.repository.custom.impl;
 
-import org.apache.commons.collections.CollectionUtils;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.repository.custom.InventoryItemRepositoryCustom;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.JoinType;
-import javax.persistence.criteria.Order;
-import javax.persistence.criteria.Path;
-import javax.persistence.criteria.Predicate;
-import javax.persistence.criteria.Root;
 
 public class InventoryItemRepositoryImpl implements InventoryItemRepositoryCustom {
-
-  private static final String FACILITY_ID = "facilityId";
-  private static final String PROGRAM_ID = "programId";
-  private static final String TYPE = "type";
-  private static final String CATALOG_ITEM = "catalogItem";
 
   @PersistenceContext
   private EntityManager entityManager;
 
   /**
-   * This method is supposed to retrieve all inventory items with matched parameters.
-   * Result is sorted and paginated by pageable parameter.
-   * You can use 'type' sort value and it will sort inventory items by their catalog item type.
+   * This method is supposed to retrieve all inventory items with matched parameters. Result is
+   * sorted and paginated by pageable parameter. You can use 'type' sort value and it will sort
+   * inventory items by their catalog item type.
    *
    * @param facilityIds list of facility ids
    * @param programIds  list of program ids
    * @param pageable    pagination and sort parameters
    * @return Page of Catalog Items matching the parameters.
    */
-  public Page<InventoryItem> search(Collection<UUID> facilityIds,
-                                    Collection<UUID> programIds,
+  public Page<InventoryItem> search(Collection<UUID> facilityIds, Collection<UUID> programIds,
                                     Pageable pageable) {
-    CriteriaBuilder builder = entityManager.getCriteriaBuilder();
+    TypedQuery<Long> count = createQuery(facilityIds, programIds, pageable, Long.class);
+    TypedQuery<InventoryItem> select = createQuery(
+        facilityIds, programIds, pageable, InventoryItem.class
+    );
 
-    CriteriaQuery<InventoryItem> query = builder.createQuery(InventoryItem.class);
-    CriteriaQuery<Long> countQuery = builder.createQuery(Long.class);
+    List<InventoryItem> list = select.getResultList();
+    Long size = count.getSingleResult();
 
-    query = prepareQuery(query, facilityIds, programIds, pageable, false);
-    countQuery = prepareQuery(countQuery, facilityIds, programIds, pageable, true);
-
-    Long count = entityManager.createQuery(countQuery).getSingleResult();
-
-    TypedQuery<InventoryItem> typedQuery = entityManager.createQuery(query);
-    List<InventoryItem> result;
-
-    if (pageable != null) {
-      result = typedQuery
-          .setMaxResults(pageable.getPageSize())
-          .setFirstResult(pageable.getPageNumber() * pageable.getPageSize())
-          .getResultList();
-    } else {
-      result = typedQuery.getResultList();
-    }
-
-    return Pagination.getPage(result, pageable, count);
+    return Pagination.getPage(list, pageable, size);
   }
 
-  private <T> CriteriaQuery<T> prepareQuery(CriteriaQuery<T> query,
-                                            Collection<UUID> facilityIds,
-                                            Collection<UUID> programIds,
-                                            Pageable pageable,
-                                            boolean count) {
+  private <T> TypedQuery<T> createQuery(Collection<UUID> facilities, Collection<UUID> programs,
+                                        Pageable pageable, Class<T> type) {
+    boolean isNumber = Number.class.isAssignableFrom(type);
+    String sql = new InventoryItemQueryBuilder(facilities, programs, pageable, isNumber).build();
+    TypedQuery<T> query = entityManager.createQuery(sql, type);
 
-    CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-    Root<InventoryItem> root = query.from(InventoryItem.class);
-
-    if (count) {
-      CriteriaQuery<Long> countQuery = (CriteriaQuery<Long>) query;
-      query = (CriteriaQuery<T>) countQuery.select(builder.count(root));
-    }
-
-    Predicate predicate = builder.conjunction();
-
-    if (!CollectionUtils.isEmpty(facilityIds)) {
-      predicate = builder.and(predicate, root.get(FACILITY_ID).in(facilityIds));
-    }
-
-    if (!CollectionUtils.isEmpty(programIds)) {
-      predicate = builder.and(predicate, root.get(PROGRAM_ID).in(programIds));
-    }
-
-    query.where(predicate);
-
-    if (!count) {
-      // with this single line we removed X additional db calls only to retrieve catalog items.
-      // X - number of returned inventory items.
-      root.fetch(CATALOG_ITEM);
-
-      if (null != pageable && null != pageable.getSort()) {
-        query = addSortProperties(query, root, pageable);
-      }
+    if (!isNumber && null != pageable) {
+      query
+          .setMaxResults(pageable.getPageSize())
+          .setFirstResult(pageable.getPageNumber() * pageable.getPageSize());
     }
 
     return query;
   }
 
-  private <T> CriteriaQuery<T> addSortProperties(CriteriaQuery<T> query,
-                                                 Root root, Pageable pageable) {
-    CriteriaBuilder builder = entityManager.getCriteriaBuilder();
-    List<Order> orders = new ArrayList<>();
-    Iterator<Sort.Order> iterator = pageable.getSort().iterator();
-    Sort.Order order;
-
-    while (iterator.hasNext()) {
-      order = iterator.next();
-      String property = order.getProperty();
-
-      Path path;
-      if (TYPE.equals(property)) {
-        path = root.join(CATALOG_ITEM, JoinType.LEFT).get(TYPE);
-      } else {
-        path = root.get(property);
-      }
-      if (order.isAscending()) {
-        orders.add(builder.asc(path));
-      } else {
-        orders.add(builder.desc(path));
-      }
-    }
-    return query.orderBy(orders);
-  }
 }
