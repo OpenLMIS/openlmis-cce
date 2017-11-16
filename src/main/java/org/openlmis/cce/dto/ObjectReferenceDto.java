@@ -25,7 +25,7 @@ import lombok.Setter;
 
 import java.util.UUID;
 
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class ObjectReferenceDto extends BaseDto {
 
   @Getter
