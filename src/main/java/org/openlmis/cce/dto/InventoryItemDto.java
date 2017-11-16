@@ -15,6 +15,10 @@
 
 package org.openlmis.cce.dto;
 
+import static org.openlmis.cce.service.ResourceNames.FACILITIES;
+import static org.openlmis.cce.service.ResourceNames.PROGRAMS;
+import static org.openlmis.cce.service.ResourceNames.USERS;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import org.openlmis.cce.domain.BackupGeneratorStatus;
@@ -142,17 +146,17 @@ public class InventoryItemDto extends BaseDto
 
   @Override
   public void setFacilityId(UUID facilityId) {
-    this.facility = ObjectReferenceDto.ofFacility(facilityId, serviceUrl);
+    this.facility = ObjectReferenceDto.create(facilityId, serviceUrl, FACILITIES);
   }
 
   @Override
   public void setLastModifierId(UUID lastModifierId) {
-    this.lastModifier = ObjectReferenceDto.ofUser(lastModifierId, serviceUrl);
+    this.lastModifier = ObjectReferenceDto.create(lastModifierId, serviceUrl, USERS);
   }
 
   @Override
   public void setProgramId(UUID programId) {
-    this.program = ObjectReferenceDto.ofProgram(programId, serviceUrl);
+    this.program = ObjectReferenceDto.create(programId, serviceUrl, PROGRAMS);
   }
 
   @JsonIgnore

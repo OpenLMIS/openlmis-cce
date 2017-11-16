@@ -33,6 +33,9 @@ import static org.mockito.Mockito.when;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
+import static org.openlmis.cce.service.ResourceNames.FACILITIES;
+import static org.openlmis.cce.service.ResourceNames.PROGRAMS;
+import static org.openlmis.cce.service.ResourceNames.USERS;
 
 import com.jayway.restassured.response.Response;
 
@@ -91,9 +94,9 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private UUID inventoryId = UUID.randomUUID();
   private final UUID facilityId = UUID.randomUUID();
   private final UUID programId = UUID.randomUUID();
-  private ObjectReferenceDto facility = ObjectReferenceDto.ofFacility(facilityId, SERVICE_URL);
-  private ObjectReferenceDto lastModifier = ObjectReferenceDto.ofUser(USER_ID, SERVICE_URL);
-  private ObjectReferenceDto program = ObjectReferenceDto.ofProgram(programId, SERVICE_URL);
+  private ObjectReferenceDto facility = ObjectReferenceDto.create(facilityId, SERVICE_URL, FACILITIES);
+  private ObjectReferenceDto lastModifier = ObjectReferenceDto.create(USER_ID, SERVICE_URL, USERS);
+  private ObjectReferenceDto program = ObjectReferenceDto.create(programId, SERVICE_URL, PROGRAMS);
 
   @Before
   public void setUp() {
