@@ -42,12 +42,11 @@ import com.jayway.restassured.response.Response;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.stubbing.answers.Returns;
+import org.openlmis.cce.CatalogItemDataBuilder;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.CatalogItem;
-import org.openlmis.cce.domain.EnergySource;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ObjectReferenceDto;
@@ -102,17 +101,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   public void setUp() {
     mockUserAuthenticated();
 
-    CatalogItem catalogItem = new CatalogItem();
-    catalogItem.setFromPqsCatalog(true);
-    catalogItem.setType("type");
-    catalogItem.setModel("model");
-    catalogItem.setManufacturer("manufacturer");
-    catalogItem.setEnergySource(EnergySource.ELECTRIC);
-    catalogItem.setStorageTemperature(StorageTemperature.MINUS10);
-    catalogItem.setArchived(false);
+    CatalogItem catalogItem = new CatalogItemDataBuilder()
+        .build();
 
-    inventoryItem = new InventoryItemDataBuilder()
-        .withCatalogItem(catalogItem)
+    inventoryItem = new InventoryItemDataBuilder(catalogItem)
         .withLastModifierId(USER_ID)
         .withFacilityId(facilityId)
         .withProgramId(programId)
@@ -222,17 +214,14 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldNotUpdateInvariantInventoryItemFieldsIfInventoryExists() {
-    CatalogItem catalogItem = new CatalogItem();
-    catalogItem.setFromPqsCatalog(false);
-    catalogItem.setType("type2");
-    catalogItem.setModel("model2");
-    catalogItem.setManufacturer("manufacturer2");
-    catalogItem.setEnergySource(EnergySource.GASOLINE);
-    catalogItem.setStorageTemperature(StorageTemperature.MINUS3);
-    catalogItem.setArchived(true);
+    CatalogItem catalogItem = new CatalogItemDataBuilder()
+        .withoutFromPqsCatalogFlag()
+        .withGasolineEnergySource()
+        .withMinusThreeStorageTemperature()
+        .withArchiveFlag()
+        .build();
 
-    InventoryItem existing = new InventoryItemDataBuilder()
-        .withCatalogItem(catalogItem)
+    InventoryItem existing = new InventoryItemDataBuilder(catalogItem)
         .withProgramId(UUID.randomUUID())
         .withFacilityId(UUID.randomUUID())
         .build();

@@ -25,6 +25,7 @@ import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
+
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.UUID;
@@ -33,7 +34,7 @@ public class InventoryItemDataBuilder {
 
   private UUID id = UUID.randomUUID();
   private UUID facilityId = UUID.randomUUID();
-  private CatalogItem catalogItem = null;
+  private CatalogItem catalogItem;
   private UUID programId = UUID.randomUUID();
   private String equipmentTrackingId = "tracking-id";
   private String referenceName = "reference name";
@@ -57,17 +58,8 @@ public class InventoryItemDataBuilder {
       ZonedDateTime.parse("2016-12-03T09:15:30Z[UTC]");
   private UUID lastModifierId = UUID.randomUUID();
 
-  /**
-   * Returns instance of {@link InventoryItemDataBuilder} with sample data.
-   */
-  public InventoryItemDataBuilder() {}
-
-  /**
-   * Sets {@link CatalogItem}.
-   */
-  public InventoryItemDataBuilder withCatalogItem(CatalogItem catalogItem) {
+  public InventoryItemDataBuilder(CatalogItem catalogItem) {
     this.catalogItem = catalogItem;
-    return this;
   }
 
   /**
