@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.web.validator;
 
+import static java.util.UUID.randomUUID;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_BACKUP_GENERATOR_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_CATALOG_ITEM_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_DECOMMISSION_DATE_REQUIRED;
@@ -29,6 +30,8 @@ import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_UTILIZATION_R
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_VOLTAGE_REGULATOR_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_VOLTAGE_STABILIZER_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_YEAR_OF_INSTALLATION_REQUIRED;
+import static org.openlmis.cce.service.ResourceNames.FACILITIES;
+import static org.openlmis.cce.service.ResourceNames.PROGRAMS;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -37,24 +40,18 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.openlmis.cce.domain.BackupGeneratorStatus;
+import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.FunctionalStatus;
-import org.openlmis.cce.domain.ManualTemperatureGaugeType;
-import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
-import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
-import org.openlmis.cce.domain.Utilization;
-import org.openlmis.cce.domain.VoltageRegulatorStatus;
-import org.openlmis.cce.domain.VoltageStabilizerStatus;
-import org.openlmis.cce.dto.CatalogItemDto;
+import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ObjectReferenceDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.util.Message;
-import java.util.UUID;
 
 @RunWith(MockitoJUnitRunner.class)
 @SuppressWarnings({"PMD.TooManyMethods"})
 public class InventoryItemValidatorTest {
+  private static final String LOCALHOST = "localhost";
 
   @Rule
   public final ExpectedException expectedEx = ExpectedException.none();
@@ -63,28 +60,16 @@ public class InventoryItemValidatorTest {
   private InventoryItemValidator inventoryItemValidator;
 
   private InventoryItemDto inventoryItemDto;
-  private CatalogItemDto catalogItemDto;
-  private ObjectReferenceDto facility;
-  private ObjectReferenceDto program;
 
   @Before
   public void before() {
-    catalogItemDto = new CatalogItemDto();
-    catalogItemDto.setId(UUID.randomUUID());
+    InventoryItem inventoryItem = new InventoryItemDataBuilder().build();
 
-    UUID facilityId = UUID.randomUUID();
-    facility = new ObjectReferenceDto(facilityId, "localhost/facilities" + facilityId);
+    inventoryItemDto = new InventoryItemDto();
+    inventoryItem.export(inventoryItemDto);
 
-    UUID programId = UUID.randomUUID();
-    program = new ObjectReferenceDto(facilityId, "localhost/programs" + programId);
-
-    inventoryItemDto = new InventoryItemDto("localhost", facility, catalogItemDto,
-        program, "eqTrackingId", "Some Reference Name", 2010, 2020,
-        "some source", FunctionalStatus.FUNCTIONING,
-        ReasonNotWorkingOrNotInUse.NOT_APPLICABLE, Utilization.ACTIVE,
-        VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,
-        ManualTemperatureGaugeType.BUILD_IN, RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId",
-        "example notes", null, null, null);
+    inventoryItemDto.setFacility(ObjectReferenceDto.create(randomUUID(), LOCALHOST, FACILITIES));
+    inventoryItemDto.setProgram(ObjectReferenceDto.create(randomUUID(), LOCALHOST, PROGRAMS));
   }
 
   @Test
