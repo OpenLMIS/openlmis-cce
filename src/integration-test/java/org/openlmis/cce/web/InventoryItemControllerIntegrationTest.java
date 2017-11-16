@@ -93,7 +93,8 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private UUID inventoryId = UUID.randomUUID();
   private final UUID facilityId = UUID.randomUUID();
   private final UUID programId = UUID.randomUUID();
-  private ObjectReferenceDto facility = ObjectReferenceDto.create(facilityId, SERVICE_URL, FACILITIES);
+  private ObjectReferenceDto facility = ObjectReferenceDto
+      .create(facilityId, SERVICE_URL, FACILITIES);
   private ObjectReferenceDto lastModifier = ObjectReferenceDto.create(USER_ID, SERVICE_URL, USERS);
   private ObjectReferenceDto program = ObjectReferenceDto.create(programId, SERVICE_URL, PROGRAMS);
 
