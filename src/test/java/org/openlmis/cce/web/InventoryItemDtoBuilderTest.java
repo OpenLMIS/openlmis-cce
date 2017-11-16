@@ -23,14 +23,13 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.openlmis.cce.CatalogItemDataBuilder;
 import org.openlmis.cce.InventoryItemDataBuilder;
-import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ObjectReferenceDto;
 import org.openlmis.cce.service.ResourceNames;
 import org.springframework.test.util.ReflectionTestUtils;
+
 import java.util.List;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -41,8 +40,7 @@ public class InventoryItemDtoBuilderTest {
   @InjectMocks
   private InventoryItemDtoBuilder builder;
 
-  private CatalogItem catalogItem = new CatalogItemDataBuilder().build();
-  private InventoryItem inventoryItem = new InventoryItemDataBuilder(catalogItem).build();
+  private InventoryItem inventoryItem = new InventoryItemDataBuilder().build();
 
   @Before
   public void setUp() throws Exception {

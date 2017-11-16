@@ -102,10 +102,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   public void setUp() {
     mockUserAuthenticated();
 
-    CatalogItem catalogItem = new CatalogItemDataBuilder()
-        .build();
-
-    inventoryItem = new InventoryItemDataBuilder(catalogItem)
+    inventoryItem = new InventoryItemDataBuilder()
         .withLastModifierId(USER_ID)
         .withFacilityId(facilityId)
         .withProgramId(programId)
@@ -222,7 +219,8 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .withArchiveFlag()
         .build();
 
-    InventoryItem existing = new InventoryItemDataBuilder(catalogItem)
+    InventoryItem existing = new InventoryItemDataBuilder()
+        .withCatalogItem(catalogItem)
         .withProgramId(UUID.randomUUID())
         .withFacilityId(UUID.randomUUID())
         .build();
