@@ -16,7 +16,7 @@
 package org.openlmis.cce.service;
 
 import org.openlmis.cce.domain.FunctionalStatus;
-import org.openlmis.cce.domain.InventoryItem;
+import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.service.notifier.NonfunctionalCceNotifier;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -35,7 +35,7 @@ public class InventoryStatusProcessor {
    * Process inventory functional status change.
    * @param inventoryItem a inventoryItem that has just changed its status
    */
-  public void functionalStatusChange(InventoryItem inventoryItem) {
+  public void functionalStatusChange(InventoryItemDto inventoryItem) {
     logger.debug("Status processor called with: " + inventoryItem);
     if (inventoryItem.getFunctionalStatus() == FunctionalStatus.NON_FUNCTIONING) {
       nonfunctionalCceNotifier.notify(inventoryItem);

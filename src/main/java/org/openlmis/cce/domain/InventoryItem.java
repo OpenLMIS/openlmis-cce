@@ -40,8 +40,6 @@ import javax.persistence.UniqueConstraint;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@Getter
-@Setter
 @Entity
 @TypeName("Inventory")
 @Table(name = "cce_inventory_items", uniqueConstraints =
@@ -51,6 +49,7 @@ import javax.persistence.UniqueConstraint;
 @ToString
 public class InventoryItem extends BaseEntity {
 
+  @Getter
   @Type(type = UUID)
   @Column(nullable = false)
   private UUID facilityId;
@@ -60,6 +59,7 @@ public class InventoryItem extends BaseEntity {
   @JoinColumn(name = "catalogItemId", nullable = false)
   private CatalogItem catalogItem;
 
+  @Getter
   @Type(type = UUID)
   @Column(nullable = false)
   private UUID programId;
@@ -78,6 +78,7 @@ public class InventoryItem extends BaseEntity {
   @Column(columnDefinition = TEXT)
   private String source;
 
+  @Getter
   @Column(nullable = false)
   @Enumerated(EnumType.STRING)
   private FunctionalStatus functionalStatus;
@@ -117,6 +118,7 @@ public class InventoryItem extends BaseEntity {
 
   private LocalDate decommissionDate;
 
+  @Setter
   @Column(columnDefinition = "timestamp with time zone")
   private ZonedDateTime modifiedDate;
 
@@ -138,7 +140,7 @@ public class InventoryItem extends BaseEntity {
     InventoryItem inventoryItem = new InventoryItem();
     inventoryItem.id = importer.getId();
     inventoryItem.facilityId = importer.getFacilityId();
-    inventoryItem.setCatalogItem(CatalogItem.newInstance(importer.getCatalogItem()));
+    inventoryItem.catalogItem = CatalogItem.newInstance(importer.getCatalogItem());
     inventoryItem.programId = importer.getProgramId();
     inventoryItem.equipmentTrackingId = importer.getEquipmentTrackingId();
     inventoryItem.referenceName = importer.getReferenceName();
@@ -168,10 +170,27 @@ public class InventoryItem extends BaseEntity {
    */
   public void setInvariants(InventoryItem item) {
     if (item != null) {
-      programId = item.getProgramId();
-      facilityId = item.getFacilityId();
-      catalogItem = item.getCatalogItem();
+      programId = item.programId;
+      facilityId = item.facilityId;
+      catalogItem = item.catalogItem;
     }
+  }
+
+  /**
+   * Set functional status to {@link FunctionalStatus#FUNCTIONING}.
+   */
+  public void makeFunctioning() {
+    functionalStatus  = FunctionalStatus.FUNCTIONING;
+  }
+
+  /**
+   * Indicates if status changed.
+   *
+   * @param oldStatus and old status.
+   * @return true if status has changed. False otherwise or if param is null.
+   */
+  public boolean statusChanged(FunctionalStatus oldStatus) {
+    return oldStatus == null || oldStatus != functionalStatus;
   }
 
   /**

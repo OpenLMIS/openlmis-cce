@@ -26,7 +26,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openlmis.cce.domain.FunctionalStatus;
-import org.openlmis.cce.domain.InventoryItem;
+import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.service.notifier.NonfunctionalCceNotifier;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -38,7 +38,7 @@ public class InventoryStatusProcessorTest {
   @InjectMocks
   private InventoryStatusProcessor inventoryStatusProcessor;
 
-  private InventoryItem inventoryItem = mock(InventoryItem.class);
+  private InventoryItemDto inventoryItem = mock(InventoryItemDto.class);
 
   @Test
   public void shouldNotifyWhenItemBecameNonFunctioning() {

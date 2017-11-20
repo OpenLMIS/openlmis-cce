@@ -66,7 +66,8 @@ public class InventoryItemDtoBuilderTest {
   }
 
   private void checkLastModifier(ObjectReferenceDto user) {
-    User lastModifier = inventoryItem.getLastModifierEmbedded();
+    User lastModifier =
+        (User) ReflectionTestUtils.getField(inventoryItem, "lastModifierEmbedded");
     UUID lastModifierId = (UUID) ReflectionTestUtils.getField(lastModifier, "id");
     assertEquals(lastModifierId, user.getId());
     assertEquals(

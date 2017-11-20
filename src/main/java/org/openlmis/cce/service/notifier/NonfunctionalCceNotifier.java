@@ -21,11 +21,10 @@ import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_USER_INVALID;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 
 import org.apache.commons.lang3.text.StrSubstitutor;
-import org.openlmis.cce.domain.InventoryItem;
+import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.SupervisoryNodeDto;
 import org.openlmis.cce.dto.UserDto;
-import org.openlmis.cce.dto.UserObjectReferenceDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
@@ -70,7 +69,7 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
    *
    * @param inventoryItem InventoryItem that became non functional
    */
-  public void notify(InventoryItem inventoryItem) {
+  public void notify(InventoryItemDto inventoryItem) {
     Collection<UserDto> recipients = getRecipients(inventoryItem);
     logger.debug("Found recipients to send notification to: " + recipients);
 
@@ -88,7 +87,7 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
     }
   }
 
-  private Collection<UserDto> getRecipients(InventoryItem inventoryItem) {
+  private Collection<UserDto> getRecipients(InventoryItemDto inventoryItem) {
     SupervisoryNodeDto supervisoryNode = supervisoryNodeReferenceDataService
         .findSupervisoryNode(inventoryItem.getFacilityId(), inventoryItem.getProgramId());
     if (supervisoryNode == null) {
@@ -103,7 +102,7 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
         .findSupervisingUsers(supervisoryNode.getId(), right.getId(), inventoryItem.getProgramId());
   }
 
-  private Map<String, String> getValuesMap(InventoryItem inventoryItem) {
+  private Map<String, String> getValuesMap(InventoryItemDto inventoryItem) {
     Map<String, String> valuesMap = new HashMap<>();
     valuesMap.put("equipmentType", getType(inventoryItem));
     valuesMap.put("facilityName", getFacilityName(inventoryItem.getFacilityId()));
@@ -117,7 +116,7 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
     return valuesMap;
   }
 
-  private String getType(InventoryItem inventoryItem) {
+  private String getType(InventoryItemDto inventoryItem) {
     return catalogItemRepository.findOne(inventoryItem.getCatalogItem().getId()).getType();
   }
 
@@ -125,10 +124,8 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
     return facilityReferenceDataService.findOne(facilityId).getName();
   }
 
-  private String getUsername(InventoryItem inventoryItem) {
-    UserObjectReferenceDto user = new UserObjectReferenceDto();
-    inventoryItem.getLastModifierEmbedded().export(user);
-    UUID userId = user.getId();
+  private String getUsername(InventoryItemDto inventoryItem) {
+    UUID userId = inventoryItem.getLastModifier().getId();
     UserDto one = userReferenceDataService.findOne(userId);
     if (one == null ) {
       throw new ValidationMessageException(

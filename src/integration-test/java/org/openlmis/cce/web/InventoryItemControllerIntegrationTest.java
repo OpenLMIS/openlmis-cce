@@ -266,7 +266,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @Test
   public void shouldCallStatusProcessorIfFunctionalStatusDifferWhenUpdateInventoryItems() {
     InventoryItem existing = new InventoryItem();
-    existing.setFunctionalStatus(FunctionalStatus.FUNCTIONING);
+    existing.makeFunctioning();
     when(inventoryItemRepository.findOne(any(UUID.class)))
         .thenReturn(existing);
 
@@ -282,7 +282,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @Test
   public void shouldNotCallStatusProcessorIfFunctionalStatusSameWhenUpdateInventoryItems() {
     InventoryItem existing = new InventoryItem();
-    existing.setFunctionalStatus(FunctionalStatus.FUNCTIONING);
+    existing.makeFunctioning();
     when(inventoryItemRepository.findOne(any(UUID.class)))
         .thenReturn(existing);
 

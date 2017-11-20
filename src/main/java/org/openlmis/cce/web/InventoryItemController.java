@@ -275,8 +275,8 @@ public class InventoryItemController extends BaseController {
       oldStatus = existingInventory.getFunctionalStatus();
     }
     InventoryItemDto itemDto = saveInventory(inventoryItem);
-    if (oldStatus == null || oldStatus != inventoryItem.getFunctionalStatus()) {
-      inventoryStatusProcessor.functionalStatusChange(inventoryItem);
+    if (inventoryItem.statusChanged(oldStatus)) {
+      inventoryStatusProcessor.functionalStatusChange(itemDto);
     }
     return itemDto;
   }

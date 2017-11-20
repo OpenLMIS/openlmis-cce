@@ -36,13 +36,14 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.FunctionalStatus;
-import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
-import org.openlmis.cce.domain.User;
+import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.FacilityDto;
+import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.SupervisoryNodeDto;
 import org.openlmis.cce.dto.UserDto;
+import org.openlmis.cce.dto.UserObjectReferenceDto;
 import org.openlmis.cce.i18n.MessageService;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
@@ -117,9 +118,9 @@ public class NonfunctionalCceNotifierTest {
   private UUID supervisoryNodeId = UUID.randomUUID();
   private UUID rightId = UUID.randomUUID();
   private UUID lastModifierId = UUID.randomUUID();
-  private User lastModifierObj = new User(lastModifierId, "name","surname");
 
-  private InventoryItem inventoryItem = mock(InventoryItem.class);
+  private InventoryItemDto inventoryItem = mock(InventoryItemDto.class);
+  private CatalogItemDto catalogItemDto = mock(CatalogItemDto.class);
   private CatalogItem catalogItem = mock(CatalogItem.class);
   private UserDto user = mock(UserDto.class);
   private UserDto user2 = mock(UserDto.class);
@@ -127,6 +128,7 @@ public class NonfunctionalCceNotifierTest {
   private SupervisoryNodeDto supervisoryNode = mock(SupervisoryNodeDto.class);
   private RightDto right = mock(RightDto.class);
   private UserDto lastModifier = mock(UserDto.class);
+  private UserObjectReferenceDto lastModifierObj = mock(UserObjectReferenceDto.class);
 
   @Before
   public void setUp() {
@@ -234,10 +236,10 @@ public class NonfunctionalCceNotifierTest {
   }
 
   private void stubEquipmentType() {
-    when(inventoryItem.getCatalogItem()).thenReturn(catalogItem);
-    when(catalogItem.getId()).thenReturn(catalogItemId);
-    when(catalogItem.getType()).thenReturn(EQUIPMENT_TYPE);
+    when(inventoryItem.getCatalogItem()).thenReturn(catalogItemDto);
+    when(catalogItemDto.getId()).thenReturn(catalogItemId);
     when(catalogItemRepository.findOne(catalogItemId)).thenReturn(catalogItem);
+    when(catalogItem.getType()).thenReturn(EQUIPMENT_TYPE);
   }
 
   private void stubFacilityName() {
@@ -246,7 +248,8 @@ public class NonfunctionalCceNotifierTest {
   }
 
   private void stubLastModifierUsername() {
-    when(inventoryItem.getLastModifierEmbedded()).thenReturn(lastModifierObj);
+    when(inventoryItem.getLastModifier()).thenReturn(lastModifierObj);
+    when(lastModifierObj.getId()).thenReturn(lastModifierId);
     when(userReferenceDataService.findOne(lastModifierId)).thenReturn(lastModifier);
     when(lastModifier.getUsername()).thenReturn(LAST_MODIFIER_USERNAME);
   }
