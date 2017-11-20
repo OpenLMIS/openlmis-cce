@@ -38,7 +38,7 @@ import static org.openlmis.cce.service.ResourceNames.PROGRAMS;
 import static org.openlmis.cce.service.ResourceNames.USERS;
 
 import com.jayway.restassured.response.Response;
-
+import guru.nidi.ramltester.junit.RamlMatchers;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.stubbing.answers.Returns;
@@ -65,9 +65,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-
-import guru.nidi.ramltester.junit.RamlMatchers;
-
 import java.util.UUID;
 
 @SuppressWarnings("PMD.TooManyMethods")
@@ -251,7 +248,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   }
 
   @Test
-  public void shouldUpdateInventoryItemsAndNotCallStatusNotifier() {
+  public void shouldCreateInventoryItemAndNotCallStatusNotifier() {
     InventoryItemDto response = putInventoryItem(inventoryId)
         .then()
         .statusCode(200)
