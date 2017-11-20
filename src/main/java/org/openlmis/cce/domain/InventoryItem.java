@@ -186,11 +186,11 @@ public class InventoryItem extends BaseEntity {
   /**
    * Indicates if status changed.
    *
-   * @param oldStatus and old status.
+   * @param oldInventory and old inventory item.
    * @return true if status has changed. False otherwise or if param is null.
    */
-  public boolean statusChanged(FunctionalStatus oldStatus) {
-    return oldStatus == null || oldStatus != functionalStatus;
+  public boolean statusChanged(InventoryItem oldInventory) {
+    return oldInventory != null && oldInventory.functionalStatus != functionalStatus;
   }
 
   /**

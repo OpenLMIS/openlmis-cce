@@ -153,7 +153,9 @@ public class InventoryItemDto extends BaseDto
   @JsonIgnore
   @Override
   public void setLastModifierEmbedded(User lastModifier) {
-    this.lastModifier = UserObjectReferenceDto.create(lastModifier, serviceUrl, USERS);
+    if (lastModifier != null) {
+      this.lastModifier = UserObjectReferenceDto.create(lastModifier, serviceUrl, USERS);
+    }
   }
 
   @Override

@@ -251,7 +251,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   }
 
   @Test
-  public void shouldUpdateInventoryItems() {
+  public void shouldUpdateInventoryItemsAndNotCallStatusNotifier() {
     InventoryItemDto response = putInventoryItem(inventoryId)
         .then()
         .statusCode(200)
@@ -260,7 +260,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     assertEquals(inventoryId, response.getId());
     checkResponseAndRaml(response);
 
-    verify(inventoryStatusProcessor, times(1)).functionalStatusChange(any());
+    verify(inventoryStatusProcessor, never()).functionalStatusChange(any());
   }
 
   @Test

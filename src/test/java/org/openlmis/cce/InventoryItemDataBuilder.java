@@ -107,6 +107,14 @@ public class InventoryItemDataBuilder {
   }
 
   /**
+   * Sets facility {@link UUID}.
+   */
+  public InventoryItemDataBuilder withStatus(FunctionalStatus status) {
+    this.functionalStatus = status;
+    return this;
+  }
+
+  /**
    * Builds instance of {@link InventoryItem}.
    */
   public InventoryItem build() {
