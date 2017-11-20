@@ -38,6 +38,7 @@ import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
+import org.openlmis.cce.domain.User;
 import org.openlmis.cce.dto.FacilityDto;
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.SupervisoryNodeDto;
@@ -116,6 +117,7 @@ public class NonfunctionalCceNotifierTest {
   private UUID supervisoryNodeId = UUID.randomUUID();
   private UUID rightId = UUID.randomUUID();
   private UUID lastModifierId = UUID.randomUUID();
+  private User lastModifierObj = new User(lastModifierId, "name","surname");
 
   private InventoryItem inventoryItem = mock(InventoryItem.class);
   private CatalogItem catalogItem = mock(CatalogItem.class);
@@ -244,7 +246,7 @@ public class NonfunctionalCceNotifierTest {
   }
 
   private void stubLastModifierUsername() {
-    when(inventoryItem.getLastModifierId()).thenReturn(lastModifierId);
+    when(inventoryItem.getLastModifierEmbedded()).thenReturn(lastModifierObj);
     when(userReferenceDataService.findOne(lastModifierId)).thenReturn(lastModifier);
     when(lastModifier.getUsername()).thenReturn(LAST_MODIFIER_USERNAME);
   }

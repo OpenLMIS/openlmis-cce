@@ -47,11 +47,13 @@ import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
+import org.openlmis.cce.domain.User;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ObjectReferenceDto;
 import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.dto.UserDto;
+import org.openlmis.cce.dto.UserObjectReferenceDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.PermissionService;
@@ -95,7 +97,8 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private final UUID programId = UUID.randomUUID();
   private ObjectReferenceDto facility = ObjectReferenceDto
       .create(facilityId, SERVICE_URL, FACILITIES);
-  private ObjectReferenceDto lastModifier = ObjectReferenceDto.create(USER_ID, SERVICE_URL, USERS);
+  private UserObjectReferenceDto lastModifier =
+      UserObjectReferenceDto.create(new User(USER_ID, FIRSTNAME, LASTNAME), SERVICE_URL, USERS);
   private ObjectReferenceDto program = ObjectReferenceDto.create(programId, SERVICE_URL, PROGRAMS);
 
   @Before
@@ -104,6 +107,8 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
     inventoryItem = new InventoryItemDataBuilder()
         .withLastModifierId(USER_ID)
+        .withLastModifierFirstName(FIRSTNAME)
+        .withLastModifierLastName(LASTNAME)
         .withFacilityId(facilityId)
         .withProgramId(programId)
         .build();
@@ -119,11 +124,13 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldCreateNewInventoryItem() {
+    inventoryItemDto.setLastModifier(null);
     InventoryItemDto response = postInventoryItem()
         .then()
         .statusCode(201)
         .extract().as(InventoryItemDto.class);
 
+    inventoryItemDto.setLastModifier(lastModifier);
     checkResponseAndRaml(response);
   }
 
@@ -150,7 +157,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .statusCode(200)
         .extract().as(InventoryItemDto.class);
 
-    assertEquals(response, inventoryItemDto);
+    assertEquals(inventoryItemDto, response);
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 

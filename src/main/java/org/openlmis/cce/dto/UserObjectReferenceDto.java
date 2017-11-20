@@ -21,31 +21,38 @@ import static org.openlmis.cce.service.ResourceNames.SEPARATOR;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import org.openlmis.cce.domain.User;
 import java.util.UUID;
 
+@NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class ObjectReferenceDto extends BaseDto {
+public class UserObjectReferenceDto extends ObjectReferenceDto implements User.Exporter {
 
   @Getter
   @Setter
-  private String href;
+  private String firstName;
 
-  protected ObjectReferenceDto() {}
+  @Getter
+  @Setter
+  private String lastName;
 
   /**
-   * Returns new object reference.
-   *
-   * @param id   object id
+   * Creates new UserObjectReferenceDto.
    */
-  public ObjectReferenceDto(UUID id, String serviceUrl, String resourceName) {
-    setId(id);
-    this.href = joinWith(SEPARATOR, serviceUrl + BASE_PATH, resourceName, id);
+  public static UserObjectReferenceDto create(User user, String serviceUrl, String resourceName) {
+
+    UserObjectReferenceDto dto = new UserObjectReferenceDto();
+    user.export(dto);
+
+    dto.setHref(joinWith(SEPARATOR, serviceUrl + BASE_PATH, resourceName, dto.getId()));
+
+    return dto;
   }
 
-  public static ObjectReferenceDto create(UUID id, String serviceUrl, String resourceName) {
-    return new ObjectReferenceDto(id, serviceUrl, resourceName);
+  @Override
+  public void setLastModifierId(UUID lastModifierId) {
+    setId(lastModifierId);
   }
-
 }

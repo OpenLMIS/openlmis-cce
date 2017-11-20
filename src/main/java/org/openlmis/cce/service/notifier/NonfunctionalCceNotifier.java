@@ -25,6 +25,7 @@ import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.SupervisoryNodeDto;
 import org.openlmis.cce.dto.UserDto;
+import org.openlmis.cce.dto.UserObjectReferenceDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
@@ -110,7 +111,7 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
     valuesMap.put("referenceName", inventoryItem.getReferenceName());
     valuesMap.put("reasonForNonFunctionalStatus",
         inventoryItem.getReasonNotWorkingOrNotInUse().toString());
-    valuesMap.put("saveUser", getUsername(inventoryItem.getLastModifierId()));
+    valuesMap.put("saveUser", getUsername(inventoryItem));
     valuesMap.put("saveDate", getDateTimeFormatter().format(inventoryItem.getModifiedDate()));
     valuesMap.put("urlToViewCceList", urlToViewCce);
     return valuesMap;
@@ -124,7 +125,10 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
     return facilityReferenceDataService.findOne(facilityId).getName();
   }
 
-  private String getUsername(UUID userId) {
+  private String getUsername(InventoryItem inventoryItem) {
+    UserObjectReferenceDto user = new UserObjectReferenceDto();
+    inventoryItem.getLastModifierEmbedded().export(user);
+    UUID userId = user.getId();
     UserDto one = userReferenceDataService.findOne(userId);
     if (one == null ) {
       throw new ValidationMessageException(

@@ -79,6 +79,8 @@ public abstract class BaseWebIntegrationTest {
       "HTTP request/response should match RAML definition.";
   protected static final UUID USER_ID = UUID.randomUUID();
   protected static final String SERVICE_URL = "http://localhost";
+  protected static final String FIRSTNAME = "Alan";
+  protected static final String LASTNAME = "Willstatter";
 
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(80);
@@ -118,8 +120,8 @@ public abstract class BaseWebIntegrationTest {
   protected void mockUserAuthenticated() {
     UserDto user = new UserDto();
     user.setId(USER_ID);
-    user.setFirstName("admin");
-    user.setLastName("strator");
+    user.setFirstName(FIRSTNAME);
+    user.setLastName(LASTNAME);
     user.setEmail("admin@openlmis.org");
 
     given(authenticationHelper.getCurrentUser()).willReturn(user);

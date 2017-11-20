@@ -25,8 +25,10 @@ import com.google.common.collect.Sets;
 
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
+import org.openlmis.cce.domain.User;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.PermissionStringDto;
+import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.InventoryStatusProcessor;
@@ -280,8 +282,9 @@ public class InventoryItemController extends BaseController {
   }
 
   private InventoryItem newInventoryItem(InventoryItemDto inventoryItemDto) {
+    UserDto currentUser = authenticationHelper.getCurrentUser();
     return InventoryItem.newInstance(inventoryItemDto,
-        authenticationHelper.getCurrentUser().getId());
+        new User(currentUser.getId(), currentUser.getFirstName(), currentUser.getLastName()));
   }
 
   private InventoryItemDto saveInventory(InventoryItem inventoryItem) {

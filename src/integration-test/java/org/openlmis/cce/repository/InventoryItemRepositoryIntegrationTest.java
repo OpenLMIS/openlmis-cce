@@ -27,6 +27,7 @@ import org.openlmis.cce.domain.ManualTemperatureGaugeType;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
 import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
 import org.openlmis.cce.domain.StorageTemperature;
+import org.openlmis.cce.domain.User;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
@@ -81,7 +82,8 @@ public class InventoryItemRepositoryIntegrationTest
         ReasonNotWorkingOrNotInUse.NOT_APPLICABLE, Utilization.ACTIVE,
         VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,
         ManualTemperatureGaugeType.BUILD_IN, RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId",
-        "example notes", LocalDate.of(2017, 1, 1), null, UUID.randomUUID());
+        "example notes", LocalDate.of(2017, 1, 1), null,
+        new User(UUID.randomUUID(), "firstname", "lastname"));
   }
 
   @Before
@@ -114,13 +116,13 @@ public class InventoryItemRepositoryIntegrationTest
 
     InventoryItem item2 = generateInstance();
     item2.setFacilityId(item.getFacilityId());
-    item2 = repository.save(item2);
+    repository.save(item2);
 
     InventoryItem item3 = generateInstance();
     item3 = repository.save(item3);
 
     InventoryItem item4 = generateInstance();
-    item4 = repository.save(item4);
+    repository.save(item4);
 
     Page<InventoryItem> inventoryItems = repository.search(Arrays.asList(item.getFacilityId(),
         item3.getFacilityId()), null, pageable);

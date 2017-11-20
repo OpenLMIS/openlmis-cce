@@ -15,24 +15,21 @@
 
 package org.openlmis.cce.domain;
 
-import lombok.ToString;
-import org.hibernate.annotations.Type;
-import org.javers.core.metamodel.annotation.TypeName;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import lombok.ToString;
+import org.hibernate.annotations.Type;
+import org.javers.core.metamodel.annotation.TypeName;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
-import java.util.Collection;
-import java.util.List;
 import java.util.UUID;
-import java.util.stream.Collectors;
-
+import javax.persistence.AttributeOverride;
+import javax.persistence.AttributeOverrides;
 import javax.persistence.Column;
+import javax.persistence.Embedded;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
 import javax.persistence.Enumerated;
@@ -123,21 +120,13 @@ public class InventoryItem extends BaseEntity {
   @Column(columnDefinition = "timestamp with time zone")
   private ZonedDateTime modifiedDate;
 
-  @Type(type = UUID)
-  private UUID lastModifierId;
-
-  /**
-   * Creates list of new instances based on data from {@link Importer} list
-   *
-   * @param importers {@link Importer} list
-   * @return list of new Inventory instances.
-   */
-  public static List<InventoryItem> newInstance(Collection<? extends Importer> importers,
-                                                UUID lastModifier) {
-    return importers.stream()
-        .map(i -> newInstance(i, lastModifier))
-        .collect(Collectors.toList());
-  }
+  @Embedded
+  @AttributeOverrides({
+      @AttributeOverride(name = "id", column = @Column(name = "lastmodifierid")),
+      @AttributeOverride(name = "firstName", column = @Column(name = "lastmodifierfirstname")),
+      @AttributeOverride(name = "lastName", column = @Column(name = "lastmodifierlastname"))
+      })
+  private User lastModifierEmbedded;
 
   /**
    * Creates new instance based on data from {@link Importer}
@@ -145,7 +134,7 @@ public class InventoryItem extends BaseEntity {
    * @param importer instance of {@link Importer}
    * @return new instance of Inventory.
    */
-  public static InventoryItem newInstance(Importer importer, UUID lastModifierId) {
+  public static InventoryItem newInstance(Importer importer, User lastModifier) {
     InventoryItem inventoryItem = new InventoryItem();
     inventoryItem.id = importer.getId();
     inventoryItem.facilityId = importer.getFacilityId();
@@ -167,7 +156,7 @@ public class InventoryItem extends BaseEntity {
     inventoryItem.remoteTemperatureMonitorId = importer.getRemoteTemperatureMonitorId();
     inventoryItem.decommissionDate = importer.getDecommissionDate();
     inventoryItem.additionalNotes = importer.getAdditionalNotes();
-    inventoryItem.lastModifierId = lastModifierId;
+    inventoryItem.lastModifierEmbedded = lastModifier;
 
     return inventoryItem;
   }
@@ -212,7 +201,7 @@ public class InventoryItem extends BaseEntity {
     exporter.setAdditionalNotes(additionalNotes);
     exporter.setDecommissionDate(decommissionDate);
     exporter.setModifiedDate(modifiedDate);
-    exporter.setLastModifierId(lastModifierId);
+    exporter.setLastModifierEmbedded(lastModifierEmbedded);
   }
 
   public interface Exporter {
@@ -258,7 +247,7 @@ public class InventoryItem extends BaseEntity {
 
     void setModifiedDate(ZonedDateTime modifiedDate);
 
-    void setLastModifierId(UUID lastModifierId);
+    void setLastModifierEmbedded(User lastModifier);
   }
 
   public interface Importer {

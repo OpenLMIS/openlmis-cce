@@ -28,6 +28,7 @@ import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.domain.ManualTemperatureGaugeType;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
 import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
+import org.openlmis.cce.domain.User;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
@@ -132,7 +133,7 @@ public class InventoryItemDto extends BaseDto
 
   @Setter
   @Getter
-  private ObjectReferenceDto lastModifier;
+  private UserObjectReferenceDto lastModifier;
 
   @Override
   public void setCatalogItem(CatalogItem catalogItem) {
@@ -149,9 +150,10 @@ public class InventoryItemDto extends BaseDto
     this.facility = ObjectReferenceDto.create(facilityId, serviceUrl, FACILITIES);
   }
 
+  @JsonIgnore
   @Override
-  public void setLastModifierId(UUID lastModifierId) {
-    this.lastModifier = ObjectReferenceDto.create(lastModifierId, serviceUrl, USERS);
+  public void setLastModifierEmbedded(User lastModifier) {
+    this.lastModifier = UserObjectReferenceDto.create(lastModifier, serviceUrl, USERS);
   }
 
   @Override
