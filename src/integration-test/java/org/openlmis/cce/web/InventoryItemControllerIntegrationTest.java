@@ -65,6 +65,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+import org.springframework.test.util.ReflectionTestUtils;
 import java.util.UUID;
 
 @SuppressWarnings("PMD.TooManyMethods")
@@ -263,7 +264,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @Test
   public void shouldCallStatusProcessorIfFunctionalStatusDifferWhenUpdateInventoryItems() {
     InventoryItem existing = new InventoryItem();
-    existing.makeFunctioning();
+    ReflectionTestUtils.setField(existing, "functionalStatus", FunctionalStatus.FUNCTIONING);
     when(inventoryItemRepository.findOne(any(UUID.class)))
         .thenReturn(existing);
 
@@ -279,7 +280,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @Test
   public void shouldNotCallStatusProcessorIfFunctionalStatusSameWhenUpdateInventoryItems() {
     InventoryItem existing = new InventoryItem();
-    existing.makeFunctioning();
+    ReflectionTestUtils.setField(existing, "functionalStatus", FunctionalStatus.FUNCTIONING);
     when(inventoryItemRepository.findOne(any(UUID.class)))
         .thenReturn(existing);
 

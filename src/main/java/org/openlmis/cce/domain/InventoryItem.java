@@ -18,7 +18,6 @@ package org.openlmis.cce.domain;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.ToString;
 import org.hibernate.annotations.Type;
@@ -38,13 +37,12 @@ import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
 
-@NoArgsConstructor
-@AllArgsConstructor
 @Entity
 @TypeName("Inventory")
 @Table(name = "cce_inventory_items", uniqueConstraints =
     @UniqueConstraint(name = "unq_inventory_catalog_eqid",
           columnNames = { "catalogitemid", "equipmenttrackingid" }))
+@AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
 @ToString
 public class InventoryItem extends BaseEntity {
@@ -52,17 +50,17 @@ public class InventoryItem extends BaseEntity {
   @Getter
   @Type(type = UUID)
   @Column(nullable = false)
-  private UUID facilityId;
+  private final UUID facilityId;
 
   @ManyToOne
   @Type(type = UUID)
   @JoinColumn(name = "catalogItemId", nullable = false)
-  private CatalogItem catalogItem;
+  private final CatalogItem catalogItem;
 
   @Getter
   @Type(type = UUID)
   @Column(nullable = false)
-  private UUID programId;
+  private final UUID programId;
 
   @Column(columnDefinition = TEXT)
   private String equipmentTrackingId;
@@ -130,6 +128,13 @@ public class InventoryItem extends BaseEntity {
       })
   private User lastModifierEmbedded;
 
+  //default constructor needed by framework
+  public InventoryItem() {
+    facilityId = null;
+    catalogItem = null;
+    programId = null;
+  }
+
   /**
    * Creates new instance based on data from {@link Importer}
    *
@@ -137,50 +142,52 @@ public class InventoryItem extends BaseEntity {
    * @return new instance of Inventory.
    */
   public static InventoryItem newInstance(Importer importer, User lastModifier) {
-    InventoryItem inventoryItem = new InventoryItem();
+    InventoryItem inventoryItem = new InventoryItem(
+        importer.getFacilityId(),
+        CatalogItem.newInstance(importer.getCatalogItem()),
+        importer.getProgramId(),
+        importer.getEquipmentTrackingId(),
+        importer.getReferenceName(),
+        importer.getYearOfInstallation(),
+        importer.getYearOfWarrantyExpiry(),
+        importer.getSource(),
+        importer.getFunctionalStatus(),
+        importer.getReasonNotWorkingOrNotInUse(),
+        importer.getUtilization(),
+        importer.getVoltageStabilizer(),
+        importer.getBackupGenerator(),
+        importer.getVoltageRegulator(),
+        importer.getManualTemperatureGauge(),
+        importer.getRemoteTemperatureMonitor(),
+        importer.getRemoteTemperatureMonitorId(),
+        importer.getAdditionalNotes(),
+        importer.getDecommissionDate(),
+        null,
+        lastModifier);
     inventoryItem.id = importer.getId();
-    inventoryItem.facilityId = importer.getFacilityId();
-    inventoryItem.catalogItem = CatalogItem.newInstance(importer.getCatalogItem());
-    inventoryItem.programId = importer.getProgramId();
-    inventoryItem.equipmentTrackingId = importer.getEquipmentTrackingId();
-    inventoryItem.referenceName = importer.getReferenceName();
-    inventoryItem.yearOfInstallation = importer.getYearOfInstallation();
-    inventoryItem.yearOfWarrantyExpiry = importer.getYearOfWarrantyExpiry();
-    inventoryItem.source = importer.getSource();
-    inventoryItem.functionalStatus = importer.getFunctionalStatus();
-    inventoryItem.reasonNotWorkingOrNotInUse = importer.getReasonNotWorkingOrNotInUse();
-    inventoryItem.utilization = importer.getUtilization();
-    inventoryItem.voltageStabilizer = importer.getVoltageStabilizer();
-    inventoryItem.backupGenerator = importer.getBackupGenerator();
-    inventoryItem.voltageRegulator = importer.getVoltageRegulator();
-    inventoryItem.remoteTemperatureMonitor = importer.getRemoteTemperatureMonitor();
-    inventoryItem.manualTemperatureGauge = importer.getManualTemperatureGauge();
-    inventoryItem.remoteTemperatureMonitorId = importer.getRemoteTemperatureMonitorId();
-    inventoryItem.decommissionDate = importer.getDecommissionDate();
-    inventoryItem.additionalNotes = importer.getAdditionalNotes();
-    inventoryItem.lastModifierEmbedded = lastModifier;
 
     return inventoryItem;
   }
 
   /**
-   * Set invariant fields based on other InventoryItem.
-   *
-   * @param item InventoryItem to set from
+   * Copy all values except invariants (program, facility, catalog item)
    */
-  public void setInvariants(InventoryItem item) {
-    if (item != null) {
-      programId = item.programId;
-      facilityId = item.facilityId;
-      catalogItem = item.catalogItem;
-    }
-  }
-
-  /**
-   * Set functional status to {@link FunctionalStatus#FUNCTIONING}.
-   */
-  public void makeFunctioning() {
-    functionalStatus  = FunctionalStatus.FUNCTIONING;
+  public void updateFrom(InventoryItem inventoryItem) {
+    equipmentTrackingId = inventoryItem.equipmentTrackingId;
+    referenceName = inventoryItem.referenceName;
+    yearOfInstallation = inventoryItem.yearOfInstallation;
+    yearOfWarrantyExpiry = inventoryItem.yearOfWarrantyExpiry;
+    source = inventoryItem.source;
+    functionalStatus = inventoryItem.functionalStatus;
+    utilization = inventoryItem.utilization;
+    voltageStabilizer = inventoryItem.voltageStabilizer;
+    backupGenerator = inventoryItem.backupGenerator;
+    voltageRegulator = inventoryItem.voltageRegulator;
+    manualTemperatureGauge = inventoryItem.manualTemperatureGauge;
+    remoteTemperatureMonitor = inventoryItem.remoteTemperatureMonitor;
+    remoteTemperatureMonitorId = inventoryItem.remoteTemperatureMonitorId;
+    additionalNotes = inventoryItem.additionalNotes;
+    decommissionDate = inventoryItem.decommissionDate;
   }
 
   /**
