@@ -87,17 +87,7 @@ public class InventoryItemTest {
         .withArchiveFlag()
         .build();
 
-    String equipmentTrackingId = randomStringGenerator.generate(5);
-    String referenceName = randomStringGenerator.generate(5);
-    int yearOfInstallation = new Random().nextInt();
-    int withYearOfWarrantyExpiry = new Random().nextInt();
-    String monitorId = randomStringGenerator.generate(5);
-    String additionalNotes = randomStringGenerator.generate(5);
-    String firstName = randomStringGenerator.generate(5);
-    String lastName = randomStringGenerator.generate(5);
-    UUID lastModifierId = UUID.randomUUID();
-    LocalDate decommissionDate = LocalDate.of(2010, 5, 5);
-    InventoryItem newInventory = new InventoryItemDataBuilder()
+    InventoryItemDataBuilder inventoryItemDataBuilder = new InventoryItemDataBuilder()
         .withId(id)
         .withCatalogItem(catalogItem)
         .withProgramId(UUID.randomUUID())
@@ -110,41 +100,24 @@ public class InventoryItemTest {
         .withVoltageRegulator(VoltageRegulatorStatus.NO)
         .withManualTemperatureGauge(ManualTemperatureGaugeType.NO_GAUGE)
         .withRemoteTemperatureMonitor(RemoteTemperatureMonitorType.NO_RTM)
-        .withEquipmentTrackingId(equipmentTrackingId)
-        .withReferenceName(referenceName)
-        .withYearOfInstallation(yearOfInstallation)
-        .withYearOfWarrantyExpiry(withYearOfWarrantyExpiry)
-        .withRemoteTemperatureMonitorId(monitorId)
-        .withAdditionalNotes(additionalNotes)
-        .withDecommissionDate(decommissionDate)
-        .withLastModifierFirstName(firstName)
-        .withLastModifierLastName(lastName)
-        .withLastModifierId(lastModifierId)
+        .withEquipmentTrackingId(randomStringGenerator.generate(5))
+        .withReferenceName(randomStringGenerator.generate(5))
+        .withYearOfInstallation(new Random().nextInt())
+        .withYearOfWarrantyExpiry(new Random().nextInt())
+        .withRemoteTemperatureMonitorId(randomStringGenerator.generate(5))
+        .withAdditionalNotes(randomStringGenerator.generate(5))
+        .withDecommissionDate(LocalDate.of(2010, 5, 5))
+        .withLastModifierFirstName(randomStringGenerator.generate(5))
+        .withLastModifierLastName(randomStringGenerator.generate(5))
+        .withLastModifierId(UUID.randomUUID());
+    InventoryItem newInventory = inventoryItemDataBuilder
         .build();
 
-    InventoryItem expected = new InventoryItemDataBuilder()
+    InventoryItem expected = inventoryItemDataBuilder
         .withId(id)
         .withCatalogItem(catalogItemExisting)
         .withProgramId(programId)
         .withFacilityId(facilityId)
-        .withStatus(FunctionalStatus.NON_FUNCTIONING)
-        .withReasonNotWorkingOrNotInUse(ReasonNotWorkingOrNotInUse.NOT_APPLICABLE)
-        .withUtilization(Utilization.NOT_IN_USE)
-        .withVoltageStabilizer(VoltageStabilizerStatus.NO)
-        .withBackupGenerator(BackupGeneratorStatus.NO)
-        .withVoltageRegulator(VoltageRegulatorStatus.NO)
-        .withManualTemperatureGauge(ManualTemperatureGaugeType.NO_GAUGE)
-        .withRemoteTemperatureMonitor(RemoteTemperatureMonitorType.NO_RTM)
-        .withEquipmentTrackingId(equipmentTrackingId)
-        .withReferenceName(referenceName)
-        .withYearOfInstallation(yearOfInstallation)
-        .withYearOfWarrantyExpiry(withYearOfWarrantyExpiry)
-        .withRemoteTemperatureMonitorId(monitorId)
-        .withAdditionalNotes(additionalNotes)
-        .withDecommissionDate(decommissionDate)
-        .withLastModifierFirstName(firstName)
-        .withLastModifierLastName(lastName)
-        .withLastModifierId(lastModifierId)
         .build();
 
     existing.updateFrom(newInventory);
