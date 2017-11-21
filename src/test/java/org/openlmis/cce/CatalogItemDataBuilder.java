@@ -62,6 +62,26 @@ public class CatalogItemDataBuilder {
     return this;
   }
 
+  public CatalogItemDataBuilder withType(String type) {
+    this.type = type;
+    return this;
+  }
+
+  public CatalogItemDataBuilder withModel(String model) {
+    this.model = model;
+    return this;
+  }
+
+  public CatalogItemDataBuilder withManufacturer(String manufacturer) {
+    this.manufacturer = manufacturer;
+    return this;
+  }
+
+  public CatalogItemDataBuilder withoutId() {
+    id = null;
+    return this;
+  }
+
   /**
    * Creates new instance of {@link CatalogItem} with provided data.
    */

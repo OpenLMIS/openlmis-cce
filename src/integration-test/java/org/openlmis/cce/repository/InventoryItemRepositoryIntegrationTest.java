@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.repository;
 
+import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
@@ -22,26 +23,16 @@ import static org.mockito.Mockito.when;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
-import org.openlmis.cce.domain.BackupGeneratorStatus;
+import org.openlmis.cce.CatalogItemDataBuilder;
+import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.CatalogItem;
-import org.openlmis.cce.domain.EnergySource;
-import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.domain.ManualTemperatureGaugeType;
-import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
-import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
-import org.openlmis.cce.domain.StorageTemperature;
-import org.openlmis.cce.domain.User;
-import org.openlmis.cce.domain.Utilization;
-import org.openlmis.cce.domain.VoltageRegulatorStatus;
-import org.openlmis.cce.domain.VoltageStabilizerStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.test.util.ReflectionTestUtils;
-import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.UUID;
 import javax.persistence.EntityManager;
@@ -74,24 +65,12 @@ public class InventoryItemRepositoryIntegrationTest
 
   @Override
   InventoryItem generateInstance() {
-    return generateInstance(null);
-  }
-
-  InventoryItem generateInstance(CatalogItem catalogItemToUse) {
-    return new InventoryItem(UUID.randomUUID(),
-        catalogItemToUse != null ? catalogItemToUse : catalogItem, UUID.randomUUID(),
-        "eqTrackingId" + getNextInstanceNumber(), "Some Reference Name",
-        2010, 2020,  "some source", FunctionalStatus.FUNCTIONING,
-        ReasonNotWorkingOrNotInUse.NOT_APPLICABLE, Utilization.ACTIVE,
-        VoltageStabilizerStatus.UNKNOWN, BackupGeneratorStatus.YES, VoltageRegulatorStatus.NO,
-        ManualTemperatureGaugeType.BUILD_IN, RemoteTemperatureMonitorType.BUILD_IN, "someMonitorId",
-        "example notes", LocalDate.of(2017, 1, 1), null,
-        new User(UUID.randomUUID(), "firstname", "lastname"));
+    return getInventoryItemDataBuilder().build();
   }
 
   @Before
   public void beforeEach() {
-    catalogItem = generateCatalogItem();
+    catalogItem = new CatalogItemDataBuilder().withoutId().build();
     catalogItem = catalogItemRepository.save(catalogItem);
 
     when(pageable.getPageSize()).thenReturn(10);
@@ -100,11 +79,12 @@ public class InventoryItemRepositoryIntegrationTest
 
   @Test(expected = PersistenceException.class)
   public void shouldNotAllowItemsWithSameEquipmentIdAndCatalogItem() {
-    InventoryItem item = generateInstance();
-    InventoryItem item2 = generateInstance();
-
-    ReflectionTestUtils.setField(item, EQUIPMENT_TRACKING_ID, "SAME_ID");
-    ReflectionTestUtils.setField(item2, EQUIPMENT_TRACKING_ID, "SAME_ID");
+    InventoryItem item = getInventoryItemDataBuilder()
+        .withEquipmentTrackingId(EQUIPMENT_TRACKING_ID)
+        .build();
+    InventoryItem item2 = getInventoryItemDataBuilder()
+        .withEquipmentTrackingId(EQUIPMENT_TRACKING_ID)
+        .build();
 
     repository.save(item);
     repository.save(item2);
@@ -117,8 +97,9 @@ public class InventoryItemRepositoryIntegrationTest
     InventoryItem item = generateInstance();
     item = repository.save(item);
 
-    InventoryItem item2 = generateInstance();
-    ReflectionTestUtils.setField(item2, "facilityId", item.getFacilityId());
+    InventoryItem item2 = getInventoryItemDataBuilder()
+        .withFacilityId(item.getFacilityId())
+        .build();
     repository.save(item2);
 
     InventoryItem item3 = generateInstance();
@@ -136,7 +117,7 @@ public class InventoryItemRepositoryIntegrationTest
           || inventoryItem.getFacilityId().equals(item3.getFacilityId()));
     }
 
-    inventoryItems = repository.search(Arrays.asList(item.getFacilityId()), null, pageable);
+    inventoryItems = repository.search(singletonList(item.getFacilityId()), null, pageable);
 
     assertEquals(2, inventoryItems.getTotalElements());
     for (InventoryItem inventoryItem : inventoryItems) {
@@ -149,8 +130,9 @@ public class InventoryItemRepositoryIntegrationTest
     InventoryItem item = generateInstance();
     item = repository.save(item);
 
-    InventoryItem item2 = generateInstance();
-    ReflectionTestUtils.setField(item2, "programId", item.getProgramId());
+    InventoryItem item2 = getInventoryItemDataBuilder()
+        .withProgramId(item.getProgramId())
+        .build();
     repository.save(item2);
 
     InventoryItem item3 = generateInstance();
@@ -168,7 +150,7 @@ public class InventoryItemRepositoryIntegrationTest
           || inventoryItem.getProgramId().equals(item3.getProgramId()));
     }
 
-    inventoryItems = repository.search(null, Arrays.asList(item.getProgramId()), pageable);
+    inventoryItems = repository.search(null, singletonList(item.getProgramId()), pageable);
 
     assertEquals(2, inventoryItems.getTotalElements());
     for (InventoryItem inventoryItem : inventoryItems) {
@@ -184,14 +166,15 @@ public class InventoryItemRepositoryIntegrationTest
     InventoryItem item2 = generateInstance();
     item2 = repository.save(item2);
 
-    InventoryItem item3 = generateInstance();
-    ReflectionTestUtils.setField(item3, "facilityId", item.getFacilityId());
-    ReflectionTestUtils.setField(item3, "programId", item2.getProgramId());
+    InventoryItem item3 = getInventoryItemDataBuilder()
+        .withFacilityId(item.getFacilityId())
+        .withProgramId(item2.getProgramId())
+        .build();
 
     item3 = repository.save(item3);
 
-    Page<InventoryItem> inventoryItems = repository.search(Arrays.asList(item.getFacilityId()),
-        Arrays.asList(item2.getProgramId()), pageable);
+    Page<InventoryItem> inventoryItems = repository.search(singletonList(item.getFacilityId()),
+        singletonList(item2.getProgramId()), pageable);
 
     assertEquals(1, inventoryItems.getTotalElements());
     assertTrue(inventoryItems.getContent().get(0).getProgramId().equals(item3.getProgramId()));
@@ -201,20 +184,24 @@ public class InventoryItemRepositoryIntegrationTest
   public void shouldSortInventoryItems() {
     when(pageable.getSort()).thenReturn(new Sort("type", EQUIPMENT_TRACKING_ID));
     InventoryItem item = generateInstance();
-    item = repository.save(item);
+    repository.save(item);
 
-    CatalogItem catalogItem = generateCatalogItem();
-    catalogItem.setType("otherType");
-    catalogItem.setModel("new-model");
-    catalogItem.setManufacturer("some-manufacturer");
+    CatalogItem catalogItem = new CatalogItemDataBuilder()
+        .withoutId()
+        .withType("otherType")
+        .withModel("new-model")
+        .withManufacturer("some-manufacturer")
+        .build();
     catalogItem = catalogItemRepository.save(catalogItem);
 
-    InventoryItem item2 = generateInstance();
-    ReflectionTestUtils.setField(item2, CATALOG_ITEM, catalogItem);
+    InventoryItem item2 = getInventoryItemDataBuilder()
+        .withCatalogItem(catalogItem)
+        .build();
     repository.save(item2);
 
-    InventoryItem item3 = generateInstance();
-    ReflectionTestUtils.setField(item3, CATALOG_ITEM, catalogItem);
+    InventoryItem item3 = getInventoryItemDataBuilder()
+        .withCatalogItem(catalogItem)
+        .build();
     repository.save(item3);
 
     Page<InventoryItem> inventoryItems = repository.search(null, null, pageable);
@@ -238,15 +225,10 @@ public class InventoryItemRepositoryIntegrationTest
     assertTrue(catalogItem1.getType().compareTo(catalogItem2.getType()) < 0);
   }
 
-  private CatalogItem generateCatalogItem() {
-    CatalogItem catalogItem = new CatalogItem();
-    catalogItem.setFromPqsCatalog(true);
-    catalogItem.setType("type");
-    catalogItem.setModel("model");
-    catalogItem.setManufacturer("manufacturer");
-    catalogItem.setEnergySource(EnergySource.ELECTRIC);
-    catalogItem.setStorageTemperature(StorageTemperature.MINUS10);
-    catalogItem.setArchived(false);
-    return catalogItem;
+  private InventoryItemDataBuilder getInventoryItemDataBuilder() {
+    return new InventoryItemDataBuilder()
+        .withId(null)
+        .withCatalogItem(catalogItem)
+        .withEquipmentTrackingId("eqTrackingId" + getNextInstanceNumber());
   }
 }
