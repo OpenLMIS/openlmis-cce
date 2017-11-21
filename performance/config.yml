@@ -8,7 +8,7 @@ modules:
       username: administrator
       password: password
       # this property should always be expressed in unit of seconds.
-      scenario-duration: 120
+      scenario-duration: 90
     xml-jtl-flags:
       responseData: true
 reporting:
