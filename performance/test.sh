@@ -27,7 +27,11 @@ fi
 
 echo "Running performance tests against: $URL"
 
-echo "Warm up (30s)"
-run_tests 30
-echo "Tests (150s)"
-run_tests 150
+echo "Warm up (60s)"
+run_tests 60
+
+echo "Wait (30s)"
+sleep 30
+
+echo "Tests (180s)"
+run_tests 180
