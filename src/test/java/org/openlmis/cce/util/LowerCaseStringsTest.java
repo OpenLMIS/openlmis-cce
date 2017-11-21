@@ -15,18 +15,22 @@
 
 package org.openlmis.cce.util;
 
+import static org.junit.Assert.assertEquals;
+
+import org.junit.Test;
+import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
-public class StringHelper {
+public class LowerCaseStringsTest {
 
-  /**
-   * Make every string in given list lowerCase.
-   */
-  public static List<String> lowerCase(List<String> strings) {
-    return strings.stream()
-        .map(String::toLowerCase)
-        .collect(Collectors.toList());
+  private static final String STRING_A = "StringA";
+  private static final String STRING_B = "StringB";
+
+  @Test
+  public void shouldLowerCaseAllStrings() {
+    List<String> strings = new LowerCaseStrings(Arrays.asList(STRING_A, STRING_B)).asList();
+    assertEquals(STRING_A.toLowerCase(), strings.get(0));
+    assertEquals(STRING_B.toLowerCase(), strings.get(1));
   }
 
 }

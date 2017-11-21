@@ -18,14 +18,13 @@ package org.openlmis.cce.web.validator;
 import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_HEADER_INVALID;
 import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_HEADER_MISSING;
 import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
-import static org.openlmis.cce.util.StringHelper.lowerCase;
 
 import org.apache.commons.collections.ListUtils;
 import org.openlmis.cce.exception.ValidationMessageException;
+import org.openlmis.cce.util.LowerCaseStrings;
 import org.openlmis.cce.web.csv.model.ModelClass;
 import org.openlmis.cce.web.csv.model.ModelField;
 import org.springframework.stereotype.Component;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -38,7 +37,7 @@ public class CsvHeaderValidator {
   public void validateHeaders(List<String> headers, ModelClass<?> modelClass,
                               boolean acceptExtraHeaders) {
     validateNullHeaders(headers);
-    List<String> lowerCaseHeaders = lowerCase(headers);
+    List<String> lowerCaseHeaders = new LowerCaseStrings(headers).asList();
     if (!acceptExtraHeaders) {
       validateInvalidHeaders(lowerCaseHeaders, modelClass);
     }
@@ -64,7 +63,7 @@ public class CsvHeaderValidator {
 
   private void validateInvalidHeaders(List<String> headers, ModelClass modelClass) {
     List<String> fieldNames = getAllImportedFieldNames(modelClass);
-    List invalidHeaders = ListUtils.subtract(headers, lowerCase(fieldNames));
+    List invalidHeaders = ListUtils.subtract(headers, new LowerCaseStrings(fieldNames).asList());
     if (!invalidHeaders.isEmpty()) {
       throw new ValidationMessageException(ERROR_UPLOAD_HEADER_INVALID, invalidHeaders.toString());
     }
