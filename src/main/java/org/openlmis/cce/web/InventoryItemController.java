@@ -28,6 +28,8 @@ import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.exception.NotFoundException;
+import org.openlmis.cce.exception.ValidationMessageException;
+import org.openlmis.cce.i18n.InventoryItemMessageKeys;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.PermissionService;
@@ -210,6 +212,10 @@ public class InventoryItemController extends BaseController {
     Profiler profiler = new Profiler("UPDATE_INVENTORY_ITEM");
     profiler.setLogger(XLOGGER);
 
+    if (!inventoryItemDto.getId().equals(inventoryItemId)) {
+      throw new ValidationMessageException(InventoryItemMessageKeys.ERROR_ID_MISMATCH);
+    }
+
     profiler.start("FIND_IN_DB");
     InventoryItem existingInventory = inventoryRepository.findOne(inventoryItemId);
 
@@ -225,7 +231,15 @@ public class InventoryItemController extends BaseController {
     validator.validate(inventoryItemDto);
 
     profiler.start("UPDATE_AND_CREATE_DTO");
-    InventoryItemDto dto = updateInventory(inventoryItemDto, inventoryItemId, existingInventory);
+    InventoryItemDto dto;
+    if (existingInventory != null) {
+      dto = updateInventory(inventoryItemDto, existingInventory);
+    } else {
+      InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
+
+      profiler.start("SAVE_AND_CREATE_DTO");
+      dto = saveInventory(inventoryItem);
+    }
 
     profiler.stop().log();
     XLOGGER.exit(dto);
@@ -262,14 +276,11 @@ public class InventoryItemController extends BaseController {
   }
 
   private InventoryItemDto updateInventory(InventoryItemDto inventoryItemDto,
-                                           UUID inventoryItemId,
                                            InventoryItem existingInventory) {
     InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
-    inventoryItem.setId(inventoryItemId);
-    inventoryItem.setInvariants(existingInventory);
     boolean changed = inventoryItem.statusChanged(existingInventory);
-
-    InventoryItemDto itemDto = saveInventory(inventoryItem);
+    existingInventory.updateFrom(inventoryItem);
+    InventoryItemDto itemDto = saveInventory(existingInventory);
     if (changed) {
       inventoryStatusProcessor.functionalStatusChange(itemDto);
     }

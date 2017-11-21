@@ -55,6 +55,7 @@ dependencies {
     compile "org.slf4j:slf4j-ext:1.7.25"
     compile 'org.apache.commons:commons-csv:1.4'
     compile 'org.apache.commons:commons-collections4:4.1'
+    compile 'org.apache.commons:commons-text:1.1'
 
     testCompile "com.jayway.restassured:rest-assured:2.7.0"
     testCompile "junit:junit"

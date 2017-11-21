@@ -49,6 +49,8 @@ public class InventoryItemMessageKeys extends MessageKeys {
       join(ERROR_PREFIX, "remoteTemperatureMonitor", REQUIRED);
   public static final String ERROR_USER_INVALID =
       join(ERROR_PREFIX, "userId", INVALID);
+  public static final String ERROR_ID_MISMATCH =
+      join(ERROR_PREFIX, "id", MISMATCH);
 
   //notifications
   public static final String EMAIL_NONFUNCTIONAL_CCE_SUBJECT

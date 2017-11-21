@@ -224,6 +224,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .build();
 
     InventoryItem existing = new InventoryItemDataBuilder()
+        .withId(inventoryId)
         .withCatalogItem(catalogItem)
         .withProgramId(UUID.randomUUID())
         .withFacilityId(UUID.randomUUID())
@@ -262,8 +263,9 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldCallStatusProcessorIfFunctionalStatusDifferWhenUpdateInventoryItems() {
-    InventoryItem existing = new InventoryItem();
-    existing.makeFunctioning();
+    InventoryItem existing = new InventoryItemDataBuilder()
+        .withStatus(FunctionalStatus.FUNCTIONING)
+        .build();
     when(inventoryItemRepository.findOne(any(UUID.class)))
         .thenReturn(existing);
 
@@ -278,8 +280,9 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldNotCallStatusProcessorIfFunctionalStatusSameWhenUpdateInventoryItems() {
-    InventoryItem existing = new InventoryItem();
-    existing.makeFunctioning();
+    InventoryItem existing = new InventoryItemDataBuilder()
+        .withStatus(FunctionalStatus.FUNCTIONING)
+        .build();
     when(inventoryItemRepository.findOne(any(UUID.class)))
         .thenReturn(existing);
 
@@ -418,6 +421,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   }
 
   private Response putInventoryItem(UUID id) {
+    inventoryItemDto.setId(id);
     return restAssured.given()
         .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .contentType(APPLICATION_JSON)

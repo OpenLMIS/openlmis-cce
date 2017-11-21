@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.domain;
 
+import lombok.ToString;
 import org.javers.core.metamodel.annotation.TypeName;
 
 import lombok.AllArgsConstructor;
@@ -42,6 +43,7 @@ import javax.persistence.Table;
 @TypeName("Catalog")
 @Table(name = "cce_catalog_items")
 @EqualsAndHashCode(callSuper = true)
+@ToString(callSuper = true)
 public class CatalogItem extends BaseEntity {
   public static final String EQUIPMENT_CODE = "equipmentCode";
   public static final String MANUFACTURER = "manufacturer";

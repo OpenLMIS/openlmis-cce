@@ -31,6 +31,7 @@ import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.UUID;
 
+@SuppressWarnings("PMD.TooManyMethods")
 public class InventoryItemDataBuilder {
 
   private UUID id = UUID.randomUUID();
@@ -61,8 +62,19 @@ public class InventoryItemDataBuilder {
   private String lastModifierFirstName = "firstName";
   private String lastModifierLastName = "lastName";
 
+  /**
+   * Sets {@link CatalogItem}.
+   */
   public InventoryItemDataBuilder withCatalogItem(CatalogItem newCatalogItem) {
     catalogItem = newCatalogItem;
+    return this;
+  }
+
+  /**
+   * Sets inventory {@link UUID}.
+   */
+  public InventoryItemDataBuilder withId(UUID id) {
+    this.id = id;
     return this;
   }
 
@@ -75,7 +87,7 @@ public class InventoryItemDataBuilder {
   }
 
   /**
-   * Sets last modifier {@link UUID}.
+   * Sets last modifier first name.
    */
   public InventoryItemDataBuilder withLastModifierFirstName(String lastModifierFirstName) {
     this.lastModifierFirstName = lastModifierFirstName;
@@ -83,7 +95,7 @@ public class InventoryItemDataBuilder {
   }
 
   /**
-   * Sets last modifier {@link UUID}.
+   * Sets last modifier last name.
    */
   public InventoryItemDataBuilder withLastModifierLastName(String lastModifierLastName) {
     this.lastModifierLastName = lastModifierLastName;
@@ -107,10 +119,82 @@ public class InventoryItemDataBuilder {
   }
 
   /**
-   * Sets facility {@link UUID}.
+   * Sets {@link FunctionalStatus}.
    */
   public InventoryItemDataBuilder withStatus(FunctionalStatus status) {
     this.functionalStatus = status;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withReasonNotWorkingOrNotInUse(
+      ReasonNotWorkingOrNotInUse reasonNotWorkingOrNotInUse) {
+    this.reasonNotWorkingOrNotInUse = reasonNotWorkingOrNotInUse;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withUtilization(Utilization utilization) {
+    this.utilization = utilization;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withVoltageStabilizer(VoltageStabilizerStatus voltageStabilizer) {
+    this.voltageStabilizer = voltageStabilizer;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withBackupGenerator(BackupGeneratorStatus backupGenerator) {
+    this.backupGenerator = backupGenerator;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withVoltageRegulator(VoltageRegulatorStatus voltageRegulator) {
+    this.voltageRegulator = voltageRegulator;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withManualTemperatureGauge(ManualTemperatureGaugeType gauge) {
+    this.manualTemperatureGauge = gauge;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withRemoteTemperatureMonitor(
+      RemoteTemperatureMonitorType remoteTemperatureMonitor) {
+    this.remoteTemperatureMonitor = remoteTemperatureMonitor;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withEquipmentTrackingId(String equipmentTrackingId) {
+    this.equipmentTrackingId = equipmentTrackingId;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withReferenceName(String referenceName) {
+    this.referenceName = referenceName;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withYearOfInstallation(Integer yearOfInstallation) {
+    this.yearOfInstallation = yearOfInstallation;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withYearOfWarrantyExpiry(Integer withYearOfWarrantyExpiry) {
+    this.yearOfWarrantyExpiry = withYearOfWarrantyExpiry;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withRemoteTemperatureMonitorId(String monitorId) {
+    this.remoteTemperatureMonitorId = monitorId;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withAdditionalNotes(String additionalNotes) {
+    this.additionalNotes = additionalNotes;
+    return this;
+  }
+
+  public InventoryItemDataBuilder withDecommissionDate(LocalDate decommissionDate) {
+    this.decommissionDate = decommissionDate;
     return this;
   }
 
@@ -128,5 +212,4 @@ public class InventoryItemDataBuilder {
     inventoryItem.setId(id);
     return inventoryItem;
   }
-
 }

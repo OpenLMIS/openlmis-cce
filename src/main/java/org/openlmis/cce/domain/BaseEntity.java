@@ -15,8 +15,10 @@
 
 package org.openlmis.cce.domain;
 
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Type;
 
@@ -26,6 +28,8 @@ import javax.persistence.MappedSuperclass;
 import java.util.UUID;
 
 @MappedSuperclass
+@EqualsAndHashCode
+@ToString
 public abstract class BaseEntity {
   protected static final String UUID = "pg-uuid";
   protected static final String TEXT = "text";
