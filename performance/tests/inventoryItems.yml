@@ -1,11 +1,11 @@
 execution:
-  - concurreny: 1
+  - concurrency: 1
     hold-for: ${__P(scenario-duration,60)}
     scenario: get-inventory-items
-  - concurreny: 1
+  - concurrency: 1
     hold-for: ${__P(scenario-duration,60)}
     scenario: delete-inventory-item
-  - concurreny: 1
+  - concurrency: 1
     hold-for: ${__P(scenario-duration,60)}
     scenario: update-inventory-item
 
