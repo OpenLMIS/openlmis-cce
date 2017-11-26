@@ -330,6 +330,12 @@ resourceTypes:
       get:
           is: [ secured, paginated ]
           description: Get all CCE Inventory items.
+          queryParameters:
+              facilityId:
+                  description: "Filters inventory items by assigned facility."
+                  type: string
+                  required: false
+                  repeat: false
           responses:
               "200":
                   body:

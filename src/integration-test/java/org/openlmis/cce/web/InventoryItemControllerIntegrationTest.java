@@ -38,7 +38,9 @@ import static org.openlmis.cce.service.ResourceNames.PROGRAMS;
 import static org.openlmis.cce.service.ResourceNames.USERS;
 
 import com.jayway.restassured.response.Response;
+import com.jayway.restassured.specification.RequestSpecification;
 import guru.nidi.ramltester.junit.RamlMatchers;
+import org.javers.common.collections.Sets;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.internal.stubbing.answers.Returns;
@@ -205,7 +207,47 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         any(Pageable.class)))
         .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
 
-    PageImplRepresentation resultPage = getAllInventoryItems()
+    PageImplRepresentation resultPage = getAllInventoryItems(null)
+        .then()
+        .statusCode(200)
+        .extract().as(PageImplRepresentation.class);
+
+    assertEquals(1, resultPage.getContent().size());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldRetrieveInventoryItemsForGivenFacility() {
+    UUID userId = mockUser();
+    UUID programId = UUID.randomUUID();
+    UUID facilityId = UUID.randomUUID();
+
+    PermissionStringDto permission1 = PermissionStringDto.create(
+        CCE_INVENTORY_VIEW, UUID.randomUUID(), programId
+    );
+    PermissionStringDto permission2 = PermissionStringDto.create(
+        CCE_INVENTORY_VIEW, UUID.randomUUID(), programId
+    );
+    PermissionStringDto permission3 = PermissionStringDto.create(
+        CCE_INVENTORY_VIEW, facilityId, programId
+    );
+    PermissionStringDto permission4 = PermissionStringDto.create(
+        CCE_INVENTORY_VIEW, UUID.randomUUID(), programId
+    );
+
+
+    PermissionStrings.Handler handler = mock(PermissionStrings.Handler.class);
+    when(handler.get()).thenReturn(Sets.asSet(permission1, permission2, permission3, permission4));
+
+    when(permissionService.getPermissionStrings(userId)).thenReturn(handler);
+
+    when(inventoryItemRepository.search(
+        eq(singleton(facilityId)),
+        eq(singleton(programId)),
+        any(Pageable.class)))
+        .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
+
+    PageImplRepresentation resultPage = getAllInventoryItems(facilityId)
         .then()
         .statusCode(200)
         .extract().as(PageImplRepresentation.class);
@@ -403,10 +445,16 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .post(RESOURCE_URL);
   }
 
-  private Response getAllInventoryItems() {
-    return restAssured
+  private Response getAllInventoryItems(UUID facilityId) {
+    RequestSpecification request = restAssured
         .given()
-        .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
+        .header(HttpHeaders.AUTHORIZATION, getTokenHeader());
+
+    if (facilityId != null) {
+      request = request.queryParam("facilityId", facilityId.toString());
+    }
+
+    return request
         .when()
         .get(RESOURCE_URL);
   }

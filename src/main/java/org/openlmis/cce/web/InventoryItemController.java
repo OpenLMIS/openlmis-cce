@@ -50,12 +50,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Controller
 @Transactional
@@ -159,7 +161,8 @@ public class InventoryItemController extends BaseController {
   @RequestMapping(method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public Page<InventoryItemDto> getAll(Pageable pageable) {
+  public Page<InventoryItemDto> getAll(Pageable pageable,
+                           @RequestParam(value = "facilityId", required = false) UUID facilityId) {
     XLOGGER.entry(pageable);
     Profiler profiler = new Profiler("GET_INVENTORY_ITEMS");
     profiler.setLogger(XLOGGER);
@@ -180,6 +183,11 @@ public class InventoryItemController extends BaseController {
         facilityIds.add(permissionString.getFacilityId());
         programIds.add(permissionString.getProgramId());
       }
+    }
+
+    if (facilityId != null) {
+      facilityIds = facilityIds.stream()
+          .filter(a -> a.equals(facilityId)).collect(Collectors.toSet());
     }
 
     profiler.start("SEARCH");
