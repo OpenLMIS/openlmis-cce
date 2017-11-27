@@ -57,7 +57,6 @@ import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Controller
 @Transactional
@@ -180,14 +179,11 @@ public class InventoryItemController extends BaseController {
 
     for (PermissionStringDto permissionString : permissionStrings) {
       if (equalsIgnoreCase(CCE_INVENTORY_VIEW, permissionString.getRightName())) {
-        facilityIds.add(permissionString.getFacilityId());
+        if (facilityId == null || permissionString.getFacilityId().equals(facilityId)) {
+          facilityIds.add(permissionString.getFacilityId());
+        }
         programIds.add(permissionString.getProgramId());
       }
-    }
-
-    if (facilityId != null) {
-      facilityIds = facilityIds.stream()
-          .filter(a -> a.equals(facilityId)).collect(Collectors.toSet());
     }
 
     profiler.start("SEARCH");
