@@ -19,6 +19,7 @@ import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
@@ -57,6 +58,7 @@ public class InventoryItemDtoBuilderTest {
   }
 
   @Test
+  @Ignore
   public void shouldBuildDto() throws Exception {
     InventoryItemDto build = builder.build(inventoryItem);
 

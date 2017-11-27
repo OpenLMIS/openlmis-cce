@@ -15,20 +15,19 @@
 
 package org.openlmis.cce.dto;
 
-import static org.apache.commons.lang3.StringUtils.joinWith;
-import static org.openlmis.cce.service.ResourceNames.BASE_PATH;
-import static org.openlmis.cce.service.ResourceNames.SEPARATOR;
+import com.fasterxml.jackson.annotation.JsonInclude;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import org.openlmis.cce.domain.User;
+
 import java.util.UUID;
 
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class UserObjectReferenceDto extends ObjectReferenceDto implements User.Exporter {
+@JsonInclude(JsonInclude.Include.NON_NULL)
+public class UserObjectReferenceDto extends ObjectReferenceDto {
 
   @Getter
   @Setter
@@ -38,21 +37,12 @@ public class UserObjectReferenceDto extends ObjectReferenceDto implements User.E
   @Setter
   private String lastName;
 
-  /**
-   * Creates new UserObjectReferenceDto.
-   */
-  public static UserObjectReferenceDto create(User user, String serviceUrl, String resourceName) {
-
-    UserObjectReferenceDto dto = new UserObjectReferenceDto();
-    user.export(dto);
-
-    dto.setHref(joinWith(SEPARATOR, serviceUrl + BASE_PATH, resourceName, dto.getId()));
-
-    return dto;
+  private UserObjectReferenceDto(UUID id, String serviceUrl, String resourceName) {
+    super(id, serviceUrl, resourceName);
   }
 
-  @Override
-  public void setLastModifierId(UUID lastModifierId) {
-    setId(lastModifierId);
+  public static UserObjectReferenceDto create(UUID id, String serviceUrl, String resourceName) {
+    return new UserObjectReferenceDto(id, serviceUrl, resourceName);
   }
+
 }

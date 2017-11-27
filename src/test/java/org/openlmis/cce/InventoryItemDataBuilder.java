@@ -22,7 +22,6 @@ import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.domain.ManualTemperatureGaugeType;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
 import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
-import org.openlmis.cce.domain.User;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
@@ -208,7 +207,7 @@ public class InventoryItemDataBuilder {
         reasonNotWorkingOrNotInUse, utilization, voltageStabilizer, backupGenerator,
         voltageRegulator, manualTemperatureGauge, remoteTemperatureMonitor,
         remoteTemperatureMonitorId, additionalNotes, decommissionDate, modifiedDate,
-        new User(lastModifierId, lastModifierFirstName, lastModifierLastName));
+        lastModifierId);
     inventoryItem.setId(id);
     return inventoryItem;
   }
