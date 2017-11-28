@@ -15,8 +15,6 @@
 
 package org.openlmis.cce.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -26,7 +24,6 @@ import java.util.UUID;
 
 @NoArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
 public class UserObjectReferenceDto extends ObjectReferenceDto {
 
   @Getter

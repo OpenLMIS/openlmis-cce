@@ -35,6 +35,12 @@ public abstract class MessageKeys {
   public static final String ERROR_INCORRECT_FILE_FORMAT = SERVICE_ERROR_PREFIX
       + ".file.format.incorrect";
 
+  private static final String ERROR_DTO_EXPANSION = join(SERVICE_ERROR_PREFIX, "dtoExpansion");
+  public static final String ERROR_DTO_EXPANSION_CAST = join(ERROR_DTO_EXPANSION, "cast");
+  public static final String ERROR_DTO_EXPANSION_HREF = join(ERROR_DTO_EXPANSION, "href");
+  public static final String ERROR_DTO_EXPANSION_ASSIGNMENT = join(ERROR_DTO_EXPANSION,
+      "assignment");
+
   protected static String join(String... params) {
     return String.join(DELIMITER, Arrays.asList(params));
   }

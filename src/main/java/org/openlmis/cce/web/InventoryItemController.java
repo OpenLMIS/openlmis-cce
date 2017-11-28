@@ -153,7 +153,9 @@ public class InventoryItemController extends BaseController {
     profiler.start("PROFILER_CREATE_DTO");
     InventoryItemDto dto = inventoryItemDtoBuilder.build(inventoryItem);
 
+    profiler.start("EXPAND_DTO");
     objReferenceExpander.expandDto(dto, expands);
+    
     profiler.stop().log();
     XLOGGER.exit(dto);
     return dto;

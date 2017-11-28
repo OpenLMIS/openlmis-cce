@@ -39,7 +39,7 @@ import static org.openlmis.cce.service.ResourceNames.USERS;
 
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
-import guru.nidi.ramltester.junit.RamlMatchers;
+
 import org.javers.common.collections.Sets;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +49,6 @@ import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.domain.User;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ObjectReferenceDto;
@@ -67,6 +66,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+
+import guru.nidi.ramltester.junit.RamlMatchers;
+
 import java.util.UUID;
 
 @SuppressWarnings("PMD.TooManyMethods")
@@ -94,10 +96,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private UUID inventoryId = UUID.randomUUID();
   private final UUID facilityId = UUID.randomUUID();
   private final UUID programId = UUID.randomUUID();
-  private ObjectReferenceDto facility = ObjectReferenceDto
-      .create(facilityId, SERVICE_URL, FACILITIES);
+  private ObjectReferenceDto facility =
+      ObjectReferenceDto.create(facilityId, SERVICE_URL, FACILITIES);
   private UserObjectReferenceDto lastModifier =
-      UserObjectReferenceDto.create(new User(USER_ID, FIRSTNAME, LASTNAME), SERVICE_URL, USERS);
+      UserObjectReferenceDto.create(USER_ID, SERVICE_URL, USERS);
   private ObjectReferenceDto program = ObjectReferenceDto.create(programId, SERVICE_URL, PROGRAMS);
 
   @Before
