@@ -21,7 +21,6 @@ import static org.openlmis.cce.domain.BaseEntity.UUID;
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
-import lombok.ToString;
 import org.hibernate.annotations.Type;
 import java.util.UUID;
 import javax.persistence.Column;
@@ -31,7 +30,6 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
-@ToString
 public class User {
 
   @Type(type = UUID)

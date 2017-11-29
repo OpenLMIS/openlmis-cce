@@ -30,7 +30,6 @@ import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ObjectReferenceDto;
 import org.openlmis.cce.service.ResourceNames;
 import org.springframework.test.util.ReflectionTestUtils;
-
 import java.util.List;
 import java.util.UUID;
 
