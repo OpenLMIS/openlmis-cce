@@ -16,8 +16,8 @@
 package org.openlmis.cce.repository.custom.impl;
 
 import static org.openlmis.cce.domain.CatalogItem.EQUIPMENT_CODE;
-import static org.openlmis.cce.domain.CatalogItem.MANUFACTURER;
-import static org.openlmis.cce.domain.CatalogItem.MODEL;
+import static org.openlmis.cce.domain.CatalogItem.MANUFACTURER_FIELD;
+import static org.openlmis.cce.domain.CatalogItem.MODEL_FIELD;
 
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.repository.custom.CatalogItemRepositoryCustom;
@@ -90,8 +90,8 @@ public class CatalogItemRepositoryImpl implements CatalogItemRepositoryCustom {
         predicate = builder.equal(root.get(EQUIPMENT_CODE), catalogItem.getEquipmentCode());
       } else {
         predicate = builder.and(
-            builder.equal(root.get(MANUFACTURER), catalogItem.getManufacturer()),
-            builder.equal(root.get(MODEL), catalogItem.getModel())
+            builder.equal(root.get(MANUFACTURER_FIELD), catalogItem.getManufacturer()),
+            builder.equal(root.get(MODEL_FIELD), catalogItem.getModel())
         );
       }
 

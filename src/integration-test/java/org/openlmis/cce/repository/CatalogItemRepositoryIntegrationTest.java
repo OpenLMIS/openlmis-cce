@@ -27,8 +27,8 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.openlmis.cce.domain.CatalogItem.EQUIPMENT_CODE;
-import static org.openlmis.cce.domain.CatalogItem.MANUFACTURER;
-import static org.openlmis.cce.domain.CatalogItem.MODEL;
+import static org.openlmis.cce.domain.CatalogItem.MANUFACTURER_FIELD;
+import static org.openlmis.cce.domain.CatalogItem.MODEL_FIELD;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -215,8 +215,8 @@ public class CatalogItemRepositoryIntegrationTest
 
     assertThat(found, hasSize(1));
     assertThat(found.get(0), allOf(
-        hasProperty(MANUFACTURER, equalTo(item.getManufacturer())),
-        hasProperty(MODEL, equalTo(item.getModel()))
+        hasProperty(MANUFACTURER_FIELD, equalTo(item.getManufacturer())),
+        hasProperty(MODEL_FIELD, equalTo(item.getModel()))
     ));
   }
 }

@@ -15,19 +15,15 @@
 
 package org.openlmis.cce.domain;
 
-import lombok.ToString;
-import org.javers.core.metamodel.annotation.TypeName;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-
+import org.javers.core.metamodel.annotation.TypeName;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
-
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
@@ -43,11 +39,10 @@ import javax.persistence.Table;
 @TypeName("Catalog")
 @Table(name = "cce_catalog_items")
 @EqualsAndHashCode(callSuper = true)
-@ToString(callSuper = true)
 public class CatalogItem extends BaseEntity {
   public static final String EQUIPMENT_CODE = "equipmentCode";
-  public static final String MANUFACTURER = "manufacturer";
-  public static final String MODEL = "model";
+  public static final String MANUFACTURER_FIELD = "manufacturer";
+  public static final String MODEL_FIELD = "model";
 
 
   @Column(nullable = false)

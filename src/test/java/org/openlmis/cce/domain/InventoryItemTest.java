@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import nl.jqno.equalsverifier.EqualsVerifier;
 import org.apache.commons.text.CharacterPredicates;
 import org.apache.commons.text.RandomStringGenerator;
 import org.junit.Test;
@@ -125,4 +126,8 @@ public class InventoryItemTest {
     assertEquals(expected, existing);
   }
 
+  @Test
+  public void equalsContract() {
+    EqualsVerifier.forClass(InventoryItem.class).withRedefinedSuperclass().verify();
+  }
 }
