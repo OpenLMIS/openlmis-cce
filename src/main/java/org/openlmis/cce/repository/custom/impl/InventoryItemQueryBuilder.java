@@ -21,6 +21,7 @@ import static org.apache.commons.collections.CollectionUtils.isEmpty;
 import com.google.common.base.Joiner;
 import com.google.common.collect.Lists;
 
+import org.openlmis.cce.domain.FunctionalStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
@@ -39,6 +40,7 @@ class InventoryItemQueryBuilder {
 
   static final String FACILITY_PREDICATE = "i.facilityId IN ('%s')";
   static final String PROGRAM_PREDICATE = "i.programId IN ('%s')";
+  static final String STATUS_PREDICATE = "i.functionalStatus IS '%s'";
 
   private static final String WHERE = "WHERE";
   private static final String ORDER_BY = "ORDER BY";
@@ -56,6 +58,7 @@ class InventoryItemQueryBuilder {
 
   private final Collection<UUID> facilityIds;
   private final Collection<UUID> programIds;
+  private final FunctionalStatus functionalStatus;
   private final Pageable pageable;
   private final boolean count;
 
@@ -80,8 +83,9 @@ class InventoryItemQueryBuilder {
   private void addWhere(List<String> query) {
     boolean hasFacilities = !isEmpty(facilityIds);
     boolean hasPrograms = !isEmpty(programIds);
+    boolean hasFunctionalStatus = functionalStatus != null;
 
-    if (hasFacilities || hasPrograms) {
+    if (hasFacilities || hasPrograms || hasFunctionalStatus) {
       query.add(WHERE);
 
       if (hasFacilities) {
@@ -94,6 +98,14 @@ class InventoryItemQueryBuilder {
         }
 
         query.add(format(PROGRAM_PREDICATE, Joiner.on(COLLECTION_JOINER).join(programIds)));
+      }
+
+      if (hasFunctionalStatus) {
+        if (hasFacilities || hasPrograms) {
+          query.add(AND);
+        }
+
+        query.add(format(STATUS_PREDICATE, functionalStatus.toString()));
       }
     }
   }

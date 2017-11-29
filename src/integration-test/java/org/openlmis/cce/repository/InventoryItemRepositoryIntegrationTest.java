@@ -26,6 +26,7 @@ import org.mockito.Mock;
 import org.openlmis.cce.CatalogItemDataBuilder;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.CatalogItem;
+import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -33,8 +34,10 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.test.util.ReflectionTestUtils;
+
 import java.util.Arrays;
 import java.util.UUID;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 
@@ -109,7 +112,7 @@ public class InventoryItemRepositoryIntegrationTest
     repository.save(item4);
 
     Page<InventoryItem> inventoryItems = repository.search(Arrays.asList(item.getFacilityId(),
-        item3.getFacilityId()), null, pageable);
+        item3.getFacilityId()), null, null, pageable);
 
     assertEquals(3, inventoryItems.getTotalElements());
     for (InventoryItem inventoryItem : inventoryItems) {
@@ -117,7 +120,7 @@ public class InventoryItemRepositoryIntegrationTest
           || inventoryItem.getFacilityId().equals(item3.getFacilityId()));
     }
 
-    inventoryItems = repository.search(singletonList(item.getFacilityId()), null, pageable);
+    inventoryItems = repository.search(singletonList(item.getFacilityId()), null, null, pageable);
 
     assertEquals(2, inventoryItems.getTotalElements());
     for (InventoryItem inventoryItem : inventoryItems) {
@@ -142,7 +145,7 @@ public class InventoryItemRepositoryIntegrationTest
     repository.save(item4);
 
     Page<InventoryItem> inventoryItems = repository.search(null, Arrays.asList(item.getProgramId(),
-        item3.getProgramId()), pageable);
+        item3.getProgramId()), null, pageable);
 
     assertEquals(3, inventoryItems.getTotalElements());
     for (InventoryItem inventoryItem : inventoryItems) {
@@ -150,7 +153,7 @@ public class InventoryItemRepositoryIntegrationTest
           || inventoryItem.getProgramId().equals(item3.getProgramId()));
     }
 
-    inventoryItems = repository.search(null, singletonList(item.getProgramId()), pageable);
+    inventoryItems = repository.search(null, singletonList(item.getProgramId()), null, pageable);
 
     assertEquals(2, inventoryItems.getTotalElements());
     for (InventoryItem inventoryItem : inventoryItems) {
@@ -174,10 +177,42 @@ public class InventoryItemRepositoryIntegrationTest
     item3 = repository.save(item3);
 
     Page<InventoryItem> inventoryItems = repository.search(singletonList(item.getFacilityId()),
-        singletonList(item2.getProgramId()), pageable);
+        singletonList(item2.getProgramId()), null, pageable);
 
     assertEquals(1, inventoryItems.getTotalElements());
     assertTrue(inventoryItems.getContent().get(0).getProgramId().equals(item3.getProgramId()));
+  }
+
+  @Test
+  public void shouldFindInventoryItemsByFunctionalStatus() {
+    InventoryItem item1 = getInventoryItemDataBuilder().build();
+    InventoryItem item2 = getInventoryItemDataBuilder().build();
+
+    InventoryItem item3 = getInventoryItemDataBuilder()
+        .withStatus(FunctionalStatus.OBSOLETE)
+        .build();
+
+    InventoryItem item4 = getInventoryItemDataBuilder()
+        .withStatus(FunctionalStatus.OBSOLETE)
+        .build();
+
+    repository.save(item1);
+    repository.save(item2);
+    repository.save(item3);
+    repository.save(item4);
+
+    Page<InventoryItem> inventoryItems = repository.search(
+        null,
+        null,
+        FunctionalStatus.FUNCTIONING,
+        pageable
+    );
+
+    assertEquals(2, inventoryItems.getTotalElements());
+    assertTrue(inventoryItems.getContent().get(0).getFunctionalStatus()
+        .equals(FunctionalStatus.FUNCTIONING));
+    assertTrue(inventoryItems.getContent().get(1).getFunctionalStatus()
+        .equals(FunctionalStatus.FUNCTIONING));
   }
 
   @Test
@@ -204,7 +239,7 @@ public class InventoryItemRepositoryIntegrationTest
         .build();
     repository.save(item3);
 
-    Page<InventoryItem> inventoryItems = repository.search(null, null, pageable);
+    Page<InventoryItem> inventoryItems = repository.search(null, null, null, pageable);
 
     assertEquals(3, inventoryItems.getTotalElements());
     InventoryItem inventoryItem0 = inventoryItems.getContent().get(0);

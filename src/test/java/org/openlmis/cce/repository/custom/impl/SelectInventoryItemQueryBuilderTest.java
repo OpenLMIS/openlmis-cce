@@ -36,13 +36,13 @@ public class SelectInventoryItemQueryBuilderTest
   public void shouldNotAddOrderPartIfSortIsNull() throws Exception {
     when(pageable.getSort()).thenReturn(null);
 
-    String sql = new InventoryItemQueryBuilder(null, null, pageable, false).build();
+    String sql = new InventoryItemQueryBuilder(null, null, null, pageable, false).build();
     assertThat(sql, equalTo(SELECT_SQL));
   }
 
   @Test
   public void shouldAddOrderPartToSelectQuery() throws Exception {
-    String sql = new InventoryItemQueryBuilder(null, null, pageable, false).build();
+    String sql = new InventoryItemQueryBuilder(null, null, null, pageable, false).build();
     assertThat(sql, equalTo(SELECT_SQL + ORDER_BY));
   }
 }

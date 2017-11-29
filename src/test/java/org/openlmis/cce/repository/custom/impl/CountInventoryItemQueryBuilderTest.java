@@ -31,7 +31,7 @@ public class CountInventoryItemQueryBuilderTest
 
   @Test
   public void shouldNotAddOrderPartToCountQuery() throws Exception {
-    String sql = new InventoryItemQueryBuilder(null, null, pageable, true).build();
+    String sql = new InventoryItemQueryBuilder(null, null, null, pageable, true).build();
     assertThat(sql, equalTo(COUNT_SQL));
   }
 }

@@ -22,6 +22,8 @@ import static org.openlmis.cce.service.ResourceNames.BASE_PATH;
 import static org.openlmis.cce.web.InventoryItemController.RESOURCE_PATH;
 
 import com.google.common.collect.Sets;
+
+import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.domain.User;
 import org.openlmis.cce.dto.InventoryItemDto;
@@ -161,7 +163,10 @@ public class InventoryItemController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public Page<InventoryItemDto> getAll(Pageable pageable,
-                           @RequestParam(value = "facilityId", required = false) UUID facilityId) {
+                                       @RequestParam(value = "facilityId", required = false)
+                                           UUID facilityId,
+                                       @RequestParam(value = "functionalStatus", required = false)
+                                             FunctionalStatus functionalStatus) {
     XLOGGER.entry(pageable);
     Profiler profiler = new Profiler("GET_INVENTORY_ITEMS");
     profiler.setLogger(XLOGGER);
@@ -187,7 +192,9 @@ public class InventoryItemController extends BaseController {
     }
 
     profiler.start("SEARCH");
-    Page<InventoryItem> itemsPage = inventoryRepository.search(facilityIds, programIds, pageable);
+    Page<InventoryItem> itemsPage = inventoryRepository.search(
+        facilityIds, programIds, functionalStatus, pageable
+    );
 
     profiler.start("CREATE_DTOS");
     List<InventoryItemDto> dtos = inventoryItemDtoBuilder.build(itemsPage.getContent());

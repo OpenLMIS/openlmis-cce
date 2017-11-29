@@ -22,6 +22,7 @@ import static org.openlmis.cce.repository.custom.impl.InventoryItemQueryBuilder.
 import static org.openlmis.cce.repository.custom.impl.InventoryItemQueryBuilder.FACILITY_PREDICATE;
 import static org.openlmis.cce.repository.custom.impl.InventoryItemQueryBuilder.PROGRAM_PREDICATE;
 import static org.openlmis.cce.repository.custom.impl.InventoryItemQueryBuilder.SELECT_SQL;
+import static org.openlmis.cce.repository.custom.impl.InventoryItemQueryBuilder.STATUS_PREDICATE;
 import static org.springframework.data.domain.Sort.Direction.ASC;
 import static org.springframework.data.domain.Sort.Direction.DESC;
 
@@ -30,6 +31,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
+import org.openlmis.cce.domain.FunctionalStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
@@ -41,13 +43,17 @@ import java.util.UUID;
 public abstract class BaseInventoryItemQueryBuilderTest {
   private static final UUID PROGRAM = UUID.randomUUID();
   private static final UUID FACILITY = UUID.randomUUID();
+  private static final FunctionalStatus STATUS = FunctionalStatus.FUNCTIONING;
 
   private static final Collection<UUID> PROGRAMS = Collections.singleton(PROGRAM);
   private static final Collection<UUID> FACILITIES = Collections.singleton(FACILITY);
 
   private static final String FACILITY_WHERE = String.format(FACILITY_PREDICATE, FACILITY);
   private static final String PROGRAM_WHERE = String.format(PROGRAM_PREDICATE, PROGRAM);
+  private static final String STATUS_WHERE = String.format(STATUS_PREDICATE, STATUS.toString());
   private static final String FACILITY_PROGRAM_WHERE = FACILITY_WHERE + " AND " + PROGRAM_WHERE;
+  private static final String FACILITY_PROGRAM_STATUS_WHERE = FACILITY_PROGRAM_WHERE + " AND "
+      + STATUS_WHERE;
 
   private static final String WHERE = " WHERE ";
 
@@ -71,26 +77,40 @@ public abstract class BaseInventoryItemQueryBuilderTest {
 
   @Test
   public void shouldCreateSimpleQuery() throws Exception {
-    String sql = new InventoryItemQueryBuilder(null, null, null, isCount()).build();
+    String sql = new InventoryItemQueryBuilder(null, null, null, null, isCount()).build();
     assertThat(sql, equalTo(getSelect()));
   }
 
   @Test
   public void shouldAddFacilityWherePartToQuery() throws Exception {
-    String sql = new InventoryItemQueryBuilder(FACILITIES, null, null, isCount()).build();
+    String sql = new InventoryItemQueryBuilder(FACILITIES, null, null, null, isCount()).build();
     assertThat(sql, equalTo(getSelect() + WHERE + FACILITY_WHERE));
   }
 
   @Test
   public void shouldAddProgramWherePartToQuery() throws Exception {
-    String sql = new InventoryItemQueryBuilder(null, PROGRAMS, null, isCount()).build();
+    String sql = new InventoryItemQueryBuilder(null, PROGRAMS, null ,null, isCount()).build();
     assertThat(sql, equalTo(getSelect() + WHERE + PROGRAM_WHERE));
   }
 
   @Test
   public void shouldAddFacilityAndProgramWherePartsToQuery() throws Exception {
-    String sql = new InventoryItemQueryBuilder(FACILITIES, PROGRAMS, null, isCount()).build();
+    String sql = new InventoryItemQueryBuilder(FACILITIES, PROGRAMS, null, null, isCount()).build();
     assertThat(sql, equalTo(getSelect() + WHERE + FACILITY_PROGRAM_WHERE));
+  }
+
+  @Test
+  public void shouldAddFunctionalStatusToQuery() throws Exception {
+    String sql = new InventoryItemQueryBuilder(
+        null, null, STATUS, null, isCount()).build();
+    assertThat(sql, equalTo(getSelect() + WHERE + STATUS_WHERE));
+  }
+
+  @Test
+  public void shouldAddFacilityProgramAndStatusWherePartsToQuery() throws Exception {
+    String sql = new InventoryItemQueryBuilder(
+        FACILITIES, PROGRAMS, STATUS, null, isCount()).build();
+    assertThat(sql, equalTo(getSelect() + WHERE + FACILITY_PROGRAM_STATUS_WHERE));
   }
 
 }

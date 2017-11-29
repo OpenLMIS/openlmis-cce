@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.repository.custom.impl;
 
+import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.repository.custom.InventoryItemRepositoryCustom;
 import org.openlmis.cce.util.Pagination;
@@ -45,10 +46,13 @@ public class InventoryItemRepositoryImpl implements InventoryItemRepositoryCusto
    * @return Page of Catalog Items matching the parameters.
    */
   public Page<InventoryItem> search(Collection<UUID> facilityIds, Collection<UUID> programIds,
-                                    Pageable pageable) {
-    TypedQuery<Long> count = createQuery(facilityIds, programIds, pageable, Long.class);
+                                    FunctionalStatus functionalStatus, Pageable pageable) {
+    TypedQuery<Long> count = createQuery(
+        facilityIds, programIds, functionalStatus, pageable, Long.class
+    );
+
     TypedQuery<InventoryItem> select = createQuery(
-        facilityIds, programIds, pageable, InventoryItem.class
+        facilityIds, programIds, functionalStatus, pageable, InventoryItem.class
     );
 
     List<InventoryItem> list = select.getResultList();
@@ -58,9 +62,12 @@ public class InventoryItemRepositoryImpl implements InventoryItemRepositoryCusto
   }
 
   private <T> TypedQuery<T> createQuery(Collection<UUID> facilities, Collection<UUID> programs,
-                                        Pageable pageable, Class<T> type) {
+                                        FunctionalStatus functionalStatus, Pageable pageable,
+                                        Class<T> type) {
     boolean isNumber = Number.class.isAssignableFrom(type);
-    String sql = new InventoryItemQueryBuilder(facilities, programs, pageable, isNumber).build();
+    String sql = new InventoryItemQueryBuilder(facilities, programs, functionalStatus, pageable,
+        isNumber).build();
+
     TypedQuery<T> query = entityManager.createQuery(sql, type);
 
     if (!isNumber && null != pageable) {
