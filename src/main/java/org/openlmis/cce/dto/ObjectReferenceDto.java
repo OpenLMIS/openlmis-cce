@@ -37,7 +37,9 @@ public class ObjectReferenceDto extends BaseDto {
   /**
    * Returns new object reference.
    *
-   * @param id   object id
+   * @param id           resource object id
+   * @param serviceUrl   service URL
+   * @param resourceName resource name added to the URL
    */
   public ObjectReferenceDto(UUID id, String serviceUrl, String resourceName) {
     setId(id);

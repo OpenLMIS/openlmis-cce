@@ -15,17 +15,16 @@
 
 package org.openlmis.cce.domain;
 
-import org.hibernate.annotations.Type;
-import org.javers.core.metamodel.annotation.TypeName;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Type;
+import org.javers.core.metamodel.annotation.TypeName;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.UUID;
-
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -42,6 +41,7 @@ import javax.persistence.UniqueConstraint;
           columnNames = { "catalogitemid", "equipmenttrackingid" }))
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@ToString
 public class InventoryItem extends BaseEntity {
 
   @Getter

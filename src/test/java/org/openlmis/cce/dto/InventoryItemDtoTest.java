@@ -26,9 +26,11 @@ public class InventoryItemDtoTest {
   public void equalsContract() {
     EqualsVerifier.forClass(InventoryItemDto.class)
         .withRedefinedSuperclass()
-        .suppress(Warning.STRICT_INHERITANCE) // to prevent check for equals method being final
-        .suppress(Warning.NONFINAL_FIELDS) // to prevent check for fields being final
-        .withIgnoredFields("serviceUrl", "id")
+        // InventoryItemDto cannot be final because then we cannot mock it
+        .suppress(Warning.STRICT_INHERITANCE)
+        // InventoryItemDto fields cannot be final
+        .suppress(Warning.NONFINAL_FIELDS)
+        .withIgnoredFields("serviceUrl")
         .verify();
   }
 }

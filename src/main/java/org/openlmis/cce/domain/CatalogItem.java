@@ -20,6 +20,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import lombok.ToString;
 import org.javers.core.metamodel.annotation.TypeName;
 import java.util.List;
 import java.util.UUID;
@@ -39,6 +40,7 @@ import javax.persistence.Table;
 @TypeName("Catalog")
 @Table(name = "cce_catalog_items")
 @EqualsAndHashCode(callSuper = true)
+@ToString
 public class CatalogItem extends BaseEntity {
   public static final String EQUIPMENT_CODE = "equipmentCode";
   public static final String MANUFACTURER_FIELD = "manufacturer";

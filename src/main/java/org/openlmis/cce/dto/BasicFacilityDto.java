@@ -47,5 +47,4 @@ public class BasicFacilityDto extends BaseDto {
     exporter.setCode(code);
     exporter.setName(name);
   }
-
 }

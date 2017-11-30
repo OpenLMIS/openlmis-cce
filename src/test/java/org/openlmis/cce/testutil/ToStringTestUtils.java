@@ -13,22 +13,19 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.dto;
+package org.openlmis.cce.testutil;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-import nl.jqno.equalsverifier.Warning;
-import org.junit.Test;
+import be.joengenduvel.java.verifiers.ToStringVerifier;
 
-public class UserObjectReferenceDtoTest {
+public class ToStringTestUtils {
 
-  @Test
-  public void equalsContract() {
-    EqualsVerifier.forClass(UserObjectReferenceDto.class)
-        .withRedefinedSuperclass()
-        // UserObjectReferenceDto cannot be final because then we cannot mock it
-        .suppress(Warning.STRICT_INHERITANCE)
-        // UserObjectReferenceDto fields cannot be final
-        .suppress(Warning.NONFINAL_FIELDS)
-        .verify();
+  /**
+   * Checks if given class has proper toString method.
+   */
+  public static <T> void verify(Class<T> clazz, T object) {
+    ToStringVerifier
+        .forClass(clazz)
+        .ignore("$jacocoData")
+        .containsAllPrivateFields(object);
   }
 }

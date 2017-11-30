@@ -63,6 +63,7 @@ dependencies {
     testCompile "org.springframework.boot:spring-boot-starter-test"
     testCompile "guru.nidi.raml:raml-tester:0.8.9"
     testCompile "nl.jqno.equalsverifier:equalsverifier:2.4"
+    testCompile "be.joengenduvel.java.verifiers:to-string:1.0.2"
 }
 
 idea {

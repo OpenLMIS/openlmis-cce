@@ -44,7 +44,7 @@ import java.util.UUID;
 
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = false, exclude = "serviceUrl")
+@EqualsAndHashCode(callSuper = true, exclude = "serviceUrl")
 public class InventoryItemDto extends BaseDto
     implements InventoryItem.Exporter, InventoryItem.Importer {
 

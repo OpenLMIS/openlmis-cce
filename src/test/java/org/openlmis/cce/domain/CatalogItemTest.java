@@ -17,11 +17,19 @@ package org.openlmis.cce.domain;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
 import org.junit.Test;
+import org.openlmis.cce.CatalogItemDataBuilder;
+import org.openlmis.cce.testutil.ToStringTestUtils;
 
 public class CatalogItemTest {
 
   @Test
   public void equalsContract() {
     EqualsVerifier.forClass(CatalogItem.class).withRedefinedSuperclass().verify();
+  }
+
+  @Test
+  public void shouldImplementToString() {
+    CatalogItem catalogItem = new CatalogItemDataBuilder().build();
+    ToStringTestUtils.verify(CatalogItem.class, catalogItem);
   }
 }

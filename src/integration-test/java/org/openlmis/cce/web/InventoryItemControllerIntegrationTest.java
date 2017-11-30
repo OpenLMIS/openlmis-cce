@@ -139,6 +139,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .extract().as(InventoryItemDto.class);
 
     inventoryItemDto.setLastModifier(lastModifier);
+    inventoryItemDto.setId(response.getId());
     checkResponseAndRaml(response);
   }
 

@@ -25,6 +25,7 @@ import org.apache.commons.text.RandomStringGenerator;
 import org.junit.Test;
 import org.openlmis.cce.CatalogItemDataBuilder;
 import org.openlmis.cce.InventoryItemDataBuilder;
+import org.openlmis.cce.testutil.ToStringTestUtils;
 import java.time.LocalDate;
 import java.util.Random;
 import java.util.UUID;
@@ -127,5 +128,11 @@ public class InventoryItemTest {
   @Test
   public void equalsContract() {
     EqualsVerifier.forClass(InventoryItem.class).withRedefinedSuperclass().verify();
+  }
+
+  @Test
+  public void shouldImplementToString() {
+    InventoryItem inventoryItem = new InventoryItemDataBuilder().build();
+    ToStringTestUtils.verify(InventoryItem.class, inventoryItem);
   }
 }
