@@ -337,10 +337,14 @@ resourceTypes:
                   required: false
                   repeat: false
               functionalStatus:
-                  description: "Filters inventory items by they functional status."
+                  description: "Filters inventory items by their functional status."
                   type: string
                   required: false
                   repeat: false
+                  enum:
+                      - FUNCTIONING
+                      - NON_FUNCTIONING
+                      - OBSOLETE
               expand:
                   description: "Allows to specify which reference fields should contain an expanded representation."
                   type: string

@@ -179,6 +179,11 @@ public class InventoryItemDataBuilder {
     return this;
   }
 
+  public InventoryItemDataBuilder withObsoleteStatus() {
+    this.functionalStatus = FunctionalStatus.OBSOLETE;
+    return this;
+  }
+
   /**
    * Builds instance of {@link InventoryItem}.
    */

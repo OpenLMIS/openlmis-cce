@@ -189,11 +189,11 @@ public class InventoryItemRepositoryIntegrationTest
     InventoryItem item2 = getInventoryItemDataBuilder().build();
 
     InventoryItem item3 = getInventoryItemDataBuilder()
-        .withStatus(FunctionalStatus.OBSOLETE)
+        .withObsoleteStatus()
         .build();
 
     InventoryItem item4 = getInventoryItemDataBuilder()
-        .withStatus(FunctionalStatus.OBSOLETE)
+        .withObsoleteStatus()
         .build();
 
     repository.save(item1);

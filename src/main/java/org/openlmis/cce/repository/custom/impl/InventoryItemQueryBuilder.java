@@ -40,7 +40,7 @@ class InventoryItemQueryBuilder {
 
   static final String FACILITY_PREDICATE = "i.facilityId IN ('%s')";
   static final String PROGRAM_PREDICATE = "i.programId IN ('%s')";
-  static final String STATUS_PREDICATE = "i.functionalStatus IS '%s'";
+  static final String STATUS_PREDICATE = "i.functionalStatus = '%s'";
 
   private static final String WHERE = "WHERE";
   private static final String ORDER_BY = "ORDER BY";

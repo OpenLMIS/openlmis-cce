@@ -211,7 +211,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   }
 
   @Test
-  public void shouldRetrieveAllInventoryItems() {
+  public void shouldRetrieveAllInventoryItemsForGivenParameters() {
     UUID userId = mockUser();
     UUID programId = UUID.randomUUID();
     UUID facilityId = UUID.randomUUID();
@@ -221,11 +221,12 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     when(inventoryItemRepository.search(
         eq(singleton(facilityId)),
         eq(singleton(programId)),
-        eq(null),
+        eq(FunctionalStatus.FUNCTIONING),
         any(Pageable.class)))
         .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
 
-    PageImplRepresentation resultPage = getAllInventoryItems(null, null, false)
+    PageImplRepresentation resultPage = getAllInventoryItems(null, FunctionalStatus.FUNCTIONING,
+        false)
         .then()
         .statusCode(200)
         .extract().as(PageImplRepresentation.class);
@@ -297,31 +298,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
 
     PageImplRepresentation resultPage = getAllInventoryItems(facilityId, null, false)
-        .then()
-        .statusCode(200)
-        .extract().as(PageImplRepresentation.class);
-
-    assertEquals(1, resultPage.getContent().size());
-    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
-  }
-
-  @Test
-  public void shouldRetrieveInventoryItemsForGivenFunctionalStatus() {
-    UUID userId = mockUser();
-    UUID programId = UUID.randomUUID();
-    UUID facilityId = UUID.randomUUID();
-
-    mockUserPermissions(userId, programId, facilityId);
-
-    when(inventoryItemRepository.search(
-        eq(singleton(facilityId)),
-        eq(singleton(programId)),
-        eq(FunctionalStatus.FUNCTIONING),
-        any(Pageable.class)))
-        .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
-
-    PageImplRepresentation resultPage = getAllInventoryItems(null, FunctionalStatus.FUNCTIONING,
-        false)
         .then()
         .statusCode(200)
         .extract().as(PageImplRepresentation.class);
