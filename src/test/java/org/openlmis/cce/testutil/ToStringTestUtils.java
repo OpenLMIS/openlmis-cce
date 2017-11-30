@@ -25,7 +25,7 @@ public class ToStringTestUtils {
   public static <T> void verify(Class<T> clazz, T object) {
     ToStringVerifier
         .forClass(clazz)
-        .ignore("$jacocoData")
+        .ignore("$jacocoData") // external library is checking for this field, has to be ignored
         .containsAllPrivateFields(object);
   }
 }
