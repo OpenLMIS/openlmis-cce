@@ -25,8 +25,7 @@ public class ObjectReferenceDtoTest {
   public void equalsContract() {
     EqualsVerifier.forClass(ObjectReferenceDto.class)
         .withRedefinedSuperclass()
-        // ObjectReferenceDto cannot be final because it has subclass
-        .suppress(Warning.STRICT_INHERITANCE)
+        .withRedefinedSubclass(UserObjectReferenceDto.class)
         // ObjectReferenceDto fields cannot be final
         .suppress(Warning.NONFINAL_FIELDS)
         .verify();
