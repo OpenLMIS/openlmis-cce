@@ -341,6 +341,11 @@ resourceTypes:
                   type: string
                   required: false
                   repeat: false
+              expand:
+                  description: "Allows to specify which reference fields should contain an expanded representation."
+                  type: string
+                  required: false
+                  repeat: true
           responses:
               "200":
                   body:
@@ -379,6 +384,12 @@ resourceTypes:
           get:
               is: [ secured ]
               description: Get chosen CCE Inventory item.
+              queryParameters:
+                  expand:
+                      description: "Allows to specify which reference fields should contain an expanded representation."
+                      type: string
+                      required: false
+                      repeat: true
               responses:
                   "200":
                       body:

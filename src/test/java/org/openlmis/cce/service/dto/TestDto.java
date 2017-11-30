@@ -13,15 +13,24 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.domain;
+package org.openlmis.cce.service.dto;
 
-import nl.jqno.equalsverifier.EqualsVerifier;
-import org.junit.Test;
+import org.openlmis.cce.dto.BaseDto;
 
-public class UserTest {
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
 
-  @Test
-  public void equalsContract() {
-    EqualsVerifier.forClass(User.class).verify();
-  }
+import java.util.UUID;
+
+@Getter
+@Setter
+@AllArgsConstructor
+public class TestDto extends BaseDto {
+
+  private UUID uuidProperty;
+
+  private ExpandedObjectReferenceDto expandedObjectReferenceDto;
+
+  private String sampleProperty;
 }

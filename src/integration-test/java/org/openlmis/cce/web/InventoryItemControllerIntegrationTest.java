@@ -40,6 +40,7 @@ import static org.openlmis.cce.service.ResourceNames.USERS;
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 
+import org.javers.common.collections.Lists;
 import org.javers.common.collections.Sets;
 import org.junit.Before;
 import org.junit.Test;
@@ -49,7 +50,6 @@ import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.domain.User;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ObjectReferenceDto;
@@ -58,6 +58,7 @@ import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.dto.UserObjectReferenceDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.InventoryStatusProcessor;
+import org.openlmis.cce.service.ObjReferenceExpander;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.service.PermissionStrings;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
@@ -70,6 +71,8 @@ import org.springframework.http.MediaType;
 
 import guru.nidi.ramltester.junit.RamlMatchers;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.UUID;
 
 @SuppressWarnings("PMD.TooManyMethods")
@@ -77,6 +80,8 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   private static final String RESOURCE_URL = "/api/inventoryItems";
   private static final String RESOURCE_URL_WITH_ID = RESOURCE_URL + "/{id}";
+  private static final String EXPAND = "expand";
+  private static final String LAST_MODIFIER = "lastModifier";
 
   @MockBean
   private InventoryItemRepository inventoryItemRepository;
@@ -90,6 +95,9 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @MockBean
   private InventoryStatusProcessor inventoryStatusProcessor;
 
+  @MockBean
+  private ObjReferenceExpander objReferenceExpander;
+
   private InventoryItemDto inventoryItemDto;
   private InventoryItem inventoryItem;
   private String editPermission = PermissionService.CCE_INVENTORY_EDIT;
@@ -97,10 +105,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private UUID inventoryId = UUID.randomUUID();
   private final UUID facilityId = UUID.randomUUID();
   private final UUID programId = UUID.randomUUID();
-  private ObjectReferenceDto facility = ObjectReferenceDto
-      .create(facilityId, SERVICE_URL, FACILITIES);
+  private ObjectReferenceDto facility =
+      ObjectReferenceDto.create(facilityId, SERVICE_URL, FACILITIES);
   private UserObjectReferenceDto lastModifier =
-      UserObjectReferenceDto.create(new User(USER_ID, FIRSTNAME, LASTNAME), SERVICE_URL, USERS);
+      UserObjectReferenceDto.create(USER_ID, SERVICE_URL, USERS);
   private ObjectReferenceDto program = ObjectReferenceDto.create(programId, SERVICE_URL, PROGRAMS);
 
   @Before
@@ -109,8 +117,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
     inventoryItem = new InventoryItemDataBuilder()
         .withLastModifierId(USER_ID)
-        .withLastModifierFirstName(FIRSTNAME)
-        .withLastModifierLastName(LASTNAME)
         .withFacilityId(facilityId)
         .withProgramId(programId)
         .build();
@@ -151,15 +157,29 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldRetrieveInventoryItem() {
-    when(inventoryItemRepository.findOne(inventoryId))
-        .thenReturn(inventoryItem);
+    when(inventoryItemRepository.findOne(inventoryId)).thenReturn(inventoryItem);
 
-    InventoryItemDto response = getInventoryItem()
+    InventoryItemDto response = getInventoryItem(false)
         .then()
         .statusCode(200)
         .extract().as(InventoryItemDto.class);
 
     assertEquals(inventoryItemDto, response);
+    verify(objReferenceExpander).expandDto(eq(response), eq(null));
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldRetrieveInventoryItemWithExpandedLastModifier() {
+    when(inventoryItemRepository.findOne(inventoryId)).thenReturn(inventoryItem);
+
+    InventoryItemDto response = getInventoryItem(true)
+        .then()
+        .statusCode(200)
+        .extract().as(InventoryItemDto.class);
+
+    assertEquals(inventoryItemDto, response);
+    verify(objReferenceExpander).expandDto(eq(response), eq(Lists.asList("lastModifier")));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -181,7 +201,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     doThrow(mockPermissionException(viewPermission))
         .when(permissionService).canViewInventory(existingItem);
 
-    getInventoryItem()
+    getInventoryItem(false)
         .then()
         .statusCode(403)
         .body(MESSAGE, equalTo(getMessage(ERROR_NO_FOLLOWING_PERMISSION, viewPermission)));
@@ -195,14 +215,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     UUID programId = UUID.randomUUID();
     UUID facilityId = UUID.randomUUID();
 
-    PermissionStringDto permission = PermissionStringDto.create(
-        CCE_INVENTORY_VIEW, facilityId, programId
-    );
-
-    PermissionStrings.Handler handler = mock(PermissionStrings.Handler.class);
-    when(handler.get()).thenReturn(singleton(permission));
-
-    when(permissionService.getPermissionStrings(userId)).thenReturn(handler);
+    mockUserPermissions(userId, programId, facilityId);
 
     when(inventoryItemRepository.search(
         eq(singleton(facilityId)),
@@ -211,12 +224,43 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         any(Pageable.class)))
         .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
 
-    PageImplRepresentation resultPage = getAllInventoryItems(null, null)
+    PageImplRepresentation resultPage = getAllInventoryItems(null, null, false)
         .then()
         .statusCode(200)
         .extract().as(PageImplRepresentation.class);
 
     assertEquals(1, resultPage.getContent().size());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldRetrieveAllInventoryItemsWithExpandedLastModifier() {
+    UUID userId = mockUser();
+    UUID programId = UUID.randomUUID();
+    UUID facilityId = UUID.randomUUID();
+
+    mockUserPermissions(userId, programId, facilityId);
+
+    when(inventoryItemRepository.search(
+        eq(singleton(facilityId)),
+        eq(singleton(programId)),
+        eq(null),
+        any(Pageable.class)))
+        .thenReturn(Pagination.getPage(
+            Lists.asList(inventoryItem, inventoryItem, inventoryItem),
+            null, 3));
+
+    PageImplRepresentation resultPage = getAllInventoryItems(null, null, true)
+        .then()
+        .statusCode(200)
+        .extract().as(PageImplRepresentation.class);
+
+    assertEquals(3, resultPage.getContent().size());
+
+    // All 3 DTOs should be expanded
+    verify(objReferenceExpander, times(3))
+        .expandDto(any(InventoryItemDto.class), eq(Lists.asList(LAST_MODIFIER)));
+
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -239,7 +283,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         CCE_INVENTORY_VIEW, UUID.randomUUID(), programId
     );
 
-
     PermissionStrings.Handler handler = mock(PermissionStrings.Handler.class);
     when(handler.get()).thenReturn(Sets.asSet(permission1, permission2, permission3, permission4));
 
@@ -252,7 +295,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         any(Pageable.class)))
         .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
 
-    PageImplRepresentation resultPage = getAllInventoryItems(facilityId, null)
+    PageImplRepresentation resultPage = getAllInventoryItems(facilityId, null, false)
         .then()
         .statusCode(200)
         .extract().as(PageImplRepresentation.class);
@@ -267,14 +310,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     UUID programId = UUID.randomUUID();
     UUID facilityId = UUID.randomUUID();
 
-    PermissionStringDto permission = PermissionStringDto.create(
-        CCE_INVENTORY_VIEW, facilityId, programId
-    );
-
-    PermissionStrings.Handler handler = mock(PermissionStrings.Handler.class);
-    when(handler.get()).thenReturn(singleton(permission));
-
-    when(permissionService.getPermissionStrings(userId)).thenReturn(handler);
+    mockUserPermissions(userId, programId, facilityId);
 
     when(inventoryItemRepository.search(
         eq(singleton(facilityId)),
@@ -283,7 +319,8 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         any(Pageable.class)))
         .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
 
-    PageImplRepresentation resultPage = getAllInventoryItems(null, FunctionalStatus.FUNCTIONING)
+    PageImplRepresentation resultPage = getAllInventoryItems(null, FunctionalStatus.FUNCTIONING,
+        false)
         .then()
         .statusCode(200)
         .extract().as(PageImplRepresentation.class);
@@ -445,6 +482,17 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
+  private void mockUserPermissions(UUID userId, UUID programId, UUID facilityId) {
+    PermissionStringDto permission = PermissionStringDto.create(
+        CCE_INVENTORY_VIEW, facilityId, programId
+    );
+
+    PermissionStrings.Handler handler = mock(PermissionStrings.Handler.class);
+    when(handler.get()).thenReturn(singleton(permission));
+
+    when(permissionService.getPermissionStrings(userId)).thenReturn(handler);
+  }
+
   private InventoryItemDto toDto(InventoryItem domain) {
     InventoryItemDto dto = new InventoryItemDto();
     domain.export(dto);
@@ -481,7 +529,8 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .post(RESOURCE_URL);
   }
 
-  private Response getAllInventoryItems(UUID facilityId, FunctionalStatus functionalStatus) {
+  private Response getAllInventoryItems(UUID facilityId, FunctionalStatus functionalStatus,
+                                        boolean expanded) {
     RequestSpecification request = restAssured
         .given()
         .header(HttpHeaders.AUTHORIZATION, getTokenHeader());
@@ -494,15 +543,25 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
       request = request.queryParam("functionalStatus", functionalStatus.toString());
     }
 
+    if (expanded) {
+      request = request.queryParam(EXPAND, LAST_MODIFIER);
+    }
+
     return request
         .when()
         .get(RESOURCE_URL);
   }
 
-  private Response getInventoryItem() {
+  private Response getInventoryItem(boolean expanded) {
+    Map<String, String> queryParams = new HashMap<>();
+    if (expanded) {
+      queryParams.put(EXPAND, LAST_MODIFIER);
+    }
+
     return restAssured
         .given()
         .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
+        .queryParameters(queryParams)
         .pathParam("id", inventoryId)
         .when()
         .get(RESOURCE_URL_WITH_ID);

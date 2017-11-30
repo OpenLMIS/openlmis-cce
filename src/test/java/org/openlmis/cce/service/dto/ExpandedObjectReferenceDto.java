@@ -13,33 +13,44 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.dto;
+package org.openlmis.cce.service.dto;
 
-import lombok.EqualsAndHashCode;
+import org.openlmis.cce.dto.ObjectReferenceDto;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.List;
 import java.util.UUID;
 
+@Getter
+@Setter
 @NoArgsConstructor
-@EqualsAndHashCode(callSuper = true)
-public class UserObjectReferenceDto extends ObjectReferenceDto {
+public class ExpandedObjectReferenceDto extends ObjectReferenceDto {
 
-  @Getter
-  @Setter
-  private String firstName;
+  private String expandedStringProperty;
 
-  @Getter
-  @Setter
-  private String lastName;
+  private List<String> expandedListProperty;
 
-  private UserObjectReferenceDto(UUID id, String serviceUrl, String resourceName) {
+  private UUID expandedUuidProperty;
+
+  /**
+   * Test object constructor.
+   */
+  public ExpandedObjectReferenceDto(UUID id, String serviceUrl, String resourceName) {
     super(id, serviceUrl, resourceName);
   }
 
-  public static UserObjectReferenceDto create(UUID id, String serviceUrl, String resourceName) {
-    return new UserObjectReferenceDto(id, serviceUrl, resourceName);
+  /**
+   * Test object constructor.
+   */
+  public ExpandedObjectReferenceDto(UUID id, String serviceUrl, String resourceName,
+                                    String expandedStringProperty,
+                                    List<String> expandedListProperty, UUID expandedUuidProperty) {
+    super(id, serviceUrl, resourceName);
+    this.expandedStringProperty = expandedStringProperty;
+    this.expandedListProperty = expandedListProperty;
+    this.expandedUuidProperty = expandedUuidProperty;
   }
-
 }

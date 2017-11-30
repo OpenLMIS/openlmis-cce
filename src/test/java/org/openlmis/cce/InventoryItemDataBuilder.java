@@ -22,7 +22,6 @@ import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.domain.ManualTemperatureGaugeType;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
 import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
-import org.openlmis.cce.domain.User;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
@@ -59,8 +58,6 @@ public class InventoryItemDataBuilder {
   private ZonedDateTime modifiedDate =
       ZonedDateTime.parse("2016-12-03T09:15:30Z[UTC]");
   private UUID lastModifierId = UUID.randomUUID();
-  private String lastModifierFirstName = "firstName";
-  private String lastModifierLastName = "lastName";
 
   /**
    * Sets {@link CatalogItem}.
@@ -83,22 +80,6 @@ public class InventoryItemDataBuilder {
    */
   public InventoryItemDataBuilder withLastModifierId(UUID lastModifierId) {
     this.lastModifierId = lastModifierId;
-    return this;
-  }
-
-  /**
-   * Sets last modifier first name.
-   */
-  public InventoryItemDataBuilder withLastModifierFirstName(String lastModifierFirstName) {
-    this.lastModifierFirstName = lastModifierFirstName;
-    return this;
-  }
-
-  /**
-   * Sets last modifier last name.
-   */
-  public InventoryItemDataBuilder withLastModifierLastName(String lastModifierLastName) {
-    this.lastModifierLastName = lastModifierLastName;
     return this;
   }
 
@@ -208,7 +189,7 @@ public class InventoryItemDataBuilder {
         reasonNotWorkingOrNotInUse, utilization, voltageStabilizer, backupGenerator,
         voltageRegulator, manualTemperatureGauge, remoteTemperatureMonitor,
         remoteTemperatureMonitorId, additionalNotes, decommissionDate, modifiedDate,
-        new User(lastModifierId, lastModifierFirstName, lastModifierLastName));
+        lastModifierId);
     inventoryItem.setId(id);
     return inventoryItem;
   }

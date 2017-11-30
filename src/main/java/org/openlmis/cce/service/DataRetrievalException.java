@@ -15,8 +15,10 @@
 
 package org.openlmis.cce.service;
 
-import lombok.Getter;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.client.HttpStatusCodeException;
+
+import lombok.Getter;
 
 /**
  * Signals we were unable to retrieve reference data
@@ -41,6 +43,10 @@ public class DataRetrievalException extends RuntimeException {
     this.resource = resource;
     this.status = status;
     this.response = response;
+  }
+
+  public static DataRetrievalException build(String resource, HttpStatusCodeException ex) {
+    return new DataRetrievalException(resource, ex.getStatusCode(), ex.getResponseBodyAsString());
   }
   
 }

@@ -25,15 +25,14 @@ import com.google.common.collect.Sets;
 
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.domain.User;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.PermissionStringDto;
-import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.i18n.InventoryItemMessageKeys;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.InventoryStatusProcessor;
+import org.openlmis.cce.service.ObjReferenceExpander;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.service.PermissionStrings;
 import org.openlmis.cce.util.AuthenticationHelper;
@@ -55,6 +54,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Set;
@@ -86,6 +86,9 @@ public class InventoryItemController extends BaseController {
 
   @Autowired
   private InventoryStatusProcessor inventoryStatusProcessor;
+
+  @Autowired
+  private ObjReferenceExpander objReferenceExpander;
 
   /**
    * Allows creating new CCE Inventory item. If the id is specified, it will be ignored.
@@ -129,7 +132,9 @@ public class InventoryItemController extends BaseController {
   @RequestMapping(value = "/{id}", method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public InventoryItemDto getInventoryItem(@PathVariable("id") UUID inventoryItemId) {
+  public InventoryItemDto getInventoryItem(@PathVariable("id") UUID inventoryItemId,
+                                           @RequestParam(value = "expand", required = false)
+                                               List<String> expands) {
     XLOGGER.entry(inventoryItemId);
     Profiler profiler = new Profiler("GET_INVENTORY_ITEM_BY_ID");
     profiler.setLogger(XLOGGER);
@@ -149,6 +154,9 @@ public class InventoryItemController extends BaseController {
     profiler.start("PROFILER_CREATE_DTO");
     InventoryItemDto dto = inventoryItemDtoBuilder.build(inventoryItem);
 
+    profiler.start("EXPAND_DTO");
+    objReferenceExpander.expandDto(dto, expands);
+    
     profiler.stop().log();
     XLOGGER.exit(dto);
     return dto;
@@ -166,7 +174,9 @@ public class InventoryItemController extends BaseController {
                                        @RequestParam(value = "facilityId", required = false)
                                            UUID facilityId,
                                        @RequestParam(value = "functionalStatus", required = false)
-                                             FunctionalStatus functionalStatus) {
+                                             FunctionalStatus functionalStatus,
+                                       @RequestParam(value = "expand", required = false)
+                                             List<String> expands) {
     XLOGGER.entry(pageable);
     Profiler profiler = new Profiler("GET_INVENTORY_ITEMS");
     profiler.setLogger(XLOGGER);
@@ -201,6 +211,11 @@ public class InventoryItemController extends BaseController {
 
     profiler.start("CREATE_PAGE");
     Page<InventoryItemDto> page = Pagination.getPage(dtos, pageable, itemsPage.getTotalElements());
+
+    profiler.start("EXPAND_DTOS");
+    for (InventoryItemDto dto : page) {
+      objReferenceExpander.expandDto(dto, expands);
+    }
 
     profiler.stop().log();
     XLOGGER.exit(page);
@@ -299,9 +314,8 @@ public class InventoryItemController extends BaseController {
   }
 
   private InventoryItem newInventoryItem(InventoryItemDto inventoryItemDto) {
-    UserDto currentUser = authenticationHelper.getCurrentUser();
     return InventoryItem.newInstance(inventoryItemDto,
-        new User(currentUser.getId(), currentUser.getFirstName(), currentUser.getLastName()));
+        authenticationHelper.getCurrentUser().getId());
   }
 
   private InventoryItemDto saveInventory(InventoryItem inventoryItem) {

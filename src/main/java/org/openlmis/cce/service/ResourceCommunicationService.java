@@ -55,7 +55,7 @@ public abstract class ResourceCommunicationService<T extends BaseDto>
         return null;
       }
 
-      throw buildDataRetrievalException(ex);
+      throw DataRetrievalException.build(getResultClass().getSimpleName(), ex);
     }
   }
 
@@ -80,7 +80,7 @@ public abstract class ResourceCommunicationService<T extends BaseDto>
           .of(execute(resourceUrl, parameters, null, null, HttpMethod.GET, type).getBody())
           .collect(Collectors.toList());
     } catch (HttpStatusCodeException ex) {
-      throw buildDataRetrievalException(ex);
+      throw DataRetrievalException.build(getResultClass().getSimpleName(), ex);
     }
   }
 
@@ -99,7 +99,7 @@ public abstract class ResourceCommunicationService<T extends BaseDto>
         return new ServiceResponse<>(list, response.getHeaders(), true);
       }
     } catch (HttpStatusCodeException ex) {
-      throw buildDataRetrievalException(ex);
+      throw DataRetrievalException.build(getResultClass().getSimpleName(), ex);
     }
   }
 
@@ -116,14 +116,8 @@ public abstract class ResourceCommunicationService<T extends BaseDto>
       DynamicPageTypeReference<T> type = new DynamicPageTypeReference<>(getResultClass());
       return execute(resourceUrl, parameters, null, payload, HttpMethod.POST, type).getBody();
     } catch (HttpStatusCodeException ex) {
-      throw buildDataRetrievalException(ex);
+      throw DataRetrievalException.build(getResultClass().getSimpleName(), ex);
     }
-  }
-
-  private DataRetrievalException buildDataRetrievalException(HttpStatusCodeException ex) {
-    return new DataRetrievalException(getResultClass().getSimpleName(),
-        ex.getStatusCode(),
-        ex.getResponseBodyAsString());
   }
 
 }

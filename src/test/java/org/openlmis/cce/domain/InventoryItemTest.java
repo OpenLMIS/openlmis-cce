@@ -108,8 +108,6 @@ public class InventoryItemTest {
         .withRemoteTemperatureMonitorId(randomStringGenerator.generate(5))
         .withAdditionalNotes(randomStringGenerator.generate(5))
         .withDecommissionDate(LocalDate.of(2010, 5, 5))
-        .withLastModifierFirstName(randomStringGenerator.generate(5))
-        .withLastModifierLastName(randomStringGenerator.generate(5))
         .withLastModifierId(UUID.randomUUID());
     InventoryItem newInventory = inventoryItemDataBuilder
         .build();

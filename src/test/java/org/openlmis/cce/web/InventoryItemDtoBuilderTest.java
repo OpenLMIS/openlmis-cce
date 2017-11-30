@@ -25,13 +25,11 @@ import org.mockito.InjectMocks;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.domain.User;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ObjectReferenceDto;
 import org.openlmis.cce.service.ResourceNames;
 import org.springframework.test.util.ReflectionTestUtils;
 import java.util.List;
-import java.util.UUID;
 
 @RunWith(MockitoJUnitRunner.class)
 public class InventoryItemDtoBuilderTest {
@@ -65,12 +63,9 @@ public class InventoryItemDtoBuilderTest {
   }
 
   private void checkLastModifier(ObjectReferenceDto user) {
-    User lastModifier =
-        (User) ReflectionTestUtils.getField(inventoryItem, "lastModifierEmbedded");
-    UUID lastModifierId = (UUID) ReflectionTestUtils.getField(lastModifier, "id");
-    assertEquals(lastModifierId, user.getId());
+    assertEquals(inventoryItem.getLastModifierId(), user.getId());
     assertEquals(
-        SERVICE_URL + ResourceNames.getUsersPath() + lastModifierId,
+        SERVICE_URL + ResourceNames.getUsersPath() + inventoryItem.getLastModifierId(),
         user.getHref());
   }
 
