@@ -1,7 +1,10 @@
 execution:
   - concurrency: 1
     hold-for: ${__P(scenario-duration,60)}
-    scenario: get-second-ten-inventory-items
+    scenario: get-ten-inventory-items
+  - concurrency: 1
+    hold-for: ${__P(scenario-duration,60)}
+    scenario: get-ten-inventory-items-expanded
   - concurrency: 1
     hold-for: ${__P(scenario-duration,60)}
     scenario: get-inventory-items
@@ -27,12 +30,20 @@ scenarios:
         extract-jsonpath:
           access_token:
             jsonpath: $.access_token
-  get-second-ten-inventory-items:
+  get-ten-inventory-items:
     requests:
       - include-scenario: get-user-token
       - url: ${__P(base-uri)}/api/inventoryItems?page=1&size=10
         method: GET
-        label: GetSecondTenInventoryItems
+        label: GetTenInventoryItems
+        headers:
+          Authorization: Bearer ${access_token}
+  get-ten-inventory-items-expanded:
+    requests:
+      - include-scenario: get-user-token
+      - url: ${__P(base-uri)}/api/inventoryItems?expand=lastModifier&page=1&size=10
+        method: GET
+        label: GetTenInventoryItemsExpanded
         headers:
           Authorization: Bearer ${access_token}
   get-inventory-items:
