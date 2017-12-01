@@ -15,10 +15,16 @@
 
 package org.openlmis.cce.dto;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.openlmis.cce.service.ResourceNames.USERS;
+
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
 
 import org.junit.Test;
+
+import java.util.UUID;
 
 public class InventoryItemDtoTest {
 
@@ -32,5 +38,19 @@ public class InventoryItemDtoTest {
         .suppress(Warning.NONFINAL_FIELDS)
         .withIgnoredFields("serviceUrl")
         .verify();
+  }
+
+  @Test
+  public void shouldSetLastModifierId() {
+    UUID userId = UUID.randomUUID();
+    String serviceUrl = "localhost";
+
+    InventoryItemDto dto = new InventoryItemDto();
+    dto.setServiceUrl(serviceUrl);
+    dto.setLastModifierId(userId);
+
+    assertNotNull(dto.getLastModifier());
+    assertEquals(userId, dto.getLastModifierId());
+    assertEquals(UserObjectReferenceDto.create(userId, serviceUrl, USERS), dto.getLastModifier());
   }
 }

@@ -24,7 +24,7 @@ public class TestDtoDataBuilder {
   private static final UUID ID = UUID.randomUUID();
 
   private UUID uuidProperty;
-  private ExpandedObjectReferenceDto objRefDto;
+  private ExpandedObjectReferenceDto objRefDto = new ExpandedObjectReferenceDto();
   private String sampleProperty;
 
   public TestDtoDataBuilder withUuidProperty(UUID uuidProperty) {
@@ -39,6 +39,11 @@ public class TestDtoDataBuilder {
 
   public TestDtoDataBuilder withSampleProperty(String sampleProperty) {
     this.sampleProperty = sampleProperty;
+    return this;
+  }
+
+  public TestDtoDataBuilder withHrefPropertyRemoved() {
+    this.objRefDto.setHref(null);
     return this;
   }
 
@@ -58,6 +63,7 @@ public class TestDtoDataBuilder {
   public TestDto buildDtoWithEmptyObjectReference() {
     return this.withUuidProperty(UUID.randomUUID())
         .withObjRefDto(new ExpandedObjectReferenceDto(null, null, null, null, null, null))
+        .withHrefPropertyRemoved()
         .withSampleProperty("sampleProperty")
         .build();
   }

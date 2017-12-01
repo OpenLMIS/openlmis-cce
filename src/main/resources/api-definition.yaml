@@ -88,6 +88,14 @@ traits:
                   type: integer
                   required: false
                   repeat: false
+    - expandible:
+          queryParameters:
+              expand:
+                  description: "Allows to specify which reference fields should contain an expanded representation."
+                  type: string
+                  required: false
+                  repeat: true
+
 resourceTypes:
     - auditLog:
         description: This represents the audit log for all <<resourcePathName|!singularize>> resources.
@@ -328,7 +336,7 @@ resourceTypes:
   /inventoryItems:
       displayName: CCE Inventory item
       get:
-          is: [ secured, paginated ]
+          is: [ secured, paginated, expandible ]
           description: Get all CCE Inventory items.
           queryParameters:
               facilityId:
@@ -345,11 +353,6 @@ resourceTypes:
                       - FUNCTIONING
                       - NON_FUNCTIONING
                       - OBSOLETE
-              expand:
-                  description: "Allows to specify which reference fields should contain an expanded representation."
-                  type: string
-                  required: false
-                  repeat: true
           responses:
               "200":
                   body:
@@ -386,14 +389,8 @@ resourceTypes:
                   required: true
                   repeat: false
           get:
-              is: [ secured ]
+              is: [ secured, expandible ]
               description: Get chosen CCE Inventory item.
-              queryParameters:
-                  expand:
-                      description: "Allows to specify which reference fields should contain an expanded representation."
-                      type: string
-                      required: false
-                      repeat: true
               responses:
                   "200":
                       body:

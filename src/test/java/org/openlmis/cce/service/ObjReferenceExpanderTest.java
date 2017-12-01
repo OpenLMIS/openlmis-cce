@@ -46,9 +46,10 @@ import java.util.UUID;
 @SuppressWarnings("PMD.UnusedPrivateField")
 public class ObjReferenceExpanderTest {
 
-  public static final String EXPANDED_STRING_VALUE = "property1";
-  public static final List<String> EXPANDED_LIST_VALUE = Lists.asList("element1", "element2");
-  public static final UUID EXPANDED_UUID_VALUE = UUID.randomUUID();
+  private static final String EXPANDED_STRING_VALUE = "property1";
+  private static final List<String> EXPANDED_LIST_VALUE = Lists.asList("element1", "element2");
+  private static final UUID EXPANDED_UUID_VALUE = UUID.randomUUID();
+  private static final String EXPANDED_OBJECT_REFERENCE_DTO_FIELD = "expandedObjectReferenceDto";
 
   @Mock
   private AuthService authService;
@@ -81,7 +82,7 @@ public class ObjReferenceExpanderTest {
   @Test(expected = ValidationMessageException.class)
   public void shouldThrowExceptionIfExpandedFieldDoesNotHaveHrefPropertySet() {
     testDto = new TestDtoDataBuilder().buildDtoWithEmptyObjectReference();
-    objReferenceExpander.expandDto(testDto, Lists.asList("objectReferenceDto"));
+    objReferenceExpander.expandDto(testDto, Lists.asList(EXPANDED_OBJECT_REFERENCE_DTO_FIELD));
   }
 
   @Test
@@ -89,7 +90,7 @@ public class ObjReferenceExpanderTest {
     when(restTemplate.exchange(any(URI.class), eq(HttpMethod.GET), any(RequestEntity.class),
         eq(Map.class))).thenReturn(ResponseEntity.notFound().build());
 
-    objReferenceExpander.expandDto(testDto, Lists.asList("expandedObjectReferenceDto"));
+    objReferenceExpander.expandDto(testDto, Lists.asList(EXPANDED_OBJECT_REFERENCE_DTO_FIELD));
 
     assertNotNull(testDto);
     assertNotNull(testDto.getExpandedObjectReferenceDto());
@@ -113,7 +114,7 @@ public class ObjReferenceExpanderTest {
     when(restTemplate.exchange(any(URI.class), eq(HttpMethod.GET), any(RequestEntity.class),
         eq(Map.class))).thenReturn(ResponseEntity.ok(responseMap));
 
-    objReferenceExpander.expandDto(testDto, Lists.asList("expandedObjectReferenceDto"));
+    objReferenceExpander.expandDto(testDto, Lists.asList(EXPANDED_OBJECT_REFERENCE_DTO_FIELD));
 
     ExpandedObjectReferenceDto actual = testDto.getExpandedObjectReferenceDto();
     assertNotNull(actual);
