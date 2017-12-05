@@ -15,26 +15,21 @@
 
 package org.openlmis.cce.web;
 
-import static org.apache.commons.lang3.StringUtils.equalsIgnoreCase;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
-import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 import static org.openlmis.cce.service.ResourceNames.BASE_PATH;
 import static org.openlmis.cce.web.InventoryItemController.RESOURCE_PATH;
 
-import com.google.common.collect.Sets;
-
-import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
-import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.i18n.InventoryItemMessageKeys;
 import org.openlmis.cce.repository.InventoryItemRepository;
+import org.openlmis.cce.service.InventoryItemSearchParams;
+import org.openlmis.cce.service.InventoryItemService;
 import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.ObjReferenceExpander;
 import org.openlmis.cce.service.PermissionService;
-import org.openlmis.cce.service.PermissionStrings;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Pagination;
 import org.openlmis.cce.web.validator.InventoryItemValidator;
@@ -57,7 +52,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 
 import java.time.ZonedDateTime;
 import java.util.List;
-import java.util.Set;
 import java.util.UUID;
 
 @Controller
@@ -71,6 +65,9 @@ public class InventoryItemController extends BaseController {
 
   @Autowired
   private InventoryItemRepository inventoryRepository;
+
+  @Autowired
+  private InventoryItemService inventoryItemService;
 
   @Autowired
   private PermissionService permissionService;
@@ -156,7 +153,7 @@ public class InventoryItemController extends BaseController {
 
     profiler.start("EXPAND_DTO");
     objReferenceExpander.expandDto(dto, expands);
-    
+
     profiler.stop().log();
     XLOGGER.exit(dto);
     return dto;
@@ -170,41 +167,16 @@ public class InventoryItemController extends BaseController {
   @RequestMapping(method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public Page<InventoryItemDto> getAll(Pageable pageable,
-                                       @RequestParam(value = "facilityId", required = false)
-                                           UUID facilityId,
-                                       @RequestParam(value = "functionalStatus", required = false)
-                                             FunctionalStatus functionalStatus,
-                                       @RequestParam(value = "expand", required = false)
-                                             List<String> expands) {
-    XLOGGER.entry(pageable);
+  public Page<InventoryItemDto> getAll(InventoryItemSearchParams params, Pageable pageable) {
+    XLOGGER.entry(params, pageable);
     Profiler profiler = new Profiler("GET_INVENTORY_ITEMS");
     profiler.setLogger(XLOGGER);
 
     profiler.start("GET_CURRENT_USER");
     UUID userId = authenticationHelper.getCurrentUser().getId();
 
-    profiler.start("GET_PERMISSION_STRINGS");
-    PermissionStrings.Handler handler = permissionService.getPermissionStrings(userId);
-    Set<PermissionStringDto> permissionStrings = handler.get();
-
-    profiler.start("GET_PROGRAMS_AND_FACILITIES");
-    Set<UUID> programIds = Sets.newHashSet();
-    Set<UUID> facilityIds = Sets.newHashSet();
-
-    for (PermissionStringDto permissionString : permissionStrings) {
-      if (equalsIgnoreCase(CCE_INVENTORY_VIEW, permissionString.getRightName())) {
-        if (facilityId == null || permissionString.getFacilityId().equals(facilityId)) {
-          facilityIds.add(permissionString.getFacilityId());
-        }
-        programIds.add(permissionString.getProgramId());
-      }
-    }
-
     profiler.start("SEARCH");
-    Page<InventoryItem> itemsPage = inventoryRepository.search(
-        facilityIds, programIds, functionalStatus, pageable
-    );
+    Page<InventoryItem> itemsPage = inventoryItemService.search(userId, params, pageable);
 
     profiler.start("CREATE_DTOS");
     List<InventoryItemDto> dtos = inventoryItemDtoBuilder.build(itemsPage.getContent());
@@ -213,9 +185,7 @@ public class InventoryItemController extends BaseController {
     Page<InventoryItemDto> page = Pagination.getPage(dtos, pageable, itemsPage.getTotalElements());
 
     profiler.start("EXPAND_DTOS");
-    for (InventoryItemDto dto : page) {
-      objReferenceExpander.expandDto(dto, expands);
-    }
+    expandDtos(page, params);
 
     profiler.stop().log();
     XLOGGER.exit(page);
@@ -321,5 +291,12 @@ public class InventoryItemController extends BaseController {
   private InventoryItemDto saveInventory(InventoryItem inventoryItem) {
     inventoryItem.setModifiedDate(ZonedDateTime.now());
     return inventoryItemDtoBuilder.build(inventoryRepository.save(inventoryItem));
+  }
+
+  private void expandDtos(Page<InventoryItemDto> page,
+                          InventoryItemSearchParams params) {
+    for (InventoryItemDto dto : page) {
+      objReferenceExpander.expandDto(dto, params.getExpand());
+    }
   }
 }
