@@ -50,10 +50,10 @@ public class InventoryItemService {
    * sorted and paginated by pageable parameter. You can use 'type' sort value and it will sort
    * inventory items by their catalog item type.
    *
-   * @param userId  the id of the user to search the inventoryItems for
-   * @param params  the search parameters
-   * @param pageable  the pagination and sort parameters
-   * @return the page of inventory items matching given parameters
+   * @param   userId    the id of the user to search the inventoryItems for
+   * @param   params    the search parameters
+   * @param   pageable  the pagination and sort parameters
+   * @return            the page of inventory items matching given parameters
    */
   public Page<InventoryItem> search(UUID userId, InventoryItemSearchParams params,
                                     Pageable pageable) {
