@@ -24,6 +24,7 @@ import org.openlmis.cce.exception.PermissionMessageException;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
@@ -42,6 +43,9 @@ public class PermissionService {
 
   @Autowired
   private PermissionStrings permissionStrings;
+
+  @Value("${auth.server.clientId}")
+  private String serviceTokenClientId;
 
   /**
    * Checks if current user has permission to manage CCE.
@@ -92,8 +96,25 @@ public class PermissionService {
   }
 
   private Boolean hasPermission(String rightName, UUID program, UUID facility) {
-    if (isClientOnly()) {
-      return true;
+    return hasPermission(rightName, program, facility, true, true, false);
+  }
+
+  private boolean hasPermission(String rightName, UUID program, UUID facility,
+                                boolean allowUserTokens, boolean allowServiceTokens,
+                                boolean allowApiKey) {
+    OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder
+        .getContext()
+        .getAuthentication();
+
+    return authentication.isClientOnly()
+        ? checkServiceToken(allowServiceTokens, allowApiKey, authentication)
+        : checkUserToken(rightName, program, facility, allowUserTokens);
+  }
+
+  private boolean checkUserToken(String rightName, UUID program, UUID facility,
+                                 boolean allowUserTokens) {
+    if (!allowUserTokens) {
+      return false;
     }
 
     UUID user = authenticationHelper.getCurrentUser().getId();
@@ -103,12 +124,12 @@ public class PermissionService {
     return handler.get().contains(permission);
   }
 
-  private boolean isClientOnly() {
-    return getAuthentication().isClientOnly();
-  }
+  private boolean checkServiceToken(boolean allowServiceTokens, boolean allowApiKey,
+                                    OAuth2Authentication authentication) {
+    String clientId = authentication.getOAuth2Request().getClientId();
+    boolean isServiceToken = serviceTokenClientId.equals(clientId);
 
-  private OAuth2Authentication getAuthentication() {
-    return (OAuth2Authentication) SecurityContextHolder.getContext().getAuthentication();
+    return isServiceToken ? allowServiceTokens : allowApiKey;
   }
 
   public PermissionStrings.Handler getPermissionStrings(UUID userId) {

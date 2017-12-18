@@ -18,6 +18,7 @@ package org.openlmis.cce.service;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.cce.service.OAuth2AuthenticationDataBuilder.SERVICE_CLIENT_ID;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 import static org.openlmis.cce.service.PermissionService.CCE_MANAGE;
@@ -38,6 +39,7 @@ import org.openlmis.cce.util.Message;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
+import org.springframework.test.util.ReflectionTestUtils;
 
 import java.util.Collections;
 import java.util.UUID;
@@ -60,18 +62,17 @@ public class PermissionServiceTest {
   private PermissionStrings.Handler handler;
 
   @Mock
-  private OAuth2Authentication userAuthentication;
-
-  @Mock
-  private OAuth2Authentication clientAuthentication;
-
-  @Mock
   private InventoryItem inventoryItem;
 
   @InjectMocks
   private PermissionService permissionService;
 
   private SecurityContext securityContext;
+
+  private OAuth2Authentication userClient;
+  private OAuth2Authentication trustedClient;
+  private OAuth2Authentication apiKeyClient;
+
   private UUID userId = UUID.randomUUID();
 
   @Before
@@ -82,6 +83,8 @@ public class PermissionServiceTest {
     when(authenticationHelper.getCurrentUser()).thenReturn(user);
     when(user.getId()).thenReturn(userId);
     when(permissionStrings.forUser(userId)).thenReturn(handler);
+
+    ReflectionTestUtils.setField(permissionService, "serviceTokenClientId", SERVICE_CLIENT_ID);
   }
 
   @Test
@@ -102,7 +105,15 @@ public class PermissionServiceTest {
 
   @Test
   public void clientAppCanManageCce() throws Exception {
-    when(securityContext.getAuthentication()).thenReturn(clientAuthentication);
+    when(securityContext.getAuthentication()).thenReturn(trustedClient);
+
+    permissionService.canManageCce();
+  }
+
+  @Test
+  public void apiKeyCannotManageCce() throws Exception {
+    when(securityContext.getAuthentication()).thenReturn(apiKeyClient);
+    exception.expect(PermissionMessageException.class);
 
     permissionService.canManageCce();
   }
@@ -127,7 +138,15 @@ public class PermissionServiceTest {
 
   @Test
   public void clientAppCanViewInventory() throws Exception {
-    when(securityContext.getAuthentication()).thenReturn(clientAuthentication);
+    when(securityContext.getAuthentication()).thenReturn(trustedClient);
+
+    permissionService.canViewInventory(inventoryItem);
+  }
+
+  @Test
+  public void apiKeyCannotViewInventory() throws Exception {
+    when(securityContext.getAuthentication()).thenReturn(apiKeyClient);
+    exception.expect(PermissionMessageException.class);
 
     permissionService.canViewInventory(inventoryItem);
   }
@@ -152,7 +171,15 @@ public class PermissionServiceTest {
 
   @Test
   public void clientAppCanEditInventory() throws Exception {
-    when(securityContext.getAuthentication()).thenReturn(clientAuthentication);
+    when(securityContext.getAuthentication()).thenReturn(trustedClient);
+
+    permissionService.canEditInventory(inventoryItem);
+  }
+
+  @Test
+  public void apiKeyCannotEditInventory() throws Exception {
+    when(securityContext.getAuthentication()).thenReturn(apiKeyClient);
+    exception.expect(PermissionMessageException.class);
 
     permissionService.canEditInventory(inventoryItem);
   }
@@ -163,11 +190,13 @@ public class PermissionServiceTest {
   }
 
   private void initSecurityContext() {
+    trustedClient = new OAuth2AuthenticationDataBuilder().buildServiceAuthentication();
+    userClient = new OAuth2AuthenticationDataBuilder().buildUserAuthentication();
+    apiKeyClient = new OAuth2AuthenticationDataBuilder().buildApiKeyAuthentication();
+
     securityContext = mock(SecurityContext.class);
     SecurityContextHolder.setContext(securityContext);
-    when(securityContext.getAuthentication()).thenReturn(userAuthentication);
-    when(userAuthentication.isClientOnly()).thenReturn(false);
-    when(clientAuthentication.isClientOnly()).thenReturn(true);
+    when(securityContext.getAuthentication()).thenReturn(userClient);
   }
 
   private void stubHasRight(String rightName) {
