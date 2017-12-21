@@ -18,6 +18,7 @@ package org.openlmis.cce.service;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.cce.service.OAuth2AuthenticationDataBuilder.API_KEY_PREFIX;
 import static org.openlmis.cce.service.OAuth2AuthenticationDataBuilder.SERVICE_CLIENT_ID;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
@@ -85,6 +86,7 @@ public class PermissionServiceTest {
     when(permissionStrings.forUser(userId)).thenReturn(handler);
 
     ReflectionTestUtils.setField(permissionService, "serviceTokenClientId", SERVICE_CLIENT_ID);
+    ReflectionTestUtils.setField(permissionService, "apiKeyPrefix", API_KEY_PREFIX);
   }
 
   @Test
