@@ -185,6 +185,7 @@ public class InventoryItem extends BaseEntity {
     additionalNotes = inventoryItem.additionalNotes;
     decommissionDate = inventoryItem.decommissionDate;
     lastModifierId = inventoryItem.lastModifierId;
+    reasonNotWorkingOrNotInUse = inventoryItem.reasonNotWorkingOrNotInUse;
   }
 
   /**

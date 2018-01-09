@@ -95,7 +95,7 @@ public class InventoryItemTest {
         .withProgramId(UUID.randomUUID())
         .withFacilityId(UUID.randomUUID())
         .withStatus(FunctionalStatus.NON_FUNCTIONING)
-        .withReasonNotWorkingOrNotInUse(ReasonNotWorkingOrNotInUse.NOT_APPLICABLE)
+        .withReasonNotWorkingOrNotInUse(ReasonNotWorkingOrNotInUse.DEAD)
         .withUtilization(Utilization.NOT_IN_USE)
         .withVoltageStabilizer(VoltageStabilizerStatus.NO)
         .withBackupGenerator(BackupGeneratorStatus.NO)
