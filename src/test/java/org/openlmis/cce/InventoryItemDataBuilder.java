@@ -227,6 +227,16 @@ public class InventoryItemDataBuilder {
   }
 
   /**
+   * Sets program and facility to random values.
+   */
+  public InventoryItemDataBuilder withRandomProgramAndFacility() {
+    facilityId = UUID.randomUUID();
+    programId = UUID.randomUUID();
+
+    return this;
+  }
+
+  /**
    * Builds instance of {@link InventoryItem}.
    */
   public InventoryItem build() {
