@@ -68,7 +68,10 @@ public class InventoryItemRepositoryIntegrationTest
 
   @Override
   InventoryItem generateInstance() {
-    return getInventoryItemDataBuilder().build();
+    return getInventoryItemDataBuilder()
+        .withFacilityId(UUID.randomUUID())
+        .withProgramId(UUID.randomUUID())
+        .build();
   }
 
   @Before

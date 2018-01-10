@@ -46,7 +46,6 @@ public class CatalogItem extends BaseEntity {
   public static final String MANUFACTURER_FIELD = "manufacturer";
   public static final String MODEL_FIELD = "model";
 
-
   @Column(nullable = false)
   private Boolean fromPqsCatalog;
 

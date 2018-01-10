@@ -23,7 +23,7 @@ import org.openlmis.cce.domain.StorageTemperature;
 import java.util.UUID;
 
 public class CatalogItemDataBuilder {
-  private UUID id = UUID.randomUUID();
+  private UUID id = UUID.fromString("15498136-8972-4ade-9f14-602bf199652b");
   private Boolean fromPqsCatalog = true;
   private String equipmentCode;
   private String type = "type";

@@ -20,15 +20,9 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.apache.commons.text.CharacterPredicates;
-import org.apache.commons.text.RandomStringGenerator;
 import org.junit.Test;
-import org.openlmis.cce.CatalogItemDataBuilder;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.testutil.ToStringTestUtils;
-import java.time.LocalDate;
-import java.util.Random;
-import java.util.UUID;
 
 public class InventoryItemTest {
 
@@ -65,59 +59,13 @@ public class InventoryItemTest {
 
   @Test
   public void shouldUpdateInventory() {
-    RandomStringGenerator randomStringGenerator =
-        new RandomStringGenerator.Builder()
-            .withinRange('0', 'z')
-            .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
-            .build();
+    InventoryItem existing = new InventoryItemDataBuilder().build();
 
-    UUID id = UUID.randomUUID();
-    UUID programId = UUID.randomUUID();
-    UUID facilityId = UUID.randomUUID();
-    CatalogItem catalogItemExisting = new CatalogItemDataBuilder().build();
-    InventoryItem existing = new InventoryItemDataBuilder()
-        .withId(id)
-        .withCatalogItem(catalogItemExisting)
-        .withProgramId(programId)
-        .withFacilityId(facilityId)
-        .build();
-
-    CatalogItem catalogItem = new CatalogItemDataBuilder()
-        .withoutFromPqsCatalogFlag()
-        .withGasolineEnergySource()
-        .withMinusThreeStorageTemperature()
-        .withArchiveFlag()
-        .build();
-
-    InventoryItemDataBuilder inventoryItemDataBuilder = new InventoryItemDataBuilder()
-        .withId(id)
-        .withCatalogItem(catalogItem)
-        .withProgramId(UUID.randomUUID())
-        .withFacilityId(UUID.randomUUID())
-        .withStatus(FunctionalStatus.NON_FUNCTIONING)
-        .withReasonNotWorkingOrNotInUse(ReasonNotWorkingOrNotInUse.DEAD)
-        .withUtilization(Utilization.NOT_IN_USE)
-        .withVoltageStabilizer(VoltageStabilizerStatus.NO)
-        .withBackupGenerator(BackupGeneratorStatus.NO)
-        .withVoltageRegulator(VoltageRegulatorStatus.NO)
-        .withManualTemperatureGauge(ManualTemperatureGaugeType.NO_GAUGE)
-        .withRemoteTemperatureMonitor(RemoteTemperatureMonitorType.NO_RTM)
-        .withEquipmentTrackingId(randomStringGenerator.generate(5))
-        .withReferenceName(randomStringGenerator.generate(5))
-        .withYearOfInstallation(new Random().nextInt())
-        .withYearOfWarrantyExpiry(new Random().nextInt())
-        .withRemoteTemperatureMonitorId(randomStringGenerator.generate(5))
-        .withAdditionalNotes(randomStringGenerator.generate(5))
-        .withDecommissionDate(LocalDate.of(2010, 5, 5))
-        .withLastModifierId(UUID.randomUUID());
-    InventoryItem newInventory = inventoryItemDataBuilder
-        .build();
-
-    InventoryItem expected = inventoryItemDataBuilder
-        .withId(id)
-        .withCatalogItem(catalogItemExisting)
-        .withProgramId(programId)
-        .withFacilityId(facilityId)
+    InventoryItemDataBuilder differentVariantFieldsBuilder =
+        new InventoryItemDataBuilder().withDifferentVariantFields();
+    InventoryItem expected = differentVariantFieldsBuilder.build();
+    InventoryItem newInventory = differentVariantFieldsBuilder
+        .withDifferentInVariantFields()
         .build();
 
     existing.updateFrom(newInventory);

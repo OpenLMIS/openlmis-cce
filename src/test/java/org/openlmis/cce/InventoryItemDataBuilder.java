@@ -25,18 +25,19 @@ import org.openlmis.cce.domain.RemoteTemperatureMonitorType;
 import org.openlmis.cce.domain.Utilization;
 import org.openlmis.cce.domain.VoltageRegulatorStatus;
 import org.openlmis.cce.domain.VoltageStabilizerStatus;
-
+import org.openlmis.cce.testutil.RandomStringGenerator;
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
+import java.util.Random;
 import java.util.UUID;
 
 @SuppressWarnings("PMD.TooManyMethods")
 public class InventoryItemDataBuilder {
 
-  private UUID id = UUID.randomUUID();
-  private UUID facilityId = UUID.randomUUID();
+  private UUID id = UUID.fromString("35329395-7fe7-40cf-adc4-89a006746861");
+  private UUID facilityId = UUID.fromString("78d42bdb-9150-4c52-bd77-e42d777cfaed");
   private CatalogItem catalogItem = new CatalogItemDataBuilder().build();
-  private UUID programId = UUID.randomUUID();
+  private UUID programId = UUID.fromString("466b2e7f-5798-4027-a2ca-373627748ea6");
   private String equipmentTrackingId = "tracking-id";
   private String referenceName = "reference name";
   private Integer yearOfInstallation = 2010;
@@ -57,7 +58,7 @@ public class InventoryItemDataBuilder {
   private LocalDate decommissionDate = LocalDate.of(2020, 10, 10);
   private ZonedDateTime modifiedDate =
       ZonedDateTime.parse("2016-12-03T09:15:30Z[UTC]");
-  private UUID lastModifierId = UUID.randomUUID();
+  private UUID lastModifierId = UUID.fromString("10c5e0e7-2697-4146-8bb9-e34f57f1d156");
 
   /**
    * Sets {@link CatalogItem}.
@@ -185,6 +186,47 @@ public class InventoryItemDataBuilder {
   }
 
   /**
+   * Sets all invariant fields to different values than default.
+   */
+  public InventoryItemDataBuilder withDifferentInVariantFields() {
+    catalogItem = new CatalogItemDataBuilder()
+        .withoutFromPqsCatalogFlag()
+        .withGasolineEnergySource()
+        .withMinusThreeStorageTemperature()
+        .withArchiveFlag()
+        .build();
+
+    programId = UUID.fromString("2465d0cd-df25-4492-94d7-8e08e9b36eb0");
+    facilityId = UUID.fromString("8422e6fe-043b-4e4b-b01e-20df02996bfe");
+
+    return this;
+  }
+
+  /**
+   * Sets all variant fields to different values than default.
+   */
+  public InventoryItemDataBuilder withDifferentVariantFields() {
+    functionalStatus = FunctionalStatus.NON_FUNCTIONING;
+    reasonNotWorkingOrNotInUse = ReasonNotWorkingOrNotInUse.DEAD;
+    utilization = Utilization.NOT_IN_USE;
+    voltageStabilizer = VoltageStabilizerStatus.NO;
+    backupGenerator = BackupGeneratorStatus.NO;
+    voltageRegulator = VoltageRegulatorStatus.NO;
+    manualTemperatureGauge = ManualTemperatureGaugeType.NO_GAUGE;
+    remoteTemperatureMonitor = RemoteTemperatureMonitorType.NO_RTM;
+    equipmentTrackingId = RandomStringGenerator.getInstance().generate(5);
+    referenceName = RandomStringGenerator.getInstance().generate(5);
+    yearOfInstallation = new Random().nextInt();
+    yearOfWarrantyExpiry = new Random().nextInt();
+    remoteTemperatureMonitorId = RandomStringGenerator.getInstance().generate(5);
+    additionalNotes = RandomStringGenerator.getInstance().generate(5);
+    decommissionDate = LocalDate.of(2010, 5, 5);
+    lastModifierId = UUID.randomUUID();
+
+    return this;
+  }
+
+  /**
    * Builds instance of {@link InventoryItem}.
    */
   public InventoryItem build() {
@@ -198,4 +240,5 @@ public class InventoryItemDataBuilder {
     inventoryItem.setId(id);
     return inventoryItem;
   }
+
 }
