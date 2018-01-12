@@ -23,6 +23,7 @@ import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
+import java.util.UUID;
 
 @Component
 public class AuthenticationHelper {
@@ -38,12 +39,11 @@ public class AuthenticationHelper {
    * @throws AuthenticationMessageException if user cannot be found.
    */
   public UserDto getCurrentUser() {
-    String username =
-        (String) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-    UserDto user = userReferenceDataService.findUser(username);
+    UUID userId = (UUID) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    UserDto user = userReferenceDataService.findOne(userId);
 
     if (user == null) {
-      throw new AuthenticationMessageException(new Message(ERROR_USER_NOT_FOUND, username));
+      throw new AuthenticationMessageException(new Message(ERROR_USER_NOT_FOUND, userId));
     }
 
     return user;
