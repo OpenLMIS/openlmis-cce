@@ -15,16 +15,19 @@
 
 package org.openlmis.cce.domain;
 
+import org.hibernate.annotations.Type;
+import org.javers.core.metamodel.annotation.TypeName;
+
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-import org.hibernate.annotations.Type;
-import org.javers.core.metamodel.annotation.TypeName;
+
 import java.time.LocalDate;
 import java.time.ZonedDateTime;
 import java.util.UUID;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -49,6 +52,7 @@ public class InventoryItem extends BaseEntity {
   @Column(nullable = false)
   private final UUID facilityId;
 
+  @Getter
   @ManyToOne
   @Type(type = UUID)
   @JoinColumn(name = "catalogItemId", nullable = false)

@@ -60,6 +60,12 @@ schemas:
           }
       }
 
+  #FHIR schemas
+  - Device: !include schemas/fhir/Device.schema.json
+  - Element: !include schemas/fhir/Element.schema.json
+  - Reference: !include schemas/fhir/Reference.schema.json
+  - Resource: !include schemas/fhir/Resource.schema.json
+
 traits:
     - secured:
           queryParameters:
@@ -436,3 +442,13 @@ resourceTypes:
                       body:
                         application/json:
                           schema: localizedErrorResponse
+  /Device:
+      displayName: FHIR Device
+      get:
+          is: [ secured ]
+          description: "Get local resources (like inventory items) as FHIR Device instances."
+          responses:
+              200:
+                  body:
+                      application/json:
+                          schema: Device

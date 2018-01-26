@@ -17,10 +17,13 @@ package org.openlmis.cce.util;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
+import java.util.function.Function;
 
 public class Pagination {
 
@@ -108,6 +111,30 @@ public class Pagination {
    */
   public static <T> Page<T> getPage(List<T> subList, Pageable pageable, long fullListSize) {
     return new PageImpl<T>(subList, pageable, fullListSize);
+  }
+
+  /**
+   * Static method that helps do some actions on resources by using page instances.
+   *
+   * @param data       function that will return data based on passed pageable instance.
+   * @param pageAction action that should be executed on each element on the page.
+   * @param <T>        type of resource.
+   */
+  public static <T> void handlePage(Function<Pageable, Page<T>> data,
+                                    Consumer<? super T> pageAction) {
+    Pageable pageable = new PageRequest(DEFAULT_PAGE_NUMBER, 2000);
+
+    while (true) {
+      Page<T> page = data.apply(pageable);
+
+      if (null == page || !page.hasContent()) {
+        break;
+      }
+
+      page.forEach(pageAction);
+
+      pageable = pageable.next();
+    }
   }
 
 }

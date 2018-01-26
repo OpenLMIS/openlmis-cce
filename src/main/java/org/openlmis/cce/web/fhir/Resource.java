@@ -13,16 +13,18 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.repository;
+package org.openlmis.cce.web.fhir;
 
-import org.javers.spring.annotation.JaversSpringDataAuditable;
-import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.repository.custom.InventoryItemRepositoryCustom;
-import org.springframework.data.repository.PagingAndSortingRepository;
+import lombok.Getter;
 
 import java.util.UUID;
 
-@JaversSpringDataAuditable
-public interface InventoryItemRepository extends PagingAndSortingRepository<InventoryItem, UUID>,
-    InventoryItemRepositoryCustom {
+@Getter
+public abstract class Resource extends Element {
+  private final String resourceType;
+
+  Resource(UUID id, String resourceType) {
+    super(id);
+    this.resourceType = resourceType;
+  }
 }

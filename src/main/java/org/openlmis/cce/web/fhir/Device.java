@@ -13,16 +13,26 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.repository;
+package org.openlmis.cce.web.fhir;
 
-import org.javers.spring.annotation.JaversSpringDataAuditable;
+import static org.openlmis.cce.service.ResourceNames.getFacilitiesPath;
+
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.repository.custom.InventoryItemRepositoryCustom;
-import org.springframework.data.repository.PagingAndSortingRepository;
 
-import java.util.UUID;
+import lombok.Getter;
 
-@JaversSpringDataAuditable
-public interface InventoryItemRepository extends PagingAndSortingRepository<InventoryItem, UUID>,
-    InventoryItemRepositoryCustom {
+@Getter
+public class Device extends Resource {
+  private final String manufacturer;
+  private final String model;
+  private final Reference location;
+
+  Device(String serviceUrl, InventoryItem inventory) {
+    super(inventory.getId(), "Device");
+
+    this.manufacturer = inventory.getCatalogItem().getManufacturer();
+    this.model = inventory.getCatalogItem().getModel();
+    this.location = new Reference(serviceUrl, getFacilitiesPath(), inventory.getFacilityId());
+  }
+
 }

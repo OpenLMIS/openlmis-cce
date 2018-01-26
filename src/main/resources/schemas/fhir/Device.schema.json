@@ -1,0 +1,36 @@
+{
+  "$schema": "http://json-schema.org/draft-04/schema#",
+  "description": "see http://hl7.org/fhir/json.html#schema for information about the FHIR Json Schemas",
+  "allOf": [
+    {
+      "$ref": "Resource"
+    },
+    {
+      "description": "This resource identifies an instance or a type of a manufactured item that is used in the provision of healthcare without being substantially changed through that activity. The device may be a medical or non-medical device.  Medical devices include durable (reusable) medical equipment, implantable devices, as well as disposable equipment used for diagnostic, treatment, and research for healthcare and public health.  Non-medical devices may include items such as a machine, cellphone, computer, application, etc.",
+      "properties": {
+        "resourceType": {
+          "description": "This is a Device resource",
+          "type": "string",
+          "enum": [
+            "Device"
+          ]
+        },
+        "manufacturer": {
+          "description": "A name of the manufacturer.",
+          "type": "string"
+        },
+        "model": {
+          "description": "The \"model\" is an identifier assigned by the manufacturer to identify the product by its type. This number is shared by the all devices sold as the same type.",
+          "type": "string"
+        },
+        "location": {
+          "description": "The place where the device can be found.",
+          "$ref": "Reference"
+        }
+      },
+      "required": [
+        "resourceType"
+      ]
+    }
+  ]
+}
