@@ -79,7 +79,7 @@ public class DeviceControllerIntegrationTest extends BaseWebIntegrationTest {
         .body("[0].manufacturer", is(item.getCatalogItem().getManufacturer()))
         .body("[0].model", is(item.getCatalogItem().getModel()))
         .body("[0].location.reference",
-            is(serviceUrl + ResourceNames.getFacilitiesPath() + item.getFacilityId()));
+            is(serviceUrl + ResourceNames.getLocationPath() + item.getFacilityId()));
   }
 
 }

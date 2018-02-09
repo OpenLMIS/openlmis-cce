@@ -15,7 +15,7 @@
 
 package org.openlmis.cce.web.fhir;
 
-import static org.openlmis.cce.service.ResourceNames.getFacilitiesPath;
+import static org.openlmis.cce.service.ResourceNames.getLocationPath;
 
 import org.openlmis.cce.domain.InventoryItem;
 
@@ -32,7 +32,7 @@ public class Device extends Resource {
 
     this.manufacturer = inventory.getCatalogItem().getManufacturer();
     this.model = inventory.getCatalogItem().getModel();
-    this.location = new Reference(serviceUrl, getFacilitiesPath(), inventory.getFacilityId());
+    this.location = new Reference(serviceUrl, getLocationPath(), inventory.getFacilityId());
   }
 
 }

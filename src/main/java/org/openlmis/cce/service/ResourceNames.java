@@ -28,6 +28,7 @@ public class ResourceNames {
   public static final String SUPERVISORY_NODES = "supervisoryNodes";
   public static final String USERS = "users";
   public static final String PROGRAMS = "programs";
+  public static final String LOCATION = "Location";
 
   public static String getFacilitiesPath() {
     return getPath(FACILITIES);
@@ -47,6 +48,10 @@ public class ResourceNames {
 
   public static String getProgramsPath() {
     return getPath(PROGRAMS);
+  }
+
+  public static String getLocationPath() {
+    return getPath(LOCATION);
   }
 
   private static String getPath(String resourseName) {
