@@ -35,6 +35,10 @@ schemas:
 
   - catalogItemPage: !include schemas/catalogItemPage.json
 
+  - cceAlert: !include schemas/cceAlert.json
+
+  - cceAlertPage: !include schemas/cceAlertPage.json
+
   - inventoryItem: !include schemas/inventoryItem.json
 
   - inventoryItemPage: !include schemas/inventoryItemPage.json
@@ -339,6 +343,41 @@ resourceTypes:
                       body:
                         application/json:
                           schema: localizedErrorResponse
+  /cceAlerts:
+      displayName: CCE Alerts
+      get:
+          is: [ secured, paginated, expandible ]
+          description: Get CCE alerts.
+          queryParameters:
+              deviceId:
+                  description: "Filters alerts by assigned device."
+                  type: string
+                  required: false
+                  repeat: true
+          responses:
+              "200":
+                  body:
+                    application/json:
+                      schema: cceAlertPage
+      put:
+          is: [ secured ]
+          description: Creates or updates a CCE alert.
+          body:
+              application/json:
+                  schema: cceAlert
+          responses:
+              "200":
+                  body:
+                    application/json:
+                      schema: cceAlert
+              "400":
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+              "403":
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
   /inventoryItems:
       displayName: CCE Inventory item
       get:

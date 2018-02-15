@@ -1,0 +1,51 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "CCE alert",
+  "description": "A single CCE alert",
+  "properties": {
+    "alert_id": {
+      "type": "string",
+      "title": "Alert id"
+    },
+    "alert_type": {
+      "enum": [
+        "no_data",
+        "warning_hot",
+        "warning_freezing",
+        "not_working_hot",
+        "not_working_freezing",
+        "warning_power"
+      ],
+      "title": "Alert type"
+    },
+    "device_id": {
+      "type": "string",
+      "title": "Device id"
+    },
+    "start_ts": {
+      "type": "date-time",
+      "title": "Alert start"
+    },
+    "end_ts": {
+      "type": "date-time",
+      "title": "Alert end"
+    },
+    "status": {
+      "type": "object",
+      "$ref": "cceAlertStatusMessages.json",
+      "title": "Alert status messages"
+    },
+    "dismissed": {
+      "type": "boolean",
+      "title": "Dismissed"
+    }
+  },
+  "required": [
+    "alert_id",
+    "alert_type",
+    "device_id",
+    "start_ts",
+    "status"
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "CCE alert status messages",
+  "description": "An object of CCE alert status messages by locale",
+  "properties": {
+    "en_US": {
+      "type": "string",
+      "title": "US English message"
+    }
+  },
+  "required": [
+    "en_US"
+  ]
+}
