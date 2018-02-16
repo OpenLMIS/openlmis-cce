@@ -15,31 +15,9 @@
 
 package org.openlmis.cce.web;
 
-import static java.util.Collections.singleton;
-import static java.util.Collections.singletonList;
-import static org.hamcrest.Matchers.equalTo;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
-import static org.mockito.Mockito.doThrow;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
-import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
-import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
-import static org.openlmis.cce.service.ResourceNames.FACILITIES;
-import static org.openlmis.cce.service.ResourceNames.PROGRAMS;
-import static org.openlmis.cce.service.ResourceNames.USERS;
-
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
-
+import guru.nidi.ramltester.junit.RamlMatchers;
 import org.javers.common.collections.Lists;
 import org.javers.common.collections.Sets;
 import org.junit.Before;
@@ -69,11 +47,31 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-import guru.nidi.ramltester.junit.RamlMatchers;
-
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
+
+import static java.util.Collections.singleton;
+import static java.util.Collections.singletonList;
+import static org.hamcrest.Matchers.equalTo;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertThat;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.never;
+import static org.mockito.Mockito.times;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
+import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
+import static org.openlmis.cce.service.ResourceNames.FACILITIES;
+import static org.openlmis.cce.service.ResourceNames.PROGRAMS;
+import static org.openlmis.cce.service.ResourceNames.USERS;
 
 @SuppressWarnings("PMD.TooManyMethods")
 public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTest {
@@ -421,7 +419,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   @Test
   public void shouldDeleteInventoryItemWhenFoundById() {
     when(inventoryItemRepository.findOne(inventoryId))
-        .thenReturn(InventoryItem.newInstance(inventoryItemDto, null));
+        .thenReturn(InventoryItem.newInstance(inventoryItemDto));
 
     deleteInventoryItem()
         .then()

@@ -15,18 +15,13 @@
 
 package org.openlmis.cce.domain;
 
-import org.hibernate.annotations.Type;
-import org.javers.core.metamodel.annotation.TypeName;
-
 import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
-
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.UUID;
+import org.hibernate.annotations.Type;
+import org.javers.core.metamodel.annotation.TypeName;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -36,6 +31,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.UUID;
 
 @Entity
 @TypeName("Inventory")
@@ -141,7 +139,7 @@ public class InventoryItem extends BaseEntity {
    * @param importer instance of {@link Importer}
    * @return new instance of Inventory.
    */
-  public static InventoryItem newInstance(Importer importer, UUID lastModifierId) {
+  public static InventoryItem newInstance(Importer importer) {
     InventoryItem inventoryItem = new InventoryItem(
         importer.getFacilityId(),
         CatalogItem.newInstance(importer.getCatalogItem()),
@@ -163,7 +161,7 @@ public class InventoryItem extends BaseEntity {
         importer.getAdditionalNotes(),
         importer.getDecommissionDate(),
         null,
-        lastModifierId);
+        importer.getLastModifierId());
     inventoryItem.id = importer.getId();
 
     return inventoryItem;

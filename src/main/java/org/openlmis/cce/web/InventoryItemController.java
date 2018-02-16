@@ -15,10 +15,6 @@
 
 package org.openlmis.cce.web;
 
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
-import static org.openlmis.cce.service.ResourceNames.BASE_PATH;
-import static org.openlmis.cce.web.InventoryItemController.RESOURCE_PATH;
-
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.exception.NotFoundException;
@@ -53,6 +49,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
+
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
+import static org.openlmis.cce.service.ResourceNames.BASE_PATH;
+import static org.openlmis.cce.web.InventoryItemController.RESOURCE_PATH;
 
 @Controller
 @Transactional
@@ -284,8 +284,8 @@ public class InventoryItemController extends BaseController {
   }
 
   private InventoryItem newInventoryItem(InventoryItemDto inventoryItemDto) {
-    return InventoryItem.newInstance(inventoryItemDto,
-        authenticationHelper.getCurrentUser().getId());
+    inventoryItemDto.setLastModifierId(authenticationHelper.getCurrentUser().getId());
+    return InventoryItem.newInstance(inventoryItemDto);
   }
 
   private InventoryItemDto saveInventory(InventoryItem inventoryItem) {
