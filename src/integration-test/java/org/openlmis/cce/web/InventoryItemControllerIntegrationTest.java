@@ -15,42 +15,6 @@
 
 package org.openlmis.cce.web;
 
-import com.jayway.restassured.response.Response;
-import com.jayway.restassured.specification.RequestSpecification;
-import guru.nidi.ramltester.junit.RamlMatchers;
-import org.javers.common.collections.Lists;
-import org.javers.common.collections.Sets;
-import org.junit.Before;
-import org.junit.Test;
-import org.mockito.internal.stubbing.answers.Returns;
-import org.openlmis.cce.CatalogItemDataBuilder;
-import org.openlmis.cce.InventoryItemDataBuilder;
-import org.openlmis.cce.domain.CatalogItem;
-import org.openlmis.cce.domain.FunctionalStatus;
-import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.dto.CatalogItemDto;
-import org.openlmis.cce.dto.InventoryItemDto;
-import org.openlmis.cce.dto.ObjectReferenceDto;
-import org.openlmis.cce.dto.PermissionStringDto;
-import org.openlmis.cce.dto.UserDto;
-import org.openlmis.cce.dto.UserObjectReferenceDto;
-import org.openlmis.cce.repository.InventoryItemRepository;
-import org.openlmis.cce.service.InventoryStatusProcessor;
-import org.openlmis.cce.service.ObjReferenceExpander;
-import org.openlmis.cce.service.PermissionService;
-import org.openlmis.cce.service.PermissionStrings;
-import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
-import org.openlmis.cce.util.PageImplRepresentation;
-import org.openlmis.cce.util.Pagination;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.data.domain.Pageable;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
-
 import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.equalTo;
@@ -73,6 +37,36 @@ import static org.openlmis.cce.service.ResourceNames.FACILITIES;
 import static org.openlmis.cce.service.ResourceNames.PROGRAMS;
 import static org.openlmis.cce.service.ResourceNames.USERS;
 
+import com.jayway.restassured.response.Response;
+import com.jayway.restassured.specification.RequestSpecification;
+import guru.nidi.ramltester.junit.RamlMatchers;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import org.javers.common.collections.Lists;
+import org.javers.common.collections.Sets;
+import org.junit.Before;
+import org.junit.Test;
+import org.mockito.internal.stubbing.answers.Returns;
+import org.openlmis.cce.CatalogItemDataBuilder;
+import org.openlmis.cce.InventoryItemDataBuilder;
+import org.openlmis.cce.domain.CatalogItem;
+import org.openlmis.cce.domain.FunctionalStatus;
+import org.openlmis.cce.domain.InventoryItem;
+import org.openlmis.cce.dto.CatalogItemDto;
+import org.openlmis.cce.dto.InventoryItemDto;
+import org.openlmis.cce.dto.ObjectReferenceDto;
+import org.openlmis.cce.dto.PermissionStringDto;
+import org.openlmis.cce.dto.UserDto;
+import org.openlmis.cce.dto.UserObjectReferenceDto;
+import org.openlmis.cce.service.PermissionService;
+import org.openlmis.cce.service.PermissionStrings;
+import org.openlmis.cce.util.PageImplRepresentation;
+import org.openlmis.cce.util.Pagination;
+import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
+
 @SuppressWarnings("PMD.TooManyMethods")
 public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTest {
 
@@ -80,21 +74,6 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   private static final String RESOURCE_URL_WITH_ID = RESOURCE_URL + "/{id}";
   private static final String EXPAND = "expand";
   private static final String LAST_MODIFIER = "lastModifier";
-
-  @MockBean
-  private InventoryItemRepository inventoryItemRepository;
-
-  @MockBean
-  private FacilityReferenceDataService facilityReferenceDataService;
-
-  @MockBean
-  private PermissionService permissionService;
-
-  @MockBean
-  private InventoryStatusProcessor inventoryStatusProcessor;
-
-  @MockBean
-  private ObjReferenceExpander objReferenceExpander;
 
   private InventoryItemDto inventoryItemDto;
   private InventoryItem inventoryItem;

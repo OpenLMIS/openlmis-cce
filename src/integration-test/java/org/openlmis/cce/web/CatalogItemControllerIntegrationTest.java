@@ -33,6 +33,11 @@ import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PER
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
 import guru.nidi.ramltester.junit.RamlMatchers;
+import java.io.IOException;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
 import org.junit.Test;
@@ -42,20 +47,13 @@ import org.openlmis.cce.domain.EnergySource;
 import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.UploadResultDto;
-import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.util.PageImplRepresentation;
 import org.openlmis.cce.util.Pagination;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-import java.io.IOException;
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
-import java.util.UUID;
 
 @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.TooManyMethods"})
 public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest {
@@ -63,12 +61,6 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   private static final String RESOURCE_URL = "/api/catalogItems";
   private static final String RESOURCE_URL_WITH_ID = RESOURCE_URL + "/{id}";
   private static final String FILE_PARAM_NAME = "file";
-
-  @MockBean
-  private CatalogItemRepository catalogItemRepository;
-
-  @MockBean
-  private PermissionService permissionService;
 
   private CatalogItemDto catalogItemDto;
   private String managePermission = PermissionService.CCE_MANAGE;

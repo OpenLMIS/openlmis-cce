@@ -31,7 +31,11 @@ import com.github.tomakehurst.wiremock.junit.WireMockRule;
 import com.jayway.restassured.RestAssured;
 import com.jayway.restassured.config.ObjectMapperConfig;
 import com.jayway.restassured.config.RestAssuredConfig;
-
+import guru.nidi.ramltester.RamlDefinition;
+import guru.nidi.ramltester.RamlLoaders;
+import guru.nidi.ramltester.restassured.RestAssuredClient;
+import java.util.UUID;
+import javax.annotation.PostConstruct;
 import org.junit.Rule;
 import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
@@ -40,6 +44,12 @@ import org.openlmis.cce.domain.BaseEntity;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.exception.PermissionMessageException;
 import org.openlmis.cce.i18n.MessageService;
+import org.openlmis.cce.repository.CatalogItemRepository;
+import org.openlmis.cce.repository.InventoryItemRepository;
+import org.openlmis.cce.service.InventoryStatusProcessor;
+import org.openlmis.cce.service.ObjReferenceExpander;
+import org.openlmis.cce.service.PermissionService;
+import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,18 +58,9 @@ import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.test.annotation.DirtiesContext;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
 import org.springframework.test.context.junit4.SpringRunner;
-
-import guru.nidi.ramltester.RamlDefinition;
-import guru.nidi.ramltester.RamlLoaders;
-import guru.nidi.ramltester.restassured.RestAssuredClient;
-
-import java.util.UUID;
-
-import javax.annotation.PostConstruct;
 
 
 @RunWith(SpringRunner.class)
@@ -67,7 +68,6 @@ import javax.annotation.PostConstruct;
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @TestPropertySource(properties = {"service.url=" + BaseWebIntegrationTest.SERVICE_URL})
 @ActiveProfiles("test")
-@DirtiesContext
 @SuppressWarnings("PMD.TooManyMethods")
 public abstract class BaseWebIntegrationTest {
 
@@ -87,6 +87,24 @@ public abstract class BaseWebIntegrationTest {
 
   @MockBean
   protected AuthenticationHelper authenticationHelper;
+
+  @MockBean
+  protected CatalogItemRepository catalogItemRepository;
+
+  @MockBean
+  protected PermissionService permissionService;
+
+  @MockBean
+  protected InventoryItemRepository inventoryItemRepository;
+
+  @MockBean
+  protected FacilityReferenceDataService facilityReferenceDataService;
+
+  @MockBean
+  protected InventoryStatusProcessor inventoryStatusProcessor;
+
+  @MockBean
+  protected ObjReferenceExpander objReferenceExpander;
 
   @Autowired
   protected MessageService messageService;

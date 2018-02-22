@@ -22,23 +22,18 @@ import static org.mockito.BDDMockito.given;
 import static org.openlmis.cce.util.Pagination.DEFAULT_PAGE_NUMBER;
 
 import com.google.common.collect.ImmutableList;
-
 import com.jayway.restassured.response.ValidatableResponse;
-
+import guru.nidi.ramltester.junit.RamlMatchers;
 import org.junit.Test;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.InventoryItem;
-import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.ResourceNames;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
-
-import guru.nidi.ramltester.junit.RamlMatchers;
 
 public class DeviceControllerIntegrationTest extends BaseWebIntegrationTest {
 
@@ -46,9 +41,6 @@ public class DeviceControllerIntegrationTest extends BaseWebIntegrationTest {
 
   @Value("${service.url}")
   private String serviceUrl;
-
-  @MockBean
-  private InventoryItemRepository inventoryItemRepository;
 
   private Pageable pageable = new PageRequest(DEFAULT_PAGE_NUMBER, 2000);
 
