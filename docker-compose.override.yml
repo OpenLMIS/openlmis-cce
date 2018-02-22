@@ -1,5 +1,6 @@
 version: "2"
 services:
+
   cce:
     image: openlmis/dev:3
     ports:
@@ -9,6 +10,11 @@ services:
       - '.:/app'
       - 'gradlecache:/gradle'
     env_file: .env
+
+  db:
+    ports:
+      - "5432"
+
 volumes:
   gradlecache:
     external: false
