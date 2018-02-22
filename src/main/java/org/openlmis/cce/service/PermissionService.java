@@ -15,10 +15,11 @@
 
 package org.openlmis.cce.service;
 
-
 import static org.apache.commons.lang3.StringUtils.startsWith;
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_API_KEYS_ONLY;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
+import java.util.UUID;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.exception.PermissionMessageException;
@@ -30,9 +31,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.stereotype.Service;
 
-import java.util.UUID;
-
 @Service
+@SuppressWarnings("PMD.TooManyMethods")
 public class PermissionService {
 
   public static final String CCE_MANAGE = "CCE_MANAGE";
@@ -53,6 +53,7 @@ public class PermissionService {
 
   /**
    * Checks if current user has permission to manage CCE.
+   *
    * @throws PermissionMessageException if the current user doesn't have the permission.
    */
   public void canManageCce() {
@@ -61,6 +62,7 @@ public class PermissionService {
 
   /**
    * Checks if current user has permission to view CCE inventory.
+   *
    * @throws PermissionMessageException if the current user doesn't have the permission.
    */
   public void canViewInventory(InventoryItem inventory) {
@@ -72,6 +74,7 @@ public class PermissionService {
 
   /**
    * Checks if current user has permission to edit CCE inventory.
+   *
    * @throws PermissionMessageException if the current user doesn't have the permission.
    */
   public void canEditInventory(InventoryItem inventoryItem) {
@@ -80,12 +83,24 @@ public class PermissionService {
 
   /**
    * Checks if current user has permission to edit CCE inventory.
+   *
    * @throws PermissionMessageException if the current user doesn't have the permission.
    */
   public void canEditInventory(UUID programId, UUID facilityId) {
     if (!hasPermission(CCE_INVENTORY_EDIT, programId, facilityId)) {
       throw new PermissionMessageException(
           new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_EDIT));
+    }
+  }
+
+  /**
+   * Checks if current client is an API key.
+   *
+   * @throws PermissionMessageException if the current client is not an API key.
+   */
+  public void checkForApiKey() {
+    if (!hasPermission(null, null, null, false, false, true)) {
+      throw new PermissionMessageException(new Message(ERROR_API_KEYS_ONLY));
     }
   }
 
@@ -104,8 +119,8 @@ public class PermissionService {
   }
 
   private boolean hasPermission(String rightName, UUID program, UUID facility,
-                                boolean allowUserTokens, boolean allowServiceTokens,
-                                boolean allowApiKey) {
+      boolean allowUserTokens, boolean allowServiceTokens,
+      boolean allowApiKey) {
     OAuth2Authentication authentication = (OAuth2Authentication) SecurityContextHolder
         .getContext()
         .getAuthentication();
@@ -116,7 +131,7 @@ public class PermissionService {
   }
 
   private boolean checkUserToken(String rightName, UUID program, UUID facility,
-                                 boolean allowUserTokens) {
+      boolean allowUserTokens) {
     if (!allowUserTokens) {
       return false;
     }
@@ -129,7 +144,7 @@ public class PermissionService {
   }
 
   private boolean checkServiceToken(boolean allowServiceTokens, boolean allowApiKey,
-                                    OAuth2Authentication authentication) {
+      OAuth2Authentication authentication) {
     String clientId = authentication.getOAuth2Request().getClientId();
 
     if (serviceTokenClientId.equals(clientId)) {

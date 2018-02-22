@@ -17,6 +17,7 @@ package org.openlmis.cce.service;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_API_KEYS_ONLY;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 import static org.openlmis.cce.service.OAuth2AuthenticationDataBuilder.API_KEY_PREFIX;
 import static org.openlmis.cce.service.OAuth2AuthenticationDataBuilder.SERVICE_CLIENT_ID;
@@ -184,6 +185,33 @@ public class PermissionServiceTest {
     exception.expect(PermissionMessageException.class);
 
     permissionService.canEditInventory(inventoryItem);
+  }
+  
+  @Test
+  public void checkForApiKeyShouldAllowApiKeys() {
+    when(securityContext.getAuthentication()).thenReturn(apiKeyClient);
+
+    permissionService.checkForApiKey();
+  }
+  
+  @Test
+  public void checkForApiKeyShouldNotAllowServiceTokens() {
+    when(securityContext.getAuthentication()).thenReturn(trustedClient);
+    exception.expect(PermissionMessageException.class);
+    exception.expectMessage(
+        new Message(ERROR_API_KEYS_ONLY).toString());
+
+    permissionService.checkForApiKey();
+  }
+  
+  @Test
+  public void checkForApiKeyShouldNotAllowUserTokens() {
+    when(securityContext.getAuthentication()).thenReturn(userClient);
+    exception.expect(PermissionMessageException.class);
+    exception.expectMessage(
+        new Message(ERROR_API_KEYS_ONLY).toString());
+
+    permissionService.checkForApiKey();
   }
 
   private void stubProgramAndFacilityInInventoryItem() {

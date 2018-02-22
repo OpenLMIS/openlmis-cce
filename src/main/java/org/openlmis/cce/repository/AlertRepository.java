@@ -13,20 +13,18 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.i18n;
+package org.openlmis.cce.repository;
 
-public class PermissionMessageKeys extends MessageKeys {
+import java.util.UUID;
+import org.javers.spring.annotation.JaversSpringDataAuditable;
+import org.openlmis.cce.domain.Alert;
+import org.openlmis.cce.domain.InventoryItem;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-  private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".authentication";
+@JaversSpringDataAuditable
+public interface AlertRepository extends PagingAndSortingRepository<Alert, UUID> {
 
-  public static final String ERROR_USER_NOT_FOUND = ERROR_PREFIX + ".user.notFound";
-  public static final String ERROR_RIGHT_NOT_FOUND = ERROR_PREFIX + ".right.notFound";
-  public static final String ERROR_NO_FOLLOWING_PERMISSION = ERROR_PREFIX
-      + ".noFollowingPermission";
-  public static final String ERROR_API_KEYS_ONLY = ERROR_PREFIX
-      + ".apiKeysOnly";
-
-  private PermissionMessageKeys() {
-    throw new UnsupportedOperationException();
-  }
+  Page<Alert> findByInventoryItem(InventoryItem inventoryItem, Pageable pageable);
 }

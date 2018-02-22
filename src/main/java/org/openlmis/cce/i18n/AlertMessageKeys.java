@@ -15,18 +15,28 @@
 
 package org.openlmis.cce.i18n;
 
-public class PermissionMessageKeys extends MessageKeys {
+import static org.openlmis.cce.i18n.MessageKeys.REQUIRED;
+import static org.openlmis.cce.i18n.MessageKeys.SERVICE_ERROR_PREFIX;
+import static org.openlmis.cce.i18n.MessageKeys.join;
 
-  private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".authentication";
+public class AlertMessageKeys {
 
-  public static final String ERROR_USER_NOT_FOUND = ERROR_PREFIX + ".user.notFound";
-  public static final String ERROR_RIGHT_NOT_FOUND = ERROR_PREFIX + ".right.notFound";
-  public static final String ERROR_NO_FOLLOWING_PERMISSION = ERROR_PREFIX
-      + ".noFollowingPermission";
-  public static final String ERROR_API_KEYS_ONLY = ERROR_PREFIX
-      + ".apiKeysOnly";
+  private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".alert";
 
-  private PermissionMessageKeys() {
+  public static final String ERROR_ALERT_ID_REQUIRED =
+      join(ERROR_PREFIX, "alertId", REQUIRED);
+  public static final String ERROR_ALERT_TYPE_REQUIRED =
+      join(ERROR_PREFIX, "alertType", REQUIRED);
+  public static final String ERROR_DEVICE_ID_REQUIRED =
+      join(ERROR_PREFIX, "deviceId", REQUIRED);
+  public static final String ERROR_START_TS_REQUIRED =
+      join(ERROR_PREFIX, "startTs", REQUIRED);
+  public static final String ERROR_STATUS_REQUIRED =
+      join(ERROR_PREFIX, "status", REQUIRED);
+  public static final String ERROR_DEVICE_ID_NOT_FOUND =
+      join(ERROR_PREFIX, "deviceId.notFound");
+
+  private AlertMessageKeys() {
     throw new UnsupportedOperationException();
   }
 }

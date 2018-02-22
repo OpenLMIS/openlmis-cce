@@ -28,7 +28,7 @@
       "title": "Alert start"
     },
     "end_ts": {
-      "type": "number",
+      "type": ["number", "null"],
       "title": "Alert end"
     },
     "status": {
@@ -37,7 +37,7 @@
       "title": "Alert status messages"
     },
     "dismissed": {
-      "type": "boolean",
+      "type": ["boolean", "null"],
       "title": "Dismissed"
     }
   },

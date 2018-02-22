@@ -21,6 +21,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlPathEqualTo;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.mock;
+import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_API_KEYS_ONLY;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 import static org.openlmis.cce.web.util.WireMockResponses.MOCK_CHECK_RESULT;
 import static org.openlmis.cce.web.util.WireMockResponses.MOCK_TOKEN_REQUEST_RESPONSE;
@@ -43,7 +44,10 @@ import org.mockito.stubbing.Answer;
 import org.openlmis.cce.domain.BaseEntity;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.exception.PermissionMessageException;
+import org.openlmis.cce.exception.ValidationMessageException;
+import org.openlmis.cce.i18n.AlertMessageKeys;
 import org.openlmis.cce.i18n.MessageService;
+import org.openlmis.cce.repository.AlertRepository;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.InventoryStatusProcessor;
@@ -52,6 +56,7 @@ import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.service.referencedata.FacilityReferenceDataService;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Message;
+import org.openlmis.cce.web.validator.AlertValidator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringBootConfiguration;
 import org.springframework.boot.context.embedded.LocalServerPort;
@@ -105,6 +110,12 @@ public abstract class BaseWebIntegrationTest {
 
   @MockBean
   protected ObjReferenceExpander objReferenceExpander;
+  
+  @MockBean
+  protected AlertValidator alertValidator;
+  
+  @MockBean
+  protected AlertRepository alertRepository;
 
   @Autowired
   protected MessageService messageService;
@@ -172,7 +183,24 @@ public abstract class BaseWebIntegrationTest {
 
     return exception;
   }
+  
+  protected PermissionMessageException mockApiKeyPermissionException() {
+    PermissionMessageException exception = mock(PermissionMessageException.class);
 
+    Message errorMessage = new Message(ERROR_API_KEYS_ONLY);
+    given(exception.asMessage()).willReturn(errorMessage);
+
+    return exception;
+  }
+
+  protected ValidationMessageException mockValidationMessageException() {
+    ValidationMessageException exception = mock(ValidationMessageException.class);
+
+    Message errorMessage = new Message(AlertMessageKeys.ERROR_ALERT_ID_REQUIRED);
+    given(exception.asMessage()).willReturn(errorMessage);
+
+    return exception;
+  }
 
   protected String getMessage(String messageKey, Object... messageParams) {
     return messageService.localize(new Message(messageKey, messageParams)).asMessage();

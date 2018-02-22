@@ -13,20 +13,13 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
  */
 
-package org.openlmis.cce.i18n;
+package org.openlmis.cce.domain;
 
-public class PermissionMessageKeys extends MessageKeys {
-
-  private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".authentication";
-
-  public static final String ERROR_USER_NOT_FOUND = ERROR_PREFIX + ".user.notFound";
-  public static final String ERROR_RIGHT_NOT_FOUND = ERROR_PREFIX + ".right.notFound";
-  public static final String ERROR_NO_FOLLOWING_PERMISSION = ERROR_PREFIX
-      + ".noFollowingPermission";
-  public static final String ERROR_API_KEYS_ONLY = ERROR_PREFIX
-      + ".apiKeysOnly";
-
-  private PermissionMessageKeys() {
-    throw new UnsupportedOperationException();
-  }
+public enum AlertType {
+  no_data,
+  warning_hot,
+  warning_freezing,
+  not_working_hot,
+  not_working_freezing,
+  warning_power
 }
