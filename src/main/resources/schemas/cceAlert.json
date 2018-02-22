@@ -24,11 +24,11 @@
       "title": "Device id"
     },
     "start_ts": {
-      "type": "date-time",
+      "type": "number",
       "title": "Alert start"
     },
     "end_ts": {
-      "type": "date-time",
+      "type": "number",
       "title": "Alert end"
     },
     "status": {
