@@ -22,7 +22,6 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.openlmis.cce.domain.Alert;
-import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.AlertDto;
 import org.openlmis.cce.repository.AlertRepository;
 import org.openlmis.cce.repository.InventoryItemRepository;
@@ -112,20 +111,18 @@ public class AlertController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public Page<AlertDto> getAlertCollection(
-      @RequestParam(value = "deviceId", required = false) UUID deviceId,
+      @RequestParam(value = "deviceId", required = false) List<UUID> deviceIds,
       Pageable pageable) {
 
-    XLOGGER.entry(deviceId, pageable);
+    XLOGGER.entry(deviceIds, pageable);
     Profiler profiler = new Profiler("GET_ALERTS");
     profiler.setLogger(XLOGGER);
 
     Page<Alert> alertsPage;
 
-    if (null != deviceId) {
-      InventoryItem inventoryItem = inventoryItemRepository.findOne(deviceId);
-
-      profiler.start("FIND_BY_INVENTORY_ITEM");
-      alertsPage = alertRepository.findByInventoryItem(inventoryItem, pageable);
+    if (null != deviceIds) {
+      profiler.start("FIND_BY_INVENTORY_ITEM_IDS");
+      alertsPage = alertRepository.findByInventoryItemIdIn(deviceIds, pageable);
     } else {
       profiler.start("FIND_ALL");
       alertsPage = alertRepository.findAll(pageable);

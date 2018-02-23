@@ -16,9 +16,12 @@
 package org.openlmis.cce.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.time.ZonedDateTime;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.UUID;
 import org.junit.Before;
@@ -37,6 +40,8 @@ import org.springframework.data.repository.CrudRepository;
 public class AlertRepositoryIntegrationTest
     extends BaseCrudRepositoryIntegrationTest<Alert> {
 
+  private static final String STATUS_LOCALE = "en_US";
+
   @Autowired
   private AlertRepository repository;
 
@@ -50,6 +55,7 @@ public class AlertRepositoryIntegrationTest
   private Pageable pageable;
 
   private InventoryItem inventoryItem;
+  private InventoryItem inventoryItem2;
 
   @Override
   CrudRepository<Alert, UUID> getRepository() {
@@ -62,7 +68,7 @@ public class AlertRepositoryIntegrationTest
         inventoryItem,
         ZonedDateTime.now(),
         null,
-        Collections.singletonMap("en_US", "Equipment needs attention: too hot"),
+        Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: too hot"),
         null);
   }
 
@@ -73,34 +79,70 @@ public class AlertRepositoryIntegrationTest
     inventoryItem = new InventoryItemDataBuilder().build();
     inventoryItem = inventoryItemRepository.save(inventoryItem);
 
+    inventoryItem2 = new InventoryItemDataBuilder()
+        .withId(UUID.randomUUID())
+        .withEquipmentTrackingId("another-tracking-id")
+        .build();
+    inventoryItem2 = inventoryItemRepository.save(inventoryItem2);
+
     when(pageable.getPageSize()).thenReturn(10);
     when(pageable.getPageNumber()).thenReturn(0);
   }
 
   @Test
-  public void findByInventoryItemShouldFindSomeAlerts() {
-    InventoryItem inventoryItem2 = new InventoryItemDataBuilder()
-        .withId(UUID.randomUUID())
-        .withEquipmentTrackingId("another-tracking-id")
-        .build();
-    inventoryItem2 = inventoryItemRepository.save(inventoryItem2);
-    
+  public void findByInventoryItemIdInShouldFindAllMatchingAlertsForOneId() {
     Alert item = generateInstance();
     Alert item2 = Alert.createNew(AlertType.not_working_freezing,
         inventoryItem2,
         ZonedDateTime.now(),
         null,
-        Collections.singletonMap("en_US", "Equipment needs attention: freezing"),
+        Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: freezing"),
         null);
     repository.save(item);
     repository.save(item2);
     
-    Page<Alert> alertsPage = repository.findByInventoryItem(inventoryItem, pageable);
+    Page<Alert> alertsPage = repository.findByInventoryItemIdIn(
+        Collections.singletonList(inventoryItem.getId()), pageable);
 
     assertEquals(1, alertsPage.getTotalElements());
     Alert firstAlert = alertsPage.getContent().get(0);
     assertEquals(AlertType.not_working_hot, firstAlert.getType());
     assertEquals(inventoryItem, firstAlert.getInventoryItem());
-    assertEquals("Equipment needs attention: too hot", firstAlert.getStatusMessages().get("en_US"));
+    assertEquals("Equipment needs attention: too hot", 
+        firstAlert.getStatusMessages().get(STATUS_LOCALE));
+  }
+
+  @Test
+  public void findByInventoryItemIdInShouldFindAllMatchingAlertsForMultipleIds() {
+    InventoryItem inventoryItem3 = new InventoryItemDataBuilder()
+        .withId(UUID.randomUUID())
+        .withEquipmentTrackingId("third-tracking-id")
+        .build();
+    inventoryItem3 = inventoryItemRepository.save(inventoryItem3);
+
+    Alert item = generateInstance();
+    Alert item2 = Alert.createNew(AlertType.not_working_freezing,
+        inventoryItem2,
+        ZonedDateTime.now(),
+        null,
+        Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: freezing"),
+        null);
+    Alert item3 = Alert.createNew(AlertType.no_data,
+        inventoryItem3,
+        ZonedDateTime.now(),
+        null,
+        Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
+        null);
+    item = repository.save(item);
+    item2 = repository.save(item2);
+    item3 = repository.save(item3);
+
+    Page<Alert> alertsPage = repository.findByInventoryItemIdIn(
+        Arrays.asList(inventoryItem.getId(), inventoryItem2.getId()), pageable);
+
+    assertEquals(2, alertsPage.getTotalElements());
+    assertTrue(alertsPage.getContent().contains(item));
+    assertTrue(alertsPage.getContent().contains(item2));
+    assertFalse(alertsPage.getContent().contains(item3));
   }
 }

@@ -15,10 +15,10 @@
 
 package org.openlmis.cce.repository;
 
+import java.util.List;
 import java.util.UUID;
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.openlmis.cce.domain.Alert;
-import org.openlmis.cce.domain.InventoryItem;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.repository.PagingAndSortingRepository;
@@ -26,5 +26,5 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 @JaversSpringDataAuditable
 public interface AlertRepository extends PagingAndSortingRepository<Alert, UUID> {
 
-  Page<Alert> findByInventoryItem(InventoryItem inventoryItem, Pageable pageable);
+  Page<Alert> findByInventoryItemIdIn(List<UUID> inventoryItemIds, Pageable pageable);
 }
