@@ -64,8 +64,8 @@ public class Alert extends BaseEntity {
       joinColumns = @JoinColumn(name = "alertid"))
   private Map<String, String> statusMessages;
 
-  @Column(columnDefinition = "bool")
-  private Boolean dismissed;
+  @Column(columnDefinition = "bool DEFAULT false", nullable = false)
+  private boolean dismissed;
 
   private Alert(AlertType type, InventoryItem inventoryItem, ZonedDateTime startTimestamp, 
       ZonedDateTime endTimestamp, Map<String, String> statusMessages, Boolean dismissed) {
@@ -74,12 +74,16 @@ public class Alert extends BaseEntity {
     this.startTimestamp = startTimestamp;
     this.endTimestamp = endTimestamp;
     this.statusMessages = statusMessages;
-    this.dismissed = dismissed;
+    if (null != dismissed) {
+      this.dismissed = dismissed;
+    } else {
+      this.dismissed = false;
+    }
   }
 
   public static Alert createNew(AlertType type, InventoryItem inventoryItem,
       ZonedDateTime startTimestamp, ZonedDateTime endTimestamp, Map<String, String> statusMessages,
-      Boolean dismissed) {
+      boolean dismissed) {
     return new Alert(type, inventoryItem, startTimestamp, endTimestamp, statusMessages, dismissed);
   }
 
@@ -129,7 +133,7 @@ public class Alert extends BaseEntity {
 
     void setStatusMessages(Map<String, String> statusMessages);
 
-    void setDismissed(Boolean dismissed);
+    void setDismissed(boolean dismissed);
   }
 
   public interface Importer {

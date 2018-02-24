@@ -90,7 +90,7 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
   }
 
   @Override
-  public void setDismissed(Boolean dismissed) {
+  public void setDismissed(boolean dismissed) {
     this.dismissed = dismissed;
   }
   

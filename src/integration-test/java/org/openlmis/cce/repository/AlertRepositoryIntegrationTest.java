@@ -69,7 +69,7 @@ public class AlertRepositoryIntegrationTest
         ZonedDateTime.now(),
         null,
         Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: too hot"),
-        null);
+        false);
   }
 
   @Before
@@ -97,7 +97,7 @@ public class AlertRepositoryIntegrationTest
         ZonedDateTime.now(),
         null,
         Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: freezing"),
-        null);
+        false);
     repository.save(item);
     repository.save(item2);
     
@@ -126,13 +126,13 @@ public class AlertRepositoryIntegrationTest
         ZonedDateTime.now(),
         null,
         Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: freezing"),
-        null);
+        false);
     Alert item3 = Alert.createNew(AlertType.no_data,
         inventoryItem3,
         ZonedDateTime.now(),
         null,
         Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
-        null);
+        false);
     item = repository.save(item);
     item2 = repository.save(item2);
     item3 = repository.save(item3);
