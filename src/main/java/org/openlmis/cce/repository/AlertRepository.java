@@ -21,10 +21,35 @@ import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.openlmis.cce.domain.Alert;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
 
 @JaversSpringDataAuditable
+@SuppressWarnings("PMD.AvoidDuplicateLiterals")
 public interface AlertRepository extends PagingAndSortingRepository<Alert, UUID> {
+
+  @Query(value = "SELECT ca.*"
+      + " FROM cce.cce_alerts ca"
+      + " WHERE (ca.endtimestamp IS NULL AND ca.dismissed = false) = :active" 
+      + "   AND ca.inventoryitemid IN :inventoryItemIds" 
+      + " ORDER BY ?#{#pageable}",
+      nativeQuery = true
+  )
+  Page<Alert> findByActiveAndInventoryItemIdIn(
+      @Param("active") Boolean active,
+      @Param("inventoryItemIds") List<UUID> inventoryItemIds,
+      Pageable pageable);
+
+  @Query(value = "SELECT ca.*"
+      + " FROM cce.cce_alerts ca"
+      + " WHERE (ca.endtimestamp IS NULL AND ca.dismissed = false) = :active" 
+      + " ORDER BY ?#{#pageable}",
+      nativeQuery = true
+  )
+  Page<Alert> findByActive(
+      @Param("active") Boolean active,
+      Pageable pageable);
 
   Page<Alert> findByInventoryItemIdIn(List<UUID> inventoryItemIds, Pageable pageable);
 }

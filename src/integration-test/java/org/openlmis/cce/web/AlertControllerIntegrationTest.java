@@ -84,7 +84,11 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
         .extract()
         .as(AlertDto.class);
 
-    assertEquals(alertDto, response);
+    assertEquals(alertDto.getAlertId(), response.getAlertId());
+    assertEquals(alertDto.getAlertType(), response.getAlertType());
+    assertEquals(alertDto.getDeviceId(), response.getDeviceId());
+    assertEquals(alertDto.getStartTs(), response.getStartTs());
+    assertEquals(alertDto.getStatus(), response.getStatus());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 

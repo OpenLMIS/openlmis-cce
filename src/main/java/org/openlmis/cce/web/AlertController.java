@@ -112,6 +112,7 @@ public class AlertController extends BaseController {
   @ResponseBody
   public Page<AlertDto> getAlertCollection(
       @RequestParam(value = "deviceId", required = false) List<UUID> deviceIds,
+      @RequestParam(value = "active", required = false) Boolean active,
       Pageable pageable) {
 
     XLOGGER.entry(deviceIds, pageable);
@@ -120,7 +121,13 @@ public class AlertController extends BaseController {
 
     Page<Alert> alertsPage;
 
-    if (null != deviceIds) {
+    if (null != deviceIds && null != active) {
+      profiler.start("FIND_BY_ACTIVE AND_INVENTORY_ITEM_IDS");
+      alertsPage = alertRepository.findByActiveAndInventoryItemIdIn(active, deviceIds, pageable);
+    } else if (null != active) {
+      profiler.start("FIND_BY_ACTIVE");
+      alertsPage = alertRepository.findByActive(active, pageable);
+    } else if (null != deviceIds) {
       profiler.start("FIND_BY_INVENTORY_ITEM_IDS");
       alertsPage = alertRepository.findByInventoryItemIdIn(deviceIds, pageable);
     } else {
@@ -138,7 +145,7 @@ public class AlertController extends BaseController {
         .collect(Collectors.toList());
 
     profiler.start("CREATE_PAGE");
-    Page<AlertDto> alertDtosPage = Pagination.getPage(alertDtos, pageable, 
+    Page<AlertDto> alertDtosPage = Pagination.getPage(alertDtos, pageable,
         alertsPage.getTotalElements());
 
     profiler.stop().log();

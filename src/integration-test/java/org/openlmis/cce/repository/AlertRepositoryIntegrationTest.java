@@ -16,9 +16,7 @@
 package org.openlmis.cce.repository;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.when;
 
 import java.time.ZonedDateTime;
 import java.util.Arrays;
@@ -26,7 +24,6 @@ import java.util.Collections;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
 import org.openlmis.cce.CatalogItemDataBuilder;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.Alert;
@@ -34,7 +31,7 @@ import org.openlmis.cce.domain.AlertType;
 import org.openlmis.cce.domain.InventoryItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.repository.CrudRepository;
 
 public class AlertRepositoryIntegrationTest
@@ -51,11 +48,16 @@ public class AlertRepositoryIntegrationTest
   @Autowired
   private CatalogItemRepository catalogItemRepository;
   
-  @Mock
-  private Pageable pageable;
+  private PageRequest pageRequest = new PageRequest(0, 10);
 
-  private InventoryItem inventoryItem;
+  private InventoryItem inventoryItem1;
+  private Alert activeAlert1;
+  private Alert inactiveAlert1;
   private InventoryItem inventoryItem2;
+  private Alert inactiveAlert2;
+  private InventoryItem inventoryItem3;
+  private Alert inactiveAlert3;
+  private Alert activeAlert3;
 
   @Override
   CrudRepository<Alert, UUID> getRepository() {
@@ -65,7 +67,7 @@ public class AlertRepositoryIntegrationTest
   @Override
   Alert generateInstance() {
     return Alert.createNew(AlertType.not_working_hot,
-        inventoryItem,
+        inventoryItem1,
         ZonedDateTime.now(),
         null,
         Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: too hot"),
@@ -76,73 +78,105 @@ public class AlertRepositoryIntegrationTest
   public void setUp() {
     catalogItemRepository.save(new CatalogItemDataBuilder().build());
     
-    inventoryItem = new InventoryItemDataBuilder().build();
-    inventoryItem = inventoryItemRepository.save(inventoryItem);
+    inventoryItem1 = inventoryItemRepository.save(new InventoryItemDataBuilder().build());
+    activeAlert1 = repository.save(generateInstance());
+    inactiveAlert1 = repository.save(Alert.createNew(AlertType.not_working_freezing,
+        inventoryItem1,
+        ZonedDateTime.now(),
+        ZonedDateTime.now().plusHours(1),
+        Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: freezing"),
+        true));
 
-    inventoryItem2 = new InventoryItemDataBuilder()
+    inventoryItem2 = inventoryItemRepository.save(new InventoryItemDataBuilder()
         .withId(UUID.randomUUID())
         .withEquipmentTrackingId("another-tracking-id")
-        .build();
-    inventoryItem2 = inventoryItemRepository.save(inventoryItem2);
-
-    when(pageable.getPageSize()).thenReturn(10);
-    when(pageable.getPageNumber()).thenReturn(0);
-  }
-
-  @Test
-  public void findByInventoryItemIdInShouldFindAllMatchingAlertsForOneId() {
-    Alert item = generateInstance();
-    Alert item2 = Alert.createNew(AlertType.not_working_freezing,
+        .build());
+    inactiveAlert2 = repository.save(Alert.createNew(AlertType.not_working_freezing,
         inventoryItem2,
         ZonedDateTime.now(),
         null,
         Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: freezing"),
-        false);
-    repository.save(item);
-    repository.save(item2);
-    
-    Page<Alert> alertsPage = repository.findByInventoryItemIdIn(
-        Collections.singletonList(inventoryItem.getId()), pageable);
+        true));
 
-    assertEquals(1, alertsPage.getTotalElements());
-    Alert firstAlert = alertsPage.getContent().get(0);
-    assertEquals(AlertType.not_working_hot, firstAlert.getType());
-    assertEquals(inventoryItem, firstAlert.getInventoryItem());
-    assertEquals("Equipment needs attention: too hot", 
-        firstAlert.getStatusMessages().get(STATUS_LOCALE));
-  }
-
-  @Test
-  public void findByInventoryItemIdInShouldFindAllMatchingAlertsForMultipleIds() {
-    InventoryItem inventoryItem3 = new InventoryItemDataBuilder()
+    inventoryItem3 = inventoryItemRepository.save(new InventoryItemDataBuilder()
         .withId(UUID.randomUUID())
         .withEquipmentTrackingId("third-tracking-id")
-        .build();
-    inventoryItem3 = inventoryItemRepository.save(inventoryItem3);
-
-    Alert item = generateInstance();
-    Alert item2 = Alert.createNew(AlertType.not_working_freezing,
-        inventoryItem2,
-        ZonedDateTime.now(),
-        null,
-        Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: freezing"),
-        false);
-    Alert item3 = Alert.createNew(AlertType.no_data,
+        .build());
+    activeAlert3 = repository.save(Alert.createNew(AlertType.no_data,
         inventoryItem3,
         ZonedDateTime.now(),
         null,
         Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
-        false);
-    item = repository.save(item);
-    item2 = repository.save(item2);
-    item3 = repository.save(item3);
+        false));
+    inactiveAlert3 = repository.save(Alert.createNew(AlertType.no_data,
+        inventoryItem3,
+        ZonedDateTime.now(),
+        ZonedDateTime.now().plusHours(1),
+        Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
+        false)); 
+  }
 
-    Page<Alert> alertsPage = repository.findByInventoryItemIdIn(
-        Arrays.asList(inventoryItem.getId(), inventoryItem2.getId()), pageable);
+  @Test
+  public void findByActiveAndInventoryItemIdsInShouldFindActiveMatchingAlertsWhenActiveIsTrue() {
 
+    //when
+    Page<Alert> alertsPage = repository.findByActiveAndInventoryItemIdIn(true,
+        Arrays.asList(inventoryItem1.getId(), inventoryItem2.getId()), pageRequest);
+
+    //then
+    assertEquals(1, alertsPage.getTotalElements());
+    assertTrue(alertsPage.getContent().contains(activeAlert1));
+  }
+
+  @Test
+  public void findByActiveAndInventoryItemIdsInShouldFindInactiveMatchingAlertsWhenActiveIsFalse() {
+
+    //when
+    Page<Alert> alertsPage = repository.findByActiveAndInventoryItemIdIn(false,
+        Arrays.asList(inventoryItem1.getId(), inventoryItem2.getId()), pageRequest);
+
+    //then
     assertEquals(2, alertsPage.getTotalElements());
-    assertTrue(alertsPage.getContent().contains(item));
-    assertTrue(alertsPage.getContent().contains(item2));
-    assertFalse(alertsPage.getContent().contains(item3));
+    assertTrue(alertsPage.getContent().contains(inactiveAlert1));
+    assertTrue(alertsPage.getContent().contains(inactiveAlert2));
+  }
+
+  @Test
+  public void findByActiveShouldFindActiveAlertsWhenActiveIsTrue() {
+
+    //when
+    Page<Alert> alerts = repository.findByActive(true, pageRequest);
+
+    //then
+    assertEquals(2, alerts.getTotalElements());
+    assertTrue(alerts.getContent().contains(activeAlert1));
+    assertTrue(alerts.getContent().contains(activeAlert3));
+  }
+
+  @Test
+  public void findByActiveShouldFindInactiveAlertsWhenActiveIsFalse() {
+
+    //when
+    Page<Alert> alerts = repository.findByActive(false, pageRequest);
+
+    //then
+    assertEquals(3, alerts.getTotalElements());
+    assertTrue(alerts.getContent().contains(inactiveAlert1));
+    assertTrue(alerts.getContent().contains(inactiveAlert2));
+    assertTrue(alerts.getContent().contains(inactiveAlert3));
+  }
+
+  @Test
+  public void findByInventoryItemIdInShouldFindMatchingAlerts() {
+
+    //when
+    Page<Alert> alerts = repository.findByInventoryItemIdIn(
+        Arrays.asList(inventoryItem1.getId(), inventoryItem2.getId()), pageRequest);
+
+    //then
+    assertEquals(3, alerts.getTotalElements());
+    assertTrue(alerts.getContent().contains(activeAlert1));
+    assertTrue(alerts.getContent().contains(inactiveAlert1));
+    assertTrue(alerts.getContent().contains(inactiveAlert2));
   }
 }
