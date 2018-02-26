@@ -33,7 +33,6 @@ import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
-import org.openlmis.cce.domain.AlertType;
 import org.openlmis.cce.dto.AlertDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.repository.InventoryItemRepository;
@@ -41,6 +40,8 @@ import org.openlmis.cce.util.Message;
 
 @RunWith(MockitoJUnitRunner.class)
 public class AlertValidatorTest {
+
+  private static final String ALERT_TYPE_WARNING_HOT = "warning_hot";
 
   @Rule
   public final ExpectedException expectedEx = ExpectedException.none();
@@ -57,7 +58,7 @@ public class AlertValidatorTest {
   public void before() {
     alertDto = new AlertDto();
     alertDto.setAlertId(UUID.randomUUID());
-    alertDto.setAlertType(AlertType.warning_hot);
+    alertDto.setAlertType(ALERT_TYPE_WARNING_HOT);
     alertDto.setDeviceId(UUID.randomUUID());
     alertDto.setStartTs(1514793600000L);
     alertDto.setStatus(Collections.singletonMap("en_US", "Equipment needs attention: too hot"));

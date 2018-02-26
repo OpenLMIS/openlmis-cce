@@ -24,8 +24,6 @@ import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
 import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
@@ -42,8 +40,7 @@ import org.hibernate.annotations.Type;
 public class Alert extends BaseEntity {
 
   @Column(columnDefinition = TEXT, nullable = false)
-  @Enumerated(EnumType.STRING)
-  private AlertType type;
+  private String type;
 
   @ManyToOne
   @Type(type = UUID)
@@ -67,7 +64,7 @@ public class Alert extends BaseEntity {
   @Column(columnDefinition = "bool DEFAULT false", nullable = false)
   private boolean dismissed;
 
-  private Alert(AlertType type, InventoryItem inventoryItem, ZonedDateTime startTimestamp, 
+  private Alert(String type, InventoryItem inventoryItem, ZonedDateTime startTimestamp, 
       ZonedDateTime endTimestamp, Map<String, String> statusMessages, Boolean dismissed) {
     this.type = type;
     this.inventoryItem = inventoryItem;
@@ -81,7 +78,7 @@ public class Alert extends BaseEntity {
     }
   }
 
-  public static Alert createNew(AlertType type, InventoryItem inventoryItem,
+  public static Alert createNew(String type, InventoryItem inventoryItem,
       ZonedDateTime startTimestamp, ZonedDateTime endTimestamp, Map<String, String> statusMessages,
       boolean dismissed) {
     return new Alert(type, inventoryItem, startTimestamp, endTimestamp, statusMessages, dismissed);
@@ -123,7 +120,7 @@ public class Alert extends BaseEntity {
 
     void setId(UUID id);
 
-    void setType(AlertType type);
+    void setType(String type);
 
     void setInventoryItem(InventoryItem inventoryItem);
 
@@ -140,7 +137,7 @@ public class Alert extends BaseEntity {
 
     UUID getId();
 
-    AlertType getType();
+    String getType();
 
     InventoryItem getInventoryItem();
     

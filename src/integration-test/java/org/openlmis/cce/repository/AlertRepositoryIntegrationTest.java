@@ -27,7 +27,6 @@ import org.junit.Test;
 import org.openlmis.cce.CatalogItemDataBuilder;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.Alert;
-import org.openlmis.cce.domain.AlertType;
 import org.openlmis.cce.domain.InventoryItem;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -38,6 +37,9 @@ public class AlertRepositoryIntegrationTest
     extends BaseCrudRepositoryIntegrationTest<Alert> {
 
   private static final String STATUS_LOCALE = "en_US";
+  private static final String ALERT_TYPE_NOT_WORKING_HOT = "not_working_hot";
+  private static final String ALERT_TYPE_NOT_WORKING_FREEZING = "not_working_freezing";
+  private static final String ALERT_TYPE_NO_DATA = "no_data";
 
   @Autowired
   private AlertRepository repository;
@@ -66,7 +68,7 @@ public class AlertRepositoryIntegrationTest
 
   @Override
   Alert generateInstance() {
-    return Alert.createNew(AlertType.not_working_hot,
+    return Alert.createNew(ALERT_TYPE_NOT_WORKING_HOT,
         inventoryItem1,
         ZonedDateTime.now(),
         null,
@@ -80,7 +82,7 @@ public class AlertRepositoryIntegrationTest
     
     inventoryItem1 = inventoryItemRepository.save(new InventoryItemDataBuilder().build());
     activeAlert1 = repository.save(generateInstance());
-    inactiveAlert1 = repository.save(Alert.createNew(AlertType.not_working_freezing,
+    inactiveAlert1 = repository.save(Alert.createNew(ALERT_TYPE_NOT_WORKING_FREEZING,
         inventoryItem1,
         ZonedDateTime.now(),
         ZonedDateTime.now().plusHours(1),
@@ -91,7 +93,7 @@ public class AlertRepositoryIntegrationTest
         .withId(UUID.randomUUID())
         .withEquipmentTrackingId("another-tracking-id")
         .build());
-    inactiveAlert2 = repository.save(Alert.createNew(AlertType.not_working_freezing,
+    inactiveAlert2 = repository.save(Alert.createNew(ALERT_TYPE_NOT_WORKING_FREEZING,
         inventoryItem2,
         ZonedDateTime.now(),
         null,
@@ -102,13 +104,13 @@ public class AlertRepositoryIntegrationTest
         .withId(UUID.randomUUID())
         .withEquipmentTrackingId("third-tracking-id")
         .build());
-    activeAlert3 = repository.save(Alert.createNew(AlertType.no_data,
+    activeAlert3 = repository.save(Alert.createNew(ALERT_TYPE_NO_DATA,
         inventoryItem3,
         ZonedDateTime.now(),
         null,
         Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
         false));
-    inactiveAlert3 = repository.save(Alert.createNew(AlertType.no_data,
+    inactiveAlert3 = repository.save(Alert.createNew(ALERT_TYPE_NO_DATA,
         inventoryItem3,
         ZonedDateTime.now(),
         ZonedDateTime.now().plusHours(1),

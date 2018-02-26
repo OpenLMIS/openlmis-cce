@@ -34,7 +34,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.Alert;
-import org.openlmis.cce.domain.AlertType;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.AlertDto;
 import org.openlmis.cce.i18n.AlertMessageKeys;
@@ -48,6 +47,7 @@ import org.springframework.http.HttpHeaders;
 public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
 
   private static final String RESOURCE_URL = "/api/cceAlerts";
+  private static final String ALERT_TYPE_WARNING_HOT = "warning_hot";
   private static final String STATUS_LOCALE = "en_US";
   private static final String STATUS_MESSAGE = "Equipment needs attention: too hot";
 
@@ -60,14 +60,14 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
     alertDto = new AlertDto();
     UUID alertId = UUID.randomUUID();
     alertDto.setAlertId(alertId);
-    alertDto.setAlertType(AlertType.warning_hot);
+    alertDto.setAlertType(ALERT_TYPE_WARNING_HOT);
     UUID deviceId = UUID.randomUUID();
     alertDto.setDeviceId(deviceId);
     alertDto.setStartTs(1514793600000L);
     alertDto.setStatus(Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE));
 
     InventoryItem inventoryItem = new InventoryItemDataBuilder().withId(deviceId).build();
-    alert = Alert.createNew(AlertType.warning_hot, inventoryItem, 
+    alert = Alert.createNew(ALERT_TYPE_WARNING_HOT, inventoryItem, 
         ZonedDateTime.ofInstant(Instant.ofEpochMilli(1514793600000L), ZoneOffset.UTC), null,
         Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), false);
     alert.setId(alertId);
@@ -135,7 +135,7 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
     assertEquals(1, responsePage.getTotalElements());
     Map response = (Map)responsePage.getContent().get(0);
     assertEquals(alertDto.getAlertId().toString(), response.get("alert_id"));
-    assertEquals(alertDto.getAlertType().toString(), response.get("alert_type"));
+    assertEquals(alertDto.getAlertType(), response.get("alert_type"));
     assertEquals(alertDto.getDeviceId().toString(), response.get("device_id"));
     assertEquals(alertDto.getStartTs(), response.get("start_ts"));
     assertEquals(alertDto.getStatus().get(STATUS_LOCALE), 

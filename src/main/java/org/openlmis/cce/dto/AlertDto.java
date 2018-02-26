@@ -26,7 +26,6 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 import org.openlmis.cce.domain.Alert;
-import org.openlmis.cce.domain.AlertType;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.repository.InventoryItemRepository;
 
@@ -39,7 +38,7 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
   private UUID alertId;
 
   @JsonProperty("alert_type")
-  private AlertType alertType;
+  private String alertType;
 
   @JsonProperty("device_id")
   private UUID deviceId;
@@ -63,7 +62,7 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
   }
 
   @Override
-  public void setType(AlertType type) {
+  public void setType(String type) {
     alertType = type;
   }
 
@@ -102,7 +101,7 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
 
   @Override
   @JsonIgnore
-  public AlertType getType() {
+  public String getType() {
     return alertType;
   }
 
