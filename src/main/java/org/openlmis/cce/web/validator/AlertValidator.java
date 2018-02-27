@@ -20,12 +20,16 @@ import org.openlmis.cce.dto.AlertDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.i18n.AlertMessageKeys;
 import org.openlmis.cce.repository.InventoryItemRepository;
+import org.slf4j.ext.XLogger;
+import org.slf4j.ext.XLoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.ValidationUtils;
 
 @Component
 public class AlertValidator {
+
+  private static final XLogger XLOGGER = XLoggerFactory.getXLogger(AlertValidator.class);
 
   @Autowired
   InventoryItemRepository inventoryItemRepository;
@@ -55,6 +59,8 @@ public class AlertValidator {
   
   private void validateInventoryItemExists(UUID inventoryItemId) {
     if (!inventoryItemRepository.exists(inventoryItemId)) {
+      XLOGGER.warn("Could not validate inventoryItemId = {}, because it was not found.",
+          inventoryItemId);
       throw new ValidationMessageException(AlertMessageKeys.ERROR_DEVICE_ID_NOT_FOUND);
     }
   }
