@@ -1,0 +1,45 @@
+[
+  {
+    "id": "7f709a7e-9f13-44d7-b6f2-3b69be1facc0",
+    "type": "warning_hot",
+    "inventoryItemId": "a456150f-71dc-49d7-8ab7-c018edec513b",
+    "startTimestamp": "2018-02-12T00:00:00.000Z",
+    "dismissed": false
+  },
+  {
+    "id": "38ec9819-92e8-4a4b-a530-e40a599a7c43",
+    "type": "not_working_hot",
+    "inventoryItemId": "a456150f-71dc-49d7-8ab7-c018edec513b",
+    "startTimestamp": "2018-02-22T00:00:00.000Z",
+    "dismissed": false
+  },
+  {
+    "id": "42aa0a4e-b9bb-4fc1-83c0-1c0972cbd896",
+    "type": "warning_power",
+    "inventoryItemId": "49fae7d6-47e4-4dca-93ae-c0f7a9bef8d0",
+    "startTimestamp": "2018-02-21T00:00:00.000Z",
+    "endTimestamp": "2018-02-22T00:00:00.000Z",
+    "dismissed": false
+  },
+  {
+    "id": "5df99d22-a179-42d5-8bc9-22abfaa2f692",
+    "type": "warning_freezing",
+    "inventoryItemId": "1a7d9b31-5340-415c-aa04-3645125083d9",
+    "startTimestamp": "2018-02-15T00:00:00.000Z",
+    "dismissed": true
+  },
+  {
+    "id": "10f57014-9486-4f06-8211-a164a6e6c290",
+    "type": "not_working_freezing",
+    "inventoryItemId": "1a7d9b31-5340-415c-aa04-3645125083d9",
+    "startTimestamp": "2018-02-22T01:00:00.000Z",
+    "dismissed": false
+  },
+  {
+    "id": "d425d45e-eede-4522-a252-ac91867e0b4a",
+    "type": "no_data",
+    "inventoryItemId": "3f977b20-6417-4d95-a4d9-700a0cf1e105",
+    "startTimestamp": "2018-02-21T22:00:00.000Z",
+    "dismissed": true
+  }
+]
