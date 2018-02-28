@@ -24,9 +24,9 @@ import static org.mockito.Mockito.doThrow;
 
 import com.jayway.restassured.response.Response;
 import guru.nidi.ramltester.junit.RamlMatchers;
-import java.time.Instant;
-import java.time.ZoneOffset;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
@@ -63,12 +63,12 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
     alertDto.setAlertType(ALERT_TYPE_WARNING_HOT);
     UUID deviceId = UUID.randomUUID();
     alertDto.setDeviceId(deviceId);
-    alertDto.setStartTs(1514793600000L);
+    ZonedDateTime zdtNow = ZonedDateTime.now(ZoneId.of("UTC"));
+    alertDto.setStartTs(zdtNow);
     alertDto.setStatus(Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE));
 
     InventoryItem inventoryItem = new InventoryItemDataBuilder().withId(deviceId).build();
-    alert = Alert.createNew(ALERT_TYPE_WARNING_HOT, inventoryItem, 
-        ZonedDateTime.ofInstant(Instant.ofEpochMilli(1514793600000L), ZoneOffset.UTC), null,
+    alert = Alert.createNew(ALERT_TYPE_WARNING_HOT, inventoryItem, zdtNow, null,
         Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), false);
     alert.setId(alertId);
 
@@ -137,7 +137,9 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
     assertEquals(alertDto.getAlertId().toString(), response.get("alert_id"));
     assertEquals(alertDto.getAlertType(), response.get("alert_type"));
     assertEquals(alertDto.getDeviceId().toString(), response.get("device_id"));
-    assertEquals(alertDto.getStartTs(), response.get("start_ts"));
+    assertEquals(alertDto.getStartTs()
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")), 
+        response.get("start_ts"));
     assertEquals(alertDto.getStatus().get(STATUS_LOCALE), 
         ((Map)response.get("status")).get(STATUS_LOCALE));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());

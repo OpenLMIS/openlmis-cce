@@ -23,6 +23,7 @@ import static org.openlmis.cce.i18n.AlertMessageKeys.ERROR_DEVICE_ID_REQUIRED;
 import static org.openlmis.cce.i18n.AlertMessageKeys.ERROR_START_TS_REQUIRED;
 import static org.openlmis.cce.i18n.AlertMessageKeys.ERROR_STATUS_REQUIRED;
 
+import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.UUID;
 import org.junit.Before;
@@ -60,7 +61,7 @@ public class AlertValidatorTest {
     alertDto.setAlertId(UUID.randomUUID());
     alertDto.setAlertType(ALERT_TYPE_WARNING_HOT);
     alertDto.setDeviceId(UUID.randomUUID());
-    alertDto.setStartTs(1514793600000L);
+    alertDto.setStartTs(ZonedDateTime.now());
     alertDto.setStatus(Collections.singletonMap("en_US", "Equipment needs attention: too hot"));
 
     when(inventoryItemRepository.exists(alertDto.getDeviceId())).thenReturn(true);

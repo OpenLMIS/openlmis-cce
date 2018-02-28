@@ -17,8 +17,6 @@ package org.openlmis.cce.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.Instant;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import java.util.Map;
 import java.util.UUID;
@@ -44,10 +42,10 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
   private UUID deviceId;
 
   @JsonProperty("start_ts")
-  private Long startTs;
+  private ZonedDateTime startTs;
 
   @JsonProperty("end_ts")
-  private Long endTs;
+  private ZonedDateTime endTs;
 
   private Map<String, String> status;
 
@@ -73,14 +71,12 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
 
   @Override
   public void setStartTimestamp(ZonedDateTime startTimestamp) {
-    startTs = startTimestamp.toInstant().toEpochMilli();
+    startTs = startTimestamp;
   }
 
   @Override
   public void setEndTimestamp(ZonedDateTime endTimestamp) {
-    if (null != endTimestamp) {
-      endTs = endTimestamp.toInstant().toEpochMilli();
-    }
+    endTs = endTimestamp;
   }
 
   @Override
@@ -117,17 +113,13 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
   @Override
   @JsonIgnore
   public ZonedDateTime getStartTimestamp() {
-    return Instant.ofEpochMilli(startTs).atZone(ZoneOffset.UTC);
+    return startTs;
   }
 
   @Override
   @JsonIgnore
   public ZonedDateTime getEndTimestamp() {
-    if (null != endTs) {
-      return Instant.ofEpochMilli(endTs).atZone(ZoneOffset.UTC);
-    } else {
-      return null;
-    }
+    return endTs;
   }
 
   @Override

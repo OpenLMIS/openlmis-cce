@@ -24,11 +24,11 @@
       "title": "Device id"
     },
     "start_ts": {
-      "type": "number",
+      "type": "string",
       "title": "Alert start"
     },
     "end_ts": {
-      "type": ["number", "null"],
+      "type": ["string", "null"],
       "title": "Alert end"
     },
     "status": {

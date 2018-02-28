@@ -18,8 +18,6 @@ package org.openlmis.cce.dto;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
-import java.time.Instant;
-import java.time.ZoneOffset;
 import java.time.ZonedDateTime;
 import nl.jqno.equalsverifier.EqualsVerifier;
 import nl.jqno.equalsverifier.Warning;
@@ -55,18 +53,17 @@ public class AlertDtoTest {
     alertDto.setEndTimestamp(zdtNow);
 
     //then
-    assertEquals(zdtNow.toInstant().toEpochMilli(), (long)alertDto.getEndTs());
+    assertEquals(zdtNow, alertDto.getEndTs());
   }
 
   @Test
   public void getEndTimestampShouldCopyFromEndTsIfNotNull() {
     //given
-    long epochMilli = 1514793600000L;
-    alertDto.setEndTs(epochMilli);
+    ZonedDateTime zdtNow = ZonedDateTime.now();
+    alertDto.setEndTs(zdtNow);
     
     //then
-    assertEquals(ZonedDateTime.ofInstant(Instant.ofEpochMilli(epochMilli), ZoneOffset.UTC),
-        alertDto.getEndTimestamp());
+    assertEquals(zdtNow, alertDto.getEndTimestamp());
   }
 
   @Test
