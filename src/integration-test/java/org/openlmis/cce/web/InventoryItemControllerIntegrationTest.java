@@ -39,10 +39,7 @@ import static org.openlmis.cce.service.ResourceNames.USERS;
 
 import com.jayway.restassured.response.Response;
 import com.jayway.restassured.specification.RequestSpecification;
-import guru.nidi.ramltester.junit.RamlMatchers;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+
 import org.javers.common.collections.Lists;
 import org.javers.common.collections.Sets;
 import org.junit.Before;
@@ -66,6 +63,12 @@ import org.openlmis.cce.util.Pagination;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
+
+import guru.nidi.ramltester.junit.RamlMatchers;
+
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
 
 @SuppressWarnings("PMD.TooManyMethods")
 public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTest {
@@ -202,8 +205,8 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         any(Pageable.class)))
         .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
 
-    PageImplRepresentation resultPage = getAllInventoryItems(null, FunctionalStatus.FUNCTIONING,
-        false)
+    PageImplRepresentation resultPage = getAllInventoryItems(
+        null, null, FunctionalStatus.FUNCTIONING, false)
         .then()
         .statusCode(200)
         .extract().as(PageImplRepresentation.class);
@@ -229,7 +232,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
             Lists.asList(inventoryItem, inventoryItem, inventoryItem),
             null, 3));
 
-    PageImplRepresentation resultPage = getAllInventoryItems(null, null, true)
+    PageImplRepresentation resultPage = getAllInventoryItems(null, null, null, true)
         .then()
         .statusCode(200)
         .extract().as(PageImplRepresentation.class);
@@ -274,7 +277,40 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         any(Pageable.class)))
         .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
 
-    PageImplRepresentation resultPage = getAllInventoryItems(facilityId, null, false)
+    PageImplRepresentation resultPage = getAllInventoryItems(facilityId, null, null, false)
+        .then()
+        .statusCode(200)
+        .extract().as(PageImplRepresentation.class);
+
+    assertEquals(1, resultPage.getContent().size());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldRetrieveInventoryItemsForGivenProgram() {
+    UUID userId = mockUser();
+    UUID programId = UUID.randomUUID();
+
+    PermissionStringDto permission1 = PermissionStringDto.create(
+        CCE_INVENTORY_VIEW, UUID.randomUUID(), programId
+    );
+    PermissionStringDto permission2 = PermissionStringDto.create(
+        CCE_INVENTORY_VIEW, UUID.randomUUID(), programId
+    );
+
+    PermissionStrings.Handler handler = mock(PermissionStrings.Handler.class);
+    when(handler.get()).thenReturn(Sets.asSet(permission1, permission2));
+
+    when(permissionService.getPermissionStrings(userId)).thenReturn(handler);
+
+    when(inventoryItemRepository.search(
+        eq(Sets.asSet(permission1.getFacilityId(), permission2.getFacilityId())),
+        eq(singleton(programId)),
+        eq(null),
+        any(Pageable.class)))
+        .thenReturn(Pagination.getPage(singletonList(inventoryItem), null, 1));
+
+    PageImplRepresentation resultPage = getAllInventoryItems(null, programId, null, false)
         .then()
         .statusCode(200)
         .extract().as(PageImplRepresentation.class);
@@ -483,14 +519,18 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .post(RESOURCE_URL);
   }
 
-  private Response getAllInventoryItems(UUID facilityId, FunctionalStatus functionalStatus,
-                                        boolean expanded) {
+  private Response getAllInventoryItems(UUID facilityId, UUID programId,
+                                        FunctionalStatus functionalStatus, boolean expanded) {
     RequestSpecification request = restAssured
         .given()
         .header(HttpHeaders.AUTHORIZATION, getTokenHeader());
 
     if (facilityId != null) {
       request = request.queryParam("facilityId", facilityId.toString());
+    }
+
+    if (programId != null) {
+      request = request.queryParam("programId", programId.toString());
     }
 
     if (functionalStatus != null) {

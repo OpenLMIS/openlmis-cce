@@ -105,6 +105,13 @@ traits:
                   type: string
                   required: false
                   repeat: true
+    - sorted:
+        queryParameters:
+            sort:
+                description: Sorting criteria in the format "property(,asc|desc)". Default sort order is ascending. Multiple sort criteria are supported.
+                type: string
+                required: false
+                repeat: true
 
 resourceTypes:
     - auditLog:
@@ -381,11 +388,16 @@ resourceTypes:
   /inventoryItems:
       displayName: CCE Inventory item
       get:
-          is: [ secured, paginated, expandible ]
+          is: [ secured, paginated, expandible, sorted ]
           description: Get all CCE Inventory items.
           queryParameters:
               facilityId:
                   description: "Filters inventory items by assigned facility."
+                  type: string
+                  required: false
+                  repeat: false
+              programId:
+                  description: "Filters inventory items by assigned program."
                   type: string
                   required: false
                   repeat: false

@@ -15,10 +15,12 @@
 
 package org.openlmis.cce.service;
 
+import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
@@ -92,11 +94,12 @@ public class InventoryItemServiceTest {
 
     InventoryItemSearchParams params = new InventoryItemSearchParamsDataBuilder()
         .withFacilityId(facilityId)
+        .withProgramId(programId2)
         .build();
 
     when(repository.search(
         eq(Collections.singleton(facilityId)),
-        eq(Sets.asSet(programId1, programId2)),
+        eq(Sets.asSet(programId2)),
         eq(params.getFunctionalStatus()),
         eq(pageable)
     )).thenReturn(expectedPage);
@@ -104,6 +107,16 @@ public class InventoryItemServiceTest {
     Page<InventoryItem> page = service.search(userId, params, pageable);
 
     assertEquals(expectedPage, page);
+  }
+
+  @Test
+  public void shouldReturnEmptyPageIfUserHasNoRights() {
+    InventoryItemSearchParams params = new InventoryItemSearchParamsDataBuilder().build();
+
+    Page<InventoryItem> page = service.search(userId, params, pageable);
+
+    assertEquals(Pagination.getPage(emptyList(), pageable), page);
+    verifyZeroInteractions(repository);
   }
 
   @Test
@@ -142,6 +155,7 @@ public class InventoryItemServiceTest {
 
     InventoryItemSearchParams params = new InventoryItemSearchParamsDataBuilder()
         .withFacilityId(facilityId)
+        .withoutProgramId()
         .build();
 
     when(repository.search(

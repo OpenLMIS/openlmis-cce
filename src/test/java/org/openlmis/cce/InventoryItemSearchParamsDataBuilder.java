@@ -23,13 +23,20 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
+@SuppressWarnings("PMD.TooManyMethods")
 public class InventoryItemSearchParamsDataBuilder {
   private UUID facilityId = UUID.randomUUID();
+  private UUID programId = UUID.randomUUID();
   private FunctionalStatus functionalStatus = FunctionalStatus.FUNCTIONING;
   private List<String> expands = Arrays.asList("program");
 
   public InventoryItemSearchParamsDataBuilder withFacilityId(UUID newFacilityId) {
     this.facilityId = newFacilityId;
+    return this;
+  }
+
+  public InventoryItemSearchParamsDataBuilder withProgramId(UUID newProgramId) {
+    this.programId = newProgramId;
     return this;
   }
 
@@ -40,6 +47,10 @@ public class InventoryItemSearchParamsDataBuilder {
 
   public InventoryItemSearchParamsDataBuilder withoutFacilityId() {
     return withFacilityId(null);
+  }
+
+  public InventoryItemSearchParamsDataBuilder withoutProgramId() {
+    return withProgramId(null);
   }
 
   public InventoryItemSearchParamsDataBuilder withoutExpands() {
@@ -59,6 +70,7 @@ public class InventoryItemSearchParamsDataBuilder {
   public InventoryItemSearchParams build() {
     return new InventoryItemSearchParams(
         facilityId,
+        programId,
         functionalStatus,
         expands
     );
@@ -86,6 +98,7 @@ public class InventoryItemSearchParamsDataBuilder {
         .withoutFacilityId()
         .withoutExpands()
         .withoutFunctionalStatus()
+        .withoutProgramId()
         .build();
   }
 

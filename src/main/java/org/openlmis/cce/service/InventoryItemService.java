@@ -15,6 +15,8 @@
 
 package org.openlmis.cce.service;
 
+import static java.util.Collections.emptyList;
+import static org.apache.commons.collections4.CollectionUtils.isEmpty;
 import static org.apache.commons.lang3.StringUtils.equalsIgnoreCase;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 
@@ -23,6 +25,7 @@ import com.google.common.collect.Sets;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
+import org.openlmis.cce.util.Pagination;
 import org.slf4j.ext.XLogger;
 import org.slf4j.ext.XLoggerFactory;
 import org.slf4j.profiler.Profiler;
@@ -71,22 +74,27 @@ public class InventoryItemService {
     Set<UUID> facilityIds = Sets.newHashSet();
 
     UUID facilityId = params.getFacilityId();
+    UUID programId = params.getProgramId();
     for (PermissionStringDto permissionString : permissionStrings) {
       if (equalsIgnoreCase(CCE_INVENTORY_VIEW, permissionString.getRightName())) {
         if (facilityId == null || permissionString.getFacilityId().equals(facilityId)) {
           facilityIds.add(permissionString.getFacilityId());
         }
-        programIds.add(permissionString.getProgramId());
+
+        if (programId == null || permissionString.getProgramId().equals(programId)) {
+          programIds.add(permissionString.getProgramId());
+        }
       }
     }
 
     profiler.start("INVENTORY_ITEM_REPOSITORY_SEARCH");
-    Page<InventoryItem> page = repository.search(
-        facilityIds,
-        programIds,
-        params.getFunctionalStatus(),
-        pageable
-    );
+    Page<InventoryItem> page;
+    if (isEmpty(facilityIds) && isEmpty(programIds)) {
+      // missing rights
+      page = Pagination.getPage(emptyList(), pageable);
+    } else {
+      page = repository.search(facilityIds, programIds, params.getFunctionalStatus(), pageable);
+    }
 
     profiler.stop().log();
     XLOGGER.exit(page);

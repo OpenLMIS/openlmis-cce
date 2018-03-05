@@ -36,6 +36,7 @@ import java.util.UUID;
 public final class InventoryItemSearchParams {
 
   private UUID facilityId;
+  private UUID programId;
   private FunctionalStatus functionalStatus;
   private List<String> expand;
 

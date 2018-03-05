@@ -15,6 +15,10 @@
 
 package org.openlmis.cce.web;
 
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
+import static org.openlmis.cce.service.ResourceNames.BASE_PATH;
+import static org.openlmis.cce.web.InventoryItemController.RESOURCE_PATH;
+
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.exception.NotFoundException;
@@ -35,6 +39,7 @@ import org.slf4j.profiler.Profiler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.SortDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
@@ -49,10 +54,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.UUID;
-
-import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
-import static org.openlmis.cce.service.ResourceNames.BASE_PATH;
-import static org.openlmis.cce.web.InventoryItemController.RESOURCE_PATH;
 
 @Controller
 @Transactional
@@ -167,7 +168,8 @@ public class InventoryItemController extends BaseController {
   @RequestMapping(method = RequestMethod.GET)
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public Page<InventoryItemDto> getAll(InventoryItemSearchParams params, Pageable pageable) {
+  public Page<InventoryItemDto> getAll(InventoryItemSearchParams params,
+                                       @SortDefault(sort = "referenceName") Pageable pageable) {
     XLOGGER.entry(params, pageable);
     Profiler profiler = new Profiler("GET_INVENTORY_ITEMS");
     profiler.setLogger(XLOGGER);
