@@ -93,6 +93,12 @@ public class AlertController extends BaseController {
     alertDto.setInventoryItemRepository(inventoryItemRepository);
     Alert alert = Alert.newInstance(alertDto);
 
+    profiler.start("FILL_IN_FROM_EXISTING");
+    if (alertRepository.exists(alert.getId())) {
+      Alert existingAlert = alertRepository.findOne(alert.getId());
+      alert.fillInFrom(existingAlert);
+    }
+
     profiler.start("SAVE");
     Alert savedAlert = alertRepository.save(alert);
 

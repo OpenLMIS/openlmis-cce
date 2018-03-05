@@ -31,12 +31,14 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "cce_alerts")
 @NoArgsConstructor
 @Getter
+@Setter
 public class Alert extends BaseEntity {
 
   @Column(columnDefinition = TEXT, nullable = false)
@@ -71,7 +73,7 @@ public class Alert extends BaseEntity {
     this.startTimestamp = startTimestamp;
     this.endTimestamp = endTimestamp;
     this.statusMessages = statusMessages;
-      this.dismissed = dismissed;
+    this.dismissed = dismissed;
   }
 
   public static Alert createNew(String type, InventoryItem inventoryItem,
@@ -95,6 +97,20 @@ public class Alert extends BaseEntity {
         importer.getDismissed());
     alert.id = importer.getId();
     return alert;
+  }
+
+  /**
+   * Fills in null values to this alert from the other alert.
+   *
+   * @param otherAlert other alert to fill in from
+   */
+  public void fillInFrom(Alert otherAlert) {
+    if (null == endTimestamp) {
+      endTimestamp = otherAlert.endTimestamp;
+    }
+    if (null == dismissed) {
+      dismissed = otherAlert.dismissed;
+    }
   }
 
   /**
