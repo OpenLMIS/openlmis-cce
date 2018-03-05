@@ -17,7 +17,6 @@ package org.openlmis.cce.service;
 
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_API_KEYS_ONLY;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 import static org.openlmis.cce.service.OAuth2AuthenticationDataBuilder.API_KEY_PREFIX;
 import static org.openlmis.cce.service.OAuth2AuthenticationDataBuilder.SERVICE_CLIENT_ID;
@@ -25,6 +24,8 @@ import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 import static org.openlmis.cce.service.PermissionService.CCE_MANAGE;
 
+import java.util.Collections;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -42,9 +43,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.provider.OAuth2Authentication;
 import org.springframework.test.util.ReflectionTestUtils;
-
-import java.util.Collections;
-import java.util.UUID;
 
 @SuppressWarnings("PMD.TooManyMethods")
 public class PermissionServiceTest {
@@ -188,30 +186,35 @@ public class PermissionServiceTest {
   }
   
   @Test
-  public void checkForApiKeyShouldAllowApiKeys() {
+  public void canEditInventoryOrIsApiKeyShouldAllowApiKeys() {
     when(securityContext.getAuthentication()).thenReturn(apiKeyClient);
 
-    permissionService.checkForApiKey();
+    permissionService.canEditInventoryOrIsApiKey(inventoryItem);
   }
   
   @Test
-  public void checkForApiKeyShouldNotAllowServiceTokens() {
+  public void canEditInventoryOrIsApiKeyShouldAllowServiceTokens() {
     when(securityContext.getAuthentication()).thenReturn(trustedClient);
-    exception.expect(PermissionMessageException.class);
-    exception.expectMessage(
-        new Message(ERROR_API_KEYS_ONLY).toString());
 
-    permissionService.checkForApiKey();
+    permissionService.canEditInventoryOrIsApiKey(inventoryItem);
   }
   
   @Test
-  public void checkForApiKeyShouldNotAllowUserTokens() {
-    when(securityContext.getAuthentication()).thenReturn(userClient);
+  public void canEditInventoryOrIsApiKeyShouldAllowUserTokensIfHasRight() {
+    stubProgramAndFacilityInInventoryItem();
+    stubHasRight(CCE_INVENTORY_EDIT, inventoryItem.getProgramId(), inventoryItem.getFacilityId());
+
+    permissionService.canEditInventoryOrIsApiKey(inventoryItem);
+  }
+
+  @Test
+  public void canEditInventoryOrIsApiKeyShouldNotAllowUserTokensIfDoesNotHaveRight() {
+    stubProgramAndFacilityInInventoryItem();
     exception.expect(PermissionMessageException.class);
     exception.expectMessage(
-        new Message(ERROR_API_KEYS_ONLY).toString());
+        new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_EDIT).toString());
 
-    permissionService.checkForApiKey();
+    permissionService.canEditInventoryOrIsApiKey(inventoryItem);
   }
 
   private void stubProgramAndFacilityInInventoryItem() {

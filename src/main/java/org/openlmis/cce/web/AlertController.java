@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.openlmis.cce.domain.Alert;
+import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.AlertDto;
 import org.openlmis.cce.repository.AlertRepository;
 import org.openlmis.cce.repository.InventoryItemRepository;
@@ -81,11 +82,12 @@ public class AlertController extends BaseController {
     Profiler profiler = new Profiler("CREATE_ALERT");
     profiler.setLogger(XLOGGER);
 
-    profiler.start(PROFILER_CHECK_PERMISSION);
-    permissionService.checkForApiKey();
-
     profiler.start("VALIDATE_ALERT");
     alertValidator.validate(alertDto);
+
+    profiler.start(PROFILER_CHECK_PERMISSION);
+    InventoryItem inventoryItem = inventoryItemRepository.findOne(alertDto.getDeviceId());
+    permissionService.canEditInventoryOrIsApiKey(inventoryItem);
 
     profiler.start("CREATE_DOMAIN_INSTANCE");
     alertDto.setInventoryItemRepository(inventoryItemRepository);

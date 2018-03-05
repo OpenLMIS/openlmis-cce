@@ -110,7 +110,7 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
   public void putCollectionShouldReturnForbiddenIfNotPermitted() {
 
     doThrow(mockApiKeyPermissionException())
-        .when(permissionService).checkForApiKey();
+        .when(permissionService).canEditInventoryOrIsApiKey(any(InventoryItem.class));
 
     putCollection()
         .then()

@@ -16,7 +16,6 @@
 package org.openlmis.cce.service;
 
 import static org.apache.commons.lang3.StringUtils.startsWith;
-import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_API_KEYS_ONLY;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 
 import java.util.UUID;
@@ -94,13 +93,17 @@ public class PermissionService {
   }
 
   /**
-   * Checks if current client is an API key.
+   * Checks if current client is either an API key, or current user has permission to edit CCE 
+   * inventory.
    *
-   * @throws PermissionMessageException if the current client is not an API key.
+   * @throws PermissionMessageException if the current client is not an API key, or current user 
+   *         doesn't have permission.
    */
-  public void checkForApiKey() {
-    if (!hasPermission(null, null, null, false, false, true)) {
-      throw new PermissionMessageException(new Message(ERROR_API_KEYS_ONLY));
+  public void canEditInventoryOrIsApiKey(InventoryItem inventoryItem) {
+    if (!hasPermission(CCE_INVENTORY_EDIT, inventoryItem.getProgramId(),
+        inventoryItem.getFacilityId(), true, true, true)) {
+      throw new PermissionMessageException(new Message(
+          ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_EDIT));
     }
   }
 
