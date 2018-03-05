@@ -59,6 +59,7 @@ public class AlertRepositoryIntegrationTest
   private Alert inactiveAlert2;
   private InventoryItem inventoryItem3;
   private Alert inactiveAlert3;
+  private Alert inactiveAlert3b;
   private Alert activeAlert3;
 
   @Override
@@ -109,13 +110,19 @@ public class AlertRepositoryIntegrationTest
         ZonedDateTime.now(),
         null,
         Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
-        false));
+        null));
     inactiveAlert3 = repository.save(Alert.createNew(ALERT_TYPE_NO_DATA,
         inventoryItem3,
         ZonedDateTime.now(),
         ZonedDateTime.now().plusHours(1),
         Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
-        false)); 
+        false));
+    inactiveAlert3b = repository.save(Alert.createNew(ALERT_TYPE_NO_DATA,
+        inventoryItem3,
+        ZonedDateTime.now(),
+        ZonedDateTime.now().plusHours(1),
+        Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
+        null));
   }
 
   @Test
@@ -162,10 +169,11 @@ public class AlertRepositoryIntegrationTest
     Page<Alert> alerts = repository.findByActive(false, pageRequest);
 
     //then
-    assertEquals(3, alerts.getTotalElements());
+    assertEquals(4, alerts.getTotalElements());
     assertTrue(alerts.getContent().contains(inactiveAlert1));
     assertTrue(alerts.getContent().contains(inactiveAlert2));
     assertTrue(alerts.getContent().contains(inactiveAlert3));
+    assertTrue(alerts.getContent().contains(inactiveAlert3b));
   }
 
   @Test

@@ -85,11 +85,6 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
   }
 
   @Override
-  public void setDismissed(boolean dismissed) {
-    this.dismissed = dismissed;
-  }
-  
-  @Override
   @JsonIgnore
   public UUID getId() {
     return alertId;

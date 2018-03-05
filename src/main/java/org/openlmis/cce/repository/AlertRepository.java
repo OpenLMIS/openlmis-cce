@@ -31,7 +31,8 @@ public interface AlertRepository extends PagingAndSortingRepository<Alert, UUID>
 
   @Query(value = "SELECT ca.*"
       + " FROM cce.cce_alerts ca"
-      + " WHERE (ca.endtimestamp IS NULL AND ca.dismissed = false) = :active" 
+      + " WHERE (ca.endtimestamp IS NULL " 
+      + "     AND (ca.dismissed = false OR ca.dismissed IS NULL)) = :active" 
       + "   AND ca.inventoryitemid IN :inventoryItemIds" 
       + " ORDER BY ?#{#pageable}",
       nativeQuery = true
@@ -43,7 +44,8 @@ public interface AlertRepository extends PagingAndSortingRepository<Alert, UUID>
 
   @Query(value = "SELECT ca.*"
       + " FROM cce.cce_alerts ca"
-      + " WHERE (ca.endtimestamp IS NULL AND ca.dismissed = false) = :active" 
+      + " WHERE (ca.endtimestamp IS NULL " 
+      + "     AND (ca.dismissed = false OR ca.dismissed IS NULL)) = :active" 
       + " ORDER BY ?#{#pageable}",
       nativeQuery = true
   )
