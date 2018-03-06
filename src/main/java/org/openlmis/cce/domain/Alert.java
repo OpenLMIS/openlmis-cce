@@ -31,14 +31,12 @@ import javax.persistence.MapKeyColumn;
 import javax.persistence.Table;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.hibernate.annotations.Type;
 
 @Entity
 @Table(name = "cce_alerts")
 @NoArgsConstructor
 @Getter
-@Setter
 public class Alert extends BaseEntity {
 
   @Column(columnDefinition = TEXT, nullable = false)
@@ -66,6 +64,9 @@ public class Alert extends BaseEntity {
   @Column(columnDefinition = "bool")
   private Boolean dismissed;
 
+  @Column(columnDefinition = "bool")
+  private Boolean active;
+
   private Alert(String type, InventoryItem inventoryItem, ZonedDateTime startTimestamp, 
       ZonedDateTime endTimestamp, Map<String, String> statusMessages, Boolean dismissed) {
     this.type = type;
@@ -74,6 +75,7 @@ public class Alert extends BaseEntity {
     this.endTimestamp = endTimestamp;
     this.statusMessages = statusMessages;
     this.dismissed = dismissed;
+    setActive();
   }
 
   public static Alert createNew(String type, InventoryItem inventoryItem,
@@ -111,6 +113,14 @@ public class Alert extends BaseEntity {
     if (null == dismissed) {
       dismissed = otherAlert.dismissed;
     }
+    setActive();
+  }
+
+  /**
+   * This should always be called when related properties are set.
+   */
+  private void setActive() {
+    active = (null == endTimestamp && (null == dismissed || !dismissed));
   }
 
   /**

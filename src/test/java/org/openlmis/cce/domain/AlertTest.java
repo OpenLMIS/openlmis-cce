@@ -24,6 +24,10 @@ import org.junit.Test;
 import org.openlmis.cce.InventoryItemDataBuilder;
 
 public class AlertTest {
+  
+  private static final String ALERT_TYPE = "type";
+  private static final String STATUS_LOCALE = "locale";
+  private static final String STATUS_MESSAGE = "message";
 
   private Alert thisAlert;
   private Alert otherAlert;
@@ -31,13 +35,13 @@ public class AlertTest {
   
   @Before
   public void setUp() {
-    thisAlert = Alert.createNew("type", new InventoryItemDataBuilder().build(),
-        ZonedDateTime.now().minusDays(1), null, Collections.singletonMap("locale", "message"),
-        null);
+    thisAlert = Alert.createNew(ALERT_TYPE, new InventoryItemDataBuilder().build(),
+        ZonedDateTime.now().minusDays(1), null,
+        Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), null);
     zdtNow = ZonedDateTime.now();
-    otherAlert = Alert.createNew("type", new InventoryItemDataBuilder().build(),
-        ZonedDateTime.now().minusDays(1), zdtNow, Collections.singletonMap("locale", "message"),
-        true);
+    otherAlert = Alert.createNew(ALERT_TYPE, new InventoryItemDataBuilder().build(),
+        ZonedDateTime.now().minusDays(1), zdtNow,
+        Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), true);
   }
   
   @Test
@@ -52,7 +56,9 @@ public class AlertTest {
   @Test
   public void fillInFromShouldNotFillInEndTimestampIfThisOneIsNotNull() {
     //given
-    thisAlert.setEndTimestamp(zdtNow.minusHours(1));
+    thisAlert = Alert.createNew(ALERT_TYPE, new InventoryItemDataBuilder().build(),
+        ZonedDateTime.now().minusDays(1), zdtNow.minusHours(1),
+        Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), null);
 
     //when
     thisAlert.fillInFrom(otherAlert);
@@ -73,7 +79,9 @@ public class AlertTest {
   @Test
   public void fillInFromShouldNotFillInDismissedIfThisOneIsNotNull() {
     //given
-    thisAlert.setDismissed(false);
+    thisAlert = Alert.createNew(ALERT_TYPE, new InventoryItemDataBuilder().build(),
+        ZonedDateTime.now().minusDays(1), null,
+        Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), false);
 
     //when
     thisAlert.fillInFrom(otherAlert);
