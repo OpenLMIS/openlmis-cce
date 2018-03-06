@@ -138,8 +138,9 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
     assertEquals(alertDto.getAlertType(), response.get("alert_type"));
     assertEquals(alertDto.getDeviceId().toString(), response.get("device_id"));
     assertEquals(alertDto.getStartTs()
-            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ss.SSSX")), 
-        response.get("start_ts"));
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssX")), 
+        ZonedDateTime.parse((CharSequence)response.get("start_ts"))
+            .format(DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm:ssX")));
     assertEquals(alertDto.getStatus().get(STATUS_LOCALE), 
         ((Map)response.get("status")).get(STATUS_LOCALE));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
