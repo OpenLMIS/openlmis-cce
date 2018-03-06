@@ -28,5 +28,20 @@
     "alertId": "d425d45e-eede-4522-a252-ac91867e0b4a",
     "locale": "en_US",
     "message": "Less than 50% data available for this equipment"
+  },
+  {
+    "alertId": "abd99c6c-dd59-4f8f-bc13-b82256d785d6",
+    "locale": "en_US",
+    "message": "Warning: too many power outages"
+  },
+  {
+    "alertId": "65c4f0b5-c388-4b45-a8c2-bb8254784ce9",
+    "locale": "en_US",
+    "message": "Equipment needs attention: 6% time freezing, 1 alarm"
+  },
+  {
+    "alertId": "20fd729d-ca75-48c6-b6c3-dd503a94be70",
+    "locale": "en_US",
+    "message": "Less than 50% data available for this equipment"
   }
 ]

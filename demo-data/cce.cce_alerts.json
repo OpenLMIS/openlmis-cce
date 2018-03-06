@@ -41,5 +41,26 @@
     "inventoryItemId": "3f977b20-6417-4d95-a4d9-700a0cf1e105",
     "startTimestamp": "2018-02-21T22:00:00.000Z",
     "dismissed": true
+  },
+  {
+    "id": "abd99c6c-dd59-4f8f-bc13-b82256d785d6",
+    "type": "warning_power",
+    "inventoryItemId": "a3597a53-c141-448a-b787-c7da1c14df0b",
+    "startTimestamp": "2018-02-22T00:00:00.000Z",
+    "endTimestamp": "2018-02-23T00:00:00.000Z"
+  },
+  {
+    "id": "65c4f0b5-c388-4b45-a8c2-bb8254784ce9",
+    "type": "warning_freezing",
+    "inventoryItemId": "a3597a53-c141-448a-b787-c7da1c14df0b",
+    "startTimestamp": "2018-02-16T00:00:00.000Z",
+    "dismissed": true
+  },
+  {
+    "id": "20fd729d-ca75-48c6-b6c3-dd503a94be70",
+    "type": "no_data",
+    "inventoryItemId": "85a022e2-dc26-4a3f-aca0-29298c569b6d",
+    "startTimestamp": "2018-02-20T22:00:00.000Z",
+    "dismissed": true
   }
 ]
