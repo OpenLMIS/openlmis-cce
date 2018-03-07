@@ -84,8 +84,9 @@ public class AlertValidator {
       try {
         new Locale.Builder().setLanguageTag(statusKey).build();
       } catch (IllformedLocaleException ile) {
-        XLOGGER.warn("Could not validate statusKey = {}; it is not a valid language tag.",
-            statusKey);
+        XLOGGER.warn("Could not validate statusKey = {}; it is not a valid language tag. " 
+                + "Exception: ",
+            statusKey, ile);
       }
     });
   }
