@@ -46,8 +46,8 @@
     "functionalStatus": {
       "enum": [
         "FUNCTIONING",
-        "NON_FUNCTIONING",
-        "OBSOLETE"
+        "AWAITING_REPAIR",
+        "UNSERVICEABLE"
       ],
       "title": "functionalStatus"
     },
@@ -60,7 +60,9 @@
         "NO_FUEL",
         "SURPLUS",
         "DEAD",
-        "NOT_APPLICABLE"
+        "NOT_APPLICABLE",
+        "NOT_IN_USE",
+        "DECOMMISSIONED"
       ],
       "title": "reasonNotWorkingOrNotInUse"
     },

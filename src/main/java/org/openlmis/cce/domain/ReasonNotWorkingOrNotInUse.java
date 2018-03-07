@@ -24,4 +24,6 @@ public enum ReasonNotWorkingOrNotInUse {
   SURPLUS,
   DEAD,
   NOT_APPLICABLE,
+  NOT_IN_USE,
+  DECOMMISSIONED
 }

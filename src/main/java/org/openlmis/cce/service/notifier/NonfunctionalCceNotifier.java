@@ -40,6 +40,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+//Note that NonFunctional and AwaitingRepair are considered synonymous.
 @Component
 public class NonfunctionalCceNotifier extends BaseNotifier {
 

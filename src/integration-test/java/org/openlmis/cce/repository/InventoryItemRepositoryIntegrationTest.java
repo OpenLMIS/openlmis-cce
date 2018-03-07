@@ -191,11 +191,11 @@ public class InventoryItemRepositoryIntegrationTest
     InventoryItem item2 = getInventoryItemDataBuilder().build();
 
     InventoryItem item3 = getInventoryItemDataBuilder()
-        .withObsoleteStatus()
+        .withUnserviceableStatus()
         .build();
 
     InventoryItem item4 = getInventoryItemDataBuilder()
-        .withObsoleteStatus()
+        .withUnserviceableStatus()
         .build();
 
     repository.save(item1);

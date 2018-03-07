@@ -180,8 +180,8 @@ public class InventoryItemDataBuilder {
     return this;
   }
 
-  public InventoryItemDataBuilder withObsoleteStatus() {
-    this.functionalStatus = FunctionalStatus.OBSOLETE;
+  public InventoryItemDataBuilder withUnserviceableStatus() {
+    this.functionalStatus = FunctionalStatus.UNSERVICEABLE;
     return this;
   }
 
@@ -206,7 +206,7 @@ public class InventoryItemDataBuilder {
    * Sets all variant fields to different values than default.
    */
   public InventoryItemDataBuilder withDifferentVariantFields() {
-    functionalStatus = FunctionalStatus.NON_FUNCTIONING;
+    functionalStatus = FunctionalStatus.AWAITING_REPAIR;
     reasonNotWorkingOrNotInUse = ReasonNotWorkingOrNotInUse.DEAD;
     utilization = Utilization.NOT_IN_USE;
     voltageStabilizer = VoltageStabilizerStatus.NO;

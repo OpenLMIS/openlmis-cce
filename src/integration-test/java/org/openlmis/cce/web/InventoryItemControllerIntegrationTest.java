@@ -374,7 +374,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     when(inventoryItemRepository.findOne(any(UUID.class)))
         .thenReturn(existing);
 
-    inventoryItemDto.setFunctionalStatus(FunctionalStatus.NON_FUNCTIONING);
+    inventoryItemDto.setFunctionalStatus(FunctionalStatus.AWAITING_REPAIR);
 
     putInventoryItem(inventoryId)
         .then()

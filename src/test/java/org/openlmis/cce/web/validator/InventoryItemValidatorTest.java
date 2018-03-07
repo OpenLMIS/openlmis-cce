@@ -199,24 +199,24 @@ public class InventoryItemValidatorTest {
   }
 
   @Test
-  public void shouldThrowExceptionIfStatusIsObsoleteAndDecommissionDateIsNull() {
+  public void shouldThrowExceptionIfStatusIsUnserviceableAndDecommissionDateIsNull() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
         new Message(ERROR_DECOMMISSION_DATE_REQUIRED, "").toString());
 
-    inventoryItemDto.setFunctionalStatus(FunctionalStatus.OBSOLETE);
+    inventoryItemDto.setFunctionalStatus(FunctionalStatus.UNSERVICEABLE);
     inventoryItemDto.setDecommissionDate(null);
 
     inventoryItemValidator.validate(inventoryItemDto);
   }
 
   @Test
-  public void shouldThrowExceptionIfStatusIsNonFunctioningAndReasonIsNull() {
+  public void shouldThrowExceptionIfStatusIsAwaitingRepairAndReasonIsNull() {
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
         new Message(ERROR_REASON_REQUIRED, "").toString());
 
-    inventoryItemDto.setFunctionalStatus(FunctionalStatus.NON_FUNCTIONING);
+    inventoryItemDto.setFunctionalStatus(FunctionalStatus.AWAITING_REPAIR);
     inventoryItemDto.setReasonNotWorkingOrNotInUse(null);
 
     inventoryItemValidator.validate(inventoryItemDto);

@@ -20,14 +20,14 @@ All facilities for the EPI (Vaccine) program have CCE inventory, except the nati
 For the 41 health facilities, they have:
 * Approximately five CCE inventory
   * Approximately two of them have functional status **Functioning**
-  * Approximately two of them have functional status **Non-functioning**
-  * One of them has functional status **Obsolete**
+  * Approximately two of them have functional status **Awaiting Repair**
+  * One of them has functional status **Unserviceable**
 
 For the two district stores and one regional store, they have:
 * Approximately 10 CCE inventory
   * Approximately seven of them have functional status **Functioning**
-  * Approximately two of them have functional status **Non-functioning**
-  * One of them has functional status **Obsolete**
+  * Approximately two of them have functional status **Awaiting Repair**
+  * One of them has functional status **Unserviceable**
 
 For all CCE inventory:
 * Utilization is set to **Active**

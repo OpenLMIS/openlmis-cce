@@ -29,7 +29,7 @@ public class InventoryItemTest {
   @Test
   public void shouldReturnTrueIfStatusHasChanged() {
     InventoryItem inventoryItem = new InventoryItemDataBuilder()
-        .withStatus(FunctionalStatus.NON_FUNCTIONING)
+        .withStatus(FunctionalStatus.AWAITING_REPAIR)
         .build();
     InventoryItem inventoryItem2 = new InventoryItemDataBuilder()
         .withStatus(FunctionalStatus.FUNCTIONING)
@@ -41,10 +41,10 @@ public class InventoryItemTest {
   @Test
   public void shouldReturnFalseIfStatusHasNotChanged() {
     InventoryItem inventoryItem = new InventoryItemDataBuilder()
-        .withStatus(FunctionalStatus.NON_FUNCTIONING)
+        .withStatus(FunctionalStatus.AWAITING_REPAIR)
         .build();
     InventoryItem inventoryItem2 = new InventoryItemDataBuilder()
-        .withStatus(FunctionalStatus.NON_FUNCTIONING)
+        .withStatus(FunctionalStatus.AWAITING_REPAIR)
         .build();
 
     assertFalse(inventoryItem2.statusChanged(inventoryItem));

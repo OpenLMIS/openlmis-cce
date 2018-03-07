@@ -41,8 +41,8 @@ public class InventoryStatusProcessorTest {
   private InventoryItemDto inventoryItem = mock(InventoryItemDto.class);
 
   @Test
-  public void shouldNotifyWhenItemBecameNonFunctioning() {
-    when(inventoryItem.getFunctionalStatus()).thenReturn(FunctionalStatus.NON_FUNCTIONING);
+  public void shouldNotifyWhenItemNeedsRepair() {
+    when(inventoryItem.getFunctionalStatus()).thenReturn(FunctionalStatus.AWAITING_REPAIR);
 
     inventoryStatusProcessor.functionalStatusChange(inventoryItem);
 
@@ -50,8 +50,8 @@ public class InventoryStatusProcessorTest {
   }
 
   @Test
-  public void shouldNotNotifyWhenItemBecameObsolete() {
-    when(inventoryItem.getFunctionalStatus()).thenReturn(FunctionalStatus.OBSOLETE);
+  public void shouldNotNotifyWhenItemBecameUnserviceable() {
+    when(inventoryItem.getFunctionalStatus()).thenReturn(FunctionalStatus.UNSERVICEABLE);
 
     inventoryStatusProcessor.functionalStatusChange(inventoryItem);
 

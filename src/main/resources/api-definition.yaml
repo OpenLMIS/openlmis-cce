@@ -408,8 +408,8 @@ resourceTypes:
                   repeat: false
                   enum:
                       - FUNCTIONING
-                      - NON_FUNCTIONING
-                      - OBSOLETE
+                      - AWAITING_REPAIR
+                      - UNSERVICEABLE
           responses:
               "200":
                   body:

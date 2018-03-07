@@ -37,7 +37,7 @@ public class InventoryStatusProcessor {
    */
   public void functionalStatusChange(InventoryItemDto inventoryItem) {
     logger.debug("Status processor called with: " + inventoryItem);
-    if (inventoryItem.getFunctionalStatus() == FunctionalStatus.NON_FUNCTIONING) {
+    if (inventoryItem.getFunctionalStatus() == FunctionalStatus.AWAITING_REPAIR) {
       nonfunctionalCceNotifier.notify(inventoryItem);
     }
   }

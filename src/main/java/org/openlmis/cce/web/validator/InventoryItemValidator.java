@@ -61,11 +61,11 @@ public class InventoryItemValidator {
     validateNotNull(inventoryItem.getRemoteTemperatureMonitor(),
         InventoryItemMessageKeys.ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED);
 
-    if (inventoryItem.getFunctionalStatus().equals(FunctionalStatus.OBSOLETE)) {
+    if (inventoryItem.getFunctionalStatus().equals(FunctionalStatus.UNSERVICEABLE)) {
       validateNotNull(inventoryItem.getDecommissionDate(),
           InventoryItemMessageKeys.ERROR_DECOMMISSION_DATE_REQUIRED);
     }
-    if (inventoryItem.getFunctionalStatus().equals(FunctionalStatus.NON_FUNCTIONING)) {
+    if (inventoryItem.getFunctionalStatus().equals(FunctionalStatus.AWAITING_REPAIR)) {
       validateNotNull(inventoryItem.getReasonNotWorkingOrNotInUse(),
           InventoryItemMessageKeys.ERROR_REASON_REQUIRED);
     }

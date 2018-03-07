@@ -61,8 +61,8 @@
       "type": "Custom List",
       "values": [
         "FUNCTIONING",
-        "NON_FUNCTIONING",
-        "OBSOLETE"
+        "AWAITING_REPAIR",
+        "UNSERVICEABLE"
       ],
       "selectionStyle": "random",
       "distribution": null,
