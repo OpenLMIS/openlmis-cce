@@ -1,5 +1,6 @@
 CREATE TABLE cce_alerts (
     id uuid NOT NULL PRIMARY KEY,
+    externalid varchar(64) NOT NULL UNIQUE,
     type text NOT NULL,
     inventoryitemid uuid NOT NULL,
     starttimestamp timestamptz NOT NULL,

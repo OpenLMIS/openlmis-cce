@@ -33,7 +33,7 @@ import org.openlmis.cce.repository.InventoryItemRepository;
 public class AlertDto implements Alert.Importer, Alert.Exporter {
 
   @JsonProperty("alert_id")
-  private UUID alertId;
+  private String alertId;
 
   @JsonProperty("alert_type")
   private String alertType;
@@ -55,8 +55,8 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
   private InventoryItemRepository inventoryItemRepository;
 
   @Override
-  public void setId(UUID id) {
-    alertId = id;
+  public void setExternalId(String externalId) {
+    alertId = externalId;
   }
 
   @Override
@@ -86,7 +86,7 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
 
   @Override
   @JsonIgnore
-  public UUID getId() {
+  public String getExternalId() {
     return alertId;
   }
 

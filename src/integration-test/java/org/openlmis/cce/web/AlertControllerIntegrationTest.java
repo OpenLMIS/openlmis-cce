@@ -58,7 +58,7 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
   public void setUp() {
 
     alertDto = new AlertDto();
-    UUID alertId = UUID.randomUUID();
+    String alertId = UUID.randomUUID().toString();
     alertDto.setAlertId(alertId);
     alertDto.setAlertType(ALERT_TYPE_WARNING_HOT);
     UUID deviceId = UUID.randomUUID();
@@ -68,9 +68,8 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
     alertDto.setStatus(Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE));
 
     InventoryItem inventoryItem = new InventoryItemDataBuilder().withId(deviceId).build();
-    alert = Alert.createNew(ALERT_TYPE_WARNING_HOT, inventoryItem, zdtNow, null,
+    alert = Alert.createNew(alertId, ALERT_TYPE_WARNING_HOT, inventoryItem, zdtNow, null,
         Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), false);
-    alert.setId(alertId);
 
     doReturn(alert).when(alertRepository).save(any(Alert.class));
   }

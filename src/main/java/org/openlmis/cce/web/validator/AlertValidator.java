@@ -33,6 +33,7 @@ import org.springframework.validation.ValidationUtils;
 public class AlertValidator {
 
   private static final XLogger XLOGGER = XLoggerFactory.getXLogger(AlertValidator.class);
+  static final String FHIR_REGEX = "[A-Za-z0-9\\-\\.]{1,64}";
 
   @Autowired
   InventoryItemRepository inventoryItemRepository;
@@ -51,6 +52,8 @@ public class AlertValidator {
     validateNotNull(alertDto.getStartTs(), AlertMessageKeys.ERROR_START_TS_REQUIRED);
     validateNotNull(alertDto.getStatus(), AlertMessageKeys.ERROR_STATUS_REQUIRED);
 
+    validateIdMatchesFhirIdRegex(alertDto.getAlertId(),
+        AlertMessageKeys.ERROR_ALERT_ID_DOES_NOT_MATCH_REGEX);
     validateInventoryItemExists(alertDto.getDeviceId());
     validateStatusKeysAreLocales(alertDto.getStatus().keySet());
   }
@@ -58,6 +61,12 @@ public class AlertValidator {
   private void validateNotNull(Object field, String errorMessage) {
     if (null == field) {
       throw new ValidationMessageException(errorMessage);
+    }
+  }
+  
+  private void validateIdMatchesFhirIdRegex(String id, String errorMessage) {
+    if (!id.matches(FHIR_REGEX)) {
+      throw new ValidationMessageException(errorMessage, FHIR_REGEX);
     }
   }
   

@@ -25,6 +25,8 @@ public class AlertMessageKeys {
 
   public static final String ERROR_ALERT_ID_REQUIRED =
       join(ERROR_PREFIX, "alertId", REQUIRED);
+  public static final String ERROR_ALERT_ID_DOES_NOT_MATCH_REGEX =
+      join(ERROR_PREFIX, "alertId.doesNotMatchRegex");
   public static final String ERROR_ALERT_TYPE_REQUIRED =
       join(ERROR_PREFIX, "alertType", REQUIRED);
   public static final String ERROR_DEVICE_ID_REQUIRED =

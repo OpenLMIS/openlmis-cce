@@ -1,6 +1,7 @@
 [
   {
     "id": "7f709a7e-9f13-44d7-b6f2-3b69be1facc0",
+    "externalId": "5a9f84aee057cc9ca21b4d5b",
     "type": "warning_hot",
     "inventoryItemId": "a456150f-71dc-49d7-8ab7-c018edec513b",
     "startTimestamp": "2018-02-12T00:00:00.000Z",
@@ -9,6 +10,7 @@
   },
   {
     "id": "38ec9819-92e8-4a4b-a530-e40a599a7c43",
+    "externalId": "5a9f84f8e6274f517f6bc10a",
     "type": "not_working_hot",
     "inventoryItemId": "a456150f-71dc-49d7-8ab7-c018edec513b",
     "startTimestamp": "2018-02-22T00:00:00.000Z",
@@ -17,6 +19,7 @@
   },
   {
     "id": "42aa0a4e-b9bb-4fc1-83c0-1c0972cbd896",
+    "externalId": "5a9f84f8837b15c7a20146d8",
     "type": "warning_power",
     "inventoryItemId": "49fae7d6-47e4-4dca-93ae-c0f7a9bef8d0",
     "startTimestamp": "2018-02-21T00:00:00.000Z",
@@ -26,6 +29,7 @@
   },
   {
     "id": "5df99d22-a179-42d5-8bc9-22abfaa2f692",
+    "externalId": "5a9f84f862dc47e991d3eb07",
     "type": "warning_freezing",
     "inventoryItemId": "1a7d9b31-5340-415c-aa04-3645125083d9",
     "startTimestamp": "2018-02-15T00:00:00.000Z",
@@ -34,6 +38,7 @@
   },
   {
     "id": "10f57014-9486-4f06-8211-a164a6e6c290",
+    "externalId": "5a9f84f8ac367839bba16bd5",
     "type": "not_working_freezing",
     "inventoryItemId": "1a7d9b31-5340-415c-aa04-3645125083d9",
     "startTimestamp": "2018-02-22T01:00:00.000Z",
@@ -42,6 +47,7 @@
   },
   {
     "id": "d425d45e-eede-4522-a252-ac91867e0b4a",
+    "externalId": "5a9f84f874abeee134e2eddd",
     "type": "no_data",
     "inventoryItemId": "3f977b20-6417-4d95-a4d9-700a0cf1e105",
     "startTimestamp": "2018-02-21T22:00:00.000Z",
@@ -50,6 +56,7 @@
   },
   {
     "id": "abd99c6c-dd59-4f8f-bc13-b82256d785d6",
+    "externalId": "5a9f84f899527a3430800557",
     "type": "warning_power",
     "inventoryItemId": "a3597a53-c141-448a-b787-c7da1c14df0b",
     "startTimestamp": "2018-02-22T00:00:00.000Z",
@@ -58,6 +65,7 @@
   },
   {
     "id": "65c4f0b5-c388-4b45-a8c2-bb8254784ce9",
+    "externalId": "5a9f84f8f56d06ea00b84029",
     "type": "warning_freezing",
     "inventoryItemId": "a3597a53-c141-448a-b787-c7da1c14df0b",
     "startTimestamp": "2018-02-16T00:00:00.000Z",
@@ -66,6 +74,7 @@
   },
   {
     "id": "20fd729d-ca75-48c6-b6c3-dd503a94be70",
+    "externalId": "5a9f84f82c1a23cd93ad23e7",
     "type": "no_data",
     "inventoryItemId": "85a022e2-dc26-4a3f-aca0-29298c569b6d",
     "startTimestamp": "2018-02-20T22:00:00.000Z",

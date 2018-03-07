@@ -52,4 +52,8 @@ public interface AlertRepository extends PagingAndSortingRepository<Alert, UUID>
       Pageable pageable);
 
   Page<Alert> findByInventoryItemIdIn(List<UUID> inventoryItemIds, Pageable pageable);
+  
+  boolean existsByExternalId(String externalId);
+  
+  Alert findByExternalId(String externalId);
 }

@@ -16,6 +16,7 @@
 package org.openlmis.cce.repository;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.time.ZonedDateTime;
@@ -54,6 +55,7 @@ public class AlertRepositoryIntegrationTest
 
   private InventoryItem inventoryItem1;
   private Alert activeAlert1;
+  private String activeAlert1Id;
   private Alert inactiveAlert1;
   private InventoryItem inventoryItem2;
   private Alert inactiveAlert2;
@@ -69,7 +71,9 @@ public class AlertRepositoryIntegrationTest
 
   @Override
   Alert generateInstance() {
-    return Alert.createNew(ALERT_TYPE_NOT_WORKING_HOT,
+    activeAlert1Id = UUID.randomUUID().toString();
+    return Alert.createNew(activeAlert1Id,
+        ALERT_TYPE_NOT_WORKING_HOT,
         inventoryItem1,
         ZonedDateTime.now(),
         null,
@@ -83,7 +87,8 @@ public class AlertRepositoryIntegrationTest
     
     inventoryItem1 = inventoryItemRepository.save(new InventoryItemDataBuilder().build());
     activeAlert1 = repository.save(generateInstance());
-    inactiveAlert1 = repository.save(Alert.createNew(ALERT_TYPE_NOT_WORKING_FREEZING,
+    inactiveAlert1 = repository.save(Alert.createNew(UUID.randomUUID().toString(),
+        ALERT_TYPE_NOT_WORKING_FREEZING,
         inventoryItem1,
         ZonedDateTime.now(),
         ZonedDateTime.now().plusHours(1),
@@ -94,7 +99,8 @@ public class AlertRepositoryIntegrationTest
         .withId(UUID.randomUUID())
         .withEquipmentTrackingId("another-tracking-id")
         .build());
-    inactiveAlert2 = repository.save(Alert.createNew(ALERT_TYPE_NOT_WORKING_FREEZING,
+    inactiveAlert2 = repository.save(Alert.createNew(UUID.randomUUID().toString(),
+        ALERT_TYPE_NOT_WORKING_FREEZING,
         inventoryItem2,
         ZonedDateTime.now(),
         null,
@@ -105,19 +111,22 @@ public class AlertRepositoryIntegrationTest
         .withId(UUID.randomUUID())
         .withEquipmentTrackingId("third-tracking-id")
         .build());
-    activeAlert3 = repository.save(Alert.createNew(ALERT_TYPE_NO_DATA,
+    activeAlert3 = repository.save(Alert.createNew(UUID.randomUUID().toString(),
+        ALERT_TYPE_NO_DATA,
         inventoryItem3,
         ZonedDateTime.now(),
         null,
         Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
         null));
-    inactiveAlert3 = repository.save(Alert.createNew(ALERT_TYPE_NO_DATA,
+    inactiveAlert3 = repository.save(Alert.createNew(UUID.randomUUID().toString(),
+        ALERT_TYPE_NO_DATA,
         inventoryItem3,
         ZonedDateTime.now(),
         ZonedDateTime.now().plusHours(1),
         Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
         false));
-    inactiveAlert3b = repository.save(Alert.createNew(ALERT_TYPE_NO_DATA,
+    inactiveAlert3b = repository.save(Alert.createNew(UUID.randomUUID().toString(),
+        ALERT_TYPE_NO_DATA,
         inventoryItem3,
         ZonedDateTime.now(),
         ZonedDateTime.now().plusHours(1),
@@ -188,5 +197,35 @@ public class AlertRepositoryIntegrationTest
     assertTrue(alerts.getContent().contains(activeAlert1));
     assertTrue(alerts.getContent().contains(inactiveAlert1));
     assertTrue(alerts.getContent().contains(inactiveAlert2));
+  }
+
+  @Test
+  public void existsByExternalIdShouldReturnTrueIfExists() {
+
+    //when
+    boolean exists = repository.existsByExternalId(activeAlert1Id);
+
+    //then
+    assertTrue(exists);
+  }
+
+  @Test
+  public void existsByExternalIdShouldReturnFalseIfDoesNotExist() {
+
+    //when
+    boolean exists = repository.existsByExternalId(UUID.randomUUID().toString());
+
+    //then
+    assertFalse(exists);
+  }
+
+  @Test
+  public void findByExternalIdShouldReturnMatchingAlert() {
+
+    //when
+    Alert alert = repository.findByExternalId(activeAlert1Id);
+
+    //then
+    assertEquals(activeAlert1, alert);
   }
 }

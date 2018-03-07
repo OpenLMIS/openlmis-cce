@@ -19,7 +19,6 @@ import java.time.ZonedDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 import javax.persistence.CollectionTable;
 import javax.persistence.Column;
 import javax.persistence.ElementCollection;
@@ -39,6 +38,9 @@ import org.hibernate.annotations.Type;
 @Getter
 public class Alert extends BaseEntity {
 
+  @Column(columnDefinition = "VARCHAR(64)", unique = true, nullable = false)
+  private String externalId;
+  
   @Column(columnDefinition = TEXT, nullable = false)
   private String type;
 
@@ -67,8 +69,10 @@ public class Alert extends BaseEntity {
   @Column(columnDefinition = "bool")
   private Boolean active;
 
-  private Alert(String type, InventoryItem inventoryItem, ZonedDateTime startTimestamp, 
-      ZonedDateTime endTimestamp, Map<String, String> statusMessages, Boolean dismissed) {
+  private Alert(String externalId, String type, InventoryItem inventoryItem,
+      ZonedDateTime startTimestamp, ZonedDateTime endTimestamp, Map<String, String> statusMessages,
+      Boolean dismissed) {
+    this.externalId = externalId;
     this.type = type;
     this.inventoryItem = inventoryItem;
     this.startTimestamp = startTimestamp;
@@ -78,10 +82,11 @@ public class Alert extends BaseEntity {
     setActive();
   }
 
-  public static Alert createNew(String type, InventoryItem inventoryItem,
+  public static Alert createNew(String externalId, String type, InventoryItem inventoryItem,
       ZonedDateTime startTimestamp, ZonedDateTime endTimestamp, Map<String, String> statusMessages,
       Boolean dismissed) {
-    return new Alert(type, inventoryItem, startTimestamp, endTimestamp, statusMessages, dismissed);
+    return new Alert(externalId, type, inventoryItem, startTimestamp, endTimestamp, statusMessages,
+        dismissed);
   }
 
   /**
@@ -91,14 +96,13 @@ public class Alert extends BaseEntity {
    * @return new instance of Alert.
    */
   public static Alert newInstance(Alert.Importer importer) {
-    Alert alert = new Alert(importer.getType(),
+    return new Alert(importer.getExternalId(),
+        importer.getType(),
         importer.getInventoryItem(),
         importer.getStartTimestamp(),
         importer.getEndTimestamp(),
         importer.getStatusMessages(),
         importer.getDismissed());
-    alert.id = importer.getId();
-    return alert;
   }
 
   /**
@@ -107,6 +111,7 @@ public class Alert extends BaseEntity {
    * @param otherAlert other alert to fill in from
    */
   public void fillInFrom(Alert otherAlert) {
+    id = otherAlert.id;
     if (null == endTimestamp) {
       endTimestamp = otherAlert.endTimestamp;
     }
@@ -129,7 +134,7 @@ public class Alert extends BaseEntity {
    * @param exporter exporter to export to
    */
   public void export(Exporter exporter) {
-    exporter.setId(id);
+    exporter.setExternalId(externalId);
     exporter.setType(type);
     exporter.setInventoryItem(inventoryItem);
     exporter.setStartTimestamp(startTimestamp);
@@ -140,7 +145,7 @@ public class Alert extends BaseEntity {
 
   public interface Exporter {
 
-    void setId(UUID id);
+    void setExternalId(String externalId);
 
     void setType(String type);
 
@@ -157,7 +162,7 @@ public class Alert extends BaseEntity {
 
   public interface Importer {
 
-    UUID getId();
+    String getExternalId();
 
     String getType();
 

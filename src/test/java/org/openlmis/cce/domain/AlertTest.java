@@ -19,6 +19,7 @@ import static org.junit.Assert.assertEquals;
 
 import java.time.ZonedDateTime;
 import java.util.Collections;
+import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.InventoryItemDataBuilder;
@@ -35,13 +36,26 @@ public class AlertTest {
   
   @Before
   public void setUp() {
-    thisAlert = Alert.createNew(ALERT_TYPE, new InventoryItemDataBuilder().build(),
-        ZonedDateTime.now().minusDays(1), null,
+    thisAlert = Alert.createNew(UUID.randomUUID().toString(), ALERT_TYPE,
+        new InventoryItemDataBuilder().build(), ZonedDateTime.now().minusDays(1), null,
         Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), null);
     zdtNow = ZonedDateTime.now();
-    otherAlert = Alert.createNew(ALERT_TYPE, new InventoryItemDataBuilder().build(),
-        ZonedDateTime.now().minusDays(1), zdtNow,
+    otherAlert = Alert.createNew(UUID.randomUUID().toString(), ALERT_TYPE,
+        new InventoryItemDataBuilder().build(), ZonedDateTime.now().minusDays(1), zdtNow,
         Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), true);
+  }
+
+  @Test
+  public void fillInFromShouldFillInId() {
+    //given
+    UUID id = UUID.randomUUID();
+    otherAlert.setId(id);
+
+    //when
+    thisAlert.fillInFrom(otherAlert);
+
+    //then
+    assertEquals(id, thisAlert.getId());
   }
   
   @Test
@@ -56,9 +70,9 @@ public class AlertTest {
   @Test
   public void fillInFromShouldNotFillInEndTimestampIfThisOneIsNotNull() {
     //given
-    thisAlert = Alert.createNew(ALERT_TYPE, new InventoryItemDataBuilder().build(),
-        ZonedDateTime.now().minusDays(1), zdtNow.minusHours(1),
-        Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), null);
+    thisAlert = Alert.createNew(UUID.randomUUID().toString(), ALERT_TYPE,
+        new InventoryItemDataBuilder().build(), ZonedDateTime.now().minusDays(1),
+        zdtNow.minusHours(1), Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), null);
 
     //when
     thisAlert.fillInFrom(otherAlert);
@@ -79,8 +93,8 @@ public class AlertTest {
   @Test
   public void fillInFromShouldNotFillInDismissedIfThisOneIsNotNull() {
     //given
-    thisAlert = Alert.createNew(ALERT_TYPE, new InventoryItemDataBuilder().build(),
-        ZonedDateTime.now().minusDays(1), null,
+    thisAlert = Alert.createNew(UUID.randomUUID().toString(), ALERT_TYPE,
+        new InventoryItemDataBuilder().build(), ZonedDateTime.now().minusDays(1), null,
         Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), false);
 
     //when

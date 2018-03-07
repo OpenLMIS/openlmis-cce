@@ -94,8 +94,8 @@ public class AlertController extends BaseController {
     Alert alert = Alert.newInstance(alertDto);
 
     profiler.start("FILL_IN_FROM_EXISTING");
-    if (alertRepository.exists(alert.getId())) {
-      Alert existingAlert = alertRepository.findOne(alert.getId());
+    if (alertRepository.existsByExternalId(alert.getExternalId())) {
+      Alert existingAlert = alertRepository.findByExternalId(alert.getExternalId());
       alert.fillInFrom(existingAlert);
     }
 

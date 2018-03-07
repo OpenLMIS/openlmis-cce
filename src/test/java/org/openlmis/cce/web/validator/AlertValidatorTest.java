@@ -16,6 +16,7 @@
 package org.openlmis.cce.web.validator;
 
 import static org.mockito.Mockito.when;
+import static org.openlmis.cce.i18n.AlertMessageKeys.ERROR_ALERT_ID_DOES_NOT_MATCH_REGEX;
 import static org.openlmis.cce.i18n.AlertMessageKeys.ERROR_ALERT_ID_REQUIRED;
 import static org.openlmis.cce.i18n.AlertMessageKeys.ERROR_ALERT_TYPE_REQUIRED;
 import static org.openlmis.cce.i18n.AlertMessageKeys.ERROR_DEVICE_ID_NOT_FOUND;
@@ -40,6 +41,7 @@ import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.util.Message;
 
 @RunWith(MockitoJUnitRunner.class)
+@SuppressWarnings("PMD.TooManyMethods")
 public class AlertValidatorTest {
 
   private static final String ALERT_TYPE_WARNING_HOT = "warning_hot";
@@ -58,7 +60,7 @@ public class AlertValidatorTest {
   @Before
   public void before() {
     alertDto = new AlertDto();
-    alertDto.setAlertId(UUID.randomUUID());
+    alertDto.setAlertId(UUID.randomUUID().toString());
     alertDto.setAlertType(ALERT_TYPE_WARNING_HOT);
     alertDto.setDeviceId(UUID.randomUUID());
     alertDto.setStartTs(ZonedDateTime.now());
@@ -118,6 +120,30 @@ public class AlertValidatorTest {
     expectedEx.expectMessage(
         new Message(ERROR_STATUS_REQUIRED, "").toString());
     alertDto.setStatus(null);
+
+    alertValidator.validate(alertDto);
+  }
+
+  @Test
+  public void validateShouldNotThrowExceptionIfAlertIdMatchesRegex() {
+    alertDto.setAlertId("507f1f77bcf86cd799439011");
+
+    alertValidator.validate(alertDto);
+  }
+
+  @Test
+  public void validateShouldThrowExceptionIfAlertIdDoesNotMatchRegex() {
+    expectedEx.expect(ValidationMessageException.class);
+    expectedEx.expectMessage(
+        new Message(ERROR_ALERT_ID_DOES_NOT_MATCH_REGEX, AlertValidator.FHIR_REGEX).toString());
+    alertDto.setAlertId("invalidalertid!");
+
+    alertValidator.validate(alertDto);
+  }
+
+  @Test
+  public void validateShouldNotThrowExceptionIfAlertIdIsInUuidFormat() {
+    alertDto.setAlertId("b3c2726e-99f1-462a-980c-43b873586c65");
 
     alertValidator.validate(alertDto);
   }
