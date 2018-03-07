@@ -33,6 +33,8 @@ public class AlertMessageKeys {
       join(ERROR_PREFIX, "startTs", REQUIRED);
   public static final String ERROR_STATUS_REQUIRED =
       join(ERROR_PREFIX, "status", REQUIRED);
+  public static final String ERROR_STATUS_KEY_REQUIRED =
+      join(ERROR_PREFIX, "statusKey", REQUIRED);
   public static final String ERROR_DEVICE_ID_NOT_FOUND =
       join(ERROR_PREFIX, "deviceId.notFound");
 

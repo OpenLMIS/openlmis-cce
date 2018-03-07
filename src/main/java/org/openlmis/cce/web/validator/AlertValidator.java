@@ -15,6 +15,9 @@
 
 package org.openlmis.cce.web.validator;
 
+import java.util.IllformedLocaleException;
+import java.util.Locale;
+import java.util.Set;
 import java.util.UUID;
 import org.openlmis.cce.dto.AlertDto;
 import org.openlmis.cce.exception.ValidationMessageException;
@@ -49,6 +52,7 @@ public class AlertValidator {
     validateNotNull(alertDto.getStatus(), AlertMessageKeys.ERROR_STATUS_REQUIRED);
 
     validateInventoryItemExists(alertDto.getDeviceId());
+    validateStatusKeysAreLocales(alertDto.getStatus().keySet());
   }
 
   private void validateNotNull(Object field, String errorMessage) {
@@ -63,5 +67,17 @@ public class AlertValidator {
           inventoryItemId);
       throw new ValidationMessageException(AlertMessageKeys.ERROR_DEVICE_ID_NOT_FOUND);
     }
+  }
+
+  private void validateStatusKeysAreLocales(Set<String> statusKeys) {
+    statusKeys.forEach(statusKey -> {
+      validateNotNull(statusKey, AlertMessageKeys.ERROR_STATUS_KEY_REQUIRED);
+      try {
+        new Locale.Builder().setLanguageTag(statusKey).build();
+      } catch (IllformedLocaleException ile) {
+        XLOGGER.warn("Could not validate statusKey = {}; it is not a valid language tag.",
+            statusKey);
+      }
+    });
   }
 }
