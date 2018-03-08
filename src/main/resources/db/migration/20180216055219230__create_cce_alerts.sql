@@ -5,7 +5,7 @@ CREATE TABLE cce_alerts (
     inventoryitemid uuid NOT NULL,
     starttimestamp timestamptz NOT NULL,
     endtimestamp timestamptz,
-    dismissed bool,
+    dismisstimestamp timestamptz,
     active bool,
     FOREIGN KEY (inventoryitemid) REFERENCES cce_inventory_items
 );

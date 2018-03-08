@@ -42,7 +42,7 @@ public class AlertTest {
     zdtNow = ZonedDateTime.now();
     otherAlert = Alert.createNew(UUID.randomUUID().toString(), ALERT_TYPE,
         new InventoryItemDataBuilder().build(), ZonedDateTime.now().minusDays(1), zdtNow,
-        Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), true);
+        Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), zdtNow);
   }
 
   @Test
@@ -82,25 +82,25 @@ public class AlertTest {
   }
 
   @Test
-  public void fillInFromShouldFillInDismissedIfThisOneIsNull() {
+  public void fillInFromShouldFillInDismissTimestampIfThisOneIsNull() {
     //when
     thisAlert.fillInFrom(otherAlert);
 
     //then
-    assertEquals(true, thisAlert.getDismissed());
+    assertEquals(zdtNow, thisAlert.getDismissTimestamp());
   }
 
   @Test
-  public void fillInFromShouldNotFillInDismissedIfThisOneIsNotNull() {
+  public void fillInFromShouldNotFillInDismissTimestampIfThisOneIsNotNull() {
     //given
     thisAlert = Alert.createNew(UUID.randomUUID().toString(), ALERT_TYPE,
         new InventoryItemDataBuilder().build(), ZonedDateTime.now().minusDays(1), null,
-        Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), false);
+        Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), zdtNow.minusHours(2));
 
     //when
     thisAlert.fillInFrom(otherAlert);
 
     //then
-    assertEquals(false, thisAlert.getDismissed());
+    assertEquals(zdtNow.minusHours(2), thisAlert.getDismissTimestamp());
   }
 }

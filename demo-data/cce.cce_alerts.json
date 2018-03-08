@@ -5,7 +5,6 @@
     "type": "warning_hot",
     "inventoryItemId": "a456150f-71dc-49d7-8ab7-c018edec513b",
     "startTimestamp": "2018-02-12T00:00:00.000Z",
-    "dismissed": false,
     "active": true
   },
   {
@@ -14,7 +13,6 @@
     "type": "not_working_hot",
     "inventoryItemId": "a456150f-71dc-49d7-8ab7-c018edec513b",
     "startTimestamp": "2018-02-22T00:00:00.000Z",
-    "dismissed": false,
     "active": true
   },
   {
@@ -24,7 +22,6 @@
     "inventoryItemId": "49fae7d6-47e4-4dca-93ae-c0f7a9bef8d0",
     "startTimestamp": "2018-02-21T00:00:00.000Z",
     "endTimestamp": "2018-02-22T00:00:00.000Z",
-    "dismissed": false,
     "active": false
   },
   {
@@ -33,7 +30,7 @@
     "type": "warning_freezing",
     "inventoryItemId": "1a7d9b31-5340-415c-aa04-3645125083d9",
     "startTimestamp": "2018-02-15T00:00:00.000Z",
-    "dismissed": true,
+    "dismissTimestamp": "2018-03-01T00:00:00.000Z",
     "active": false
   },
   {
@@ -42,7 +39,6 @@
     "type": "not_working_freezing",
     "inventoryItemId": "1a7d9b31-5340-415c-aa04-3645125083d9",
     "startTimestamp": "2018-02-22T01:00:00.000Z",
-    "dismissed": false,
     "active": true
   },
   {
@@ -51,7 +47,7 @@
     "type": "no_data",
     "inventoryItemId": "3f977b20-6417-4d95-a4d9-700a0cf1e105",
     "startTimestamp": "2018-02-21T22:00:00.000Z",
-    "dismissed": true,
+    "dismissTimestamp": "2018-03-01T00:00:00.000Z",
     "active": false
   },
   {
@@ -69,7 +65,7 @@
     "type": "warning_freezing",
     "inventoryItemId": "a3597a53-c141-448a-b787-c7da1c14df0b",
     "startTimestamp": "2018-02-16T00:00:00.000Z",
-    "dismissed": true,
+    "dismissTimestamp": "2018-03-01T00:00:00.000Z",
     "active": false
   },
   {
@@ -78,7 +74,7 @@
     "type": "no_data",
     "inventoryItemId": "85a022e2-dc26-4a3f-aca0-29298c569b6d",
     "startTimestamp": "2018-02-20T22:00:00.000Z",
-    "dismissed": true,
+    "dismissTimestamp": "2018-03-01T00:00:00.000Z",
     "active": false
   }
 ]

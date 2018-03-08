@@ -78,7 +78,7 @@ public class AlertRepositoryIntegrationTest
         ZonedDateTime.now(),
         null,
         Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: too hot"),
-        false);
+        null);
   }
 
   @Before
@@ -93,7 +93,7 @@ public class AlertRepositoryIntegrationTest
         ZonedDateTime.now(),
         ZonedDateTime.now().plusHours(1),
         Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: freezing"),
-        true));
+        ZonedDateTime.now()));
 
     inventoryItem2 = inventoryItemRepository.save(new InventoryItemDataBuilder()
         .withId(UUID.randomUUID())
@@ -105,7 +105,7 @@ public class AlertRepositoryIntegrationTest
         ZonedDateTime.now(),
         null,
         Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: freezing"),
-        true));
+        ZonedDateTime.now()));
 
     inventoryItem3 = inventoryItemRepository.save(new InventoryItemDataBuilder()
         .withId(UUID.randomUUID())
@@ -124,7 +124,7 @@ public class AlertRepositoryIntegrationTest
         ZonedDateTime.now(),
         ZonedDateTime.now().plusHours(1),
         Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
-        false));
+        null));
     inactiveAlert3b = repository.save(Alert.createNew(UUID.randomUUID().toString(),
         ALERT_TYPE_NO_DATA,
         inventoryItem3,

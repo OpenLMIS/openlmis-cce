@@ -63,30 +63,30 @@ public class Alert extends BaseEntity {
       joinColumns = @JoinColumn(name = "alertid"))
   private Map<String, String> statusMessages;
 
-  @Column(columnDefinition = "bool")
-  private Boolean dismissed;
-
+  @Column(columnDefinition = "timestamp with time zone")
+  private ZonedDateTime dismissTimestamp;
+  
   @Column(columnDefinition = "bool")
   private Boolean active;
 
   private Alert(String externalId, String type, InventoryItem inventoryItem,
       ZonedDateTime startTimestamp, ZonedDateTime endTimestamp, Map<String, String> statusMessages,
-      Boolean dismissed) {
+      ZonedDateTime dismissTimestamp) {
     this.externalId = externalId;
     this.type = type;
     this.inventoryItem = inventoryItem;
     this.startTimestamp = startTimestamp;
     this.endTimestamp = endTimestamp;
     this.statusMessages = statusMessages;
-    this.dismissed = dismissed;
+    this.dismissTimestamp = dismissTimestamp;
     setActive();
   }
 
   public static Alert createNew(String externalId, String type, InventoryItem inventoryItem,
       ZonedDateTime startTimestamp, ZonedDateTime endTimestamp, Map<String, String> statusMessages,
-      Boolean dismissed) {
+      ZonedDateTime dismissTimestamp) {
     return new Alert(externalId, type, inventoryItem, startTimestamp, endTimestamp, statusMessages,
-        dismissed);
+        dismissTimestamp);
   }
 
   /**
@@ -102,7 +102,7 @@ public class Alert extends BaseEntity {
         importer.getStartTimestamp(),
         importer.getEndTimestamp(),
         importer.getStatusMessages(),
-        importer.getDismissed());
+        importer.getDismissTimestamp());
   }
 
   /**
@@ -115,8 +115,8 @@ public class Alert extends BaseEntity {
     if (null == endTimestamp) {
       endTimestamp = otherAlert.endTimestamp;
     }
-    if (null == dismissed) {
-      dismissed = otherAlert.dismissed;
+    if (null == dismissTimestamp) {
+      dismissTimestamp = otherAlert.dismissTimestamp;
     }
     setActive();
   }
@@ -125,7 +125,7 @@ public class Alert extends BaseEntity {
    * This should always be called when related properties are set.
    */
   private void setActive() {
-    active = (null == endTimestamp && (null == dismissed || !dismissed));
+    active = (null == endTimestamp && null == dismissTimestamp);
   }
 
   /**
@@ -140,7 +140,7 @@ public class Alert extends BaseEntity {
     exporter.setStartTimestamp(startTimestamp);
     exporter.setEndTimestamp(endTimestamp);
     exporter.setStatusMessages(Collections.unmodifiableMap(new HashMap<>(statusMessages)));
-    exporter.setDismissed(dismissed);
+    exporter.setDismissTimestamp(dismissTimestamp);
   }
 
   public interface Exporter {
@@ -157,7 +157,7 @@ public class Alert extends BaseEntity {
 
     void setStatusMessages(Map<String, String> statusMessages);
 
-    void setDismissed(Boolean dismissed);
+    void setDismissTimestamp(ZonedDateTime dismissTimestamp);
   }
 
   public interface Importer {
@@ -174,6 +174,6 @@ public class Alert extends BaseEntity {
 
     Map<String, String> getStatusMessages();
 
-    Boolean getDismissed();
+    ZonedDateTime getDismissTimestamp();
   }
 }

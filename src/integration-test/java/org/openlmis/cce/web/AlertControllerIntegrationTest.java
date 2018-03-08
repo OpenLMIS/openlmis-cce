@@ -69,7 +69,7 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
 
     InventoryItem inventoryItem = new InventoryItemDataBuilder().withId(deviceId).build();
     alert = Alert.createNew(alertId, ALERT_TYPE_WARNING_HOT, inventoryItem, zdtNow, null,
-        Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), false);
+        Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), null);
 
     doReturn(alert).when(alertRepository).save(any(Alert.class));
   }

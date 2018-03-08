@@ -17,6 +17,7 @@ package org.openlmis.cce.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.util.Map;
 import java.util.UUID;
@@ -85,6 +86,11 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
   }
 
   @Override
+  public void setDismissTimestamp(ZonedDateTime dismissTimestamp) {
+    dismissed = (null != dismissTimestamp);
+  }
+
+  @Override
   @JsonIgnore
   public String getExternalId() {
     return alertId;
@@ -121,5 +127,15 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
   @JsonIgnore
   public Map<String, String> getStatusMessages() {
     return status;
+  }
+
+  @Override
+  @JsonIgnore
+  public ZonedDateTime getDismissTimestamp() {
+    if (null != dismissed && dismissed) {
+      return ZonedDateTime.now(ZoneId.of("UTC"));
+    } else {
+      return null;
+    }
   }
 }
