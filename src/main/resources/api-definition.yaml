@@ -357,10 +357,15 @@ resourceTypes:
           description: Get CCE alerts.
           queryParameters:
               deviceId:
-                  description: "Filters alerts by assigned device."
+                  description: "Filters alerts by assigned device(s)."
                   type: string
                   required: false
                   repeat: true
+              active:
+                  description: "Filters alerts by active."
+                  type: boolean
+                  required: false
+                  repeat: false
           responses:
               "200":
                   body:
