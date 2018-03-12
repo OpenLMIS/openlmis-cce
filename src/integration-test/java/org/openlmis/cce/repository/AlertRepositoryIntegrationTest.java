@@ -37,7 +37,7 @@ import org.springframework.data.repository.CrudRepository;
 public class AlertRepositoryIntegrationTest
     extends BaseCrudRepositoryIntegrationTest<Alert> {
 
-  private static final String STATUS_LOCALE = "en_US";
+  private static final String STATUS_LOCALE = "en-US";
   private static final String ALERT_TYPE_NOT_WORKING_HOT = "not_working_hot";
   private static final String ALERT_TYPE_NOT_WORKING_FREEZING = "not_working_freezing";
   private static final String ALERT_TYPE_NO_DATA = "no_data";

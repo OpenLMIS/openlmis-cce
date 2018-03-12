@@ -48,7 +48,7 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
 
   private static final String RESOURCE_URL = "/api/cceAlerts";
   private static final String ALERT_TYPE_WARNING_HOT = "warning_hot";
-  private static final String STATUS_LOCALE = "en_US";
+  private static final String STATUS_LOCALE = "en-US";
   private static final String STATUS_MESSAGE = "Equipment needs attention: too hot";
 
   private AlertDto alertDto;

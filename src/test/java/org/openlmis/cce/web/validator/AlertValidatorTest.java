@@ -64,7 +64,7 @@ public class AlertValidatorTest {
     alertDto.setAlertType(ALERT_TYPE_WARNING_HOT);
     alertDto.setDeviceId(UUID.randomUUID());
     alertDto.setStartTs(ZonedDateTime.now());
-    alertDto.setStatus(Collections.singletonMap("en_US", "Equipment needs attention: too hot"));
+    alertDto.setStatus(Collections.singletonMap("en-US", "Equipment needs attention: too hot"));
 
     when(inventoryItemRepository.exists(alertDto.getDeviceId())).thenReturn(true);
   }
