@@ -16,7 +16,7 @@ scenarios:
           Authorization: Basic ${__base64Encode(${__P(basic-auth)})}
         body:
           grant_type: password
-          username: divo1
+          username: ${__P(username)}
           password: ${__P(password)}
         extract-jsonpath:
           access_token:
