@@ -116,7 +116,7 @@ public class Resource2Db {
 
     // parse CSV
     try (InputStreamReader isReader = new InputStreamReader(resource.getInputStream())) {
-      CSVParser parser = CSVFormat.DEFAULT.withHeader().parse(isReader);
+      CSVParser parser = CSVFormat.DEFAULT.withHeader().withNullString("").parse(isReader);
 
       // read header row
       MutablePair<List<String>, List<Object[]>> readData = new MutablePair<>();

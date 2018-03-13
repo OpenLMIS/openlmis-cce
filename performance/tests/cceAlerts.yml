@@ -1,0 +1,66 @@
+execution:
+  - concurrency: 1
+    hold-for: ${__P(scenario-duration,60)}
+    scenario: get-cce-alerts-by-devices
+  - concurrency: 1
+    hold-for: ${__P(scenario-duration,60)}
+    scenario: save-cce-alert
+
+scenarios:
+  get-user-token:
+    requests:
+      - url: ${__P(base-uri)}/api/oauth/token
+        method: POST
+        label: GetUserToken
+        headers:
+          Authorization: Basic ${__base64Encode(${__P(basic-auth)})}
+        body:
+          grant_type: password
+          username: divo1
+          password: ${__P(password)}
+        extract-jsonpath:
+          access_token:
+            jsonpath: $.access_token
+  get-cce-alerts-by-devices:
+    # Devices at Lurio, Cuamba
+    requests:
+      - include-scenario: get-user-token
+      - url: ${__P(base-uri)}/api/cceAlerts?deviceId=a456150f-71dc-49d7-8ab7-c018edec513b&deviceId=49fae7d6-47e4-4dca-93ae-c0f7a9bef8d0&deviceId=1a7d9b31-5340-415c-aa04-3645125083d9&deviceId=3f977b20-6417-4d95-a4d9-700a0cf1e105&deviceId=eb59ea9c-8d94-4dab-93bd-7cf0979896c6
+        method: GET
+        label: GetCceAlertsByDevices
+        headers:
+          Authorization: Bearer ${access_token}
+  save-cce-alert:
+    # Device - Fridge #84 at Lurio, Cuamba
+    requests:
+      - include-scenario: get-user-token
+      - url: ${__P(base-uri)}/api/cceAlerts
+        method: PUT
+        label: SaveCceAlert
+        headers:
+          Authorization: Bearer ${access_token}
+          Content-Type: application/json
+        jsr223:
+          execute: before
+          script-text: |
+            import groovy.json.JsonOutput;
+            import java.util.UUID;
+
+            def cceAlert = [
+              status: [
+                  'en-US': "Equipment needs attention: 31% time hot, 5 alarms"
+              ],
+              alert_id: UUID.randomUUID().toString(),
+              alert_type: "warning_hot",
+              device_id: "a456150f-71dc-49d7-8ab7-c018edec513b",
+              start_ts: "2018-01-01T00:00:00Z"
+            ];
+
+            vars.put("cce_alert", JsonOutput.toJson(cceAlert));
+        body: ${cce_alert}
+
+reporting:
+    - module: passfail
+      criteria:
+        Get CCE Alerts by Devices too slow: p90 of GetCceAlertsByDevices>500ms
+        Save CCE Alert too slow: p90 of SaveCceAlert>500ms

@@ -42,6 +42,12 @@ public class TestDataInitializer implements CommandLineRunner {
   @Value(value = PERF_DATA_PATH + "inventory_items.csv")
   private Resource inventoryItemsResource;
 
+  @Value(value = PERF_DATA_PATH + "cce_alerts.csv")
+  private Resource cceAlertsResource;
+
+  @Value(value = PERF_DATA_PATH + "cce_alert_status_messages.csv")
+  private Resource cceAlertStatusMessagesResource;
+
   @Autowired
   private JdbcTemplate template;
 
@@ -56,6 +62,8 @@ public class TestDataInitializer implements CommandLineRunner {
 
     r2db.insertToDbFromCsv("cce.cce_catalog_items", catalogItemsResource);
     r2db.insertToDbFromCsv("cce.cce_inventory_items", inventoryItemsResource);
+    r2db.insertToDbFromCsv("cce.cce_alerts", cceAlertsResource);
+    r2db.insertToDbFromCsv("cce.cce_alert_status_messages", cceAlertStatusMessagesResource);
 
     XLOGGER.exit();
   }
