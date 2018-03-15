@@ -15,28 +15,16 @@
 
 package org.openlmis.cce.web.fhir;
 
-import static org.openlmis.cce.service.ResourceNames.getLocationPath;
-
-import java.util.Collections;
-import java.util.List;
 import lombok.Getter;
-import org.openlmis.cce.domain.InventoryItem;
 
 @Getter
-public class Device extends Resource {
-  private final String manufacturer;
-  private final String model;
-  private final Reference location;
-  private final List<SerialNumberIdentifier> identifier;
+public class SerialNumberIdentifier {
 
-  Device(String serviceUrl, InventoryItem inventory) {
-    super(inventory.getId(), "Device");
-
-    this.manufacturer = inventory.getCatalogItem().getManufacturer();
-    this.model = inventory.getCatalogItem().getModel();
-    this.location = new Reference(serviceUrl, getLocationPath(), inventory.getFacilityId());
-    this.identifier = Collections.singletonList(
-        new SerialNumberIdentifier(inventory.getEquipmentTrackingId()));
+  private SerialNumberIdentifierType type;
+  private String value;
+  
+  SerialNumberIdentifier(String value) {
+    this.type = new SerialNumberIdentifierType();
+    this.value = value;
   }
-
 }

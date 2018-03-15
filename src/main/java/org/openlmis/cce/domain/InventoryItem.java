@@ -15,14 +15,9 @@
 
 package org.openlmis.cce.domain;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.Type;
-import org.javers.core.metamodel.annotation.TypeName;
-
+import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.UUID;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.EnumType;
@@ -31,9 +26,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
-import java.time.LocalDate;
-import java.time.ZonedDateTime;
-import java.util.UUID;
+import lombok.AllArgsConstructor;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
+import org.hibernate.annotations.Type;
+import org.javers.core.metamodel.annotation.TypeName;
 
 @Entity
 @TypeName("Inventory")
@@ -61,6 +60,7 @@ public class InventoryItem extends BaseEntity {
   @Column(nullable = false)
   private final UUID programId;
 
+  @Getter
   @Column(columnDefinition = TEXT)
   private String equipmentTrackingId;
 
