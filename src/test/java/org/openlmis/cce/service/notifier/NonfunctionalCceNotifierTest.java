@@ -80,7 +80,6 @@ public class NonfunctionalCceNotifierTest {
   private static final String TEST_KEY = "testKey";
   private static final String FACILITY_NAME = "some-facility";
   private static final String EQUIPMENT_TYPE = "eq-type";
-  //Note that NON_FUNCTIONAL and AWAITING_REPAIR are considered synonymous.
   private static final FunctionalStatus FUNCTIONAL_STATUS = FunctionalStatus.AWAITING_REPAIR;
   private static final String LAST_MODIFIER_USERNAME = "lastmodifier";
   private static final String USERNAME = "user";

@@ -45,7 +45,7 @@ public class InventoryItemDataBuilder {
   private String source = "source";
   private FunctionalStatus functionalStatus = FunctionalStatus.FUNCTIONING;
   private ReasonNotWorkingOrNotInUse reasonNotWorkingOrNotInUse =
-      ReasonNotWorkingOrNotInUse.NOT_APPLICABLE;
+      ReasonNotWorkingOrNotInUse.NOT_IN_USE;
   private Utilization utilization = Utilization.ACTIVE;
   private VoltageStabilizerStatus voltageStabilizer = VoltageStabilizerStatus.YES;
   private BackupGeneratorStatus backupGenerator = BackupGeneratorStatus.YES;
