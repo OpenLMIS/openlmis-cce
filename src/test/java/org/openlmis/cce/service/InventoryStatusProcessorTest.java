@@ -50,12 +50,12 @@ public class InventoryStatusProcessorTest {
   }
 
   @Test
-  public void shouldNotNotifyWhenItemBecameUnserviceable() {
+  public void shouldNotifyWhenItemBecameUnserviceable() {
     when(inventoryItem.getFunctionalStatus()).thenReturn(FunctionalStatus.UNSERVICEABLE);
 
     inventoryStatusProcessor.functionalStatusChange(inventoryItem);
 
-    verify(nonfunctionalCceNotifier, never()).notify(inventoryItem);
+    verify(nonfunctionalCceNotifier).notify(inventoryItem);
   }
 
   @Test
