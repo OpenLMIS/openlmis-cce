@@ -362,7 +362,7 @@ resourceTypes:
                   required: false
                   repeat: true
               active:
-                  description: "Filters alerts by active."
+                  description: "Filters alerts by active. An active alert is valuable to surface to a human."
                   type: boolean
                   required: false
                   repeat: false
