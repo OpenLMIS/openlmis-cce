@@ -36,7 +36,7 @@ public class InventoryStatusProcessor {
    * @param inventoryItem a inventoryItem that has just changed its status
    */
   public void functionalStatusChange(InventoryItemDto inventoryItem) {
-    logger.debug(String.format("Status processor called with: %s", inventoryItem));
+    logger.debug("Status processor called with: {}", inventoryItem);
     if (inventoryItem.getFunctionalStatus() != FunctionalStatus.FUNCTIONING) {
       nonfunctionalCceNotifier.notify(inventoryItem);
     }
