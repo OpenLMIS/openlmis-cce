@@ -68,18 +68,19 @@ import java.util.UUID;
 @SuppressWarnings("PMD.TooManyMethods")
 public class NonfunctionalCceNotifierTest {
 
-  private static final String SUBJECT =
-      "Attention: ${equipmentType} at facility ${facilityName} is ${functionalStatus}";
+  private static final String SUBJECT = "Attention: ${equipmentType} \"${referenceName}\" "
+      + "at facility ${facilityName} on ${saveDate} is ${functionalStatus}";
   private static final String CONTENT = "Dear ${username}:\n"
       + "This email is to inform you that the ${equipmentType} \"${referenceName}\" "
       + "at ${facilityName} is has been marked as ${functionalStatus} with the "
-      + "reason \"${reasonForNonFunctionalStatus}.\" The last status update for "
+      + "reason \"${reasonForNonFunctionalStatus}\". The last status update for "
       + "this device was made by user ${saveUser} at ${saveDate}.\n"
       + "Please login to view the list of non-functioning CCE needing attention"
       + "at this facility. ${urlToViewCceList}";
   private static final String TEST_KEY = "testKey";
   private static final String FACILITY_NAME = "some-facility";
   private static final String EQUIPMENT_TYPE = "eq-type";
+  private static final String REFERENCE_NAME = "some-name";
   private static final FunctionalStatus FUNCTIONAL_STATUS = FunctionalStatus.AWAITING_REPAIR;
   private static final String LAST_MODIFIER_USERNAME = "lastmodifier";
   private static final String USERNAME = "user";
@@ -144,8 +145,9 @@ public class NonfunctionalCceNotifierTest {
 
     verify(notificationService).notify(
         eq(user),
-        eq("Attention: " + EQUIPMENT_TYPE + " at facility " + FACILITY_NAME + " is "
-            + FUNCTIONAL_STATUS.toString()),
+        eq(String.format("Attention: %s \"%s\" at facility %s on %s is %s",
+            EQUIPMENT_TYPE, REFERENCE_NAME, FACILITY_NAME,
+            getDateTimeFormatter().format(MODIFIED_DATE), FUNCTIONAL_STATUS)),
         any());
   }
 
@@ -156,15 +158,15 @@ public class NonfunctionalCceNotifierTest {
     verify(notificationService).notify(
         eq(user),
         any(),
-        eq("Dear " + USERNAME + ":\n"
-            + "This email is to inform you that the " + EQUIPMENT_TYPE + " \"${referenceName}\" "
-            + "at " + FACILITY_NAME + " is has been marked as " + FUNCTIONAL_STATUS.toString()
-            + " with the "
-            + "reason \"" + REASON_NOT_WORKING_OR_NOT_IN_USE + ".\" The last status update for "
-            + "this device was made by user " + LAST_MODIFIER_USERNAME + " at "
-            + getDateTimeFormatter().format(MODIFIED_DATE) + ".\n"
+        eq(String.format("Dear %s:\n"
+            + "This email is to inform you that the %s \"%s\" at %s is has been marked as %s"
+            + " with the reason \"%s\". The last status update for this device was made by user %s"
+            + " at %s.\n"
             + "Please login to view the list of non-functioning CCE needing attention"
-            + "at this facility. " + URL_TO_VIEW_CCE));
+            + "at this facility. %s",
+            USERNAME, EQUIPMENT_TYPE, REFERENCE_NAME, FACILITY_NAME, FUNCTIONAL_STATUS,
+            REASON_NOT_WORKING_OR_NOT_IN_USE, LAST_MODIFIER_USERNAME,
+            getDateTimeFormatter().format(MODIFIED_DATE), URL_TO_VIEW_CCE)));
   }
 
   @Test
@@ -233,6 +235,7 @@ public class NonfunctionalCceNotifierTest {
         .thenReturn(REASON_NOT_WORKING_OR_NOT_IN_USE);
     stubLastModifierUsername();
     when(inventoryItem.getModifiedDate()).thenReturn(MODIFIED_DATE);
+    when(inventoryItem.getReferenceName()).thenReturn(REFERENCE_NAME);
   }
 
   private void stubEquipmentType() {
