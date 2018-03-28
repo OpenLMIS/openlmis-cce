@@ -21,6 +21,7 @@ import org.openlmis.cce.dto.SupervisoryNodeDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.RequestParameters;
 import org.openlmis.cce.service.ResourceNames;
+import org.springframework.http.HttpMethod;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
@@ -32,6 +33,10 @@ import java.util.UUID;
 @Service
 public class SupervisoryNodeReferenceDataService
     extends BaseReferenceDataService<SupervisoryNodeDto> {
+
+  static final String PROGRAM_ID = "programId";
+  static final String FACILITY_ID = "facilityId";
+  static final String RIGHT_ID = "rightId";
 
   @Override
   protected String getUrl() {
@@ -53,11 +58,11 @@ public class SupervisoryNodeReferenceDataService
    */
   public SupervisoryNodeDto findSupervisoryNode(UUID facility, UUID program) {
     Map<String, Object> requestBody = new HashMap<>();
-    requestBody.put("facilityId", facility);
-    requestBody.put("programId", program);
+    requestBody.put(FACILITY_ID, facility);
+    requestBody.put(PROGRAM_ID, program);
 
-    List<SupervisoryNodeDto> nodes = getPage("search", RequestParameters.init(), requestBody)
-        .getContent();
+    List<SupervisoryNodeDto> nodes =
+        getPage("", RequestParameters.init(), requestBody, HttpMethod.GET).getContent();
 
     return isEmpty(nodes) ? null : nodes.get(0);
   }
@@ -72,8 +77,8 @@ public class SupervisoryNodeReferenceDataService
    */
   public Collection<UserDto> findSupervisingUsers(UUID supervisoryNode, UUID right, UUID program) {
     RequestParameters params = RequestParameters.init()
-        .set("rightId", right)
-        .set("programId", program);
+        .set(RIGHT_ID, right)
+        .set(PROGRAM_ID, program);
 
     return findAll(supervisoryNode + "/supervisingUsers", params, UserDto[].class);
   }

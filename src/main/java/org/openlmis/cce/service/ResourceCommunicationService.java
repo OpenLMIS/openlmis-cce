@@ -112,12 +112,25 @@ public abstract class ResourceCommunicationService<T extends BaseDto>
    * @return Page of reference data T objects.
    */
   protected Page<T> getPage(String resourceUrl, RequestParameters parameters, Object payload) {
+    return getPage(resourceUrl, parameters, payload, HttpMethod.POST);
+  }
+
+  /**
+   * Return all reference data T objects for Page that need to be retrieved with given request.
+   *
+   * @param resourceUrl Endpoint url.
+   * @param parameters  Map of query parameters.
+   * @param payload     body to include with the outgoing request.
+   * @param method      method for the request.
+   * @return Page of reference data T objects.
+   */
+  protected Page<T> getPage(String resourceUrl, RequestParameters parameters, Object payload,
+      HttpMethod method) {
     try {
       DynamicPageTypeReference<T> type = new DynamicPageTypeReference<>(getResultClass());
-      return execute(resourceUrl, parameters, null, payload, HttpMethod.POST, type).getBody();
+      return execute(resourceUrl, parameters, null, payload, method, type).getBody();
     } catch (HttpStatusCodeException ex) {
       throw DataRetrievalException.build(getResultClass().getSimpleName(), ex);
     }
   }
-
 }

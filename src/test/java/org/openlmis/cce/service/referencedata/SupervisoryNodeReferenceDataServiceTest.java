@@ -27,6 +27,9 @@ import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
+import static org.openlmis.cce.service.referencedata.SupervisoryNodeReferenceDataService.FACILITY_ID;
+import static org.openlmis.cce.service.referencedata.SupervisoryNodeReferenceDataService.PROGRAM_ID;
+import static org.openlmis.cce.service.referencedata.SupervisoryNodeReferenceDataService.RIGHT_ID;
 
 import org.assertj.core.util.Lists;
 import org.junit.Test;
@@ -68,7 +71,7 @@ public class SupervisoryNodeReferenceDataServiceTest
     UUID program = UUID.randomUUID();
 
     // when
-    mockPageRequest();
+    mockPageRequest(HttpMethod.GET);
     mockPageResponse(response -> {
       PageImplRepresentation<SupervisoryNodeDto> page = new PageImplRepresentation<>();
       page.setContent(singletonList(instance));
@@ -82,7 +85,7 @@ public class SupervisoryNodeReferenceDataServiceTest
     assertThat(found, equalTo(instance));
 
     URI uri = getUri();
-    String url = getRequestUrl(service, "search");
+    String url = getRequestUrl(service, "");
     assertThat(uri.toString(), equalTo(url));
 
     HttpEntity entity = getEntity();
@@ -91,8 +94,8 @@ public class SupervisoryNodeReferenceDataServiceTest
     assertThat(body, instanceOf(Map.class));
 
     Map<String, Object> map = (Map<String, Object>) body;
-    assertThat(map, hasEntry("facilityId", facility));
-    assertThat(map, hasEntry("programId", program));
+    assertThat(map, hasEntry(FACILITY_ID, facility));
+    assertThat(map, hasEntry(PROGRAM_ID, program));
   }
 
   @Test
@@ -104,7 +107,7 @@ public class SupervisoryNodeReferenceDataServiceTest
     UUID program = UUID.randomUUID();
 
     // when
-    mockPageRequest();
+    mockPageRequest(HttpMethod.GET);
     mockPageResponse(response -> {
       PageImplRepresentation<SupervisoryNodeDto> page = new PageImplRepresentation<>();
       page.setContent(Lists.newArrayList(instance1, instance2));
@@ -118,7 +121,7 @@ public class SupervisoryNodeReferenceDataServiceTest
     assertThat(found, equalTo(instance1));
 
     URI uri = getUri();
-    String url = getRequestUrl(service, "search");
+    String url = getRequestUrl(service, "");
     assertThat(uri.toString(), equalTo(url));
 
     HttpEntity entity = getEntity();
@@ -127,8 +130,8 @@ public class SupervisoryNodeReferenceDataServiceTest
     assertThat(body, instanceOf(Map.class));
 
     Map<String, Object> map = (Map<String, Object>) body;
-    assertThat(map, hasEntry("facilityId", facility));
-    assertThat(map, hasEntry("programId", program));
+    assertThat(map, hasEntry(FACILITY_ID, facility));
+    assertThat(map, hasEntry(PROGRAM_ID, program));
   }
 
   @Test
@@ -138,7 +141,7 @@ public class SupervisoryNodeReferenceDataServiceTest
     UUID program = UUID.randomUUID();
 
     // when
-    mockPageRequest();
+    mockPageRequest(HttpMethod.GET);
     mockPageResponse(response ->
         when(response.getBody()).thenReturn(new PageImplRepresentation<>()));
 
@@ -148,7 +151,7 @@ public class SupervisoryNodeReferenceDataServiceTest
     assertThat(found, is(nullValue()));
 
     URI uri = getUri();
-    String url = getRequestUrl(service, "search");
+    String url = getRequestUrl(service, "");
     assertThat(uri.toString(), equalTo(url));
 
     HttpEntity entity = getEntity();
@@ -157,8 +160,8 @@ public class SupervisoryNodeReferenceDataServiceTest
     assertThat(body, instanceOf(Map.class));
 
     Map<String, Object> map = (Map<String, Object>) body;
-    assertThat(map, hasEntry("facilityId", facility));
-    assertThat(map, hasEntry("programId", program));
+    assertThat(map, hasEntry(FACILITY_ID, facility));
+    assertThat(map, hasEntry(PROGRAM_ID, program));
   }
 
   @Test
@@ -182,8 +185,8 @@ public class SupervisoryNodeReferenceDataServiceTest
     URI uri = getUri();
     String url = getRequestUrl(service, instance.getId() + "/supervisingUsers");
     assertThat(uri.toString(), startsWith(url));
-    assertThat(uri.toString(), containsString("rightId=" + right));
-    assertThat(uri.toString(), containsString("programId=" + program));
+    assertThat(uri.toString(), containsString(RIGHT_ID + "=" + right));
+    assertThat(uri.toString(), containsString(PROGRAM_ID + "=" + program));
 
     HttpEntity entity = getEntity();
 

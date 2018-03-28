@@ -90,8 +90,12 @@ public abstract class BaseCommunicationServiceTest {
   }
 
   protected void mockPageRequest() {
+    mockPageRequest(HttpMethod.POST);
+  }
+
+  protected void mockPageRequest(HttpMethod method) {
     when(restClient
-        .exchange(uriCaptor.capture(), eq(HttpMethod.POST),
+        .exchange(uriCaptor.capture(), eq(method),
             entityCaptor.capture(), any(DynamicPageTypeReference.class)))
         .thenReturn(pageResponse);
   }
