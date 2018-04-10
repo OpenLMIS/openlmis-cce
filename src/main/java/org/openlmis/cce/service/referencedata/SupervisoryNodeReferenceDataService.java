@@ -21,13 +21,11 @@ import org.openlmis.cce.dto.SupervisoryNodeDto;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.RequestParameters;
 import org.openlmis.cce.service.ResourceNames;
-import org.springframework.http.HttpMethod;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 import java.util.UUID;
 
 @Service
@@ -57,12 +55,12 @@ public class SupervisoryNodeReferenceDataService
    * Find a correct supervisory node by the provided facility and program.
    */
   public SupervisoryNodeDto findSupervisoryNode(UUID facility, UUID program) {
-    Map<String, Object> requestBody = new HashMap<>();
-    requestBody.put(FACILITY_ID, facility);
-    requestBody.put(PROGRAM_ID, program);
-
-    List<SupervisoryNodeDto> nodes =
-        getPage("", RequestParameters.init(), requestBody, HttpMethod.GET).getContent();
+    RequestParameters parameters = RequestParameters
+        .init()
+        .set(FACILITY_ID, facility)
+        .set(PROGRAM_ID, program);
+    Page<SupervisoryNodeDto> page = getPage("", parameters);
+    List<SupervisoryNodeDto> nodes = page.getContent();
 
     return isEmpty(nodes) ? null : nodes.get(0);
   }

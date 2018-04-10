@@ -104,6 +104,17 @@ public abstract class ResourceCommunicationService<T extends BaseDto>
   }
 
   /**
+   * Return all reference data T objects for Page that need to be retrieved with GET request.
+   *
+   * @param resourceUrl Endpoint url.
+   * @param parameters  Map of query parameters.
+   * @return Page of reference data T objects.
+   */
+  protected Page<T> getPage(String resourceUrl, RequestParameters parameters) {
+    return getPage(resourceUrl, parameters, null, HttpMethod.GET);
+  }
+
+  /**
    * Return all reference data T objects for Page that need to be retrieved with POST request.
    *
    * @param resourceUrl Endpoint url.

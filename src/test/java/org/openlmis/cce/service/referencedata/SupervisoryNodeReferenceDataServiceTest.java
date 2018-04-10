@@ -18,16 +18,13 @@ package org.openlmis.cce.service.referencedata;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.hasSize;
-import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.openlmis.cce.service.referencedata.SupervisoryNodeReferenceDataService.FACILITY_ID;
 import static org.openlmis.cce.service.referencedata.SupervisoryNodeReferenceDataService.PROGRAM_ID;
 import static org.openlmis.cce.service.referencedata.SupervisoryNodeReferenceDataService.RIGHT_ID;
 
@@ -41,7 +38,6 @@ import org.springframework.http.HttpMethod;
 
 import java.net.URI;
 import java.util.Collection;
-import java.util.Map;
 import java.util.UUID;
 
 public class SupervisoryNodeReferenceDataServiceTest
@@ -84,18 +80,16 @@ public class SupervisoryNodeReferenceDataServiceTest
     // then
     assertThat(found, equalTo(instance));
 
-    URI uri = getUri();
+    String uri = getUri().toString();
     String url = getRequestUrl(service, "");
-    assertThat(uri.toString(), equalTo(url));
+    assertThat(uri, startsWith(url));
+    assertThat(uri, containsString("facilityId=" + facility));
+    assertThat(uri, containsString("programId=" + program));
 
     HttpEntity entity = getEntity();
     Object body = entity.getBody();
 
-    assertThat(body, instanceOf(Map.class));
-
-    Map<String, Object> map = (Map<String, Object>) body;
-    assertThat(map, hasEntry(FACILITY_ID, facility));
-    assertThat(map, hasEntry(PROGRAM_ID, program));
+    assertThat(body, is(nullValue()));
   }
 
   @Test
@@ -120,18 +114,16 @@ public class SupervisoryNodeReferenceDataServiceTest
     // then
     assertThat(found, equalTo(instance1));
 
-    URI uri = getUri();
+    String uri = getUri().toString();
     String url = getRequestUrl(service, "");
-    assertThat(uri.toString(), equalTo(url));
+    assertThat(uri, startsWith(url));
+    assertThat(uri, containsString("facilityId=" + facility));
+    assertThat(uri, containsString("programId=" + program));
 
     HttpEntity entity = getEntity();
     Object body = entity.getBody();
 
-    assertThat(body, instanceOf(Map.class));
-
-    Map<String, Object> map = (Map<String, Object>) body;
-    assertThat(map, hasEntry(FACILITY_ID, facility));
-    assertThat(map, hasEntry(PROGRAM_ID, program));
+    assertThat(body, is(nullValue()));
   }
 
   @Test
@@ -150,18 +142,16 @@ public class SupervisoryNodeReferenceDataServiceTest
     // then
     assertThat(found, is(nullValue()));
 
-    URI uri = getUri();
+    String uri = getUri().toString();
     String url = getRequestUrl(service, "");
-    assertThat(uri.toString(), equalTo(url));
+    assertThat(uri, startsWith(url));
+    assertThat(uri, containsString("facilityId=" + facility));
+    assertThat(uri, containsString("programId=" + program));
 
     HttpEntity entity = getEntity();
     Object body = entity.getBody();
 
-    assertThat(body, instanceOf(Map.class));
-
-    Map<String, Object> map = (Map<String, Object>) body;
-    assertThat(map, hasEntry(FACILITY_ID, facility));
-    assertThat(map, hasEntry(PROGRAM_ID, program));
+    assertThat(body, is(nullValue()));
   }
 
   @Test
