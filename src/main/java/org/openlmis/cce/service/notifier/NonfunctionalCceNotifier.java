@@ -5,12 +5,12 @@
  * This program is free software: you can redistribute it and/or modify it under the terms
  * of the GNU Affero General Public License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Affero General Public License for more details. You should have received a copy of
  * the GNU Affero General Public License along with this program. If not, see
- * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+ * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
 package org.openlmis.cce.service.notifier;
@@ -20,6 +20,12 @@ import static org.openlmis.cce.i18n.InventoryItemMessageKeys.EMAIL_NONFUNCTIONAL
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_USER_INVALID;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.UUID;
+import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.text.StrSubstitutor;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.RightDto;
@@ -35,10 +41,6 @@ import org.openlmis.cce.util.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
 
 @Component
 public class NonfunctionalCceNotifier extends BaseNotifier {
@@ -71,29 +73,32 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
    */
   public void notify(InventoryItemDto inventoryItem) {
     Collection<UserDto> recipients = getRecipients(inventoryItem);
-    logger.debug("Found recipients to send notification to: " + recipients);
 
-    String subject = getMessage(EMAIL_NONFUNCTIONAL_CCE_SUBJECT);
-    String content = getMessage(EMAIL_NONFUNCTIONAL_CCE_CONTENT);
+    logger.debug("Found recipients to send notification to: {}", recipients);
+    if (!recipients.isEmpty()) {
+      String subject = getMessage(EMAIL_NONFUNCTIONAL_CCE_SUBJECT);
+      String content = getMessage(EMAIL_NONFUNCTIONAL_CCE_CONTENT);
 
-    Map<String, String> valuesMap = getValuesMap(inventoryItem);
-    StrSubstitutor sub = new StrSubstitutor(valuesMap);
-    for (UserDto recipient : recipients) {
-      if (canBeNotified(recipient)) {
-        valuesMap.put("username", recipient.getUsername());
-        logger.debug("Sending notification to: " + recipient.getUsername());
-        notificationService.notify(recipient, sub.replace(subject), sub.replace(content));
+      Map<String, String> valuesMap = getValuesMap(inventoryItem);
+      StrSubstitutor sub = new StrSubstitutor(valuesMap);
+      for (UserDto recipient : recipients) {
+        if (canBeNotified(recipient)) {
+          valuesMap.put("username", recipient.getUsername());
+          logger.debug("Sending notification to: " + recipient.getUsername());
+          notificationService.notify(recipient, sub.replace(subject), sub.replace(content));
+        }
       }
     }
   }
 
+  @NotNull
   private Collection<UserDto> getRecipients(InventoryItemDto inventoryItem) {
     SupervisoryNodeDto supervisoryNode = supervisoryNodeReferenceDataService
         .findSupervisoryNode(inventoryItem.getFacilityId(), inventoryItem.getProgramId());
     if (supervisoryNode == null) {
-      throw new IllegalArgumentException(
-              String.format("There is no supervisory node for program %s and facility %s",
-              inventoryItem.getProgramId(), inventoryItem.getFacilityId()));
+      logger.warn("There is no supervisory node for program {} and facility {}",
+          inventoryItem.getProgramId(), inventoryItem.getFacilityId());
+      return Collections.emptySet();
     }
     logger.debug("Supervisory node found: " + supervisoryNode.getName());
 
@@ -127,7 +132,7 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
   private String getUsername(InventoryItemDto inventoryItem) {
     UUID userId = inventoryItem.getLastModifier().getId();
     UserDto one = userReferenceDataService.findOne(userId);
-    if (one == null ) {
+    if (one == null) {
       throw new ValidationMessageException(
           new Message(ERROR_USER_INVALID, userId));
     }

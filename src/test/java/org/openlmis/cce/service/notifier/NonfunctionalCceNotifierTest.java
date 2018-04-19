@@ -5,12 +5,12 @@
  * This program is free software: you can redistribute it and/or modify it under the terms
  * of the GNU Affero General Public License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Affero General Public License for more details. You should have received a copy of
  * the GNU Affero General Public License along with this program. If not, see
- * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+ * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
 package org.openlmis.cce.service.notifier;
@@ -159,11 +159,11 @@ public class NonfunctionalCceNotifierTest {
         eq(user),
         any(),
         eq(String.format("Dear %s:\n"
-            + "This email is to inform you that the %s \"%s\" at %s is has been marked as %s"
-            + " with the reason \"%s\". The last status update for this device was made by user %s"
-            + " at %s.\n"
-            + "Please login to view the list of non-functioning CCE needing attention"
-            + "at this facility. %s",
+                + "This email is to inform you that the %s \"%s\" at %s is has been marked as %s"
+                + " with the reason \"%s\". The last status update for this device was made by "
+                + "user %s at %s.\n"
+                + "Please login to view the list of non-functioning CCE needing attention"
+                + "at this facility. %s",
             USERNAME, EQUIPMENT_TYPE, REFERENCE_NAME, FACILITY_NAME, FUNCTIONAL_STATUS,
             REASON_NOT_WORKING_OR_NOT_IN_USE, LAST_MODIFIER_USERNAME,
             getDateTimeFormatter().format(MODIFIED_DATE), URL_TO_VIEW_CCE)));
@@ -208,8 +208,20 @@ public class NonfunctionalCceNotifierTest {
   }
 
   @Test
-  public void shouldNotifyTwoTimesForTwoUsersWithProperUsernameInContent()
-      throws Exception {
+  public void shouldNotNotifyWhenThereIsNoSupervisoryNodeForProgramAndFacility() {
+    when(supervisoryNodeReferenceDataService
+        .findSupervisoryNode(any(), any()))
+        .thenReturn(null);
+
+    notifier.notify(inventoryItem);
+
+    verify(supervisoryNodeReferenceDataService).findSupervisoryNode(facilityId, programId);
+    verify(supervisoryNodeReferenceDataService, never()).findSupervisingUsers(any(), any(), any());
+    verify(notificationService, never()).notify(any(), any(), any());
+  }
+
+  @Test
+  public void shouldNotifyTwoTimesForTwoUsersWithProperUsernameInContent() {
     mockUsers(Arrays.asList(user, user2));
     when(user2.getUsername()).thenReturn("user2-username");
 
