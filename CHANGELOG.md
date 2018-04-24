@@ -1,4 +1,4 @@
-1.0.0 / WIP
+1.0.0 / 2018-04-24
 ==================
 
 Released openlmis-cce 1.0.0 as part of openlmis-ref-distro 3.3. This was the first stable release of openlmis-cce.
