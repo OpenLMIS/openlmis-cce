@@ -20,6 +20,7 @@ import static org.openlmis.cce.i18n.InventoryItemMessageKeys.EMAIL_NONFUNCTIONAL
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_USER_INVALID;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -117,7 +118,7 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
         inventoryItem.getReasonNotWorkingOrNotInUse().toString());
     valuesMap.put("saveUser", getUsername(inventoryItem));
     valuesMap.put("saveDate", getDateTimeFormatter().format(inventoryItem.getModifiedDate()));
-    valuesMap.put("urlToViewCceList", urlToViewCce);
+    valuesMap.put("urlToViewCceList", getUrlToViewCceList(inventoryItem));
     return valuesMap;
   }
 
@@ -137,6 +138,11 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
           new Message(ERROR_USER_INVALID, userId));
     }
     return one.getUsername();
+  }
+
+  private String getUrlToViewCceList(InventoryItemDto inventoryItem) {
+    return MessageFormat.format(urlToViewCce,
+        inventoryItem.getFacilityId(), inventoryItem.getProgramId(), "true");
   }
 
 }

@@ -27,6 +27,7 @@ import static org.openlmis.cce.i18n.InventoryItemMessageKeys.EMAIL_NONFUNCTIONAL
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.EMAIL_NONFUNCTIONAL_CCE_SUBJECT;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 
+import java.text.MessageFormat;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -84,7 +85,8 @@ public class NonfunctionalCceNotifierTest {
   private static final FunctionalStatus FUNCTIONAL_STATUS = FunctionalStatus.AWAITING_REPAIR;
   private static final String LAST_MODIFIER_USERNAME = "lastmodifier";
   private static final String USERNAME = "user";
-  private static final String URL_TO_VIEW_CCE = "http://localhost/#!/cce/inventory?page=0&size=10";
+  private static final String URL_TO_VIEW_CCE =
+      "http://localhost/#!/cce/inventory?page=0&size=10&facility={0}&program={1}&supervised={2}";
   private static final ReasonNotWorkingOrNotInUse REASON_NOT_WORKING_OR_NOT_IN_USE =
       ReasonNotWorkingOrNotInUse.DEAD;
   private static final ZonedDateTime MODIFIED_DATE = ZonedDateTime.now();
@@ -155,6 +157,8 @@ public class NonfunctionalCceNotifierTest {
   public void shouldNotifyWithCorrectContent() {
     notifier.notify(inventoryItem);
 
+    String urlToViewCCe = MessageFormat.format(
+        URL_TO_VIEW_CCE, inventoryItem.getFacilityId(), inventoryItem.getProgramId(), "true");
     verify(notificationService).notify(
         eq(user),
         any(),
@@ -166,7 +170,7 @@ public class NonfunctionalCceNotifierTest {
                 + "at this facility. %s",
             USERNAME, EQUIPMENT_TYPE, REFERENCE_NAME, FACILITY_NAME, FUNCTIONAL_STATUS,
             REASON_NOT_WORKING_OR_NOT_IN_USE, LAST_MODIFIER_USERNAME,
-            getDateTimeFormatter().format(MODIFIED_DATE), URL_TO_VIEW_CCE)));
+            getDateTimeFormatter().format(MODIFIED_DATE), urlToViewCCe)));
   }
 
   @Test
