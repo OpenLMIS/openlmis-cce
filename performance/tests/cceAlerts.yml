@@ -7,20 +7,6 @@ execution:
     scenario: save-cce-alert
 
 scenarios:
-  get-user-token:
-    requests:
-      - url: ${__P(base-uri)}/api/oauth/token
-        method: POST
-        label: GetUserToken
-        headers:
-          Authorization: Basic ${__base64Encode(${__P(basic-auth)})}
-        body:
-          grant_type: password
-          username: ${__P(username)}
-          password: ${__P(password)}
-        extract-jsonpath:
-          access_token:
-            jsonpath: $.access_token
   get-cce-alerts-by-devices:
     # Devices at Lurio, Cuamba
     requests:
