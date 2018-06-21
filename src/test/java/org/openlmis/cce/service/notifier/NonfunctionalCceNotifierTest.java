@@ -174,33 +174,6 @@ public class NonfunctionalCceNotifierTest {
   }
 
   @Test
-  public void shouldNotNotifyWhenEditorHaveNoEmail() {
-    when(user.getEmail()).thenReturn(null);
-
-    notifier.notify(inventoryItem);
-
-    verify(notificationService, never()).notify(any(), any(), any());
-  }
-
-  @Test
-  public void shouldNotNotifyWhenEditorIsNoActiveOrVerified() {
-    when(user.activeAndVerified()).thenReturn(false);
-
-    notifier.notify(inventoryItem);
-
-    verify(notificationService, never()).notify(any(), any(), any());
-  }
-
-  @Test
-  public void shouldNotNotifyWhenEditorDoesNotAllowNotify() {
-    when(user.allowNotify()).thenReturn(false);
-
-    notifier.notify(inventoryItem);
-
-    verify(notificationService, never()).notify(any(), any(), any());
-  }
-
-  @Test
   public void shouldNotNotifyWhenUserIsNull() {
     when(supervisoryNodeReferenceDataService
         .findSupervisingUsers(supervisoryNodeId, rightId, programId))

@@ -15,18 +15,17 @@
 
 package org.openlmis.cce.service.notifier;
 
-import org.openlmis.cce.dto.UserDto;
+import java.time.chrono.Chronology;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
+import java.time.format.FormatStyle;
+import java.util.Locale;
 import org.openlmis.cce.i18n.MessageService;
 import org.openlmis.cce.util.Message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.i18n.LocaleContextHolder;
-import java.time.chrono.Chronology;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeFormatterBuilder;
-import java.time.format.FormatStyle;
-import java.util.Locale;
 
 public class BaseNotifier {
 
@@ -34,13 +33,6 @@ public class BaseNotifier {
 
   @Autowired
   protected MessageService messageService;
-
-  /**
-   * Check if user wants notifications: (active, verified, allowNotify all true).
-   */
-  protected static boolean canBeNotified(UserDto user) {
-    return user.allowNotify() && user.activeAndVerified() && user.getEmail() != null;
-  }
 
   protected String getMessage(String key) {
     return messageService

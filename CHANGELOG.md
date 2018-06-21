@@ -6,6 +6,7 @@ Bug fixes:
 
 Improvements:
 * [OLMIS-4647](https://openlmis.atlassian.net/browse/OLMIS-4647): Added Jenkinsfile
+* [OLMIS-4905](https://openlmis.atlassian.net/browse/OLMIS-4905): Updated notification service to use v2 endpoint.
 
 1.0.0 / 2018-04-24
 ==================

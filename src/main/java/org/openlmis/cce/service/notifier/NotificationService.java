@@ -15,11 +15,11 @@
 
 package org.openlmis.cce.service.notifier;
 
+import java.net.URI;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.AuthService;
 import org.openlmis.cce.service.RequestHeaders;
 import org.openlmis.cce.util.RequestHelper;
-import org.openlmis.util.NotificationRequest;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +30,6 @@ import org.springframework.web.client.HttpStatusCodeException;
 import org.springframework.web.client.RestOperations;
 import org.springframework.web.client.RestTemplate;
 
-import java.net.URI;
-
 @Service
 public class NotificationService {
   private final Logger logger = LoggerFactory.getLogger(getClass());
@@ -41,9 +39,6 @@ public class NotificationService {
 
   @Value("${notification.url}")
   private String notificationUrl;
-
-  @Value("${email.noreply}")
-  private String from;
 
   private RestOperations restTemplate = new RestTemplate();
 
@@ -56,19 +51,17 @@ public class NotificationService {
    * @return true if success, false if failed.
    */
   public boolean notify(UserDto user, String subject, String content) {
-    NotificationRequest request = new NotificationRequest(
-        from, user.getEmail(), subject, content
-    );
+    NotificationDto request = new NotificationDto(user.getId(), subject, content);
     logger.debug("Sending request:"
         + "\n subject:" + request.getSubject()
         + "\n content:" + request.getContent()
         + "\n from: " + request.getFrom()
-        + "\n to: " + request.getTo());
+        + "\n to: " + request.getUserId());
 
     try {
       RequestHeaders headers = RequestHeaders.init().setAuth(authService.obtainAccessToken());
       URI uri = RequestHelper.createUri(notificationUrl);
-      HttpEntity<NotificationRequest> entity = RequestHelper.createEntity(request, headers);
+      HttpEntity<NotificationDto> entity = RequestHelper.createEntity(request, headers);
 
       restTemplate.postForObject(uri, entity, Object.class);
     } catch (HttpStatusCodeException ex) {

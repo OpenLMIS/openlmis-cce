@@ -24,6 +24,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+import java.net.URI;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -34,12 +35,10 @@ import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.AuthService;
-import org.openlmis.util.NotificationRequest;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.web.client.RestTemplate;
-import java.net.URI;
 
 @RunWith(MockitoJUnitRunner.class)
 public class NotificationServiceTest {
@@ -48,7 +47,7 @@ public class NotificationServiceTest {
   private static final String FROM = "noreply@test.te";
   private static final String MAIL_SUBJECT = "subject";
   private static final String MAIL_CONTENT = "content";
-  private static final String NOTIFICATION_URL = "http://localhost/notifiation";
+  private static final String NOTIFICATION_URL = "http://localhost/v2/notifiation";
 
   @Mock
   private AuthService authService;
@@ -68,7 +67,6 @@ public class NotificationServiceTest {
 
     ReflectionTestUtils.setField(notificationService, "restTemplate", restTemplate);
     ReflectionTestUtils.setField(notificationService, "notificationUrl", NOTIFICATION_URL);
-    ReflectionTestUtils.setField(notificationService, "from", FROM);
   }
 
   @Test
@@ -91,9 +89,7 @@ public class NotificationServiceTest {
             captor.getValue().getBody()));
   }
 
-  private NotificationRequest getNotificationRequest(UserDto user) {
-    return new NotificationRequest(
-        FROM, user.getEmail(), MAIL_SUBJECT, MAIL_CONTENT
-    );
+  private NotificationDto getNotificationRequest(UserDto user) {
+    return new NotificationDto(user.getId(), MAIL_SUBJECT, MAIL_CONTENT);
   }
 }

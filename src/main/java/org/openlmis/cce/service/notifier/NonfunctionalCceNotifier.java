@@ -83,11 +83,9 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
       Map<String, String> valuesMap = getValuesMap(inventoryItem);
       StrSubstitutor sub = new StrSubstitutor(valuesMap);
       for (UserDto recipient : recipients) {
-        if (canBeNotified(recipient)) {
-          valuesMap.put("username", recipient.getUsername());
-          logger.debug("Sending notification to: " + recipient.getUsername());
-          notificationService.notify(recipient, sub.replace(subject), sub.replace(content));
-        }
+        valuesMap.put("username", recipient.getUsername());
+        logger.debug("Sending notification to: " + recipient.getUsername());
+        notificationService.notify(recipient, sub.replace(subject), sub.replace(content));
       }
     }
   }
