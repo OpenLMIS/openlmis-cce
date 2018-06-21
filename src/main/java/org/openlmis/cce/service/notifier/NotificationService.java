@@ -55,12 +55,12 @@ public class NotificationService {
     logger.debug("Sending request:"
         + "\n subject:" + request.getSubject()
         + "\n content:" + request.getContent()
-        + "\n from: " + request.getFrom()
         + "\n to: " + request.getUserId());
 
+    String url = notificationUrl + "/api/v2/notification";
     try {
       RequestHeaders headers = RequestHeaders.init().setAuth(authService.obtainAccessToken());
-      URI uri = RequestHelper.createUri(notificationUrl);
+      URI uri = RequestHelper.createUri(url);
       HttpEntity<NotificationDto> entity = RequestHelper.createEntity(request, headers);
 
       restTemplate.postForObject(uri, entity, Object.class);
