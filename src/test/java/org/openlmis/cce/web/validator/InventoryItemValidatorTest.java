@@ -16,11 +16,13 @@
 package org.openlmis.cce.web.validator;
 
 import static java.util.UUID.randomUUID;
+import static org.mockito.Mockito.when;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_BACKUP_GENERATOR_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_CATALOG_ITEM_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_DECOMMISSION_DATE_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_FACILITY_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_FUNCTIONAL_STATUS_REQUIRED;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_ALREADY_EXISTS;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_MANUAL_TEMPERATURE_GAUGE_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_PROGRAM_ID_REQUIRED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_REASON_REQUIRED;
@@ -39,6 +41,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
+import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.FunctionalStatus;
@@ -46,6 +49,7 @@ import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.ObjectReferenceDto;
 import org.openlmis.cce.exception.ValidationMessageException;
+import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.util.Message;
 
 @RunWith(MockitoJUnitRunner.class)
@@ -58,6 +62,9 @@ public class InventoryItemValidatorTest {
 
   @InjectMocks
   private InventoryItemValidator inventoryItemValidator;
+
+  @Mock
+  private InventoryItemRepository inventoryItemRepository;
 
   private InventoryItemDto inventoryItemDto;
 
@@ -229,6 +236,18 @@ public class InventoryItemValidatorTest {
         new Message(ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED, "").toString());
 
     inventoryItemDto.setRemoteTemperatureMonitor(null);
+
+    inventoryItemValidator.validate(inventoryItemDto);
+  }
+
+  @Test
+  public void shouldThrowExceptionIfItemWithEquipmentTrackingIdAndModalAndTypeAlreadyExists() {
+    when(inventoryItemRepository.existsByEquipmentTrackingIdAndCatalogItem_ModelAndCatalogItem_Type(
+        inventoryItemDto.getEquipmentTrackingId(), inventoryItemDto.getCatalogItem().getModel(),
+        inventoryItemDto.getCatalogItem().getType())).thenReturn(true);
+    expectedEx.expect(ValidationMessageException.class);
+    expectedEx.expectMessage(
+        new Message(ERROR_ITEM_ALREADY_EXISTS, "").toString());
 
     inventoryItemValidator.validate(inventoryItemDto);
   }

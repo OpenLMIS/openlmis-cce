@@ -3,6 +3,7 @@
 
 Bug fixes:
 * [OLMIS-4588](https://openlmis.atlassian.net/browse/OLMIS-4588): Fixed incorrect link in the CCE notification
+* [OLMIS-4057](https://openlmis.atlassian.net/browse/OLMIS-4057): Fixed error code and message for duplicated inventory item.
 
 Improvements:
 * [OLMIS-4647](https://openlmis.atlassian.net/browse/OLMIS-4647): Added Jenkinsfile

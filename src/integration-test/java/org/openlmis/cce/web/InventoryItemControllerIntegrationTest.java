@@ -30,6 +30,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
+import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_ALREADY_EXISTS;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
@@ -121,6 +122,23 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     inventoryItemDto.setLastModifier(lastModifier);
     inventoryItemDto.setId(response.getId());
     checkResponseAndRaml(response);
+  }
+
+  @Test
+  public void shouldReturnBadRequestIfInventoryItemValidationFails() {
+    when(inventoryItemRepository.existsByEquipmentTrackingIdAndCatalogItem_ModelAndCatalogItem_Type(
+        inventoryItemDto.getEquipmentTrackingId(),
+        inventoryItemDto.getCatalogItem().getModel(),
+        inventoryItem.getCatalogItem().getType()))
+        .thenReturn(true);
+
+    postInventoryItem()
+        .then()
+        .statusCode(400)
+        .body(MESSAGE, equalTo(getMessage(ERROR_ITEM_ALREADY_EXISTS)));
+
+    verify(inventoryItemRepository, never()).save(any(InventoryItem.class));
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
   @Test

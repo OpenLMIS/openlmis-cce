@@ -25,4 +25,7 @@ import java.util.UUID;
 @JaversSpringDataAuditable
 public interface InventoryItemRepository extends PagingAndSortingRepository<InventoryItem, UUID>,
     InventoryItemRepositoryCustom {
+
+  Boolean existsByEquipmentTrackingIdAndCatalogItem_ModelAndCatalogItem_Type(
+      String equipmentTrackingId, String catalogItemModel, String catalogItemType);
 }

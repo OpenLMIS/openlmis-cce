@@ -19,6 +19,8 @@ import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.i18n.InventoryItemMessageKeys;
+import org.openlmis.cce.repository.InventoryItemRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.ValidationUtils;
 
@@ -27,6 +29,9 @@ import org.springframework.validation.ValidationUtils;
  */
 @Component
 public class InventoryItemValidator {
+
+  @Autowired
+  InventoryItemRepository inventoryItemRepository;
 
   /**
    * Validates the {@code inventoryItem} object.
@@ -60,6 +65,7 @@ public class InventoryItemValidator {
         InventoryItemMessageKeys.ERROR_REFERENCE_NAME_REQUIRED);
     validateNotNull(inventoryItem.getRemoteTemperatureMonitor(),
         InventoryItemMessageKeys.ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED);
+    validateUniqueConstraints(inventoryItem);
 
     if (inventoryItem.getFunctionalStatus().equals(FunctionalStatus.UNSERVICEABLE)) {
       validateNotNull(inventoryItem.getDecommissionDate(),
@@ -75,5 +81,22 @@ public class InventoryItemValidator {
     if (field == null) {
       throw new ValidationMessageException(errorMessage);
     }
+  }
+
+  private void validateUniqueConstraints(InventoryItemDto inventoryItem) {
+    Boolean exists = inventoryItemRepository
+        .existsByEquipmentTrackingIdAndCatalogItem_ModelAndCatalogItem_Type(
+            inventoryItem.getEquipmentTrackingId(),
+            inventoryItem.getCatalogItem().getModel(),
+            inventoryItem.getCatalogItem().getType());
+    if (checkIfFieldsAreNull(inventoryItem) && exists) {
+      throw new ValidationMessageException(InventoryItemMessageKeys.ERROR_ITEM_ALREADY_EXISTS);
+    }
+  }
+
+  private boolean checkIfFieldsAreNull(InventoryItemDto inventoryItem) {
+    return inventoryItem.getEquipmentTrackingId() != null
+        && inventoryItem.getCatalogItem().getModel() != null
+        && inventoryItem.getCatalogItem().getType() != null;
   }
 }

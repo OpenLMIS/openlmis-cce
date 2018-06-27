@@ -17,6 +17,7 @@ package org.openlmis.cce.repository;
 
 import static java.util.Collections.singletonList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
@@ -215,6 +216,31 @@ public class InventoryItemRepositoryIntegrationTest
         .equals(FunctionalStatus.FUNCTIONING));
     assertTrue(inventoryItems.getContent().get(1).getFunctionalStatus()
         .equals(FunctionalStatus.FUNCTIONING));
+  }
+
+  @Test
+  public void shouldReturnTrueIfItemWithEquipmentTrackingIdAndModalAndTypeAlreadyExists() {
+    InventoryItem item = generateInstance();
+    item = repository.save(item);
+
+    assertTrue(repository
+        .existsByEquipmentTrackingIdAndCatalogItem_ModelAndCatalogItem_Type(
+            item.getEquipmentTrackingId(),
+            item.getCatalogItem().getModel(),
+            item.getCatalogItem().getType()
+        ));
+  }
+
+  @Test
+  public void shouldReturnFalseIfItemWithEquipmentTrackingIdAndModalAndTypeDoesNotExists() {
+    InventoryItem item = generateInstance();
+
+    assertFalse(repository
+        .existsByEquipmentTrackingIdAndCatalogItem_ModelAndCatalogItem_Type(
+            item.getEquipmentTrackingId(),
+            item.getCatalogItem().getModel(),
+            item.getCatalogItem().getType()
+        ));
   }
 
   @Test

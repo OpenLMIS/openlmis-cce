@@ -19,6 +19,7 @@ public class InventoryItemMessageKeys extends MessageKeys {
   private static final String ERROR_PREFIX = SERVICE_ERROR_PREFIX + ".inventory";
 
   public static final String ERROR_ITEM_NOT_FOUND = ERROR_PREFIX + ".item.notFound";
+  public static final String ERROR_ITEM_ALREADY_EXISTS = ERROR_PREFIX + ".item.alreadyExists";
   public static final String ERROR_CATALOG_ITEM_REQUIRED =
       join(ERROR_PREFIX, "catalogItem", REQUIRED);
   public static final String ERROR_FACILITY_REQUIRED =
