@@ -113,7 +113,10 @@ scenarios:
             def jsonSlurper = new JsonSlurper();
             def inventoryItem = jsonSlurper.parseText(response);
 
+            def random = new Random();
+
             inventoryItem.referenceName = "New Reference Name";
+            inventoryItem.equipmentTrackingId: random.nextInt(),
 
             vars.put("inventory_item", JsonOutput.toJson(inventoryItem));
         body: ${inventory_item}
