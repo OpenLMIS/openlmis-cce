@@ -116,7 +116,7 @@ scenarios:
             def random = new Random();
 
             inventoryItem.referenceName = "New Reference Name";
-            inventoryItem.equipmentTrackingId: random.nextInt(),
+            inventoryItem.equipmentTrackingId = random.nextInt().toString();
 
             vars.put("inventory_item", JsonOutput.toJson(inventoryItem));
         body: ${inventory_item}
