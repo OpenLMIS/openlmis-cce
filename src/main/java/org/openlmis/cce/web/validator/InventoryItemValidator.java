@@ -90,7 +90,10 @@ public class InventoryItemValidator {
             inventoryItem.getCatalogItem().getModel(),
             inventoryItem.getCatalogItem().getType());
     if (checkIfFieldsAreNull(inventoryItem) && exists) {
-      throw new ValidationMessageException(InventoryItemMessageKeys.ERROR_ITEM_ALREADY_EXISTS);
+      throw new ValidationMessageException(InventoryItemMessageKeys.ERROR_ITEM_ALREADY_EXISTS,
+          inventoryItem.getEquipmentTrackingId(),
+          inventoryItem.getCatalogItem().getType(),
+          inventoryItem.getCatalogItem().getModel());
     }
   }
 

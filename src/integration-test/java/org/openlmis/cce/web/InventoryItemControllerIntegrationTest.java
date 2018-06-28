@@ -135,7 +135,11 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     postInventoryItem()
         .then()
         .statusCode(400)
-        .body(MESSAGE, equalTo(getMessage(ERROR_ITEM_ALREADY_EXISTS)));
+        .body(MESSAGE, equalTo(getMessage(
+            ERROR_ITEM_ALREADY_EXISTS,
+            inventoryItemDto.getEquipmentTrackingId(),
+            inventoryItemDto.getCatalogItem().getType(),
+            inventoryItemDto.getCatalogItem().getModel())));
 
     verify(inventoryItemRepository, never()).save(any(InventoryItem.class));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());

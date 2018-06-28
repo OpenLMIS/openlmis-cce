@@ -247,7 +247,10 @@ public class InventoryItemValidatorTest {
         inventoryItemDto.getCatalogItem().getType())).thenReturn(true);
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
-        new Message(ERROR_ITEM_ALREADY_EXISTS, "").toString());
+        new Message(ERROR_ITEM_ALREADY_EXISTS,
+            inventoryItemDto.getEquipmentTrackingId(),
+            inventoryItemDto.getCatalogItem().getType(),
+            inventoryItemDto.getCatalogItem().getModel()).toString());
 
     inventoryItemValidator.validate(inventoryItemDto);
   }
