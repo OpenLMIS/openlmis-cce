@@ -48,5 +48,5 @@ scenarios:
 reporting:
     - module: passfail
       criteria:
-        Get CCE Alerts by Devices too slow: p90 of GetCceAlertsByDevices>500ms
+        Get CCE Alerts by Devices too slow: p90 of GetCceAlertsByDevices>700ms
         Save CCE Alert too slow: p90 of SaveCceAlert>700ms
