@@ -150,6 +150,6 @@ reporting:
         Get Catalog Items too slow: p90 of GetCatalogItems>2000ms
         Get Catalog Items as CSV too slow: p90 of GetCatalogItemsCSV>500ms
         Get Catalog Item too slow: p90 of GetCatalogItem>500ms
-        Create Catalog Item too slow: p90 of CreateCatalogItem>500ms
+        Create Catalog Item too slow: p90 of CreateCatalogItem>1000ms
         Update Catalog Item too slow: p90 of UpdateCatalogItem>1000ms
         Upload Catalog Items too slow: p90 of UploadCatalogItems>6000ms
