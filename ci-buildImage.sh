@@ -16,5 +16,5 @@ fi
 
 docker-compose -f docker-compose.builder.yml run -e BUILD_NUMBER=$BUILD_NUMBER -e GIT_BRANCH=$GIT_BRANCH builder
 docker-compose -f docker-compose.builder.yml build image
-docker tag openlmis/stockmanagement:latest openlmis/stockmanagement:$STAGING_VERSION
-docker push openlmis/stockmanagement:$STAGING_VERSION
+docker tag openlmis/cce:latest openlmis/cce:$STAGING_VERSION
+docker push openlmis/cce:$STAGING_VERSION
