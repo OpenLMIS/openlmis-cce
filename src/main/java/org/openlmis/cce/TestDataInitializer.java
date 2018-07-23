@@ -30,26 +30,50 @@ import org.springframework.stereotype.Component;
 import java.io.IOException;
 
 @Component
-@Profile("performance-data")
+@Profile("demo-data")
 @Order(5)
 public class TestDataInitializer implements CommandLineRunner {
   private static final XLogger XLOGGER = XLoggerFactory.getXLogger(TestDataInitializer.class);
-  private static final String PERF_DATA_PATH = "classpath:db/performance-data/";
 
-  @Value(value = PERF_DATA_PATH + "catalog_items.csv")
+  private static final String DEMO_DATA_PATH = "classpath:db/demo-data/";
+  private static final String FILE_EXTENSION = ".csv";
+
+  // table names
+  private static final String CATALOG_ITEMS = "cce_catalog_items";
+  private static final String INVENTORY_ITEMS = "cce_inventory_items";
+  private static final String CCE_ALERTS = "cce_alerts";
+  private static final String CCE_ALERT_STATUS_MESSAGES = "cce_alert_status_messages";
+
+  // database path
+  private static final String DB_SCHEMA = "cce.";
+  static final String CATALOG_ITEMS_TABLE = DB_SCHEMA + CATALOG_ITEMS;
+  static final String INVENTORY_ITEMS_TABLE = DB_SCHEMA + INVENTORY_ITEMS;
+  static final String CCE_ALERTS_TABLE = DB_SCHEMA + CCE_ALERTS;
+  static final String CCE_ALERT_STATUS_MESSAGES_TABLE = DB_SCHEMA + CCE_ALERT_STATUS_MESSAGES;
+
+
+  @Value(value = DEMO_DATA_PATH + DB_SCHEMA + CATALOG_ITEMS + FILE_EXTENSION)
   private Resource catalogItemsResource;
 
-  @Value(value = PERF_DATA_PATH + "inventory_items.csv")
+  @Value(value = DEMO_DATA_PATH + DB_SCHEMA + INVENTORY_ITEMS + FILE_EXTENSION)
   private Resource inventoryItemsResource;
 
-  @Value(value = PERF_DATA_PATH + "cce_alerts.csv")
+  @Value(value = DEMO_DATA_PATH + DB_SCHEMA + CCE_ALERTS + FILE_EXTENSION)
   private Resource cceAlertsResource;
 
-  @Value(value = PERF_DATA_PATH + "cce_alert_status_messages.csv")
+  @Value(value = DEMO_DATA_PATH + DB_SCHEMA + CCE_ALERT_STATUS_MESSAGES + FILE_EXTENSION)
   private Resource cceAlertStatusMessagesResource;
 
+  private Resource2Db loader;
+
   @Autowired
-  private JdbcTemplate template;
+  public TestDataInitializer(JdbcTemplate template) {
+    this(new Resource2Db(template));
+  }
+
+  TestDataInitializer(Resource2Db loader) {
+    this.loader = loader;
+  }
 
   /**
    * Initializes test data.
@@ -58,13 +82,12 @@ public class TestDataInitializer implements CommandLineRunner {
   public void run(String... args) throws IOException {
     XLOGGER.entry();
 
-    Resource2Db r2db = new Resource2Db(template);
-
-    r2db.insertToDbFromCsv("cce.cce_catalog_items", catalogItemsResource);
-    r2db.insertToDbFromCsv("cce.cce_inventory_items", inventoryItemsResource);
-    r2db.insertToDbFromCsv("cce.cce_alerts", cceAlertsResource);
-    r2db.insertToDbFromCsv("cce.cce_alert_status_messages", cceAlertStatusMessagesResource);
+    loader.insertToDbFromCsv(CATALOG_ITEMS_TABLE, catalogItemsResource);
+    loader.insertToDbFromCsv(INVENTORY_ITEMS_TABLE, inventoryItemsResource);
+    loader.insertToDbFromCsv(CCE_ALERTS_TABLE, cceAlertsResource);
+    loader.insertToDbFromCsv(CCE_ALERT_STATUS_MESSAGES_TABLE, cceAlertStatusMessagesResource);
 
     XLOGGER.exit();
   }
+
 }

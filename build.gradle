@@ -34,36 +34,40 @@ repositories {
 }
 
 dependencies {
-    compile "org.springframework.boot:spring-boot-starter-web"
-    compile "org.springframework.boot:spring-boot-starter-data-rest"
-    compile "org.projectlombok:lombok:1.16.8"
-    compile "org.springframework.boot:spring-boot-starter-data-jpa"
-    compile "org.postgresql:postgresql:9.4.1208"
-    compile "com.github.tomakehurst:wiremock:1.58"
-    compile "org.springframework:spring-test"
-    compile 'org.webjars.npm:api-console:3.0.17'
-    compile 'org.openlmis:openlmis-service-util:3.1.0'
-    compile 'org.apache.commons:commons-lang3:3.5'
-    compile 'org.javers:javers-spring-boot-starter-sql:2.8.1'
-    compile 'org.flywaydb:flyway-core:4.0.3'
-    compile "org.springframework.security.oauth:spring-security-oauth2"
-    compile 'net.sf.supercsv:super-csv:2.4.0'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate4'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
+    compile 'commons-io:commons-io:2.5'
     compile 'net.sf.supercsv:super-csv-dozer:2.4.0'
-    compile 'org.hibernate:hibernate-java8'
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-jsr310"
-    compile "com.fasterxml.jackson.datatype:jackson-datatype-hibernate4"
-    compile "org.slf4j:slf4j-ext:1.7.25"
-    compile 'org.apache.commons:commons-csv:1.4'
+    compile 'net.sf.supercsv:super-csv:2.4.0'
     compile 'org.apache.commons:commons-collections4:4.1'
+    compile 'org.apache.commons:commons-csv:1.4'
+    compile 'org.apache.commons:commons-lang3:3.5'
     compile 'org.apache.commons:commons-text:1.1'
+    compile 'org.flywaydb:flyway-core:4.0.3'
+    compile 'org.hibernate:hibernate-java8'
+    compile 'org.javers:javers-spring-boot-starter-sql:2.8.1'
+    compile 'org.openlmis:openlmis-service-util:3.1.0'
+    compile 'org.postgresql:postgresql:9.4.1208'
+    compile 'org.projectlombok:lombok:1.16.8'
+    compile 'org.slf4j:slf4j-ext:1.7.25'
+    compile 'org.springframework.boot:spring-boot-starter-data-jpa'
+    compile 'org.springframework.boot:spring-boot-starter-security'
+    compile 'org.springframework.boot:spring-boot-starter-web'
+    compile 'org.springframework.security.oauth:spring-security-oauth2'
+    compile 'org.springframework:spring-context-support'
+    compile 'org.webjars.npm:api-console:3.0.17'
 
-    testCompile "com.jayway.restassured:rest-assured:2.7.0"
-    testCompile "junit:junit"
-    testCompile "org.mockito:mockito-core:1.+"
-    testCompile "org.springframework.boot:spring-boot-starter-test"
-    testCompile "guru.nidi.raml:raml-tester:0.8.9"
-    testCompile "nl.jqno.equalsverifier:equalsverifier:2.4"
-    testCompile "be.joengenduvel.java.verifiers:to-string:1.0.2"
+    testCompile 'be.joengenduvel.java.verifiers:to-string:1.0.2'
+    testCompile 'com.github.tomakehurst:wiremock:1.58'
+    testCompile 'com.jayway.restassured:rest-assured:2.7.0'
+    testCompile 'guru.nidi.raml:raml-tester:0.8.9'
+    testCompile 'junit:junit'
+    testCompile 'nl.jqno.equalsverifier:equalsverifier:2.4'
+    testCompile 'org.mockito:mockito-core:1.+'
+    testCompile 'org.powermock:powermock-api-mockito:1.6.5'
+    testCompile 'org.powermock:powermock-module-junit4:1.6.5'
+    testCompile 'org.springframework.boot:spring-boot-starter-test'
+    testCompile 'org.springframework:spring-test'
 }
 
 idea {
@@ -109,12 +113,6 @@ sourceSets {
             srcDir file('src/integration-test/java')
         }
         resources.srcDir file('src/integration-test/resources')
-    }
-
-    main {
-        resources {
-            srcDirs "src/main/resources", "build/data"
-        }
     }
 }
 
@@ -170,11 +168,6 @@ task checkApiIsRaml(type:Exec) {
     args "src/main/resources/api-definition.yaml"
 }
 
-
-task demoDataSeed(type:Exec) {
-    executable "./demo-data/demo_seed.sh"
-    args "demo-data", "build/data/demo-data", "demo-data/generator.js"
-}
 
 configure(checkApiIsRaml) {
     group = JavaBasePlugin.VERIFICATION_GROUP
@@ -251,8 +244,6 @@ integrationTest {
 }
 
 processResources {
-    dependsOn demoDataSeed
-
     // we want the generated HTML spec file included in the output jar
     finalizedBy ramlToHtml
     // update version information in build

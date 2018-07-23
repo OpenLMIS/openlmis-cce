@@ -1,0 +1,150 @@
+{
+  "id": 80481,
+  "num_rows": 1000,
+  "file_format": "csv",
+  "name": "catalog items",
+  "include_header": true,
+  "columns": [
+    {
+      "name": "id",
+      "null_percentage": 0,
+      "type": "GUID",
+      "formula": ""
+    },
+    {
+      "name": "fromPqsCatalog",
+      "null_percentage": 0,
+      "type": "Boolean",
+      "formula": ""
+    },
+    {
+      "name": "equipmentCode",
+      "null_percentage": 0,
+      "type": "FDA NDC Code",
+      "formula": ""
+    },
+    {
+      "name": "type",
+      "null_percentage": 0,
+      "type": "Words",
+      "min": 1,
+      "max": 3,
+      "formula": ""
+    },
+    {
+      "name": "model",
+      "null_percentage": 0,
+      "type": "Regular Expression",
+      "value": "[:upper:]{2,5}-\\d{1,5}-[:lower:]{0,5}",
+      "formula": ""
+    },
+    {
+      "name": "manufacturer",
+      "null_percentage": 0,
+      "type": "Fake Company Name",
+      "formula": ""
+    },
+    {
+      "name": "energySource",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "ELECTRIC",
+        "SOLAR",
+        "GASOLINE",
+        "NOT_APPLICABLE"
+      ],
+      "selectionStyle": "random",
+      "distribution": null,
+      "formula": ""
+    },
+    {
+      "name": "dateOfPrequal",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": 1950,
+      "max": 2017,
+      "decimals": 0,
+      "formula": ""
+    },
+    {
+      "name": "storageTemperature",
+      "null_percentage": 0,
+      "type": "Words",
+      "min": 10,
+      "max": 20,
+      "formula": "'MINUS' + format(random(1, 20), 0)"
+    },
+    {
+      "name": "maxOperatingTemp",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": -50,
+      "max": 50,
+      "decimals": 0,
+      "formula": ""
+    },
+    {
+      "name": "minOperatingTemp",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": -50,
+      "max": 50,
+      "decimals": 0,
+      "formula": ""
+    },
+    {
+      "name": "energyConsumption",
+      "null_percentage": 0,
+      "type": "Words",
+      "min": 10,
+      "max": 20,
+      "formula": "format(random(0.5, 10), 2) + 'kW/day'"
+    },
+    {
+      "name": "holdoverTime",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": 0,
+      "max": 100,
+      "decimals": 0,
+      "formula": ""
+    },
+    {
+      "name": "grossVolume",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": 0,
+      "max": 100,
+      "decimals": 0,
+      "formula": ""
+    },
+    {
+      "name": "netVolume",
+      "null_percentage": 0,
+      "type": "Number",
+      "min": 0,
+      "max": 100,
+      "decimals": 0,
+      "formula": ""
+    },
+    {
+      "name": "visibleInCatalog",
+      "null_percentage": 0,
+      "type": "Boolean",
+      "formula": ""
+    },
+    {
+      "name": "archived",
+      "null_percentage": 0,
+      "type": "Custom List",
+      "values": [
+        "true",
+        "false"
+      ],
+      "selectionStyle": "sequential",
+      "distribution": null,
+      "formula": ""
+    }
+  ]
+}

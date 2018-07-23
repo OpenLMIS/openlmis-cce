@@ -15,7 +15,7 @@
 
 package org.openlmis.cce;
 
-import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.callback.FlywayCallback;
 import org.javers.core.Javers;
 import org.javers.core.MappingStyle;
 import org.javers.core.diff.ListCompareAlgorithm;
@@ -36,6 +36,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.autoconfigure.flyway.FlywayMigrationStrategy;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ImportResource;
@@ -43,8 +44,8 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.web.servlet.LocaleResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
+
 import java.util.Locale;
-import org.springframework.boot.autoconfigure.domain.EntityScan;
 
 @SpringBootApplication(scanBasePackages = "org.openlmis")
 @ImportResource("classpath*:/applicationContext.xml")
@@ -91,18 +92,19 @@ public class Application {
   @Bean
   @Profile("!production")
   public FlywayMigrationStrategy cleanMigrationStrategy() {
-    FlywayMigrationStrategy strategy = new FlywayMigrationStrategy() {
-      @Override
-      public void migrate(Flyway flyway) {
-        logger.info("Using clean-migrate flyway strategy -- production profile not active");
-        flyway.clean();
-        flyway.migrate();
-      }
+    return flyway -> {
+      logger.info("Using clean-migrate flyway strategy -- production profile not active");
+      flyway.setCallbacks(flywayCallback());
+      flyway.clean();
+      flyway.migrate();
     };
-
-    return strategy;
   }
 
+  @Bean
+  public FlywayCallback flywayCallback() {
+    return new ExportSchemaFlywayCallback();
+  }
+  
   /**
    * Creates new MessageSource.
    *
