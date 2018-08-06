@@ -16,6 +16,7 @@
 package org.openlmis.cce.web.validator;
 
 import org.openlmis.cce.domain.FunctionalStatus;
+import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.i18n.InventoryItemMessageKeys;
@@ -40,7 +41,7 @@ public class InventoryItemValidator {
    * @param inventoryItem the object that will be validated
    * @see ValidationUtils
    */
-  public void validate(InventoryItemDto inventoryItem) {
+  public void validate(InventoryItemDto inventoryItem, InventoryItem existing) {
     validateNotNull(inventoryItem.getCatalogItem(),
         InventoryItemMessageKeys.ERROR_CATALOG_ITEM_REQUIRED);
     validateNotNull(inventoryItem.getFacility(),
@@ -65,7 +66,7 @@ public class InventoryItemValidator {
         InventoryItemMessageKeys.ERROR_REFERENCE_NAME_REQUIRED);
     validateNotNull(inventoryItem.getRemoteTemperatureMonitor(),
         InventoryItemMessageKeys.ERROR_REMOTE_TEMPERATURE_MONITOR_REQUIRED);
-    validateUniqueConstraints(inventoryItem);
+    validateUniqueConstraints(inventoryItem, existing);
 
     if (inventoryItem.getFunctionalStatus().equals(FunctionalStatus.UNSERVICEABLE)) {
       validateNotNull(inventoryItem.getDecommissionDate(),
@@ -83,18 +84,28 @@ public class InventoryItemValidator {
     }
   }
 
-  private void validateUniqueConstraints(InventoryItemDto inventoryItem) {
-    Boolean exists = inventoryItemRepository
+  private void validateUniqueConstraints(InventoryItemDto inventoryItem, InventoryItem existing) {
+    boolean needsDbVerification = existing == null
+        || (checkIfFieldsAreNull(inventoryItem) && valuesChanged(inventoryItem, existing));
+
+    Boolean exists = needsDbVerification && inventoryItemRepository
         .existsByEquipmentTrackingIdAndCatalogItem_ModelAndCatalogItem_Type(
             inventoryItem.getEquipmentTrackingId(),
             inventoryItem.getCatalogItem().getModel(),
             inventoryItem.getCatalogItem().getType());
-    if (checkIfFieldsAreNull(inventoryItem) && exists) {
+
+    if (exists) {
       throw new ValidationMessageException(InventoryItemMessageKeys.ERROR_ITEM_ALREADY_EXISTS,
           inventoryItem.getEquipmentTrackingId(),
           inventoryItem.getCatalogItem().getType(),
           inventoryItem.getCatalogItem().getModel());
     }
+  }
+
+  private boolean valuesChanged(InventoryItemDto inventoryItem, InventoryItem existing) {
+    return !(inventoryItem.getEquipmentTrackingId().equals(existing.getEquipmentTrackingId())
+        && inventoryItem.getCatalogItem().getType().equals(existing.getCatalogItem().getType())
+        && inventoryItem.getCatalogItem().getModel().equals(existing.getCatalogItem().getModel()));
   }
 
   private boolean checkIfFieldsAreNull(InventoryItemDto inventoryItem) {

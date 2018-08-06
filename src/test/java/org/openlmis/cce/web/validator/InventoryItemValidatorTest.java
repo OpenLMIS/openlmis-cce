@@ -67,10 +67,11 @@ public class InventoryItemValidatorTest {
   private InventoryItemRepository inventoryItemRepository;
 
   private InventoryItemDto inventoryItemDto;
+  private InventoryItem inventoryItem;
 
   @Before
   public void before() {
-    InventoryItem inventoryItem = new InventoryItemDataBuilder().build();
+    inventoryItem = new InventoryItemDataBuilder().build();
 
     inventoryItemDto = new InventoryItemDto();
     inventoryItem.export(inventoryItemDto);
@@ -81,7 +82,7 @@ public class InventoryItemValidatorTest {
 
   @Test
   public void shouldNotThrowExceptionIfRequiredFieldsAreNotNull() {
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -92,7 +93,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setCatalogItem(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -103,7 +104,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setFacility(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -114,7 +115,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setProgramId(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -125,7 +126,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setYearOfInstallation(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -136,7 +137,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setFunctionalStatus(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -147,7 +148,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setUtilization(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -158,7 +159,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setVoltageStabilizer(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -169,7 +170,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setBackupGenerator(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -180,7 +181,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setVoltageRegulator(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -191,7 +192,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setManualTemperatureGauge(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -202,7 +203,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setReferenceName(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -214,7 +215,7 @@ public class InventoryItemValidatorTest {
     inventoryItemDto.setFunctionalStatus(FunctionalStatus.UNSERVICEABLE);
     inventoryItemDto.setDecommissionDate(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -226,7 +227,7 @@ public class InventoryItemValidatorTest {
     inventoryItemDto.setFunctionalStatus(FunctionalStatus.AWAITING_REPAIR);
     inventoryItemDto.setReasonNotWorkingOrNotInUse(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -237,7 +238,7 @@ public class InventoryItemValidatorTest {
 
     inventoryItemDto.setRemoteTemperatureMonitor(null);
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
   @Test
@@ -252,7 +253,15 @@ public class InventoryItemValidatorTest {
             inventoryItemDto.getCatalogItem().getType(),
             inventoryItemDto.getCatalogItem().getModel()).toString());
 
-    inventoryItemValidator.validate(inventoryItemDto);
+    inventoryItemValidator.validate(inventoryItemDto, null);
   }
 
+  @Test
+  public void shouldNotThrowExceptionIfUpdatingInventoryItem() {
+    when(inventoryItemRepository.existsByEquipmentTrackingIdAndCatalogItem_ModelAndCatalogItem_Type(
+        inventoryItemDto.getEquipmentTrackingId(), inventoryItemDto.getCatalogItem().getModel(),
+        inventoryItemDto.getCatalogItem().getType())).thenReturn(true);
+
+    inventoryItemValidator.validate(inventoryItemDto, inventoryItem);
+  }
 }

@@ -107,7 +107,7 @@ public class InventoryItemController extends BaseController {
         inventoryItemDto.getProgramId(), inventoryItemDto.getFacility().getId());
 
     profiler.start("VALIDATE");
-    validator.validate(inventoryItemDto);
+    validator.validate(inventoryItemDto, null);
 
     profiler.start("CREATE_DOMAIN_INSTANCE");
     inventoryItemDto.setId(null);
@@ -226,7 +226,7 @@ public class InventoryItemController extends BaseController {
     }
 
     profiler.start("VALIDATE");
-    validator.validate(inventoryItemDto);
+    validator.validate(inventoryItemDto, existingInventory);
 
     profiler.start("UPDATE_AND_CREATE_DTO");
     InventoryItemDto dto;
