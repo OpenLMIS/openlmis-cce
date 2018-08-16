@@ -1,5 +1,5 @@
-1.0.1 / WIP
-===========
+1.0.1 / 2018-08-16
+==================
 
 Bug fixes:
 * [OLMIS-4588](https://openlmis.atlassian.net/browse/OLMIS-4588): Fixed incorrect link in the CCE notification
