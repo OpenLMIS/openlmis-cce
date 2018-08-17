@@ -15,6 +15,8 @@
 
 package org.openlmis.cce;
 
+import java.time.Clock;
+import java.time.ZoneId;
 import org.flywaydb.core.api.callback.FlywayCallback;
 import org.javers.core.Javers;
 import org.javers.core.MappingStyle;
@@ -57,6 +59,9 @@ public class Application {
   @Value("${defaultLocale}")
   private Locale locale;
 
+  @Value("${time.zoneId}")
+  private String timeZoneId;
+
   @Autowired
   DialectName dialectName;
 
@@ -82,6 +87,16 @@ public class Application {
     lr.setCookieName("lang");
     lr.setDefaultLocale(locale);
     return lr;
+  }
+
+  /**
+   * Creates new Clock.
+   *
+   * @return Created clock.
+   */
+  @Bean
+  public Clock clock() {
+    return Clock.system(ZoneId.of(timeZoneId));
   }
 
   /**
