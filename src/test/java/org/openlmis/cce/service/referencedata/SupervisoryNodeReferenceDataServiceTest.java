@@ -5,12 +5,12 @@
  * This program is free software: you can redistribute it and/or modify it under the terms
  * of the GNU Affero General Public License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Affero General Public License for more details. You should have received a copy of
  * the GNU Affero General Public License along with this program. If not, see
- * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+ * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
 package org.openlmis.cce.service.referencedata;
@@ -28,6 +28,9 @@ import static org.mockito.Mockito.when;
 import static org.openlmis.cce.service.referencedata.SupervisoryNodeReferenceDataService.PROGRAM_ID;
 import static org.openlmis.cce.service.referencedata.SupervisoryNodeReferenceDataService.RIGHT_ID;
 
+import java.net.URI;
+import java.util.Collection;
+import java.util.UUID;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.openlmis.cce.dto.SupervisoryNodeDto;
@@ -35,10 +38,6 @@ import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.util.PageImplRepresentation;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
-
-import java.net.URI;
-import java.util.Collection;
-import java.util.UUID;
 
 public class SupervisoryNodeReferenceDataServiceTest
     extends BaseReferenceDataServiceTest<SupervisoryNodeDto> {

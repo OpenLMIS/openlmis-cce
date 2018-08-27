@@ -17,6 +17,13 @@ package org.openlmis.cce.util;
 
 import static java.util.stream.Collectors.joining;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.stream.Collectors;
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.collections4.IteratorUtils;
 import org.apache.commons.csv.CSVFormat;
@@ -32,14 +39,6 @@ import org.slf4j.ext.XLoggerFactory;
 import org.springframework.core.io.Resource;
 import org.springframework.jdbc.core.JdbcTemplate;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
 /**
  * Spring oriented utility class to load data into a database.  When given Spring's
  * {@link JdbcTemplate}, an instance of this class is able to run SQL inserts/updates against the
@@ -52,7 +51,7 @@ public class Resource2Db {
   private final JdbcTemplate template;
 
   /**
-   * new with given data connection
+   * New with given data connection.
    * @param template the active {@link JdbcTemplate} to run SQL updates against.
    * @throws NullPointerException if template is null.
    */
@@ -123,18 +122,18 @@ public class Resource2Db {
 
       // read header row
       MutablePair<List<String>, List<Object[]>> readData = new MutablePair<>();
-      readData.setLeft( new ArrayList<>( parser.getHeaderMap().keySet() ) );
-      XLOGGER.info("Read header: " + readData.getLeft() );
+      readData.setLeft(new ArrayList<>(parser.getHeaderMap().keySet()));
+      XLOGGER.info("Read header: " + readData.getLeft());
 
       // read data rows
       List<Object[]> rows = new ArrayList<>();
-      for ( CSVRecord record : parser.getRecords() ) {
-        if ( ! record.isConsistent() ) {
+      for (CSVRecord record : parser.getRecords()) {
+        if (!record.isConsistent()) {
           throw new IllegalArgumentException("CSV record inconsistent: " + record);
         }
 
         List theRow = IteratorUtils.toList(record.iterator());
-        rows.add( theRow.toArray() );
+        rows.add(theRow.toArray());
       }
       readData.setRight(rows);
 

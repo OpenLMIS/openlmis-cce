@@ -5,12 +5,12 @@
  * This program is free software: you can redistribute it and/or modify it under the terms
  * of the GNU Affero General Public License as published by the Free Software Foundation, either
  * version 3 of the License, or (at your option) any later version.
- *  
+ *
  * This program is distributed in the hope that it will be useful, but WITHOUT ANY WARRANTY;
- * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. 
+ * without even the implied warranty of MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
  * See the GNU Affero General Public License for more details. You should have received a copy of
  * the GNU Affero General Public License along with this program. If not, see
- * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org. 
+ * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
 package org.openlmis.cce.repository.custom.impl;
@@ -19,20 +19,18 @@ import static org.openlmis.cce.domain.CatalogItem.EQUIPMENT_CODE;
 import static org.openlmis.cce.domain.CatalogItem.MANUFACTURER_FIELD;
 import static org.openlmis.cce.domain.CatalogItem.MODEL_FIELD;
 
-import org.openlmis.cce.domain.CatalogItem;
-import org.openlmis.cce.repository.custom.CatalogItemRepositoryCustom;
-import org.openlmis.cce.util.Pagination;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
-
 import java.util.List;
-
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Predicate;
 import javax.persistence.criteria.Root;
+import org.openlmis.cce.domain.CatalogItem;
+import org.openlmis.cce.repository.custom.CatalogItemRepositoryCustom;
+import org.openlmis.cce.util.Pagination;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public class CatalogItemRepositoryImpl implements CatalogItemRepositoryCustom {
 
