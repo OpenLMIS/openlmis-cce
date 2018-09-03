@@ -19,12 +19,34 @@ import java.util.UUID;
 import org.javers.spring.annotation.JaversSpringDataAuditable;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.repository.custom.InventoryItemRepositoryCustom;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
 @JaversSpringDataAuditable
 public interface InventoryItemRepository extends PagingAndSortingRepository<InventoryItem, UUID>,
-    InventoryItemRepositoryCustom {
+    InventoryItemRepositoryCustom,
+    BaseAuditableRepository<InventoryItem, UUID> {
 
   Boolean existsByEquipmentTrackingIdAndCatalogItem_ModelAndCatalogItem_Type(
       String equipmentTrackingId, String catalogItemModel, String catalogItemType);
+
+  @Query(value = "SELECT\n"
+      + "    ci.*\n"
+      + "FROM\n"
+      + "    cce.cce_inventory_items ci\n"
+      + "WHERE\n"
+      + "    id NOT IN (\n"
+      + "        SELECT\n"
+      + "            id\n"
+      + "        FROM\n"
+      + "            cce.cce_inventory_items ci\n"
+      + "            INNER JOIN cce.jv_global_id g "
+      + "ON CAST(ci.id AS varchar) = SUBSTRING(g.local_id, 2, 36)\n"
+      + "            INNER JOIN cce.jv_snapshot s  ON g.global_id_pk = s.global_id_fk\n"
+      + "    )\n"
+      + " ORDER BY ?#{#pageable}",
+      nativeQuery = true)
+  Page<InventoryItem> findAllWithoutSnapshots(Pageable pageable);
 }

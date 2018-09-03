@@ -29,6 +29,8 @@ public abstract class MessageKeys {
   protected static final String LACKS_PARAMETERS = "lacksParameters";
   protected static final String NOT_UNIQUE = "notUnique";
   protected static final String MISMATCH = "mismatch";
+  protected static final String JAVERS = "javers";
+
 
   public static final String ERROR_IO = SERVICE_ERROR_PREFIX + ".io";
   public static final String ERROR_FILE_IS_EMPTY = SERVICE_ERROR_PREFIX + ".file.empty";
@@ -40,6 +42,10 @@ public abstract class MessageKeys {
   public static final String ERROR_DTO_EXPANSION_HREF = join(ERROR_DTO_EXPANSION, "href");
   public static final String ERROR_DTO_EXPANSION_ASSIGNMENT = join(ERROR_DTO_EXPANSION,
       "assignment");
+
+
+  public static final String ERROR_JAVERS_EXISTING_ENTRY =
+      join(SERVICE_ERROR_PREFIX, JAVERS, "entryAlreadyExists");
 
   protected static String join(String... params) {
     return String.join(DELIMITER, Arrays.asList(params));

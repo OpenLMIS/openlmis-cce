@@ -27,7 +27,8 @@ import org.springframework.data.repository.query.Param;
 
 @JaversSpringDataAuditable
 @SuppressWarnings("PMD.AvoidDuplicateLiterals")
-public interface AlertRepository extends PagingAndSortingRepository<Alert, UUID> {
+public interface AlertRepository extends PagingAndSortingRepository<Alert, UUID>,
+    BaseAuditableRepository<Alert, UUID> {
 
   @Query(value = "SELECT ca.*"
       + " FROM cce.cce_alerts ca"
@@ -56,4 +57,22 @@ public interface AlertRepository extends PagingAndSortingRepository<Alert, UUID>
   boolean existsByExternalId(String externalId);
   
   Alert findByExternalId(String externalId);
+
+  @Query(value = "SELECT\n"
+      + "    ca.*\n"
+      + "FROM\n"
+      + "    cce.cce_alerts ca\n"
+      + "WHERE\n"
+      + "    id NOT IN (\n"
+      + "        SELECT\n"
+      + "            id\n"
+      + "        FROM\n"
+      + "            cce.cce_alerts ca\n"
+      + "            INNER JOIN cce.jv_global_id g "
+      + "ON CAST(ca.id AS varchar) = SUBSTRING(g.local_id, 2, 36)\n"
+      + "            INNER JOIN cce.jv_snapshot s  ON g.global_id_pk = s.global_id_fk\n"
+      + "    )\n"
+      + " ORDER BY ?#{#pageable}",
+      nativeQuery = true)
+  Page<Alert> findAllWithoutSnapshots(Pageable pageable);
 }
