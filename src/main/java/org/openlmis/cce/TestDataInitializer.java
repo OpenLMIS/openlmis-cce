@@ -30,7 +30,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @Profile("demo-data")
-@Order(5)
+@Order(Integer.MIN_VALUE)
 public class TestDataInitializer implements CommandLineRunner {
   private static final XLogger XLOGGER = XLoggerFactory.getXLogger(TestDataInitializer.class);
 
