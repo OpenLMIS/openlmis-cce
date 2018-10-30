@@ -128,13 +128,15 @@ public class NonfunctionalCceNotifierTest {
   private UserDto user = mock(UserDto.class);
   private UserDto user2 = mock(UserDto.class);
   private FacilityDto facility = mock(FacilityDto.class);
-  private SupervisoryNodeDto supervisoryNode = mock(SupervisoryNodeDto.class);
   private RightDto right = mock(RightDto.class);
   private UserDto lastModifier = mock(UserDto.class);
   private UserObjectReferenceDto lastModifierObj = mock(UserObjectReferenceDto.class);
+  private SupervisoryNodeDto supervisoryNode = new SupervisoryNodeDto();
 
   @Before
   public void setUp() {
+    supervisoryNode.setId(supervisoryNodeId);
+
     mockInventory();
     mockUsers(Collections.singletonList(user));
     mockMessages();
@@ -259,7 +261,6 @@ public class NonfunctionalCceNotifierTest {
   private void stubUser(List<UserDto> users) {
     when(supervisoryNodeReferenceDataService.findSupervisoryNode(facilityId, programId))
         .thenReturn(supervisoryNode);
-    when(supervisoryNode.getId()).thenReturn(supervisoryNodeId);
 
     when(rightReferenceDataService.findRight(CCE_INVENTORY_EDIT)).thenReturn(right);
     when(right.getId()).thenReturn(rightId);

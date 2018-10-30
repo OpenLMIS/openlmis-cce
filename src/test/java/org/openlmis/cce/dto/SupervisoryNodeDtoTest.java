@@ -15,30 +15,31 @@
 
 package org.openlmis.cce.dto;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import java.util.Map;
-import java.util.Set;
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-import lombok.ToString;
+import java.util.UUID;
+import nl.jqno.equalsverifier.EqualsVerifier;
+import nl.jqno.equalsverifier.Warning;
+import org.junit.Test;
+import org.openlmis.cce.testutil.ToStringTestUtils;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@ToString(callSuper = true)
-@EqualsAndHashCode(callSuper = true)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public final class SupervisoryNodeDto extends BaseDto {
-  private String code;
-  private ObjectReferenceDto facility;
-  private String name;
-  private String description;
-  private Map<String, Object> extraData;
-  private ObjectReferenceDto parentNode;
-  private ObjectReferenceDto requisitionGroup;
-  private Set<ObjectReferenceDto> childNodes;
+public class SupervisoryNodeDtoTest {
+
+  @Test
+  public void equalsContract() {
+    ObjectReferenceDto red = new ObjectReferenceDto(UUID.randomUUID(), "", "");
+    ObjectReferenceDto black = new ObjectReferenceDto(UUID.randomUUID(), "", "");
+
+    EqualsVerifier
+        .forClass(SupervisoryNodeDto.class)
+        .withRedefinedSuperclass()
+        .withPrefabValues(ObjectReferenceDto.class, red, black)
+        .suppress(Warning.NONFINAL_FIELDS)
+        .verify();
+  }
+
+  @Test
+  public void shouldImplementToString() {
+    SupervisoryNodeDto dto = new SupervisoryNodeDto();
+    ToStringTestUtils.verify(SupervisoryNodeDto.class, dto);
+  }
+
 }
