@@ -18,23 +18,16 @@ package org.openlmis.cce.service.referencedata;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
-import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.Matchers.is;
 import static org.hamcrest.Matchers.nullValue;
 import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
-import static org.openlmis.cce.service.referencedata.SupervisoryNodeReferenceDataService.PROGRAM_ID;
-import static org.openlmis.cce.service.referencedata.SupervisoryNodeReferenceDataService.RIGHT_ID;
 
-import java.net.URI;
-import java.util.Collection;
 import java.util.UUID;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.openlmis.cce.dto.SupervisoryNodeDto;
-import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.util.PageImplRepresentation;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
@@ -151,34 +144,5 @@ public class SupervisoryNodeReferenceDataServiceTest
     Object body = entity.getBody();
 
     assertThat(body, is(nullValue()));
-  }
-
-  @Test
-  public void shouldFindSupervisingUsersForNodeProgramAndRight() throws Exception {
-    // given
-    SupervisoryNodeDto instance = generateInstance();
-    UserDto user = mock(UserDto.class);
-    UUID program = UUID.randomUUID();
-    UUID right = UUID.randomUUID();
-
-    // when
-    mockArrayRequest(HttpMethod.GET, UserDto[].class);
-    mockArrayResponse(response -> when(response.getBody()).thenReturn(new Object[]{user}));
-
-    Collection<UserDto> found = service.findSupervisingUsers(instance.getId(), right, program);
-
-    // then
-    assertThat(found, hasSize(1));
-    assertThat(found.iterator().next(), equalTo(user));
-
-    URI uri = getUri();
-    String url = getRequestUrl(service, instance.getId() + "/supervisingUsers");
-    assertThat(uri.toString(), startsWith(url));
-    assertThat(uri.toString(), containsString(RIGHT_ID + "=" + right));
-    assertThat(uri.toString(), containsString(PROGRAM_ID + "=" + program));
-
-    HttpEntity entity = getEntity();
-
-    assertThat(entity.getBody(), is(nullValue()));
   }
 }

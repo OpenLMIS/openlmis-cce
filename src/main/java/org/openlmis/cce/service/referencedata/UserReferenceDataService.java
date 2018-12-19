@@ -62,4 +62,24 @@ public class UserReferenceDataService extends BaseReferenceDataService<UserDto> 
   public ServiceResponse<List<String>> getPermissionStrings(UUID user, String etag) {
     return tryFindAll(user + "/permissionStrings", String[].class, etag);
   }
+
+  /**
+   * Retrieves all users that have supervised role with the given right and program and supervisory
+   * node. If supervisory node is not provided, the method will return all users that have
+   * supervised role for home facility with the given right and program.
+   *
+   * @param rightId UUID of supervised right
+   * @param programId UUID of program
+   * @param supervisoryNodeId UUID of supervisory node. Can be null.
+   * @return a list of users that match parameters.
+   */
+  public List<UserDto> findByRight(UUID rightId, UUID programId, UUID supervisoryNodeId) {
+    RequestParameters parameters = RequestParameters
+        .init()
+        .set("rightId", rightId)
+        .set("programId", programId)
+        .set("supervisoryNodeId", supervisoryNodeId);
+
+    return findAll("rightSearch", parameters);
+  }
 }

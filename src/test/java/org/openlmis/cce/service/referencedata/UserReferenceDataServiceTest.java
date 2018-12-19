@@ -16,12 +16,15 @@
 package org.openlmis.cce.service.referencedata;
 
 import static java.util.Collections.singletonList;
+import static org.hamcrest.Matchers.containsString;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasEntry;
 import static org.hamcrest.Matchers.hasItem;
 import static org.hamcrest.Matchers.instanceOf;
 import static org.hamcrest.Matchers.is;
+import static org.hamcrest.Matchers.not;
 import static org.hamcrest.Matchers.nullValue;
+import static org.hamcrest.Matchers.startsWith;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.when;
 
@@ -206,5 +209,62 @@ public class UserReferenceDataServiceTest extends BaseReferenceDataServiceTest<U
 
     assertThat(entity.getBody(), is(nullValue()));
     assertThat(entity.getHeaders(), hasEntry(HttpHeaders.IF_NONE_MATCH, singletonList(etag)));
+  }
+
+  @Test
+  public void shouldFindSupervisingUsers() {
+    // given
+    UUID rightId = UUID.randomUUID();
+    UUID programId = UUID.randomUUID();
+    UUID supervisoryNodeId = UUID.randomUUID();
+    UserDto instance = generateInstance();
+    mockArrayRequest(HttpMethod.GET, getArrayResultClass(service));
+    mockArrayResponse(response -> when(response.getBody()).thenReturn(new Object[]{instance}));
+
+    // when
+
+    List<UserDto> users = service
+        .findByRight(rightId, programId, supervisoryNodeId);
+
+    // then
+    assertThat(users, hasItem(instance));
+
+    URI uri = getUri();
+    String url = getRequestUrl(service, "rightSearch");
+    assertThat(uri.toString(), startsWith(url));
+    assertThat(uri.toString(), containsString("rightId=" + rightId));
+    assertThat(uri.toString(), containsString("programId=" + programId));
+    assertThat(uri.toString(), containsString("supervisoryNodeId=" + supervisoryNodeId));
+
+    HttpEntity entity = getEntity();
+    assertThat(entity.getBody(), is(nullValue()));
+  }
+
+  @Test
+  public void shouldFindHomeFacilityUsers() {
+    // given
+    UUID rightId = UUID.randomUUID();
+    UUID programId = UUID.randomUUID();
+    UserDto instance = generateInstance();
+    mockArrayRequest(HttpMethod.GET, getArrayResultClass(service));
+    mockArrayResponse(response -> when(response.getBody()).thenReturn(new Object[]{instance}));
+
+    // when
+
+    List<UserDto> users = service
+        .findByRight(rightId, programId, null);
+
+    // then
+    assertThat(users, hasItem(instance));
+
+    URI uri = getUri();
+    String url = getRequestUrl(service, "rightSearch");
+    assertThat(uri.toString(), startsWith(url));
+    assertThat(uri.toString(), containsString("rightId=" + rightId));
+    assertThat(uri.toString(), containsString("programId=" + programId));
+    assertThat(uri.toString(), not(containsString("supervisoryNodeId")));
+
+    HttpEntity entity = getEntity();
+    assertThat(entity.getBody(), is(nullValue()));
   }
 }

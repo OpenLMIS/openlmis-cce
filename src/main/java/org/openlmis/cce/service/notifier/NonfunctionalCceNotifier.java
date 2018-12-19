@@ -20,12 +20,18 @@ import static org.openlmis.cce.i18n.InventoryItemMessageKeys.EMAIL_NONFUNCTIONAL
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_USER_INVALID;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 
+import com.google.common.annotations.VisibleForTesting;
+import com.google.common.collect.Sets;
 import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.text.StrSubstitutor;
 import org.openlmis.cce.dto.InventoryItemDto;
@@ -75,7 +81,13 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
   public void notify(InventoryItemDto inventoryItem) {
     Collection<UserDto> recipients = getRecipients(inventoryItem);
 
-    logger.debug("Found recipients to send notification to: {}", recipients);
+    if (logger.isDebugEnabled()) {
+      logger.debug(
+          "Found recipients to send notification to: {}",
+          recipients.stream().map(UserDto::getUsername).collect(Collectors.toSet())
+      );
+    }
+
     if (!recipients.isEmpty()) {
       String subject = getMessage(EMAIL_NONFUNCTIONAL_CCE_SUBJECT);
       String content = getMessage(EMAIL_NONFUNCTIONAL_CCE_CONTENT);
@@ -94,16 +106,34 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
   private Collection<UserDto> getRecipients(InventoryItemDto inventoryItem) {
     SupervisoryNodeDto supervisoryNode = supervisoryNodeReferenceDataService
         .findSupervisoryNode(inventoryItem.getFacilityId(), inventoryItem.getProgramId());
+
     if (supervisoryNode == null) {
       logger.warn("There is no supervisory node for program {} and facility {}",
           inventoryItem.getProgramId(), inventoryItem.getFacilityId());
-      return Collections.emptySet();
+    } else {
+      logger.debug("Supervisory node found: {}", supervisoryNode.getName());
     }
-    logger.debug("Supervisory node found: " + supervisoryNode.getName());
 
     RightDto right = rightReferenceDataService.findRight(CCE_INVENTORY_EDIT);
-    return supervisoryNodeReferenceDataService
-        .findSupervisingUsers(supervisoryNode.getId(), right.getId(), inventoryItem.getProgramId());
+
+    return getRecipients(right.getId(), inventoryItem.getProgramId(), supervisoryNode);
+  }
+
+  @VisibleForTesting
+  Collection<UserDto> getRecipients(UUID rightId, UUID programId,
+      SupervisoryNodeDto supervisoryNode) {
+    List<UserDto> supervisingUsers = Optional
+        .ofNullable(supervisoryNode)
+        .map(node -> userReferenceDataService.findByRight(rightId, programId, node.getId()))
+        .orElse(Collections.emptyList());
+
+    List<UserDto> homeUsers = userReferenceDataService
+        .findByRight(rightId, programId, null);
+
+    Set<UserDto> users = Sets.newHashSet(supervisingUsers);
+    users.addAll(homeUsers);
+
+    return users;
   }
 
   private Map<String, String> getValuesMap(InventoryItemDto inventoryItem) {

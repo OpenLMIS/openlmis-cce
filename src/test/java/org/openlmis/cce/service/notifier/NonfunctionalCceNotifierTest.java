@@ -15,18 +15,21 @@
 
 package org.openlmis.cce.service.notifier;
 
-import static org.junit.Assert.assertTrue;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.BDDMockito.given;
 import static org.mockito.Matchers.any;
+import static org.mockito.Matchers.contains;
 import static org.mockito.Matchers.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.EMAIL_NONFUNCTIONAL_CCE_CONTENT;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.EMAIL_NONFUNCTIONAL_CCE_SUBJECT;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
 
+import com.google.common.collect.Lists;
 import java.text.MessageFormat;
 import java.time.ZonedDateTime;
 import java.time.chrono.Chronology;
@@ -34,6 +37,7 @@ import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
 import java.time.format.FormatStyle;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
@@ -41,7 +45,6 @@ import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.ArgumentCaptor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
@@ -84,7 +87,8 @@ public class NonfunctionalCceNotifierTest {
   private static final String REFERENCE_NAME = "some-name";
   private static final FunctionalStatus FUNCTIONAL_STATUS = FunctionalStatus.AWAITING_REPAIR;
   private static final String LAST_MODIFIER_USERNAME = "lastmodifier";
-  private static final String USERNAME = "user";
+  private static final String USERNAME_1 = "user1";
+  private static final String USERNAME_2 = "user2";
   private static final String URL_TO_VIEW_CCE =
       "http://localhost/#!/cce/inventory?page=0&size=10&facility={0}&program={1}&supervised={2}";
   private static final ReasonNotWorkingOrNotInUse REASON_NOT_WORKING_OR_NOT_IN_USE =
@@ -170,16 +174,14 @@ public class NonfunctionalCceNotifierTest {
                 + "user %s at %s.\n"
                 + "Please login to view the list of non-functioning CCE needing attention"
                 + "at this facility. %s",
-            USERNAME, EQUIPMENT_TYPE, REFERENCE_NAME, FACILITY_NAME, FUNCTIONAL_STATUS,
+            USERNAME_1, EQUIPMENT_TYPE, REFERENCE_NAME, FACILITY_NAME, FUNCTIONAL_STATUS,
             REASON_NOT_WORKING_OR_NOT_IN_USE, LAST_MODIFIER_USERNAME,
             getDateTimeFormatter().format(MODIFIED_DATE), urlToViewCCe)));
   }
 
   @Test
   public void shouldNotNotifyWhenUserIsNull() {
-    when(supervisoryNodeReferenceDataService
-        .findSupervisingUsers(supervisoryNodeId, rightId, programId))
-        .thenReturn(Collections.emptyList());
+    prepareFindUsersByRight(Collections.emptyList(), Collections.emptyList());
 
     notifier.notify(inventoryItem);
 
@@ -187,33 +189,79 @@ public class NonfunctionalCceNotifierTest {
   }
 
   @Test
-  public void shouldNotNotifyWhenThereIsNoSupervisoryNodeForProgramAndFacility() {
-    when(supervisoryNodeReferenceDataService
-        .findSupervisoryNode(any(), any()))
-        .thenReturn(null);
+  public void shouldNotNotifyWhenThereIsNoUsers() {
+    prepareFindUsersByRight(Collections.emptyList(), Collections.emptyList());
 
     notifier.notify(inventoryItem);
 
     verify(supervisoryNodeReferenceDataService).findSupervisoryNode(facilityId, programId);
-    verify(supervisoryNodeReferenceDataService, never()).findSupervisingUsers(any(), any(), any());
-    verify(notificationService, never()).notify(any(), any(), any());
+    verify(userReferenceDataService).findByRight(rightId, programId, supervisoryNodeId);
+    verify(userReferenceDataService).findByRight(rightId, programId, null);
+    verifyZeroInteractions(notificationService);
   }
 
   @Test
   public void shouldNotifyTwoTimesForTwoUsersWithProperUsernameInContent() {
     mockUsers(Arrays.asList(user, user2));
-    when(user2.getUsername()).thenReturn("user2-username");
+    when(user2.getUsername()).thenReturn(USERNAME_2);
 
     notifier.notify(inventoryItem);
-    ArgumentCaptor<String> argument = ArgumentCaptor.forClass(String.class);
 
-    verify(notificationService, times(2))
-        .notify(any(UserDto.class), any(), argument.capture());
+    verify(notificationService)
+        .notify(any(UserDto.class), any(), contains(USERNAME_1));
+    verify(notificationService)
+        .notify(any(UserDto.class), any(), contains(USERNAME_2));
+  }
 
-    List<String> values = argument.getAllValues();
+  @Test
+  public void shouldGetHomeAndSupervisingRecipients() {
+    // given
+    mockUsers(Arrays.asList(user, user2));
+    given(user2.getUsername()).willReturn(USERNAME_2);
 
-    assertTrue(values.get(0).contains(USERNAME));
-    assertTrue(values.get(1).contains(user2.getUsername()));
+    prepareFindUsersByRight(Collections.singletonList(user), Collections.singletonList(user2));
+
+    // when
+    Collection<UserDto> users = notifier.getRecipients(rightId, programId, supervisoryNode);
+
+    // then
+    assertThat(users)
+        .hasSize(2)
+        .contains(user, user2);
+  }
+
+  @Test
+  public void shouldGetOnlyHomeRecipientsIfSupervisoryNodeNotFound() {
+    // given
+    mockUsers(Arrays.asList(user, user2));
+    given(user2.getUsername()).willReturn(USERNAME_2);
+
+    prepareFindUsersByRight(Collections.emptyList(), Collections.singletonList(user2));
+
+    // when
+    Collection<UserDto> users = notifier.getRecipients(rightId, programId, null);
+
+    // then
+    assertThat(users)
+        .hasSize(1)
+        .contains(user2);
+  }
+
+  @Test
+  public void shouldNotDuplicateRecipientsIfUsersHaveBothHomeAndSupervisedRights() {
+    // given
+    mockUsers(Arrays.asList(user, user2));
+    given(user2.getUsername()).willReturn(USERNAME_2);
+
+    prepareFindUsersByRight(Lists.newArrayList(user, user2), Collections.singletonList(user2));
+
+    // when
+    Collection<UserDto> users = notifier.getRecipients(rightId, programId, supervisoryNode);
+
+    // then
+    assertThat(users)
+        .hasSize(2)
+        .contains(user, user2);
   }
 
   private void mockInventory() {
@@ -254,7 +302,7 @@ public class NonfunctionalCceNotifierTest {
       when(user.allowNotify()).thenReturn(true);
       when(user.activeAndVerified()).thenReturn(true);
       when(user.getEmail()).thenReturn("user@mail.com");
-      when(user.getUsername()).thenReturn(USERNAME);
+      when(user.getUsername()).thenReturn(USERNAME_1);
     }
   }
 
@@ -265,9 +313,7 @@ public class NonfunctionalCceNotifierTest {
     when(rightReferenceDataService.findRight(CCE_INVENTORY_EDIT)).thenReturn(right);
     when(right.getId()).thenReturn(rightId);
 
-    when(supervisoryNodeReferenceDataService
-        .findSupervisingUsers(supervisoryNodeId, rightId, programId))
-        .thenReturn(users);
+    prepareFindUsersByRight(users, Collections.emptyList());
   }
 
   private void mockMessages() {
@@ -285,6 +331,15 @@ public class NonfunctionalCceNotifierTest {
     String datePattern = DateTimeFormatterBuilder.getLocalizedDateTimePattern(
         FormatStyle.MEDIUM, FormatStyle.MEDIUM, Chronology.ofLocale(locale), locale);
     return DateTimeFormatter.ofPattern(datePattern);
+  }
+
+  private void prepareFindUsersByRight(List<UserDto> supervisingUsers, List<UserDto> homeUsers) {
+    when(userReferenceDataService
+        .findByRight(rightId, programId, supervisoryNodeId))
+        .thenReturn(supervisingUsers);
+    when(userReferenceDataService
+        .findByRight(rightId, programId, null))
+        .thenReturn(homeUsers);
   }
 
 }
