@@ -17,12 +17,16 @@ package org.openlmis.cce.web.validator;
 
 import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_EQUIPMENT_CODE_NOT_UNIQUE;
 import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_FROM_FIELD_REQUIRED;
+import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_ID_MISMATCH;
 import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_MANUFACTURER_MODEL_NOT_UNIQUE;
+
+import java.util.UUID;
 
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+
 import org.springframework.stereotype.Component;
 
 @Component
@@ -76,4 +80,19 @@ public class CatalogItemValidator {
       throw new ValidationMessageException(errorMessage, fieldName);
     }
   }
+
+  /**
+   * Validate mismatch and already existing catalog item.
+   */
+  public void validateMisMatchCatalogItem(CatalogItemDto catalogItem, UUID catalogItemId) {
+    validateNotMatch(catalogItem.getId(), ERROR_ID_MISMATCH, catalogItemId);
+    validateExistingCatalogItem(catalogItem);
+  }
+
+  private void validateNotMatch(Object field, String errorMessage, UUID uuid) {
+    if (!field.equals(uuid)) {
+      throw new ValidationMessageException(errorMessage);
+    }
+  }
+
 }

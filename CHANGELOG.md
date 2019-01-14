@@ -3,6 +3,7 @@
 
 Bug fixes:
 * [OLMIS-4596](https://openlmis.atlassian.net/browse/OLMIS-4596): Fixed issue with sending a notification about nonfunctional CCE to users with home facility rights 
+* [OLMIS-5841](https://openlmis.atlassian.net/browse/OLMIS-5841): Fixed issue with internal server error when updating a catalog item with incorrect ID 
 
 1.0.2 / 2018-12-12
 ==================

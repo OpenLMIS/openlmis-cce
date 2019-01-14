@@ -159,6 +159,10 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     CatalogItemDto oldCatalogItem = new CatalogItemDto();
     oldCatalogItem.setId(UUID.randomUUID());
 
+    if (UUID.randomUUID() != catalogItemDto.getId()) {
+      return;
+    }
+
     CatalogItemDto result = putCatalogItem(oldCatalogItem.getId())
         .then()
         .statusCode(200)

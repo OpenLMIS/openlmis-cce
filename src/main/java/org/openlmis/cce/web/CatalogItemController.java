@@ -228,7 +228,8 @@ public class CatalogItemController extends BaseController {
     permissionService.canManageCce();
 
     profiler.start("VALIDATE");
-    catalogItemValidator.validateExistingCatalogItem(catalogItemDto);
+
+    catalogItemValidator.validateMisMatchCatalogItem(catalogItemDto,catalogItemId);
 
     profiler.start("CREATE_DOMAIN_INSTANCE");
     CatalogItem catalogItem = CatalogItem.newInstance(catalogItemDto);
