@@ -85,14 +85,16 @@ public class CatalogItemValidator {
    * Validate mismatch and already existing catalog item.
    */
   public void validateMisMatchCatalogItem(CatalogItemDto catalogItem, UUID catalogItemId) {
-    validateNotMatch(catalogItem.getId(), ERROR_ID_MISMATCH, catalogItemId);
-    validateExistingCatalogItem(catalogItem);
+    boolean existing = valuesMisMatch(catalogItem, catalogItemId);
+    if (existing) {
+      throw new ValidationMessageException(ERROR_ID_MISMATCH, catalogItemId);
+    } else {
+      validateExistingCatalogItem(catalogItem);
+    }
   }
 
-  private void validateNotMatch(Object field, String errorMessage, UUID uuid) {
-    if (!field.equals(uuid)) {
-      throw new ValidationMessageException(errorMessage);
-    }
+  private boolean valuesMisMatch(CatalogItemDto catalogItem,UUID catalogId) {
+    return (!catalogItem.getId().equals(catalogId));
   }
 
 }

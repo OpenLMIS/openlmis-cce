@@ -76,6 +76,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SuppressWarnings("PMD.TooManyMethods")
 public abstract class BaseWebIntegrationTest {
 
+  static final String MESSAGE_KEY = "messageKey";
   protected static final String MESSAGE = "message";
   protected static final String BASE_URL = System.getenv("BASE_URL");
   protected static final String CONTENT_TYPE = "Content-Type";

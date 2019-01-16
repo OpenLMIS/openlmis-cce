@@ -26,6 +26,7 @@ import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
 import static org.mockito.Mockito.when;
+import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_ID_MISMATCH;
 import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_MISSING_MANDATORY_COLUMNS;
 import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_RECORD_INVALID;
 import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PERMISSION;
@@ -61,19 +62,18 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   private static final String RESOURCE_URL = "/api/catalogItems";
   private static final String RESOURCE_URL_WITH_ID = RESOURCE_URL + "/{id}";
   private static final String FILE_PARAM_NAME = "file";
-
   private CatalogItemDto catalogItemDto;
   private String managePermission = PermissionService.CCE_MANAGE;
+
 
   @Before
   public void setUp() {
     mockUserAuthenticated();
-
     catalogItemDto = new CatalogItemDto(true, "equipment-code",
         "type", "model", "producent", EnergySource.ELECTRIC, 2016,
         StorageTemperature.MINUS3, 20, -20, "LOW", 1, 1, 1,
         new Dimensions(100, 100, 100), true, false);
-
+    catalogItemDto.setId(UUID.randomUUID());
     when(catalogItemRepository.save(any(CatalogItem.class)))
         .thenAnswer(new SaveAnswer<CatalogItem>());
   }
@@ -156,22 +156,31 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
   @Test
   public void shouldUpdateCatalogItems() {
-    CatalogItemDto oldCatalogItem = new CatalogItemDto();
-    oldCatalogItem.setId(UUID.randomUUID());
 
-    if (UUID.randomUUID() != catalogItemDto.getId()) {
-      return;
-    }
+    CatalogItemDto oldCatalogItem = new CatalogItemDto();
+    oldCatalogItem.setId(catalogItemDto.getId());
 
     CatalogItemDto result = putCatalogItem(oldCatalogItem.getId())
-        .then()
-        .statusCode(200)
-        .extract().as(CatalogItemDto.class);
+            .then()
+            .statusCode(200)
+            .extract().as(CatalogItemDto.class);
 
     // then
     assertEquals(oldCatalogItem.getId(), result.getId());
     assertEquals(catalogItemDto.getEnergySource(), result.getEnergySource());
     assertEquals(catalogItemDto.getEquipmentCode(), result.getEquipmentCode());
+    assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
+  }
+
+  @Test
+  public void shouldNotUpdateCatalogItemWhenThereIsIdMisMatch() {
+    putCatalogItem(UUID.randomUUID())
+        .then()
+        .statusCode(400)
+        .body(MESSAGE_KEY, equalTo(ERROR_ID_MISMATCH))
+        .extract().as(CatalogItemDto.class);
+
+    // then
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 

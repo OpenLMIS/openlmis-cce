@@ -19,7 +19,10 @@ import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_EQUIPMENT_CODE_NOT_UNIQUE;
 import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_FROM_FIELD_REQUIRED;
+import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_ID_MISMATCH;
 import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_MANUFACTURER_MODEL_NOT_UNIQUE;
+
+import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -55,6 +58,7 @@ public class CatalogItemValidatorTest {
   @Before
   public void before() {
     initMocks(this);
+
     catalogItemDto = new CatalogItemDto(true, "equipment-code",
         "type", "model", "producent", EnergySource.ELECTRIC, 2016,
         StorageTemperature.MINUS3, 20, -20, "LOW", 1, 1, 1,
@@ -232,4 +236,16 @@ public class CatalogItemValidatorTest {
 
     catalogItemValidator.validateNewCatalogItem(catalogItemDto);
   }
+
+  @Test
+  public void shouldNotThrowExceptionIfUpdatingCatalogItem() {
+    when(catalogItemRepository.exists(catalogItemDto.getId())).thenReturn(true);
+    expectedEx.expect(ValidationMessageException.class);
+    expectedEx.expectMessage(
+            new Message(ERROR_ID_MISMATCH,catalogItemDto.getId()).toString());
+    catalogItemDto.setId(UUID.randomUUID());
+
+    catalogItemValidator.validateMisMatchCatalogItem(catalogItemDto, UUID.randomUUID());
+  }
+
 }
