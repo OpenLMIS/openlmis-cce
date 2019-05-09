@@ -36,10 +36,8 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
 import org.junit.Before;
 import org.junit.Test;
+import org.openlmis.cce.CatalogItemDataBuilder;
 import org.openlmis.cce.domain.CatalogItem;
-import org.openlmis.cce.domain.Dimensions;
-import org.openlmis.cce.domain.EnergySource;
-import org.openlmis.cce.domain.StorageTemperature;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -64,10 +62,13 @@ public class CatalogItemRepositoryIntegrationTest
 
   @Override
   CatalogItem generateInstance() {
-    return new CatalogItem(true, "equipment-code" + getNextInstanceNumber(),
-        "type", "model", "producent" + getNextInstanceNumber(), EnergySource.ELECTRIC, 2016,
-        StorageTemperature.MINUS3, 20, -20, "LOW", 1, 1, 1,
-        new Dimensions(100, 100, 100), true, false);
+    return new CatalogItemDataBuilder()
+        .withEquipmentCode("equipment-code" + getNextInstanceNumber())
+        .withType("type")
+        .withModel("model")
+        .withManufacturer("producent" + getNextInstanceNumber())
+        .withVisibleInCatalog()
+        .buildAsNew();
   }
 
   @Before
@@ -77,10 +78,15 @@ public class CatalogItemRepositoryIntegrationTest
     when(pageable.getPageSize()).thenReturn(10);
     when(pageable.getPageNumber()).thenReturn(0);
 
-    CatalogItem itemArchived = new CatalogItem(true, "equipment-code2",
-        "type2", "model2", "producent2", EnergySource.GASOLINE, 2017,
-        StorageTemperature.PLUS1, 10, -10, "HIGH", 2, 2, 2,
-        new Dimensions(10, 20, 30), false, true);
+    CatalogItem itemArchived = new CatalogItemDataBuilder()
+        .withEquipmentCode("equipment-code2")
+        .withType("type2")
+        .withModel("model2")
+        .withManufacturer("producent2")
+        .withoutVisibleInCatalog()
+        .withArchiveFlag()
+        .buildAsNew();
+
     repository.save(itemArchived);
   }
 

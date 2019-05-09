@@ -21,16 +21,17 @@ import org.openlmis.cce.domain.Dimensions;
 import org.openlmis.cce.domain.EnergySource;
 import org.openlmis.cce.domain.StorageTemperature;
 
+@SuppressWarnings({"PMD.TooManyMethods"})
 public class CatalogItemDataBuilder {
-  private UUID id = UUID.fromString("15498136-8972-4ade-9f14-602bf199652b");
-  private Boolean fromPqsCatalog = true;
+  private UUID id;
+  private Boolean fromPqsCatalog;
   private String equipmentCode;
-  private String type = "type";
-  private String model = "model";
-  private String manufacturer = "manufacturer";
-  private EnergySource energySource = EnergySource.ELECTRIC;
+  private String type;
+  private String model;
+  private String manufacturer;
+  private EnergySource energySource;
   private Integer dateOfPrequal;
-  private StorageTemperature storageTemperature = StorageTemperature.MINUS10;
+  private StorageTemperature storageTemperature;
   private Integer maxOperatingTemp;
   private Integer minOperatingTemp;
   private String energyConsumption;
@@ -39,7 +40,47 @@ public class CatalogItemDataBuilder {
   private Integer netVolume;
   private Dimensions dimensions;
   private Boolean visibleInCatalog;
-  private Boolean archived = false;
+  private Boolean archived;
+
+  /**
+   * Returns instance of {@link CatalogItemDataBuilder} with sample data.
+   */
+  public CatalogItemDataBuilder() {
+    id = UUID.fromString("15498136-8972-4ade-9f14-602bf199652b");
+    fromPqsCatalog = true;
+    type = "type";
+    model = "model";
+    manufacturer = "manufacturer";
+    energySource = EnergySource.ELECTRIC;
+    storageTemperature = StorageTemperature.MINUS10;
+    archived = false;
+  }
+
+  /**
+   * Creates new instance of {@link CatalogItem} with provided data without id.
+   */
+  public CatalogItem buildAsNew() {
+    return new CatalogItem(
+        fromPqsCatalog, equipmentCode, type, model, manufacturer, energySource, dateOfPrequal,
+        storageTemperature, maxOperatingTemp, minOperatingTemp, energyConsumption, holdoverTime,
+        grossVolume, netVolume, dimensions, visibleInCatalog, archived
+    );
+  }
+
+  /**
+   * Creates new instance of {@link CatalogItem} with provided data.
+   */
+  public CatalogItem build() {
+    CatalogItem catalog = buildAsNew();
+    catalog.setId(id);
+
+    return catalog;
+  }
+
+  public CatalogItemDataBuilder withEquipmentCode(String equipmentCode) {
+    this.equipmentCode = equipmentCode;
+    return this;
+  }
 
   public CatalogItemDataBuilder withGasolineEnergySource() {
     energySource = EnergySource.GASOLINE;
@@ -76,22 +117,13 @@ public class CatalogItemDataBuilder {
     return this;
   }
 
-  public CatalogItemDataBuilder withoutId() {
-    id = null;
+  public CatalogItemDataBuilder withVisibleInCatalog() {
+    this.visibleInCatalog = true;
     return this;
   }
 
-  /**
-   * Creates new instance of {@link CatalogItem} with provided data.
-   */
-  public CatalogItem build() {
-    CatalogItem catalog = new CatalogItem(
-        fromPqsCatalog, equipmentCode, type, model, manufacturer, energySource, dateOfPrequal,
-        storageTemperature, maxOperatingTemp, minOperatingTemp, energyConsumption, holdoverTime,
-        grossVolume, netVolume, dimensions, visibleInCatalog, archived
-    );
-    catalog.setId(id);
-
-    return catalog;
+  public CatalogItemDataBuilder withoutVisibleInCatalog() {
+    this.visibleInCatalog = false;
+    return this;
   }
 }

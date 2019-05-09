@@ -32,6 +32,7 @@ import java.util.Map;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
+import org.openlmis.cce.AlertDataBuilder;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.Alert;
 import org.openlmis.cce.domain.InventoryItem;
@@ -68,8 +69,13 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
     alertDto.setStatus(Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE));
 
     InventoryItem inventoryItem = new InventoryItemDataBuilder().withId(deviceId).build();
-    alert = Alert.createNew(alertId, ALERT_TYPE_WARNING_HOT, inventoryItem, zdtNow, null,
-        Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE), null);
+    alert = new AlertDataBuilder()
+        .withExternalId(alertId)
+        .withType(ALERT_TYPE_WARNING_HOT)
+        .withInventoryItem(inventoryItem)
+        .withStartTimestamp(zdtNow)
+        .withStatusMessages(Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE))
+        .buildAsNew();
 
     doReturn(alert).when(alertRepository).save(any(Alert.class));
   }

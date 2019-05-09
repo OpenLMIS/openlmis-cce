@@ -25,6 +25,7 @@ import java.util.Collections;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
+import org.openlmis.cce.AlertDataBuilder;
 import org.openlmis.cce.CatalogItemDataBuilder;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.Alert;
@@ -41,6 +42,12 @@ public class AlertRepositoryIntegrationTest
   private static final String ALERT_TYPE_NOT_WORKING_HOT = "not_working_hot";
   private static final String ALERT_TYPE_NOT_WORKING_FREEZING = "not_working_freezing";
   private static final String ALERT_TYPE_NO_DATA = "no_data";
+  private static final String STATUS_MESSAGE_EQUIPMENT_TOO_HOT =
+      "Equipment needs attention: too hot";
+  private static final String STATUS_MESSAGE_EQUIPMENT_FREEZING =
+      "Equipment needs attention: freezing";
+  private static final String STATUS_MESSAGE_NOT_ENOUGH_DATA =
+      "Not enough data from equipment";
 
   @Autowired
   private AlertRepository repository;
@@ -72,66 +79,86 @@ public class AlertRepositoryIntegrationTest
   @Override
   Alert generateInstance() {
     activeAlert1Id = UUID.randomUUID().toString();
-    return Alert.createNew(activeAlert1Id,
-        ALERT_TYPE_NOT_WORKING_HOT,
-        inventoryItem1,
-        ZonedDateTime.now(),
-        null,
-        Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: too hot"),
-        null);
+    return new AlertDataBuilder()
+        .withExternalId(activeAlert1Id)
+        .withType(ALERT_TYPE_NOT_WORKING_HOT)
+        .withInventoryItem(inventoryItem1)
+        .withStartTimestamp(ZonedDateTime.now())
+        .withStatusMessages(Collections.singletonMap(
+            STATUS_LOCALE, STATUS_MESSAGE_EQUIPMENT_TOO_HOT))
+        .buildAsNew();
   }
 
   @Before
   public void setUp() {
     catalogItemRepository.save(new CatalogItemDataBuilder().build());
-    
     inventoryItem1 = inventoryItemRepository.save(new InventoryItemDataBuilder().build());
+
     activeAlert1 = repository.save(generateInstance());
-    inactiveAlert1 = repository.save(Alert.createNew(UUID.randomUUID().toString(),
-        ALERT_TYPE_NOT_WORKING_FREEZING,
-        inventoryItem1,
-        ZonedDateTime.now(),
-        ZonedDateTime.now().plusHours(1),
-        Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: freezing"),
-        ZonedDateTime.now()));
+    inactiveAlert1 = new AlertDataBuilder()
+        .withExternalId(UUID.randomUUID().toString())
+        .withType(ALERT_TYPE_NOT_WORKING_FREEZING)
+        .withInventoryItem(inventoryItem1)
+        .withStartTimestamp(ZonedDateTime.now())
+        .withEndTimestamp(ZonedDateTime.now().plusHours(1))
+        .withStatusMessages(Collections.singletonMap(
+            STATUS_LOCALE, STATUS_MESSAGE_EQUIPMENT_FREEZING))
+        .withDismissTimestamp(ZonedDateTime.now())
+        .buildAsNew();
+    repository.save(inactiveAlert1);
 
     inventoryItem2 = inventoryItemRepository.save(new InventoryItemDataBuilder()
         .withId(UUID.randomUUID())
         .withEquipmentTrackingId("another-tracking-id")
         .build());
-    inactiveAlert2 = repository.save(Alert.createNew(UUID.randomUUID().toString(),
-        ALERT_TYPE_NOT_WORKING_FREEZING,
-        inventoryItem2,
-        ZonedDateTime.now(),
-        null,
-        Collections.singletonMap(STATUS_LOCALE, "Equipment needs attention: freezing"),
-        ZonedDateTime.now()));
+
+    inactiveAlert2 = new AlertDataBuilder()
+        .withExternalId(UUID.randomUUID().toString())
+        .withType(ALERT_TYPE_NOT_WORKING_FREEZING)
+        .withInventoryItem(inventoryItem2)
+        .withStartTimestamp(ZonedDateTime.now())
+        .withStatusMessages(Collections.singletonMap(
+            STATUS_LOCALE, STATUS_MESSAGE_EQUIPMENT_FREEZING))
+        .withDismissTimestamp(ZonedDateTime.now())
+        .buildAsNew();
+    repository.save(inactiveAlert2);
 
     inventoryItem3 = inventoryItemRepository.save(new InventoryItemDataBuilder()
         .withId(UUID.randomUUID())
         .withEquipmentTrackingId("third-tracking-id")
         .build());
-    activeAlert3 = repository.save(Alert.createNew(UUID.randomUUID().toString(),
-        ALERT_TYPE_NO_DATA,
-        inventoryItem3,
-        ZonedDateTime.now(),
-        null,
-        Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
-        null));
-    inactiveAlert3 = repository.save(Alert.createNew(UUID.randomUUID().toString(),
-        ALERT_TYPE_NO_DATA,
-        inventoryItem3,
-        ZonedDateTime.now(),
-        ZonedDateTime.now().plusHours(1),
-        Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
-        null));
-    inactiveAlert3b = repository.save(Alert.createNew(UUID.randomUUID().toString(),
-        ALERT_TYPE_NO_DATA,
-        inventoryItem3,
-        ZonedDateTime.now(),
-        ZonedDateTime.now().plusHours(1),
-        Collections.singletonMap(STATUS_LOCALE, "Not enough data from equipment"),
-        null));
+
+    activeAlert3 = new AlertDataBuilder()
+        .withExternalId(UUID.randomUUID().toString())
+        .withType(ALERT_TYPE_NO_DATA)
+        .withInventoryItem(inventoryItem3)
+        .withStartTimestamp(ZonedDateTime.now())
+        .withStatusMessages(Collections.singletonMap(
+            STATUS_LOCALE, STATUS_MESSAGE_NOT_ENOUGH_DATA))
+        .buildAsNew();
+    repository.save(activeAlert3);
+
+    inactiveAlert3 = new AlertDataBuilder()
+        .withExternalId(UUID.randomUUID().toString())
+        .withType(ALERT_TYPE_NO_DATA)
+        .withInventoryItem(inventoryItem3)
+        .withStartTimestamp(ZonedDateTime.now())
+        .withEndTimestamp(ZonedDateTime.now().plusHours(1))
+        .withStatusMessages(Collections.singletonMap(
+            STATUS_LOCALE, STATUS_MESSAGE_NOT_ENOUGH_DATA))
+        .buildAsNew();
+    repository.save(inactiveAlert3);
+
+    inactiveAlert3b = new AlertDataBuilder()
+        .withExternalId(UUID.randomUUID().toString())
+        .withType(ALERT_TYPE_NO_DATA)
+        .withInventoryItem(inventoryItem3)
+        .withStartTimestamp(ZonedDateTime.now())
+        .withEndTimestamp(ZonedDateTime.now().plusHours(1))
+        .withStatusMessages(Collections.singletonMap(
+            STATUS_LOCALE, STATUS_MESSAGE_NOT_ENOUGH_DATA))
+        .buildAsNew();
+    repository.save(inactiveAlert3b);
   }
 
   @Test

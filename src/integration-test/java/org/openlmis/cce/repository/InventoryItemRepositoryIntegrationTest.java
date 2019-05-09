@@ -74,7 +74,7 @@ public class InventoryItemRepositoryIntegrationTest
 
   @Before
   public void beforeEach() {
-    catalogItem = new CatalogItemDataBuilder().withoutId().build();
+    catalogItem = new CatalogItemDataBuilder().buildAsNew();
     catalogItem = catalogItemRepository.save(catalogItem);
 
     when(pageable.getPageSize()).thenReturn(10);
@@ -248,11 +248,10 @@ public class InventoryItemRepositoryIntegrationTest
     repository.save(item);
 
     CatalogItem catalogItem = new CatalogItemDataBuilder()
-        .withoutId()
         .withType("otherType")
         .withModel("new-model")
         .withManufacturer("some-manufacturer")
-        .build();
+        .buildAsNew();
     catalogItem = catalogItemRepository.save(catalogItem);
 
     InventoryItem item2 = getInventoryItemDataBuilder()
