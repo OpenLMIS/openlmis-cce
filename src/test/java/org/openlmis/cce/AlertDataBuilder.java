@@ -16,11 +16,13 @@
 package org.openlmis.cce;
 
 import java.time.ZonedDateTime;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 import org.openlmis.cce.domain.Alert;
 import org.openlmis.cce.domain.InventoryItem;
 
+@SuppressWarnings({"PMD.TooManyMethods"})
 public class AlertDataBuilder {
 
   private UUID id;
@@ -38,6 +40,12 @@ public class AlertDataBuilder {
   public AlertDataBuilder() {
     id = UUID.randomUUID();
     externalId = UUID.randomUUID().toString();
+    type = "Equipment needs attention: too hot";
+    inventoryItem = new InventoryItemDataBuilder().build();
+    startTimestamp = ZonedDateTime.now();
+    endTimestamp = ZonedDateTime.now().plusHours(1);
+    statusMessages = new HashMap<>();
+    dismissTimestamp = ZonedDateTime.now();
   }
 
   /**
@@ -83,8 +91,18 @@ public class AlertDataBuilder {
     return this;
   }
 
+  public AlertDataBuilder withoutDismissTimestamp() {
+    this.dismissTimestamp = null;
+    return this;
+  }
+
   public AlertDataBuilder withEndTimestamp(ZonedDateTime endTimestamp) {
     this.endTimestamp = endTimestamp;
+    return this;
+  }
+
+  public AlertDataBuilder withoutEndTimestamp() {
+    this.endTimestamp = null;
     return this;
   }
 

@@ -19,7 +19,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
-import java.time.ZonedDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.UUID;
@@ -39,7 +38,6 @@ public class AlertRepositoryIntegrationTest
     extends BaseCrudRepositoryIntegrationTest<Alert> {
 
   private static final String STATUS_LOCALE = "en-US";
-  private static final String ALERT_TYPE_NOT_WORKING_HOT = "not_working_hot";
   private static final String ALERT_TYPE_NOT_WORKING_FREEZING = "not_working_freezing";
   private static final String ALERT_TYPE_NO_DATA = "no_data";
   private static final String STATUS_MESSAGE_EQUIPMENT_TOO_HOT =
@@ -81,11 +79,11 @@ public class AlertRepositoryIntegrationTest
     activeAlert1Id = UUID.randomUUID().toString();
     return new AlertDataBuilder()
         .withExternalId(activeAlert1Id)
-        .withType(ALERT_TYPE_NOT_WORKING_HOT)
         .withInventoryItem(inventoryItem1)
-        .withStartTimestamp(ZonedDateTime.now())
+        .withoutEndTimestamp()
         .withStatusMessages(Collections.singletonMap(
             STATUS_LOCALE, STATUS_MESSAGE_EQUIPMENT_TOO_HOT))
+        .withoutDismissTimestamp()
         .buildAsNew();
   }
 
@@ -96,14 +94,10 @@ public class AlertRepositoryIntegrationTest
 
     activeAlert1 = repository.save(generateInstance());
     inactiveAlert1 = new AlertDataBuilder()
-        .withExternalId(UUID.randomUUID().toString())
         .withType(ALERT_TYPE_NOT_WORKING_FREEZING)
         .withInventoryItem(inventoryItem1)
-        .withStartTimestamp(ZonedDateTime.now())
-        .withEndTimestamp(ZonedDateTime.now().plusHours(1))
         .withStatusMessages(Collections.singletonMap(
             STATUS_LOCALE, STATUS_MESSAGE_EQUIPMENT_FREEZING))
-        .withDismissTimestamp(ZonedDateTime.now())
         .buildAsNew();
     repository.save(inactiveAlert1);
 
@@ -113,13 +107,11 @@ public class AlertRepositoryIntegrationTest
         .build());
 
     inactiveAlert2 = new AlertDataBuilder()
-        .withExternalId(UUID.randomUUID().toString())
         .withType(ALERT_TYPE_NOT_WORKING_FREEZING)
         .withInventoryItem(inventoryItem2)
-        .withStartTimestamp(ZonedDateTime.now())
+        .withoutEndTimestamp()
         .withStatusMessages(Collections.singletonMap(
             STATUS_LOCALE, STATUS_MESSAGE_EQUIPMENT_FREEZING))
-        .withDismissTimestamp(ZonedDateTime.now())
         .buildAsNew();
     repository.save(inactiveAlert2);
 
@@ -129,34 +121,30 @@ public class AlertRepositoryIntegrationTest
         .build());
 
     activeAlert3 = new AlertDataBuilder()
-        .withExternalId(UUID.randomUUID().toString())
         .withType(ALERT_TYPE_NO_DATA)
         .withInventoryItem(inventoryItem3)
-        .withStartTimestamp(ZonedDateTime.now())
+        .withoutEndTimestamp()
         .withStatusMessages(Collections.singletonMap(
             STATUS_LOCALE, STATUS_MESSAGE_NOT_ENOUGH_DATA))
+        .withoutDismissTimestamp()
         .buildAsNew();
     repository.save(activeAlert3);
 
     inactiveAlert3 = new AlertDataBuilder()
-        .withExternalId(UUID.randomUUID().toString())
         .withType(ALERT_TYPE_NO_DATA)
         .withInventoryItem(inventoryItem3)
-        .withStartTimestamp(ZonedDateTime.now())
-        .withEndTimestamp(ZonedDateTime.now().plusHours(1))
         .withStatusMessages(Collections.singletonMap(
             STATUS_LOCALE, STATUS_MESSAGE_NOT_ENOUGH_DATA))
+        .withoutDismissTimestamp()
         .buildAsNew();
     repository.save(inactiveAlert3);
 
     inactiveAlert3b = new AlertDataBuilder()
-        .withExternalId(UUID.randomUUID().toString())
         .withType(ALERT_TYPE_NO_DATA)
         .withInventoryItem(inventoryItem3)
-        .withStartTimestamp(ZonedDateTime.now())
-        .withEndTimestamp(ZonedDateTime.now().plusHours(1))
         .withStatusMessages(Collections.singletonMap(
             STATUS_LOCALE, STATUS_MESSAGE_NOT_ENOUGH_DATA))
+        .withoutDismissTimestamp()
         .buildAsNew();
     repository.save(inactiveAlert3b);
   }
