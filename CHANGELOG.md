@@ -7,6 +7,7 @@ Bug fixes:
 
 Improvements:
 * [OLMIS-4531](https://openlmis.atlassian.net/browse/OLMIS-4531): Added compressing HTTP POST responses.
+* [OLMIS-4128](https://openlmis.atlassian.net/browse/OLMIS-4128): Change maximum page size to max integer.
 
 1.0.2 / 2018-12-12
 ==================
