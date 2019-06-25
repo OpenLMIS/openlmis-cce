@@ -210,8 +210,19 @@ to run the Service at least once with the following profile:
 spring_profiles_active=refresh-db
 ```
 
-This will ensure that the database works well with this Service, including:
-* Run the audit log initializer which ensures everything in the database has an audit log.
+This will ensure that the database works well with this Service.
+
+### Init audit log
+
+An audit log is one of the most effective forms of tracking temporal 
+information. Any time something significant happens you write 
+some record indicating what happened and when it happened.
+
+```$xslt
+spring_profiles_active=init-audit-log
+```
+
+This will enable audit logging.
 
 ## Production by Spring Profile
 

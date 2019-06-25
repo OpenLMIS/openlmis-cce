@@ -47,7 +47,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 
 @Component
-@Profile("refresh-db")
+@Profile("init-audit-log")
 @Transactional
 public class AuditLogInitializer implements CommandLineRunner {
   private static final XLogger LOGGER = XLoggerFactory.getXLogger(AuditLogInitializer.class);
