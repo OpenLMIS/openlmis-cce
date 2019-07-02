@@ -38,7 +38,7 @@ import org.hibernate.annotations.Type;
 @Getter
 public class Alert extends BaseEntity {
 
-  @Column(columnDefinition = "VARCHAR(64)", unique = true, nullable = false, name = "externalid")
+  @Column(columnDefinition = "VARCHAR(64)", unique = true, nullable = false)
   private String externalId;
   
   @Column(columnDefinition = TEXT, nullable = false)
@@ -46,13 +46,13 @@ public class Alert extends BaseEntity {
 
   @ManyToOne
   @Type(type = UUID)
-  @JoinColumn(name = "inventoryitemid", nullable = false)
+  @JoinColumn(name = "inventoryItemId", nullable = false)
   private InventoryItem inventoryItem;
 
-  @Column(columnDefinition = "timestamp with time zone", nullable = false, name = "starttimestamp")
+  @Column(columnDefinition = "timestamp with time zone", nullable = false)
   private ZonedDateTime startTimestamp;
 
-  @Column(columnDefinition = "timestamp with time zone", name = "endtimestamp")
+  @Column(columnDefinition = "timestamp with time zone")
   private ZonedDateTime endTimestamp;
 
   @ElementCollection(fetch = FetchType.EAGER)
@@ -63,7 +63,7 @@ public class Alert extends BaseEntity {
       joinColumns = @JoinColumn(name = "alertid"))
   private Map<String, String> statusMessages;
 
-  @Column(columnDefinition = "timestamp with time zone", name = "dismisstimestamp")
+  @Column(columnDefinition = "timestamp with time zone")
   private ZonedDateTime dismissTimestamp;
   
   @Column(columnDefinition = "bool")
