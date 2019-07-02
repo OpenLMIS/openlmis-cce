@@ -49,10 +49,10 @@ public class Alert extends BaseEntity {
   @JoinColumn(name = "inventoryItemId", nullable = false)
   private InventoryItem inventoryItem;
 
-  @Column(columnDefinition = "timestamp with time zone", nullable = false)
+  @Column(columnDefinition = "timestamp with time zone", nullable = false, name = "starttimestamp")
   private ZonedDateTime startTimestamp;
 
-  @Column(columnDefinition = "timestamp with time zone")
+  @Column(columnDefinition = "timestamp with time zone", name = "endtimestamp")
   private ZonedDateTime endTimestamp;
 
   @ElementCollection(fetch = FetchType.EAGER)
