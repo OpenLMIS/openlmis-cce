@@ -63,7 +63,7 @@ public class Alert extends BaseEntity {
       joinColumns = @JoinColumn(name = "alertid"))
   private Map<String, String> statusMessages;
 
-  @Column(columnDefinition = "timestamp with time zone")
+  @Column(columnDefinition = "timestamp with time zone", name = "dismisstimestamp")
   private ZonedDateTime dismissTimestamp;
   
   @Column(columnDefinition = "bool")
