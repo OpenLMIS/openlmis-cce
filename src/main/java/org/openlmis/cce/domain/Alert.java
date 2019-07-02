@@ -38,7 +38,7 @@ import org.hibernate.annotations.Type;
 @Getter
 public class Alert extends BaseEntity {
 
-  @Column(columnDefinition = "VARCHAR(64)", unique = true, nullable = false)
+  @Column(columnDefinition = "VARCHAR(64)", unique = true, nullable = false, name = "externalid")
   private String externalId;
   
   @Column(columnDefinition = TEXT, nullable = false)
