@@ -46,7 +46,7 @@ public class Alert extends BaseEntity {
 
   @ManyToOne
   @Type(type = UUID)
-  @JoinColumn(name = "inventoryItemId", nullable = false)
+  @JoinColumn(name = "inventoryitemid", nullable = false)
   private InventoryItem inventoryItem;
 
   @Column(columnDefinition = "timestamp with time zone", nullable = false, name = "starttimestamp")
