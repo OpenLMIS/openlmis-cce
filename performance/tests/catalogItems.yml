@@ -147,7 +147,7 @@ reporting:
 
     - module: passfail
       criteria:
-        Get Catalog Items too slow: p90 of GetCatalogItems>5000ms
+        Get Catalog Items too slow: p90 of GetCatalogItems>6000ms
         Get Catalog Items as CSV too slow: p90 of GetCatalogItemsCSV>500ms
         Get Catalog Item too slow: p90 of GetCatalogItem>500ms
         Create Catalog Item too slow: p90 of CreateCatalogItem>1000ms
