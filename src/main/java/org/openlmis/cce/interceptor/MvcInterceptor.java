@@ -36,7 +36,7 @@ public class MvcInterceptor extends HandlerInterceptorAdapter {
 
   @Override
   public boolean preHandle(HttpServletRequest request, HttpServletResponse response,
-                           Object handler) throws Exception {
+                           Object handler) {
     Map<String, String[]> params = request.getParameterMap();
 
     PageableRequestContext context = new PageableRequestContext(
