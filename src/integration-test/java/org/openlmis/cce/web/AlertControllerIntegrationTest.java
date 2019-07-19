@@ -24,12 +24,14 @@ import static org.mockito.Mockito.doThrow;
 
 import com.jayway.restassured.response.Response;
 import guru.nidi.ramltester.junit.RamlMatchers;
+
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
+
 import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.AlertDataBuilder;
@@ -44,6 +46,7 @@ import org.openlmis.cce.util.Pagination;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.MediaType;
 
 public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
 
@@ -167,5 +170,44 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
         .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
         .when()
         .get(RESOURCE_URL);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldNotAllowPaginationWithoutSize() {
+
+    Pageable page = new PageRequest(0, 0);
+
+    doReturn(Pagination.getPage(Collections.singletonList(alert), page))
+            .when(alertRepository).findAll(any(Pageable.class));
+
+    restAssured
+            .given()
+            .queryParam("page", page.getPageNumber())
+            .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .get(RESOURCE_URL)
+            .then()
+            .statusCode(400);
+  }
+
+  @Test(expected = IllegalArgumentException.class)
+  public void shouldNotAllowPaginationWithZeroSize() {
+
+    Pageable page = new PageRequest(0, 0);
+
+    doReturn(Pagination.getPage(Collections.singletonList(alert), page))
+            .when(alertRepository).findAll(any(Pageable.class));
+
+    restAssured
+            .given()
+            .queryParam("page", page.getPageNumber())
+            .queryParam("size", page.getPageSize())
+            .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
+            .contentType(MediaType.APPLICATION_JSON_VALUE)
+            .when()
+            .get(RESOURCE_URL)
+            .then()
+            .statusCode(400);
   }
 }
