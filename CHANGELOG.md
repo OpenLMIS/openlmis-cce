@@ -1,5 +1,5 @@
-1.1.0 / WIP
-=================
+1.1.0 / 2019-10-17
+==================
 
 New functionality:
 * [OLMIS-6558](https://openlmis.atlassian.net/browse/OLMIS-6558): Add new environment variable - PUBLIC_URL and use to for email generated links
