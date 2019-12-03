@@ -246,7 +246,7 @@ public class InventoryItemRepositoryIntegrationTest
 
   @Test
   public void shouldSortInventoryItems() {
-    when(pageable.getSort()).thenReturn(new Sort("type", EQUIPMENT_TRACKING_ID));
+    when(pageable.getSort()).thenReturn(Sort.by("type", EQUIPMENT_TRACKING_ID));
     InventoryItem item = generateInstance();
     repository.save(item);
 

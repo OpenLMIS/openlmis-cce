@@ -16,10 +16,9 @@
 package org.openlmis.cce.service.notifier;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.BDDMockito.given;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.contains;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.contains;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.verify;
@@ -41,13 +40,14 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.ReasonNotWorkingOrNotInUse;
@@ -217,8 +217,6 @@ public class NonfunctionalCceNotifierTest {
   public void shouldGetHomeAndSupervisingRecipients() {
     // given
     mockUsers(Arrays.asList(user, user2));
-    given(user2.getUsername()).willReturn(USERNAME_2);
-
     prepareFindUsersByRight(Collections.singletonList(user), Collections.singletonList(user2));
 
     // when
@@ -234,8 +232,6 @@ public class NonfunctionalCceNotifierTest {
   public void shouldGetOnlyHomeRecipientsIfSupervisoryNodeNotFound() {
     // given
     mockUsers(Arrays.asList(user, user2));
-    given(user2.getUsername()).willReturn(USERNAME_2);
-
     prepareFindUsersByRight(Collections.emptyList(), Collections.singletonList(user2));
 
     // when
@@ -251,8 +247,6 @@ public class NonfunctionalCceNotifierTest {
   public void shouldNotDuplicateRecipientsIfUsersHaveBothHomeAndSupervisedRights() {
     // given
     mockUsers(Arrays.asList(user, user2));
-    given(user2.getUsername()).willReturn(USERNAME_2);
-
     prepareFindUsersByRight(Lists.newArrayList(user, user2), Collections.singletonList(user2));
 
     // when
@@ -280,19 +274,20 @@ public class NonfunctionalCceNotifierTest {
   private void stubEquipmentType() {
     when(inventoryItem.getCatalogItem()).thenReturn(catalogItemDto);
     when(catalogItemDto.getId()).thenReturn(catalogItemId);
-    when(catalogItemRepository.findOne(catalogItemId)).thenReturn(catalogItem);
+    when(catalogItemRepository.findById(catalogItemId))
+        .thenReturn(Optional.ofNullable(catalogItem));
     when(catalogItem.getType()).thenReturn(EQUIPMENT_TYPE);
   }
 
   private void stubFacilityName() {
-    when(facilityReferenceDataService.findOne(facilityId)).thenReturn(facility);
+    when(facilityReferenceDataService.findById(facilityId)).thenReturn(facility);
     when(facility.getName()).thenReturn(FACILITY_NAME);
   }
 
   private void stubLastModifierUsername() {
     when(inventoryItem.getLastModifier()).thenReturn(lastModifierObj);
     when(lastModifierObj.getId()).thenReturn(lastModifierId);
-    when(userReferenceDataService.findOne(lastModifierId)).thenReturn(lastModifier);
+    when(userReferenceDataService.findById(lastModifierId)).thenReturn(lastModifier);
     when(lastModifier.getUsername()).thenReturn(LAST_MODIFIER_USERNAME);
   }
 

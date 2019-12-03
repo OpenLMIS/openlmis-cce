@@ -61,7 +61,7 @@ public abstract class ResourceCommunicationServiceTest<T extends BaseDto>
     mockEntityRequest(HttpMethod.GET, getResultClass(service));
     mockEntityResponse(response -> when(response.getBody()).thenReturn(instance));
 
-    T found = service.findOne(instance.getId());
+    T found = service.findById(instance.getId());
 
     // then
     assertThat(found, equalTo(instance));
@@ -84,7 +84,7 @@ public abstract class ResourceCommunicationServiceTest<T extends BaseDto>
     // when
     mockRestClientThrowException(exp);
 
-    T found = service.findOne(instance.getId());
+    T found = service.findById(instance.getId());
 
     // then
     assertThat(found, is(nullValue()));
@@ -112,7 +112,7 @@ public abstract class ResourceCommunicationServiceTest<T extends BaseDto>
     mockRestClientThrowException(exp);
     expectedEx.expect(DataRetrievalException.class);
 
-    service.findOne(instance.getId());
+    service.findById(instance.getId());
 
     // then
     URI uri = getUri();

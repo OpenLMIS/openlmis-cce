@@ -98,7 +98,7 @@ public class AuditLogInitializer implements CommandLineRunner {
   }
 
   private void createSnapshots(BaseAuditableRepository<?, ?> repository) {
-    Pageable pageable = new PageRequest(DEFAULT_PAGE_NUMBER, 2000);
+    Pageable pageable = PageRequest.of(DEFAULT_PAGE_NUMBER, 2000);
 
     while (true) {
       Page<?> page = repository.findAllWithoutSnapshots(pageable);

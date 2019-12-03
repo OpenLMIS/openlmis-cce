@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.util.Message;
 import org.openlmis.cce.web.csv.model.ModelClass;

@@ -40,7 +40,7 @@ public abstract class ResourceCommunicationService<T extends BaseDto>
    * @param id UUID of requesting object.
    * @return Requesting reference data object.
    */
-  public T findOne(UUID id) {
+  public T findById(UUID id) {
     try {
       return execute(id.toString(), null, null, null, HttpMethod.GET, getResultClass()).getBody();
     } catch (HttpStatusCodeException ex) {

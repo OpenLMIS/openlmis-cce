@@ -15,8 +15,8 @@
 
 package org.openlmis.cce.web;
 
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.anyListOf;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -28,7 +28,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.openlmis.cce.domain.Alert;
 import org.openlmis.cce.repository.AlertRepository;
 import org.openlmis.cce.util.Pagination;
@@ -49,7 +49,7 @@ public class AlertControllerTest {
 
   @Before
   public void setUp() {
-    pageRequest = new PageRequest(0, 10);
+    pageRequest = PageRequest.of(0, 10);
     Page<Alert> alertsPage = Pagination.getPage(Collections.emptyList(), pageRequest);
 
     when(alertRepository.findByActive(any(Boolean.class), any(Pageable.class)))

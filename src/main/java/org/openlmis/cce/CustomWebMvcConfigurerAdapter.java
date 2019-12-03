@@ -16,7 +16,6 @@
 package org.openlmis.cce;
 
 import java.util.List;
-
 import org.openlmis.cce.interceptor.MvcInterceptor;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,10 +27,10 @@ import org.springframework.web.method.support.HandlerMethodArgumentResolver;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
-import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
-public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
+public class CustomWebMvcConfigurerAdapter implements WebMvcConfigurer {
 
   @Value("${service.url}")
   private String serviceUrl;
@@ -45,25 +44,22 @@ public class CustomWebMvcConfigurerAdapter extends WebMvcConfigurerAdapter {
         .setViewName("redirect:" + serviceUrl + "/cce/docs/");
     registry.addViewController("/cce/docs/")
         .setViewName("forward:/cce/docs/index.html");
-    super.addViewControllers(registry);
   }
 
   @Override
   public void addResourceHandlers(ResourceHandlerRegistry registry) {
     registry.addResourceHandler("/cce/webjars/**")
         .addResourceLocations("classpath:/META-INF/resources/webjars/");
-    super.addResourceHandlers(registry);
   }
 
   @Override
   public void addArgumentResolvers(List<HandlerMethodArgumentResolver> argumentResolvers) {
     PageableHandlerMethodArgumentResolver resolver = new PageableHandlerMethodArgumentResolver();
     resolver.setMaxPageSize(Pagination.NO_PAGINATION);
-    resolver.setFallbackPageable(new PageRequest(
+    resolver.setFallbackPageable(PageRequest.of(
         Pagination.DEFAULT_PAGE_NUMBER,
         Pagination.NO_PAGINATION));
     argumentResolvers.add(resolver);
-    super.addArgumentResolvers(argumentResolvers);
   }
 
   @Override

@@ -60,7 +60,7 @@ public class Alert extends BaseEntity {
   @Column(name = "message")
   @CollectionTable(
       name = "cce_alert_status_messages",
-      joinColumns = @JoinColumn(name = "alertid"))
+      joinColumns = @JoinColumn(name = "alertId"))
   private Map<String, String> statusMessages;
 
   @Column(columnDefinition = "timestamp with time zone")

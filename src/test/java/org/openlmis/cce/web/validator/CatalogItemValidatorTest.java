@@ -23,7 +23,6 @@ import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_ID_MISMATCH;
 import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_MANUFACTURER_MODEL_NOT_UNIQUE;
 
 import java.util.UUID;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -31,7 +30,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.openlmis.cce.domain.Dimensions;
 import org.openlmis.cce.domain.EnergySource;
 import org.openlmis.cce.domain.StorageTemperature;
@@ -239,7 +238,6 @@ public class CatalogItemValidatorTest {
 
   @Test
   public void shouldNotThrowExceptionIfUpdatingCatalogItem() {
-    when(catalogItemRepository.exists(catalogItemDto.getId())).thenReturn(true);
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
             new Message(ERROR_ID_MISMATCH,catalogItemDto.getId()).toString());

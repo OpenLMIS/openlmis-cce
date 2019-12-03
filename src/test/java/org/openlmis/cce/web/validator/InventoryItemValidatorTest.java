@@ -42,7 +42,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
@@ -258,10 +258,6 @@ public class InventoryItemValidatorTest {
 
   @Test
   public void shouldNotThrowExceptionIfUpdatingInventoryItem() {
-    when(inventoryItemRepository.existsByEquipmentTrackingIdAndCatalogItem_ModelAndCatalogItem_Type(
-        inventoryItemDto.getEquipmentTrackingId(), inventoryItemDto.getCatalogItem().getModel(),
-        inventoryItemDto.getCatalogItem().getType())).thenReturn(true);
-
     inventoryItemValidator.validate(inventoryItemDto, inventoryItem);
   }
 }
