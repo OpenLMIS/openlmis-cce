@@ -108,7 +108,7 @@ public class AlertDto implements Alert.Importer, Alert.Exporter {
     if (null == inventoryItemRepository) {
       return null;
     }
-    return inventoryItemRepository.findOne(deviceId);
+    return inventoryItemRepository.findById(deviceId).get();
   }
 
   @Override

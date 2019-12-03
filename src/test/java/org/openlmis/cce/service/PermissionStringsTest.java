@@ -34,7 +34,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.service.referencedata.UserReferenceDataService;
 
@@ -97,8 +97,6 @@ public class PermissionStringsTest {
     assertThat(one, hasSize(1));
 
     // here handler should have etag and should use it
-    when(userReferenceDataService.getPermissionStrings(USER, null))
-        .thenThrow(new IllegalArgumentException());
     when(userReferenceDataService.getPermissionStrings(USER, etag)).thenReturn(response);
     when(response.getBody()).thenReturn(singletonList(random(5)));
     Set<PermissionStringDto> two = handler.get();
@@ -123,8 +121,6 @@ public class PermissionStringsTest {
     assertThat(one, hasSize(1));
 
     // here handler should have etag and should use it
-    when(userReferenceDataService.getPermissionStrings(USER, null))
-        .thenThrow(new IllegalArgumentException());
     when(userReferenceDataService.getPermissionStrings(USER, etag)).thenReturn(response);
     when(response.isModified()).thenReturn(false);
     Set<PermissionStringDto> two = handler.get();

@@ -20,7 +20,7 @@ import static org.assertj.core.util.Lists.emptyList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
 import static org.junit.Assert.assertThat;
-import static org.mockito.Matchers.anyListOf;
+import static org.mockito.Mockito.anyListOf;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +34,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.repository.CatalogItemRepository;
 
@@ -81,7 +81,7 @@ public class CatalogItemWriterTest {
     catalogItemWriter.write(toSaveList);
 
     // then
-    verify(catalogItemRepository).save(toSaveList);
+    verify(catalogItemRepository).saveAll(toSaveList);
   }
 
   @Test
@@ -103,7 +103,7 @@ public class CatalogItemWriterTest {
     catalogItemWriter.write(toSaveList);
 
     //then
-    verify(catalogItemRepository).save(catalogItemsCaptor.capture());
+    verify(catalogItemRepository).saveAll(catalogItemsCaptor.capture());
 
     List<CatalogItem> captured = Lists.newArrayList(catalogItemsCaptor.getValue());
     assertThat(captured, hasSize(1));
@@ -129,7 +129,7 @@ public class CatalogItemWriterTest {
     catalogItemWriter.write(toSaveList);
 
     //then
-    verify(catalogItemRepository).save(catalogItemsCaptor.capture());
+    verify(catalogItemRepository).saveAll(catalogItemsCaptor.capture());
 
     List<CatalogItem> captured = Lists.newArrayList(catalogItemsCaptor.getValue());
     assertThat(captured, hasSize(1));
@@ -155,7 +155,7 @@ public class CatalogItemWriterTest {
     catalogItemWriter.write(toSaveList);
 
     //then
-    verify(catalogItemRepository).save(toSaveList);
+    verify(catalogItemRepository).saveAll(toSaveList);
   }
 
   private CatalogItem create(String equipmentCode, String manufacturer, String model) {

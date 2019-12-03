@@ -30,23 +30,21 @@ import org.springframework.data.repository.query.Param;
 public interface AlertRepository extends PagingAndSortingRepository<Alert, UUID>,
     BaseAuditableRepository<Alert, UUID> {
 
-  @Query(value = "SELECT ca.*"
-      + " FROM cce.cce_alerts ca"
+  @Query(value = "SELECT ca"
+      + " FROM Alert ca"
       + " WHERE ca.active = :active" 
-      + "   AND ca.inventoryitemid IN :inventoryItemIds" 
-      + " ORDER BY ?#{#pageable}",
-      nativeQuery = true
+      + "   AND ca.inventoryItem.id IN :inventoryItemIds"
+      + " ORDER BY ?#{#pageable}"
   )
   Page<Alert> findByActiveAndInventoryItemIdIn(
       @Param("active") Boolean active,
       @Param("inventoryItemIds") List<UUID> inventoryItemIds,
       Pageable pageable);
 
-  @Query(value = "SELECT ca.*"
-      + " FROM cce.cce_alerts ca"
+  @Query(value = "SELECT ca"
+      + " FROM Alert ca"
       + " WHERE ca.active = :active" 
-      + " ORDER BY ?#{#pageable}",
-      nativeQuery = true
+      + " ORDER BY ?#{#pageable}"
   )
   Page<Alert> findByActive(
       @Param("active") Boolean active,

@@ -33,7 +33,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.openlmis.cce.domain.FunctionalStatus;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
@@ -69,8 +69,8 @@ public abstract class BaseInventoryItemQueryBuilderTest {
   }
 
   @Before
-  public void setUp() throws Exception {
-    Sort sort = new Sort(ASC, TYPE).and(new Sort(DESC, FUNCTIONAL_STATUS));
+  public void setUp() {
+    Sort sort = Sort.by(ASC, TYPE).and(Sort.by(DESC, FUNCTIONAL_STATUS));
     when(pageable.getSort()).thenReturn(sort);
   }
 

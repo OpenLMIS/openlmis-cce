@@ -17,8 +17,8 @@ package org.openlmis.cce.service;
 
 import static java.util.Collections.emptyList;
 import static org.junit.Assert.assertEquals;
-import static org.mockito.Matchers.any;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
@@ -42,7 +42,7 @@ import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.PageRequest;
 
 public class InventoryItemServiceTest {
 
@@ -53,7 +53,7 @@ public class InventoryItemServiceTest {
   private PermissionService permissionService;
 
   @Mock
-  private Pageable pageable;
+  private PageRequest pageable;
 
   @InjectMocks
   private InventoryItemService service;
@@ -71,6 +71,7 @@ public class InventoryItemServiceTest {
     permissionStrings = new HashSet<>();
 
     params = new InventoryItemSearchParamsDataBuilder().build();
+    pageable = PageRequest.of(0, 1);
 
     userId = UUID.randomUUID();
     PermissionStrings.Handler handler = mock(PermissionStrings.Handler.class);
@@ -78,7 +79,7 @@ public class InventoryItemServiceTest {
     when(permissionService.getPermissionStrings(userId)).thenReturn(handler);
 
     inventoryItem = new InventoryItemDataBuilder().build();
-    expectedPage = Pagination.getPage(Collections.singletonList(inventoryItem), null, 1);
+    expectedPage = Pagination.getPage(Collections.singletonList(inventoryItem), pageable, 1);
   }
 
   @Test

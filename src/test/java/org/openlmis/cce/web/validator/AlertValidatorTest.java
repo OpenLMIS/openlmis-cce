@@ -34,7 +34,7 @@ import org.junit.rules.ExpectedException;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.openlmis.cce.dto.AlertDto;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.repository.InventoryItemRepository;
@@ -66,7 +66,7 @@ public class AlertValidatorTest {
     alertDto.setStartTs(ZonedDateTime.now());
     alertDto.setStatus(Collections.singletonMap("en-US", "Equipment needs attention: too hot"));
 
-    when(inventoryItemRepository.exists(alertDto.getDeviceId())).thenReturn(true);
+    when(inventoryItemRepository.existsById(alertDto.getDeviceId())).thenReturn(true);
   }
 
   @Test
@@ -150,7 +150,7 @@ public class AlertValidatorTest {
 
   @Test
   public void validateShouldThrowExceptionIfDeviceIdIsNotFound() {
-    when(inventoryItemRepository.exists(alertDto.getDeviceId())).thenReturn(false);
+    when(inventoryItemRepository.existsById(alertDto.getDeviceId())).thenReturn(false);
     expectedEx.expect(ValidationMessageException.class);
     expectedEx.expectMessage(
         new Message(ERROR_DEVICE_ID_NOT_FOUND, "").toString());

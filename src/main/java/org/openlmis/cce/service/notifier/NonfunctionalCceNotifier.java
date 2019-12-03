@@ -34,6 +34,7 @@ import java.util.UUID;
 import java.util.stream.Collectors;
 import javax.validation.constraints.NotNull;
 import org.apache.commons.lang3.text.StrSubstitutor;
+import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.RightDto;
 import org.openlmis.cce.dto.SupervisoryNodeDto;
@@ -151,16 +152,18 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
   }
 
   private String getType(InventoryItemDto inventoryItem) {
-    return catalogItemRepository.findOne(inventoryItem.getCatalogItem().getId()).getType();
+    Optional<CatalogItem> catalogItem =
+        catalogItemRepository.findById(inventoryItem.getCatalogItem().getId());
+    return catalogItem.map(CatalogItem::getType).orElse(null);
   }
 
   private String getFacilityName(UUID facilityId) {
-    return facilityReferenceDataService.findOne(facilityId).getName();
+    return facilityReferenceDataService.findById(facilityId).getName();
   }
 
   private String getUsername(InventoryItemDto inventoryItem) {
     UUID userId = inventoryItem.getLastModifier().getId();
-    UserDto one = userReferenceDataService.findOne(userId);
+    UserDto one = userReferenceDataService.findById(userId);
     if (one == null) {
       throw new ValidationMessageException(
           new Message(ERROR_USER_INVALID, userId));

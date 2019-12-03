@@ -19,6 +19,7 @@ import static org.openlmis.cce.service.ResourceNames.BASE_PATH;
 import static org.openlmis.cce.web.AlertController.RESOURCE_PATH;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import org.openlmis.cce.domain.Alert;
@@ -86,8 +87,9 @@ public class AlertController extends BaseController {
     alertValidator.validate(alertDto);
 
     profiler.start(PROFILER_CHECK_PERMISSION);
-    InventoryItem inventoryItem = inventoryItemRepository.findOne(alertDto.getDeviceId());
-    permissionService.canEditInventoryOrIsApiKey(inventoryItem);
+    Optional<InventoryItem> inventoryItem =
+        inventoryItemRepository.findById(alertDto.getDeviceId());
+    inventoryItem.ifPresent(item -> permissionService.canEditInventoryOrIsApiKey(item));
 
     profiler.start("CREATE_DOMAIN_INSTANCE");
     alertDto.setInventoryItemRepository(inventoryItemRepository);

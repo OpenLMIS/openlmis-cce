@@ -29,6 +29,9 @@ public class CountInventoryItemQueryBuilderTest
     return true;
   }
 
+  @Override
+  public void setUp() {}
+
   @Test
   public void shouldNotAddOrderPartToCountQuery() throws Exception {
     String sql = new InventoryItemQueryBuilder(null, null, null, pageable, true).build();

@@ -20,8 +20,8 @@ import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.repository.custom.CatalogItemRepositoryCustom;
 import org.springframework.data.repository.PagingAndSortingRepository;
 
-public interface CatalogItemRepository
-    extends PagingAndSortingRepository<CatalogItem, UUID>, CatalogItemRepositoryCustom {
+public interface CatalogItemRepository extends PagingAndSortingRepository<CatalogItem, UUID>,
+    CatalogItemRepositoryCustom {
 
   CatalogItem findByEquipmentCode(String code);
 

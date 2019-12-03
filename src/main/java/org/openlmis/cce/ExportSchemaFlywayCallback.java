@@ -18,16 +18,17 @@ package org.openlmis.cce;
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Connection;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
-import org.flywaydb.core.api.callback.BaseFlywayCallback;
+import org.flywaydb.core.api.callback.BaseCallback;
+import org.flywaydb.core.api.callback.Context;
+import org.flywaydb.core.api.callback.Event;
 import org.slf4j.ext.XLogger;
 import org.slf4j.ext.XLoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
-public class ExportSchemaFlywayCallback extends BaseFlywayCallback {
+public class ExportSchemaFlywayCallback extends BaseCallback {
 
   private static final XLogger XLOGGER = XLoggerFactory
       .getXLogger(ExportSchemaFlywayCallback.class);
@@ -36,9 +37,7 @@ public class ExportSchemaFlywayCallback extends BaseFlywayCallback {
   private String schemaName;
 
   @Override
-  public void afterMigrate(Connection connection) {
-    XLOGGER.entry(connection);
-
+  public void handle(Event event, Context context) {
     XLOGGER.info("After migrations, exporting db schema");
 
     int exitCode = 0;

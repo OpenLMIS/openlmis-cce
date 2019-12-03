@@ -19,6 +19,7 @@ import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_FORMAT_NOT_ALLO
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -191,15 +192,15 @@ public class CatalogItemController extends BaseController {
     profiler.setLogger(XLOGGER);
 
     profiler.start("SEARCH_IN_DB");
-    CatalogItem catalogItem = catalogRepository.findOne(catalogItemId);
-    if (catalogItem == null) {
+    Optional<CatalogItem> catalogItem = catalogRepository.findById(catalogItemId);
+    if (!catalogItem.isPresent()) {
       profiler.stop().log();
       XLOGGER.exit();
 
       throw new NotFoundException(CatalogItemMessageKeys.ERROR_ITEM_NOT_FOUND);
     } else {
       profiler.start(PROFILER_CREATE_DTO);
-      CatalogItemDto dto = toDto(catalogItem);
+      CatalogItemDto dto = toDto(catalogItem.get());
 
       profiler.stop().log();
       XLOGGER.exit(dto);

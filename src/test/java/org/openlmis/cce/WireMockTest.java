@@ -18,6 +18,7 @@ package org.openlmis.cce;
 import static com.github.tomakehurst.wiremock.client.WireMock.aResponse;
 import static com.github.tomakehurst.wiremock.client.WireMock.get;
 import static com.github.tomakehurst.wiremock.client.WireMock.matching;
+import static com.github.tomakehurst.wiremock.client.WireMock.post;
 import static com.github.tomakehurst.wiremock.client.WireMock.postRequestedFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.stubFor;
 import static com.github.tomakehurst.wiremock.client.WireMock.urlEqualTo;
@@ -76,6 +77,10 @@ public class WireMockTest {
             .withStatus(200)
             .withHeader("Content-Type", "application/json")
             .withBody(responseJson)));
+
+    stubFor(post(urlEqualTo("/api/resource"))
+        .willReturn(aResponse()
+            .withStatus(204)));
 
     String result = testClient.getResource();
 

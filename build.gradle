@@ -3,7 +3,7 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:1.5.21.RELEASE"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.2.1.RELEASE"
     }
 }
 
@@ -16,6 +16,7 @@ plugins {
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
 apply plugin: 'checkstyle'
 apply plugin: 'jacoco'
 apply plugin: 'pmd'
@@ -34,16 +35,15 @@ repositories {
 }
 
 dependencies {
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate4'
-    compile 'com.fasterxml.jackson.datatype:jackson-datatype-jsr310'
-    compile 'commons-io:commons-io:2.5'
+    compile 'com.fasterxml.jackson.datatype:jackson-datatype-hibernate4:2.10.0'
+    compile 'commons-io:commons-io:2.6'
     compile 'net.sf.supercsv:super-csv-dozer:2.4.0'
     compile 'net.sf.supercsv:super-csv:2.4.0'
-    compile 'org.apache.commons:commons-collections4:4.1'
-    compile 'org.apache.commons:commons-csv:1.4'
-    compile 'org.apache.commons:commons-lang3:3.5'
-    compile 'org.apache.commons:commons-text:1.1'
-    compile 'org.flywaydb:flyway-core:4.1.2'
+    compile 'org.apache.commons:commons-collections4:4.4'
+    compile 'org.apache.commons:commons-csv:1.7'
+    compile 'org.apache.commons:commons-lang3:3.9'
+    compile 'org.apache.commons:commons-text:1.8'
+    compile 'org.flywaydb:flyway-core'
     compile 'org.hibernate:hibernate-java8'
     compile 'org.javers:javers-spring-boot-starter-sql:2.8.1'
     compile 'org.openlmis:openlmis-service-util:3.1.0'
@@ -53,19 +53,21 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.security.oauth:spring-security-oauth2'
+    compile 'org.springframework.security.oauth:spring-security-oauth2:2.0.11.RELEASE'
+    compile 'org.springframework.security:spring-security-oauth2-core'
+    compile 'org.springframework.security:spring-security-oauth2-client'
     compile 'org.springframework:spring-context-support'
     compile 'org.webjars.npm:api-console:3.0.17'
 
     testCompile 'be.joengenduvel.java.verifiers:to-string:1.0.2'
-    testCompile 'com.github.tomakehurst:wiremock:1.58'
-    testCompile 'com.jayway.restassured:rest-assured:2.7.0'
-    testCompile 'guru.nidi.raml:raml-tester:0.8.9'
+    testCompile 'com.github.tomakehurst:wiremock:2.22.0'
+    testCompile 'com.jayway.restassured:rest-assured:2.9.0'
+    testCompile 'guru.nidi.raml:raml-tester:0.9.1'
     testCompile 'junit:junit'
-    testCompile 'nl.jqno.equalsverifier:equalsverifier:2.4'
-    testCompile 'org.mockito:mockito-core:1.+'
-    testCompile 'org.powermock:powermock-api-mockito:1.6.5'
-    testCompile 'org.powermock:powermock-module-junit4:1.6.5'
+    testCompile 'nl.jqno.equalsverifier:equalsverifier:3.1.10'
+    testCompile 'org.mockito:mockito-core:3.1.+'
+    testCompile 'org.powermock:powermock-api-mockito2:2.0.0'
+    testCompile 'org.powermock:powermock-module-junit4:2.0.0'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework:spring-test'
 }
@@ -165,6 +167,7 @@ task generateMigration << {
     migrationFile << "-- Migrations should NOT BE EDITED. Add a new migration to apply changes."    
     migrationFile.createNewFile()
 }
+
 
 task checkApiIsRaml(type:Exec) {
     executable "raml-cop"

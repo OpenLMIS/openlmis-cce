@@ -56,7 +56,7 @@ public class AlertRepositoryIntegrationTest
   @Autowired
   private CatalogItemRepository catalogItemRepository;
   
-  private PageRequest pageRequest = new PageRequest(0, 10);
+  private PageRequest pageRequest = PageRequest.of(0, 10);
 
   private InventoryItem inventoryItem1;
   private Alert activeAlert1;

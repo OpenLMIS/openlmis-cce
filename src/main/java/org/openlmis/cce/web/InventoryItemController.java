@@ -21,6 +21,7 @@ import static org.openlmis.cce.web.InventoryItemController.RESOURCE_PATH;
 
 import java.time.ZonedDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
@@ -137,8 +138,8 @@ public class InventoryItemController extends BaseController {
     profiler.setLogger(XLOGGER);
 
     profiler.start("FIND_IN_DB");
-    InventoryItem inventoryItem = inventoryRepository.findOne(inventoryItemId);
-    if (inventoryItem == null) {
+    Optional<InventoryItem> inventoryItem = inventoryRepository.findById(inventoryItemId);
+    if (!inventoryItem.isPresent()) {
       profiler.stop().log();
       XLOGGER.exit(inventoryItemId);
 
@@ -146,10 +147,10 @@ public class InventoryItemController extends BaseController {
     }
 
     profiler.start(PROFILER_CHECK_PERMISSION);
-    permissionService.canViewInventory(inventoryItem);
+    permissionService.canViewInventory(inventoryItem.get());
 
     profiler.start("PROFILER_CREATE_DTO");
-    InventoryItemDto dto = inventoryItemDtoBuilder.build(inventoryItem);
+    InventoryItemDto dto = inventoryItemDtoBuilder.build(inventoryItem.get());
 
     profiler.start("EXPAND_DTO");
     objReferenceExpander.expandDto(dto, expands);
@@ -214,23 +215,23 @@ public class InventoryItemController extends BaseController {
     }
 
     profiler.start("FIND_IN_DB");
-    InventoryItem existingInventory = inventoryRepository.findOne(inventoryItemId);
+    Optional<InventoryItem> existingInventory = inventoryRepository.findById(inventoryItemId);
 
     profiler.start(PROFILER_CHECK_PERMISSION);
-    if (existingInventory != null) {
-      permissionService.canEditInventory(existingInventory);
+    if (existingInventory.isPresent()) {
+      permissionService.canEditInventory(existingInventory.get());
     } else {
       permissionService.canEditInventory(
           inventoryItemDto.getProgramId(), inventoryItemDto.getFacility().getId());
     }
 
     profiler.start("VALIDATE");
-    validator.validate(inventoryItemDto, existingInventory);
+    validator.validate(inventoryItemDto, existingInventory.get());
 
     profiler.start("UPDATE_AND_CREATE_DTO");
     InventoryItemDto dto;
-    if (existingInventory != null) {
-      dto = updateInventory(inventoryItemDto, existingInventory);
+    if (existingInventory.isPresent()) {
+      dto = updateInventory(inventoryItemDto, existingInventory.get());
     } else {
       InventoryItem inventoryItem = newInventoryItem(inventoryItemDto);
 
@@ -254,8 +255,8 @@ public class InventoryItemController extends BaseController {
     profiler.setLogger(XLOGGER);
 
     profiler.start("FIND_IN_DB");
-    InventoryItem inventoryItem = inventoryRepository.findOne(id);
-    if (inventoryItem == null) {
+    Optional<InventoryItem> inventoryItem = inventoryRepository.findById(id);
+    if (!inventoryItem.isPresent()) {
       profiler.stop().log();
       XLOGGER.exit(id);
 
@@ -263,10 +264,10 @@ public class InventoryItemController extends BaseController {
     }
 
     profiler.start(PROFILER_CHECK_PERMISSION);
-    permissionService.canEditInventory(inventoryItem);
+    permissionService.canEditInventory(inventoryItem.get());
 
     profiler.start("DELETE");
-    inventoryRepository.delete(inventoryItem);
+    inventoryRepository.delete(inventoryItem.get());
 
     profiler.stop().log();
     XLOGGER.exit();

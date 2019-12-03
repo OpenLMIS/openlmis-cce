@@ -19,7 +19,7 @@ import static java.util.Collections.singletonList;
 import static org.apache.commons.lang3.builder.EqualsBuilder.reflectionEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.eq;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -35,7 +35,7 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Captor;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.runners.MockitoJUnitRunner;
+import org.mockito.junit.MockitoJUnitRunner;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.AuthService;
 import org.springframework.http.HttpEntity;
@@ -46,7 +46,6 @@ import org.springframework.web.client.RestTemplate;
 @RunWith(MockitoJUnitRunner.class)
 public class NotificationServiceTest {
   private static final String ACCESS_TOKEN = "token";
-  private static final String USER_EMAIL = "test@test.te";
   private static final String MAIL_SUBJECT = "subject";
   private static final String MAIL_CONTENT = "content";
   private static final String BASE_URL = "http://localhost";
@@ -75,7 +74,6 @@ public class NotificationServiceTest {
   @Test
   public void shouldNotifyUser() throws Exception {
     UserDto user = mock(UserDto.class);
-    when(user.getEmail()).thenReturn(USER_EMAIL);
 
     notificationService.notify(user, MAIL_SUBJECT, MAIL_CONTENT);
 

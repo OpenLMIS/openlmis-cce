@@ -92,7 +92,7 @@ public class CatalogItemWriter implements RecordWriter<CatalogItem> {
     }
 
     profiler.start("SAVE");
-    catalogItemRepository.save(entities);
+    catalogItemRepository.saveAll(entities);
 
     profiler.stop().log();
     XLOGGER.exit();

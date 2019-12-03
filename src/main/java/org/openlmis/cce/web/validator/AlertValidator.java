@@ -71,7 +71,7 @@ public class AlertValidator {
   }
   
   private void validateInventoryItemExists(UUID inventoryItemId) {
-    if (!inventoryItemRepository.exists(inventoryItemId)) {
+    if (!inventoryItemRepository.existsById(inventoryItemId)) {
       XLOGGER.warn("Could not validate inventoryItemId = {}, because it was not found.",
           inventoryItemId);
       throw new ValidationMessageException(AlertMessageKeys.ERROR_DEVICE_ID_NOT_FOUND);
