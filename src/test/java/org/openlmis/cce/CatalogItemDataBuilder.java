@@ -54,6 +54,7 @@ public class CatalogItemDataBuilder {
     energySource = EnergySource.ELECTRIC;
     storageTemperature = StorageTemperature.MINUS10;
     archived = false;
+    netVolume = 20;
   }
 
   /**
@@ -75,6 +76,11 @@ public class CatalogItemDataBuilder {
     catalog.setId(id);
 
     return catalog;
+  }
+
+  public CatalogItemDataBuilder withId(UUID id) {
+    this.id = id;
+    return this;
   }
 
   public CatalogItemDataBuilder withEquipmentCode(String equipmentCode) {
@@ -126,4 +132,10 @@ public class CatalogItemDataBuilder {
     this.visibleInCatalog = false;
     return this;
   }
+
+  public CatalogItemDataBuilder withNetVolume(Integer netVolume) {
+    this.netVolume = netVolume;
+    return this;
+  }
+
 }
