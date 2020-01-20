@@ -27,13 +27,12 @@ import java.util.UUID;
 
 import org.junit.Before;
 import org.junit.Test;
-import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.dto.VolumeDto;
 import org.springframework.http.HttpHeaders;
 
 public class VolumeControllerIntegrationTest extends BaseWebIntegrationTest {
 
-  private static final String RESOURCE_URL = "/api/{facilityId}/volume";
+  private static final String RESOURCE_URL = "/api/inventoryItems/volume";
 
   private VolumeDto volumeDto;
   private final UUID facilityId = UUID.randomUUID();
@@ -47,7 +46,7 @@ public class VolumeControllerIntegrationTest extends BaseWebIntegrationTest {
 
   @Test
   public void shouldRetrieveVolume() {
-    when(inventoryItemRepository.getInventoryItemVolume(facilityId, FunctionalStatus.FUNCTIONING))
+    when(inventoryItemRepository.getFacilityFunctioningVolume(facilityId))
             .thenReturn(Optional.of(netVolume));
 
     VolumeDto response = getVolumeForFacilityId(facilityId)
@@ -61,7 +60,7 @@ public class VolumeControllerIntegrationTest extends BaseWebIntegrationTest {
 
   @Test
   public void shouldRetrieveVolumeWhenRepositoryReturnNullValue() {
-    when(inventoryItemRepository.getInventoryItemVolume(facilityId, FunctionalStatus.FUNCTIONING))
+    when(inventoryItemRepository.getFacilityFunctioningVolume(facilityId))
             .thenReturn(Optional.empty());
 
     VolumeDto response = getVolumeForFacilityId(facilityId)
@@ -78,7 +77,7 @@ public class VolumeControllerIntegrationTest extends BaseWebIntegrationTest {
     return restAssured
             .given()
             .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
-            .pathParam("facilityId", facilityId)
+            .queryParameter("facilityId", facilityId)
             .when()
             .get(RESOURCE_URL);
   }

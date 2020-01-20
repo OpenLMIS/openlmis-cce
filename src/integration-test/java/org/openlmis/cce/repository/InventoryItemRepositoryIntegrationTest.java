@@ -324,7 +324,7 @@ public class InventoryItemRepositoryIntegrationTest
 
     int sumVolume = 50;
     Optional<Number> volume = repository
-            .getInventoryItemVolume(facilityId, FunctionalStatus.FUNCTIONING);
+            .getFacilityFunctioningVolume(facilityId);
 
     assertEquals(sumVolume, volume.get().intValue());
   }
@@ -339,8 +339,7 @@ public class InventoryItemRepositoryIntegrationTest
 
     repository.save(item1);
 
-    Optional<Number> volume = repository.getInventoryItemVolume(
-            UUID.randomUUID(), FunctionalStatus.FUNCTIONING);
+    Optional<Number> volume = repository.getFacilityFunctioningVolume(UUID.randomUUID());
 
     assertEquals(Optional.empty(), volume);
   }

@@ -18,7 +18,6 @@ package org.openlmis.cce.web;
 import java.util.Optional;
 import java.util.UUID;
 
-import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.dto.VolumeDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.slf4j.ext.XLogger;
@@ -27,7 +26,7 @@ import org.slf4j.profiler.Profiler;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
@@ -45,21 +44,23 @@ public class VolumeController extends BaseController {
    *
    * @return volume
    */
-  @GetMapping(value = "/{facilityId}/volume")
+  @GetMapping(value = "inventoryItems/volume")
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
-  public VolumeDto getVolumeForFacilityId(@PathVariable("facilityId") UUID facilityId) {
+  public VolumeDto getVolumeForFacilityId(
+          @RequestParam(value = "facilityId", required = true) UUID facilityId) {
     XLOGGER.entry(facilityId);
     Profiler profiler = new Profiler("GET_VOLUME_INVENTORY_BY_FACILITY_ID");
     profiler.setLogger(XLOGGER);
 
     profiler.start("FIND_VOLUME_IN_DB");
+    Optional<Number> volume = inventoryRepository.getFacilityFunctioningVolume(facilityId);
 
-    Optional<Number> volume = inventoryRepository.getInventoryItemVolume(facilityId,
-            FunctionalStatus.FUNCTIONING);
+    profiler.start("CREATE_VOLUME_DTO");
+    VolumeDto volumeDto = new VolumeDto(volume.orElse(0).intValue());
+
     profiler.stop().log();
     XLOGGER.exit(volume);
-
-    return new VolumeDto(volume.orElse(0).intValue());
+    return volumeDto;
   }
 }

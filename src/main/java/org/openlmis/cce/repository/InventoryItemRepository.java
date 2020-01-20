@@ -18,7 +18,6 @@ package org.openlmis.cce.repository;
 import java.util.Optional;
 import java.util.UUID;
 import org.javers.spring.annotation.JaversSpringDataAuditable;
-import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.repository.custom.InventoryItemRepositoryCustom;
 import org.springframework.data.domain.Page;
@@ -54,8 +53,7 @@ public interface InventoryItemRepository extends PagingAndSortingRepository<Inve
   Page<InventoryItem> findAllWithoutSnapshots(Pageable pageable);
 
   @Query("SELECT SUM(i.catalogItem.netVolume) FROM InventoryItem i "
-          + "WHERE i.facilityId = :facilityId AND i.functionalStatus = :functionalStatus")
-  Optional<Number> getInventoryItemVolume(
-          @Param("facilityId")UUID facilityId,
-          @Param("functionalStatus") FunctionalStatus functionalStatus);
+          + "WHERE i.facilityId = :facilityId AND i.functionalStatus = 'FUNCTIONING'")
+  Optional<Number> getFacilityFunctioningVolume(
+          @Param("facilityId")UUID facilityId);
 }
