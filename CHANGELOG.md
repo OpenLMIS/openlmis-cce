@@ -1,4 +1,8 @@
-1.2.0 / WIP
+1.2.1 / WIP
+==================
+
+
+1.2.0 / 2020-01-20
 ==================
 
 New functionality added in a backwards-compatible manner:
