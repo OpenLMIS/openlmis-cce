@@ -1,5 +1,5 @@
-1.2.0 / WIP
-=====================
+1.2.0 / 2020-01-20
+==================
 
 New functionality added in a backwards-compatible manner:
 * [OLMIS-6734](https://openlmis.atlassian.net/browse/OLMIS-6734): Added GET /api/inventoryItems/volume endpoint.
