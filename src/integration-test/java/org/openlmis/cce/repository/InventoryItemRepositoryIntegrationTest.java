@@ -22,6 +22,7 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.Optional;
 import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
@@ -40,11 +41,13 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.CrudRepository;
 import org.springframework.test.util.ReflectionTestUtils;
 
+@SuppressWarnings("PMD.TooManyMethods")
 public class InventoryItemRepositoryIntegrationTest
     extends BaseCrudRepositoryIntegrationTest<InventoryItem> {
 
   private static final String EQUIPMENT_TRACKING_ID = "equipmentTrackingId";
   private static final String CATALOG_ITEM = "catalogItem";
+  private final UUID facilityId = UUID.randomUUID();
 
   @Autowired
   private InventoryItemRepository repository;
@@ -283,6 +286,62 @@ public class InventoryItemRepositoryIntegrationTest
         (CatalogItem) ReflectionTestUtils.getField(inventoryItem2, CATALOG_ITEM);
 
     assertTrue(catalogItem1.getType().compareTo(catalogItem2.getType()) < 0);
+  }
+
+  @Test
+  public void shouldReturnVolumeByFacility() {
+    CatalogItem catalogItem2 = new CatalogItemDataBuilder()
+            .withId(UUID.randomUUID())
+            .withModel("model2")
+            .withNetVolume(30)
+            .build();
+    catalogItemRepository.save(catalogItem2);
+
+    CatalogItem catalogItem3 = new CatalogItemDataBuilder()
+            .withId(UUID.randomUUID())
+            .withModel("model3")
+            .withNetVolume(40)
+            .build();
+    catalogItemRepository.save(catalogItem3);
+
+    InventoryItem item1 = getInventoryItemDataBuilder()
+            .withCatalogItem(catalogItem)
+            .withFacilityId(facilityId)
+            .build();
+    InventoryItem item2 = getInventoryItemDataBuilder()
+            .withCatalogItem(catalogItem2)
+            .withFacilityId(facilityId)
+            .build();
+    InventoryItem item3 = getInventoryItemDataBuilder()
+            .withCatalogItem(catalogItem3)
+            .withFacilityId(facilityId)
+            .withStatus(FunctionalStatus.AWAITING_REPAIR)
+            .build();
+
+    repository.save(item1);
+    repository.save(item2);
+    repository.save(item3);
+
+    int sumVolume = 50;
+    Optional<Number> volume = repository
+            .getFacilityFunctioningVolume(facilityId);
+
+    assertEquals(sumVolume, volume.get().intValue());
+  }
+
+  @Test
+  public void shouldNotReturnVolumeByIncorrectFacility() {
+
+    InventoryItem item1 = getInventoryItemDataBuilder()
+            .withCatalogItem(catalogItem)
+            .withFacilityId(facilityId)
+            .build();
+
+    repository.save(item1);
+
+    Optional<Number> volume = repository.getFacilityFunctioningVolume(UUID.randomUUID());
+
+    assertEquals(Optional.empty(), volume);
   }
 
   private InventoryItemDataBuilder getInventoryItemDataBuilder() {

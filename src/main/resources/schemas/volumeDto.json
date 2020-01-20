@@ -1,0 +1,15 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "VolumeDto",
+  "description": "A single volumeDto",
+  "properties": {
+    "volume": {
+      "type": "number",
+      "title": "volume"
+    }
+  },
+  "required": [
+    "volume"
+  ]
+}
