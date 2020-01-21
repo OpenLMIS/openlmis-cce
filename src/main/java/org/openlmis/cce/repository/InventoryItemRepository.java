@@ -53,7 +53,8 @@ public interface InventoryItemRepository extends PagingAndSortingRepository<Inve
   Page<InventoryItem> findAllWithoutSnapshots(Pageable pageable);
 
   @Query("SELECT SUM(i.catalogItem.netVolume) FROM InventoryItem i "
-          + "WHERE i.facilityId = :facilityId AND i.functionalStatus = 'FUNCTIONING'")
+          + "WHERE i.facilityId = :facilityId AND i.functionalStatus = 'FUNCTIONING' "
+          + "AND i.utilization = 'ACTIVE'")
   Optional<Number> getFacilityFunctioningVolume(
           @Param("facilityId")UUID facilityId);
 }
