@@ -20,6 +20,7 @@ import java.util.UUID;
 
 import org.openlmis.cce.dto.VolumeDto;
 import org.openlmis.cce.repository.InventoryItemRepository;
+import org.openlmis.cce.web.validator.VolumeValidator;
 import org.slf4j.ext.XLogger;
 import org.slf4j.ext.XLoggerFactory;
 import org.slf4j.profiler.Profiler;
@@ -39,6 +40,9 @@ public class VolumeController extends BaseController {
   @Autowired
   private InventoryItemRepository inventoryRepository;
 
+  @Autowired
+  private VolumeValidator volumeValidator;
+
   /**
    * Get all volume CCE Inventory items for specified facility.
    *
@@ -48,13 +52,17 @@ public class VolumeController extends BaseController {
   @ResponseStatus(HttpStatus.OK)
   @ResponseBody
   public VolumeDto getVolumeForFacilityId(
-          @RequestParam(value = "facilityId", required = true) UUID facilityId) {
+          @RequestParam(value = "facilityId", required = true) String facilityId) {
     XLOGGER.entry(facilityId);
     Profiler profiler = new Profiler("GET_VOLUME_INVENTORY_BY_FACILITY_ID");
     profiler.setLogger(XLOGGER);
 
+    profiler.start("VALIDATE");
+    volumeValidator.validate(facilityId);
+
     profiler.start("FIND_VOLUME_IN_DB");
-    Optional<Number> volume = inventoryRepository.getFacilityFunctioningVolume(facilityId);
+    Optional<Number> volume = inventoryRepository
+            .getFacilityFunctioningVolume(UUID.fromString(facilityId));
 
     profiler.start("CREATE_VOLUME_DTO");
     VolumeDto volumeDto = new VolumeDto(volume.orElse(0).intValue());
