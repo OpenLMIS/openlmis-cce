@@ -18,6 +18,7 @@ package org.openlmis.cce.web.validator;
 import static org.openlmis.cce.i18n.VolumeMessageKeys.ERROR_FACILITY_ID_INVALID_UUID_FORMAT;
 import static org.openlmis.cce.i18n.VolumeMessageKeys.ERROR_FACILITY_ID_NULL;
 
+import java.util.Optional;
 import java.util.UUID;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.springframework.stereotype.Component;
@@ -25,6 +26,9 @@ import org.springframework.validation.ValidationUtils;
 
 @Component
 public class VolumeValidator {
+
+  public static final String UUID_PATTERN =
+          "^[0-9A-Fa-f]{8}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{4}-[0-9A-Fa-f]{12}$";
 
   /**
    * Validates the {@code volume} object.
@@ -42,8 +46,11 @@ public class VolumeValidator {
   }
 
   private void validateUuid(String value, String errorMessage) {
-    UUID uuidValue = UUID.fromString(value);
-    if (!(uuidValue.toString().equals(value))) {
+    Optional<UUID> uuidValue = Optional.empty();
+    if (value.matches(UUID_PATTERN)) {
+      uuidValue = Optional.of(UUID.fromString(value));
+    }
+    if (!uuidValue.isPresent()) {
       throw new ValidationMessageException(errorMessage, value);
     }
   }
