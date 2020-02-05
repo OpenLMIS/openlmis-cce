@@ -20,11 +20,9 @@ import static org.mockito.Mockito.when;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.sql.Connection;
 import org.apache.commons.io.IOUtils;
-import org.flywaydb.core.api.callback.Context;
-import org.flywaydb.core.api.callback.Event;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.Mock;
@@ -37,10 +35,7 @@ public class ExportSchemaFlywayCallbackTest {
   private ExportSchemaFlywayCallback callback;
 
   @Mock
-  private Event mockEvent;
-
-  @Mock
-  private Context mockContext;
+  private Connection mockConnection;
 
   @Mock
   private Runtime mockRuntime;
@@ -60,9 +55,8 @@ public class ExportSchemaFlywayCallbackTest {
   }
 
   @Test
-  @Ignore
   public void afterMigrateShouldProcessStreams() {
 
-    callback.handle(mockEvent, mockContext);
+    callback.afterMigrate(mockConnection);
   }
 }
