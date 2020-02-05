@@ -58,7 +58,6 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-@Ignore
 @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.TooManyMethods"})
 public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest {
 
@@ -106,6 +105,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   }
 
   @Test
+  @Ignore
   public void shouldRetrieveAllCatalogItemsWhenCallingSearchWithAllNullParameters() {
     List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);
 
@@ -125,6 +125,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   }
 
   @Test
+  @Ignore
   public void shouldFindCatalogItemsWithGivenParameters() throws IOException {
     List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);
     when(catalogItemRepository.search(any(String.class), any(Boolean.class),
