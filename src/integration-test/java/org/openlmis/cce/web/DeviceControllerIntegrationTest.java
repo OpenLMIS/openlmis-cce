@@ -24,7 +24,6 @@ import static org.openlmis.cce.util.Pagination.DEFAULT_PAGE_NUMBER;
 import com.google.common.collect.ImmutableList;
 import com.jayway.restassured.response.ValidatableResponse;
 import guru.nidi.ramltester.junit.RamlMatchers;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openlmis.cce.InventoryItemDataBuilder;
 import org.openlmis.cce.domain.InventoryItem;
@@ -46,7 +45,6 @@ public class DeviceControllerIntegrationTest extends BaseWebIntegrationTest {
   private Pageable pageable = PageRequest.of(DEFAULT_PAGE_NUMBER, 2000);
 
   @Test
-  @Ignore
   public void shouldReturnInventoryItemAsDevice() {
     InventoryItem item = new InventoryItemDataBuilder().build();
     given(inventoryItemRepository.findAll(pageable))

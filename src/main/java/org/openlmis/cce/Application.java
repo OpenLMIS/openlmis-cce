@@ -18,7 +18,8 @@ package org.openlmis.cce;
 import java.time.Clock;
 import java.time.ZoneId;
 import java.util.Locale;
-import org.flywaydb.core.api.callback.FlywayCallback;
+import org.flywaydb.core.Flyway;
+import org.flywaydb.core.api.callback.Callback;
 import org.javers.core.Javers;
 import org.javers.core.MappingStyle;
 import org.javers.core.diff.ListCompareAlgorithm;
@@ -108,14 +109,14 @@ public class Application {
   public FlywayMigrationStrategy cleanMigrationStrategy() {
     return flyway -> {
       logger.info("Using clean-migrate flyway strategy -- production profile not active");
-      flyway.setCallbacks(flywayCallback());
+      Flyway.configure().callbacks(flywayCallback()).load();
       flyway.clean();
       flyway.migrate();
     };
   }
 
   @Bean
-  public FlywayCallback flywayCallback() {
+  public Callback flywayCallback() {
     return new ExportSchemaFlywayCallback();
   }
   

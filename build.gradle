@@ -3,12 +3,12 @@ buildscript {
         mavenCentral()
     }
     dependencies {
-        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.0.9.RELEASE"
+        classpath "org.springframework.boot:spring-boot-gradle-plugin:2.2.2.RELEASE"
     }
 }
 
 plugins {
-    id "org.flywaydb.flyway" version "5.2.4"
+    id "org.flywaydb.flyway" version "6.0.8"
     id "org.sonarqube" version "2.6.2"
     id "com.moowork.node" version "0.12"
 }
@@ -43,7 +43,7 @@ dependencies {
     compile 'org.apache.commons:commons-csv:1.7'
     compile 'org.apache.commons:commons-lang3:3.9'
     compile 'org.apache.commons:commons-text:1.8'
-    compile 'org.flywaydb:flyway-core:5.2.4'
+    compile 'org.flywaydb:flyway-core'
     compile 'org.hibernate:hibernate-java8'
     compile 'org.javers:javers-spring-boot-starter-sql:2.8.1'
     compile 'org.openlmis:openlmis-service-util:3.1.0'
@@ -53,7 +53,7 @@ dependencies {
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-security'
     compile 'org.springframework.boot:spring-boot-starter-web'
-    compile 'org.springframework.security.oauth:spring-security-oauth2:2.0.11.RELEASE'
+    compile 'org.springframework.security.oauth.boot:spring-security-oauth2-autoconfigure:2.2.2.RELEASE'
     compile 'org.springframework.security:spring-security-oauth2-core'
     compile 'org.springframework.security:spring-security-oauth2-client'
     compile 'org.springframework:spring-context-support'
@@ -61,8 +61,9 @@ dependencies {
 
     testCompile 'be.joengenduvel.java.verifiers:to-string:1.0.2'
     testCompile 'com.github.tomakehurst:wiremock:2.22.0'
-    testCompile 'com.jayway.restassured:rest-assured:2.9.0'
-    testCompile 'guru.nidi.raml:raml-tester:0.9.1'
+    testCompile 'com.jayway.restassured:rest-assured:2.7.0'
+    testCompile 'guru.nidi.raml:raml-tester:0.8.15'
+    testCompile "org.raml:raml-parser:0.8.37"
     testCompile 'junit:junit'
     testCompile 'nl.jqno.equalsverifier:equalsverifier:3.1.10'
     testCompile 'org.mockito:mockito-core:2.23.0'

@@ -258,6 +258,8 @@ resourceTypes:
                   repeat: false
           responses:
               "200":
+                  headers:
+                    Keep-Alive:
                   body:
                     application/json:
                       schema: catalogItemPage
@@ -295,10 +297,14 @@ resourceTypes:
                          repeat: false
           responses:
               "200":
+                  headers:
+                    Keep-Alive:
                   body:
                     application/json:
                       schema: uploadResult
               "201":
+                  headers:
+                    Keep-Alive:
                   body:
                     application/json:
                       schema: catalogItem
@@ -307,6 +313,8 @@ resourceTypes:
                     application/json:
                       schema: localizedErrorResponse
               "403":
+                  headers:
+                    Keep-Alive:
                   body:
                     application/json:
                       schema: localizedErrorResponse
@@ -322,6 +330,8 @@ resourceTypes:
               description: Get chosen CCE catalog item.
               responses:
                   "200":
+                      headers:
+                        Keep-Alive:
                       body:
                         application/json:
                           schema: catalogItem
@@ -341,6 +351,8 @@ resourceTypes:
                     schema: catalogItem
               responses:
                   "200":
+                      headers:
+                        Keep-Alive:
                       body:
                         application/json:
                           schema: catalogItem
@@ -349,6 +361,8 @@ resourceTypes:
                         application/json:
                           schema: localizedErrorResponse
                   "403":
+                      headers:
+                        Keep-Alive:
                       body:
                         application/json:
                           schema: localizedErrorResponse
@@ -370,6 +384,8 @@ resourceTypes:
                   repeat: false
           responses:
               "200":
+                  headers:
+                    Keep-Alive:
                   body:
                     application/json:
                       schema: cceAlertPage
@@ -434,6 +450,8 @@ resourceTypes:
                   schema: inventoryItem
           responses:
               "201":
+                  headers:
+                    Keep-Alive:
                   body:
                     application/json:
                       schema: inventoryItem
@@ -442,6 +460,8 @@ resourceTypes:
                     application/json:
                       schema: localizedErrorResponse
               "403":
+                  headers:
+                    Keep-Alive:
                   body:
                     application/json:
                       schema: localizedErrorResponse
@@ -457,10 +477,14 @@ resourceTypes:
               description: Get chosen CCE Inventory item.
               responses:
                   "200":
+                      headers:
+                        Keep-Alive:
                       body:
                         application/json:
                           schema: inventoryItem
                   "403":
+                      headers:
+                        Keep-Alive:
                       body:
                         application/json:
                           schema: localizedErrorResponse
@@ -476,6 +500,8 @@ resourceTypes:
                     schema: inventoryItem
               responses:
                   "200":
+                      headers:
+                        Keep-Alive:
                       body:
                         application/json:
                           schema: inventoryItem
@@ -484,6 +510,8 @@ resourceTypes:
                         application/json:
                           schema: localizedErrorResponse
                   "403":
+                      headers:
+                        Keep-Alive:
                       body:
                         application/json:
                           schema: localizedErrorResponse
@@ -492,11 +520,17 @@ resourceTypes:
               description: Delete chosen CCE Inventory item.
               responses:
                   "204":
+                      headers:
+                        Keep-Alive:
                   "403":
+                      headers:
+                        Keep-Alive:
                       body:
                         application/json:
                           schema: localizedErrorResponse
                   "404":
+                      headers:
+                        Keep-Alive:
                       body:
                         application/json:
                           schema: localizedErrorResponse
@@ -530,6 +564,8 @@ resourceTypes:
           description: "Get local resources (like inventory items) as FHIR Device instances."
           responses:
               200:
+                  headers:
+                    Keep-Alive:
                   body:
                       application/json:
                           schema: Device
