@@ -15,19 +15,22 @@
 
 package org.openlmis.cce;
 
+import static org.flywaydb.core.api.callback.Event.AFTER_MIGRATE;
+
 import java.io.BufferedReader;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.sql.Connection;
 import java.util.Optional;
 import java.util.concurrent.Executors;
 import java.util.function.Consumer;
-import org.flywaydb.core.api.callback.BaseFlywayCallback;
+import org.flywaydb.core.api.callback.BaseCallback;
+import org.flywaydb.core.api.callback.Context;
+import org.flywaydb.core.api.callback.Event;
 import org.slf4j.ext.XLogger;
 import org.slf4j.ext.XLoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 
-public class ExportSchemaFlywayCallback extends BaseFlywayCallback {
+public class ExportSchemaFlywayCallback extends BaseCallback {
 
   private static final XLogger XLOGGER = XLoggerFactory
       .getXLogger(ExportSchemaFlywayCallback.class);
@@ -36,25 +39,34 @@ public class ExportSchemaFlywayCallback extends BaseFlywayCallback {
   private String schemaName;
 
   @Override
-  public void afterMigrate(Connection connection) {
-    XLOGGER.info("After migrations, exporting db schema");
+  public boolean supports(Event event, Context context) {
+    return AFTER_MIGRATE.equals(event);
+  }
 
-    int exitCode = 0;
-    try {
-      schemaName = Optional.ofNullable(schemaName).orElse("cce");
-      
-      Process proc = Runtime.getRuntime().exec("/app/export_schema.sh " + schemaName);
+  @Override
+  public void handle(Event event, Context context) {
+    if (AFTER_MIGRATE.equals(event)) {
+      XLOGGER.entry(context.getConnection());
 
-      StreamGobbler streamGobbler =
-          new StreamGobbler(proc.getInputStream(), XLOGGER::info);
-      Executors.newSingleThreadExecutor().submit(streamGobbler);
+      XLOGGER.info("After migrations, exporting db schema");
 
-      exitCode = proc.waitFor();
-    } catch (Exception ex) {
-      XLOGGER.warn("Exporting db schema failed with message: " + ex);
+      int exitCode = 0;
+      try {
+        schemaName = Optional.ofNullable(schemaName).orElse("cce");
+
+        Process proc = Runtime.getRuntime().exec("/app/export_schema.sh " + schemaName);
+
+        StreamGobbler streamGobbler =
+            new StreamGobbler(proc.getInputStream(), XLOGGER::info);
+        Executors.newSingleThreadExecutor().submit(streamGobbler);
+
+        exitCode = proc.waitFor();
+      } catch (Exception ex) {
+        XLOGGER.warn("Exporting db schema failed with message: " + ex);
+      }
+
+      XLOGGER.exit(exitCode);
     }
-
-    XLOGGER.exit(exitCode);
   }
 
   private static class StreamGobbler implements Runnable {

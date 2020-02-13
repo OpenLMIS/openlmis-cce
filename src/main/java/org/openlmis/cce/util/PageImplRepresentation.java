@@ -43,7 +43,6 @@ public class PageImplRepresentation<T> extends PageImpl<T> {
 
   private List<T> content;
 
-
   public PageImplRepresentation() {
     super(new ArrayList<T>());
   }

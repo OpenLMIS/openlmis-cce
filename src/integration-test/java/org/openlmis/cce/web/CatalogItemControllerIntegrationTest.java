@@ -54,6 +54,7 @@ import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.util.PageImplRepresentation;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -111,7 +112,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
 
     when(catalogItemRepository.search(any(String.class), any(Boolean.class),
         any(Boolean.class), any(Pageable.class)))
-        .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), null, 1));
+        .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), PageRequest.of(1,1), 1));
 
     PageImplRepresentation response = getCatalogItems(null, null, null, null, null)
         .then()
@@ -130,7 +131,7 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
     List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);
     when(catalogItemRepository.search(any(String.class), any(Boolean.class),
         any(Boolean.class), any(Pageable.class)))
-        .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), null, 1));
+        .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), PageRequest.of(1,1), 1));
 
     PageImplRepresentation response = getCatalogItems("some-type", true, false, 1, 10)
         .then()
