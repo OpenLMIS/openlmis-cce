@@ -38,7 +38,7 @@ public class CustomSortSerializer extends JsonSerializer<Sort> {
       try {
         jsonGenerator.writeObject(v);
       } catch (IOException ex) {
-        logger.error("Can't write object", ex);
+        logger.error("Can't write Sort object", ex);
       }
     });
 

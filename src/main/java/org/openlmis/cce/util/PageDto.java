@@ -17,7 +17,6 @@ package org.openlmis.cce.util;
 
 import static com.google.common.base.Preconditions.checkNotNull;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,7 +27,6 @@ import lombok.AllArgsConstructor;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
@@ -43,10 +41,8 @@ import org.springframework.data.domain.Sort;
 @Getter
 @Setter
 @AllArgsConstructor
-@ToString
 @EqualsAndHashCode(callSuper = false)
-@JsonInclude(JsonInclude.Include.NON_NULL)
-public class PageDto<T> implements Page<T> {
+public final class PageDto<T> implements Page<T> {
 
   private boolean last;
   private boolean first;

@@ -21,6 +21,7 @@ import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
+import static org.mockito.Mockito.when;
 
 import com.jayway.restassured.response.Response;
 import guru.nidi.ramltester.junit.RamlMatchers;
@@ -29,9 +30,9 @@ import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.Map;
+import java.util.Optional;
 import java.util.UUID;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openlmis.cce.AlertDataBuilder;
 import org.openlmis.cce.InventoryItemDataBuilder;
@@ -56,6 +57,7 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
 
   private AlertDto alertDto;
   private Alert alert;
+  private InventoryItem inventoryItem;
 
   @Before
   public void setUp() {
@@ -70,7 +72,7 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
     alertDto.setStartTs(zdtNow);
     alertDto.setStatus(Collections.singletonMap(STATUS_LOCALE, STATUS_MESSAGE));
 
-    InventoryItem inventoryItem = new InventoryItemDataBuilder().withId(deviceId).build();
+    inventoryItem = new InventoryItemDataBuilder().withId(deviceId).build();
     alert = new AlertDataBuilder()
         .withExternalId(alertId)
         .withType(ALERT_TYPE_WARNING_HOT)
@@ -83,8 +85,9 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
   }
   
   @Test
-  @Ignore
   public void putCollectionShouldReturnOkOnSuccessfulSave() {
+    when(inventoryItemRepository.findById(any(UUID.class)))
+        .thenReturn(Optional.of(inventoryItem));
 
     AlertDto response = putCollection()
         .then()
@@ -115,8 +118,9 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
   }
 
   @Test
-  @Ignore
   public void putCollectionShouldReturnForbiddenIfNotPermitted() {
+    when(inventoryItemRepository.findById(any(UUID.class)))
+        .thenReturn(Optional.of(inventoryItem));
 
     doThrow(mockApiKeyPermissionException())
         .when(permissionService).canEditInventoryOrIsApiKey(any(InventoryItem.class));

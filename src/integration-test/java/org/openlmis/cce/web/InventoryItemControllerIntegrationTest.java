@@ -48,7 +48,6 @@ import java.util.UUID;
 import org.javers.common.collections.Lists;
 import org.javers.common.collections.Sets;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.mockito.internal.stubbing.answers.Returns;
 import org.openlmis.cce.CatalogItemDataBuilder;
@@ -378,14 +377,16 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   }
 
   @Test
-  @Ignore
   public void shouldCreateInventoryItemAndNotCallStatusNotifier() {
-    InventoryItemDto response = putInventoryItem(inventoryId)
+    when(inventoryItemRepository.findById(any(UUID.class)))
+        .thenReturn(Optional.ofNullable(inventoryItem));
+
+    InventoryItemDto response = putInventoryItem(inventoryItem.getId())
         .then()
         .statusCode(200)
         .extract().as(InventoryItemDto.class);
 
-    assertEquals(inventoryId, response.getId());
+    assertEquals(inventoryItem.getId(), response.getId());
     checkResponseAndRaml(response);
 
     verify(inventoryStatusProcessor, never()).functionalStatusChange(any());
