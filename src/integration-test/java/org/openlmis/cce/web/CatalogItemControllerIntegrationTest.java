@@ -42,7 +42,6 @@ import java.util.Optional;
 import java.util.UUID;
 import org.apache.commons.lang3.StringUtils;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.openlmis.cce.domain.CatalogItem;
 import org.openlmis.cce.domain.Dimensions;
@@ -106,12 +105,10 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   }
 
   @Test
-  @Ignore
   public void shouldRetrieveAllCatalogItemsWhenCallingSearchWithAllNullParameters() {
     List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);
 
-    when(catalogItemRepository.search(any(String.class), any(Boolean.class),
-        any(Boolean.class), any(Pageable.class)))
+    when(catalogItemRepository.search(eq(null), eq(null), eq(null), any(Pageable.class)))
         .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), PageRequest.of(1,1), 1));
 
     PageDto response = getCatalogItems(null, null, null, null, null)
