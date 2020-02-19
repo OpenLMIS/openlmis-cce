@@ -28,7 +28,7 @@ import java.util.UUID;
 import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.openlmis.cce.dto.SupervisoryNodeDto;
-import org.openlmis.cce.util.PageImplRepresentation;
+import org.openlmis.cce.util.PageDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 
@@ -61,7 +61,7 @@ public class SupervisoryNodeReferenceDataServiceTest
     // when
     mockPageRequest(HttpMethod.GET);
     mockPageResponse(response -> {
-      PageImplRepresentation<SupervisoryNodeDto> page = new PageImplRepresentation<>();
+      PageDto<SupervisoryNodeDto> page = new PageDto<>();
       page.setContent(singletonList(instance));
 
       when(response.getBody()).thenReturn(page);
@@ -95,7 +95,7 @@ public class SupervisoryNodeReferenceDataServiceTest
     // when
     mockPageRequest(HttpMethod.GET);
     mockPageResponse(response -> {
-      PageImplRepresentation<SupervisoryNodeDto> page = new PageImplRepresentation<>();
+      PageDto<SupervisoryNodeDto> page = new PageDto<>();
       page.setContent(Lists.newArrayList(instance1, instance2));
 
       when(response.getBody()).thenReturn(page);
@@ -127,7 +127,7 @@ public class SupervisoryNodeReferenceDataServiceTest
     // when
     mockPageRequest(HttpMethod.GET);
     mockPageResponse(response ->
-        when(response.getBody()).thenReturn(new PageImplRepresentation<>()));
+        when(response.getBody()).thenReturn(new PageDto<>()));
 
     SupervisoryNodeDto found = service.findSupervisoryNode(facility, program);
 

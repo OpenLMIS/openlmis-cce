@@ -37,7 +37,7 @@ import org.assertj.core.util.Lists;
 import org.junit.Test;
 import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.service.ServiceResponse;
-import org.openlmis.cce.util.PageImplRepresentation;
+import org.openlmis.cce.util.PageDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
@@ -71,7 +71,7 @@ public class UserReferenceDataServiceTest extends BaseReferenceDataServiceTest<U
     // when
     mockPageRequest();
     mockPageResponse(response -> {
-      PageImplRepresentation<UserDto> page = new PageImplRepresentation<>();
+      PageDto<UserDto> page = new PageDto<>();
       page.setContent(singletonList(instance));
 
       when(response.getBody()).thenReturn(page);
@@ -104,7 +104,7 @@ public class UserReferenceDataServiceTest extends BaseReferenceDataServiceTest<U
     // when
     mockPageRequest();
     mockPageResponse(response -> {
-      PageImplRepresentation<UserDto> page = new PageImplRepresentation<>();
+      PageDto<UserDto> page = new PageDto<>();
       page.setContent(Lists.newArrayList(instance1, instance2));
 
       when(response.getBody()).thenReturn(page);
@@ -133,7 +133,7 @@ public class UserReferenceDataServiceTest extends BaseReferenceDataServiceTest<U
     // when
     mockPageRequest();
     mockPageResponse(response ->
-        when(response.getBody()).thenReturn(new PageImplRepresentation<>()));
+        when(response.getBody()).thenReturn(new PageDto<>()));
 
     UserDto found = service.findUser(USER_NAME);
 

@@ -18,7 +18,7 @@ package org.openlmis.cce.web;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertThat;
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
 
@@ -40,14 +40,13 @@ import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.AlertDto;
 import org.openlmis.cce.i18n.AlertMessageKeys;
 import org.openlmis.cce.i18n.PermissionMessageKeys;
-import org.openlmis.cce.util.PageImplRepresentation;
+import org.openlmis.cce.util.PageDto;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
-@Ignore
 public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
 
   private static final String RESOURCE_URL = "/api/cceAlerts";
@@ -84,6 +83,7 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
   }
   
   @Test
+  @Ignore
   public void putCollectionShouldReturnOkOnSuccessfulSave() {
 
     AlertDto response = putCollection()
@@ -115,6 +115,7 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
   }
 
   @Test
+  @Ignore
   public void putCollectionShouldReturnForbiddenIfNotPermitted() {
 
     doThrow(mockApiKeyPermissionException())
@@ -134,11 +135,11 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
     doReturn(Pagination.getPage(Collections.singletonList(alert), PageRequest.of(0, 10)))
         .when(alertRepository).findAll(any(Pageable.class));
     
-    PageImplRepresentation responsePage = getCollection()
+    PageDto responsePage = getCollection()
         .then()
         .statusCode(200)
         .extract()
-        .as(PageImplRepresentation.class);
+        .as(PageDto.class);
 
     assertEquals(1, responsePage.getTotalElements());
     Map response = (Map)responsePage.getContent().get(0);
