@@ -397,14 +397,20 @@ resourceTypes:
                   schema: cceAlert
           responses:
               "200":
+                  headers:
+                    Keep-Alive:
                   body:
                     application/json:
                       schema: cceAlert
               "400":
+                  headers:
+                    Keep-Alive:
                   body:
                     application/json:
                       schema: localizedErrorResponse
               "403":
+                  headers:
+                    Keep-Alive:
                   body:
                     application/json:
                       schema: localizedErrorResponse
@@ -435,10 +441,14 @@ resourceTypes:
                       - UNSERVICEABLE
           responses:
               "200":
+                  headers:
+                    Keep-Alive:
                   body:
                     application/json:
                       schema: inventoryItemPage
               "403":
+                  headers:
+                    Keep-Alive:
                   body:
                     application/json:
                       schema: localizedErrorResponse

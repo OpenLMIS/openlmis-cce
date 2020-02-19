@@ -64,7 +64,7 @@ import org.openlmis.cce.dto.UserDto;
 import org.openlmis.cce.dto.UserObjectReferenceDto;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.service.PermissionStrings;
-import org.openlmis.cce.util.PageImplRepresentation;
+import org.openlmis.cce.util.PageDto;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -72,7 +72,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
 
 @SuppressWarnings("PMD.TooManyMethods")
-@Ignore
 public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTest {
 
   private static final String RESOURCE_URL = "/api/inventoryItems";
@@ -230,11 +229,11 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         any(Pageable.class)))
         .thenReturn(Pagination.getPage(singletonList(inventoryItem), PageRequest.of(0, 1), 1));
 
-    PageImplRepresentation resultPage = getAllInventoryItems(
+    PageDto resultPage = getAllInventoryItems(
         null, null, FunctionalStatus.FUNCTIONING, false)
         .then()
         .statusCode(200)
-        .extract().as(PageImplRepresentation.class);
+        .extract().as(PageDto.class);
 
     assertEquals(1, resultPage.getContent().size());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
@@ -257,10 +256,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
             Lists.asList(inventoryItem, inventoryItem, inventoryItem),
             PageRequest.of(0, 3), 3));
 
-    PageImplRepresentation resultPage = getAllInventoryItems(null, null, null, true)
+    PageDto resultPage = getAllInventoryItems(null, null, null, true)
         .then()
         .statusCode(200)
-        .extract().as(PageImplRepresentation.class);
+        .extract().as(PageDto.class);
 
     assertEquals(3, resultPage.getContent().size());
 
@@ -302,10 +301,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         any(Pageable.class)))
         .thenReturn(Pagination.getPage(singletonList(inventoryItem), PageRequest.of(0, 1), 1));
 
-    PageImplRepresentation resultPage = getAllInventoryItems(facilityId, null, null, false)
+    PageDto resultPage = getAllInventoryItems(facilityId, null, null, false)
         .then()
         .statusCode(200)
-        .extract().as(PageImplRepresentation.class);
+        .extract().as(PageDto.class);
 
     assertEquals(1, resultPage.getContent().size());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
@@ -335,10 +334,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         any(Pageable.class)))
         .thenReturn(Pagination.getPage(singletonList(inventoryItem), PageRequest.of(0, 1), 1));
 
-    PageImplRepresentation resultPage = getAllInventoryItems(null, programId, null, false)
+    PageDto resultPage = getAllInventoryItems(null, programId, null, false)
         .then()
         .statusCode(200)
-        .extract().as(PageImplRepresentation.class);
+        .extract().as(PageDto.class);
 
     assertEquals(1, resultPage.getContent().size());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
@@ -379,6 +378,7 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
   }
 
   @Test
+  @Ignore
   public void shouldCreateInventoryItemAndNotCallStatusNotifier() {
     InventoryItemDto response = putInventoryItem(inventoryId)
         .then()

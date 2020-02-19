@@ -51,7 +51,7 @@ import org.openlmis.cce.domain.StorageTemperature;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.UploadResultDto;
 import org.openlmis.cce.service.PermissionService;
-import org.openlmis.cce.util.PageImplRepresentation;
+import org.openlmis.cce.util.PageDto;
 import org.openlmis.cce.util.Pagination;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.data.domain.PageRequest;
@@ -114,10 +114,10 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         any(Boolean.class), any(Pageable.class)))
         .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), PageRequest.of(1,1), 1));
 
-    PageImplRepresentation response = getCatalogItems(null, null, null, null, null)
+    PageDto response = getCatalogItems(null, null, null, null, null)
         .then()
         .statusCode(200)
-        .extract().as(PageImplRepresentation.class);
+        .extract().as(PageDto.class);
 
     assertEquals(response.getContent().size(), 1);
     verifyNoMoreInteractions(permissionService);
@@ -126,17 +126,16 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
   }
 
   @Test
-  @Ignore
   public void shouldFindCatalogItemsWithGivenParameters() throws IOException {
     List<CatalogItemDto> items = Collections.singletonList(catalogItemDto);
     when(catalogItemRepository.search(any(String.class), any(Boolean.class),
         any(Boolean.class), any(Pageable.class)))
         .thenReturn(Pagination.getPage(CatalogItem.newInstance(items), PageRequest.of(1,1), 1));
 
-    PageImplRepresentation response = getCatalogItems("some-type", true, false, 1, 10)
+    PageDto response = getCatalogItems("some-type", true, false, 1, 10)
         .then()
         .statusCode(200)
-        .extract().as(PageImplRepresentation.class);
+        .extract().as(PageDto.class);
 
     assertEquals(1, response.getNumberOfElements());
     verifyNoMoreInteractions(permissionService);

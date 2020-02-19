@@ -34,7 +34,7 @@ import org.mockito.Captor;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.openlmis.cce.util.DynamicPageTypeReference;
-import org.openlmis.cce.util.PageImplRepresentation;
+import org.openlmis.cce.util.PageDto;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
@@ -67,7 +67,7 @@ public abstract class BaseCommunicationServiceTest {
 
   @Mock
   @Getter
-  private ResponseEntity<PageImplRepresentation> pageResponse;
+  private ResponseEntity<PageDto> pageResponse;
 
   @Before
   public void setUp() throws Exception {
