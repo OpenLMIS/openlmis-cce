@@ -17,7 +17,10 @@ package org.openlmis.cce.web;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.ArgumentMatchers.anyList;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doThrow;
@@ -117,6 +120,10 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .extract().as(PageDto.class);
 
     assertEquals(response.getContent().size(), 1);
+    assertTrue(response.hasContent());
+    assertFalse(response.hasNext());
+    assertFalse(response.hasPrevious());
+    assertNull(response.nextPageable());
     verifyNoMoreInteractions(permissionService);
     verify(catalogItemRepository).search(eq(null), eq(null), eq(null), any(Pageable.class));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
@@ -135,6 +142,11 @@ public class CatalogItemControllerIntegrationTest extends BaseWebIntegrationTest
         .extract().as(PageDto.class);
 
     assertEquals(1, response.getNumberOfElements());
+    assertTrue(response.hasContent());
+    assertFalse(response.hasNext());
+    assertTrue(response.hasPrevious());
+    assertNull(response.nextPageable());
+    assertEquals(PageRequest.of(0, 10), response.previousPageable());
     verifyNoMoreInteractions(permissionService);
     verify(catalogItemRepository).search(eq("some-type"), eq(true), eq(false), any(Pageable.class));
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
