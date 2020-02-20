@@ -226,7 +226,8 @@ public class InventoryItemController extends BaseController {
     }
 
     profiler.start("VALIDATE");
-    validator.validate(inventoryItemDto, existingInventory.get());
+    existingInventory
+        .ifPresent(inventoryItem -> validator.validate(inventoryItemDto, inventoryItem));
 
     profiler.start("UPDATE_AND_CREATE_DTO");
     InventoryItemDto dto;

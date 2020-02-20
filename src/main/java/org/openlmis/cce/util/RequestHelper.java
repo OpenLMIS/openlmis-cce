@@ -43,11 +43,9 @@ public final class RequestHelper {
     UriComponentsBuilder builder = UriComponentsBuilder.newInstance().uri(URI.create(url));
 
     if (parameters != null) {
-      parameters.forEach(e -> {
-        builder.queryParam(e.getKey(),
-            UriUtils.encodeQueryParam(
-                String.valueOf(e.getValue()), StandardCharsets.UTF_8.name()));
-      });
+      parameters.forEach(e -> builder.queryParam(e.getKey(), UriUtils.encodeQueryParam(
+          String.valueOf(e.getValue()), StandardCharsets.UTF_8.name()))
+      );
     }
 
     return builder.build(true).toUri();
