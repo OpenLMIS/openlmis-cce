@@ -17,7 +17,10 @@ package org.openlmis.cce.web;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doReturn;
 import static org.mockito.Mockito.doThrow;
@@ -146,6 +149,11 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
         .as(PageDto.class);
 
     assertEquals(1, responsePage.getTotalElements());
+    assertTrue(responsePage.hasContent());
+    assertFalse(responsePage.hasNext());
+    assertFalse(responsePage.hasPrevious());
+    assertNull(responsePage.nextPageable());
+    assertEquals(PageRequest.of(0, MAX_PAGE_SIZE), responsePage.previousPageable());
     Map response = (Map)responsePage.getContent().get(0);
     assertEquals(alertDto.getAlertId().toString(), response.get("alert_id"));
     assertEquals(alertDto.getAlertType(), response.get("alert_type"));

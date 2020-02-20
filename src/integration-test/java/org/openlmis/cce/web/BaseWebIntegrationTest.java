@@ -87,6 +87,7 @@ public abstract class BaseWebIntegrationTest {
   protected static final String SERVICE_URL = "http://localhost";
   protected static final String FIRSTNAME = "Alan";
   protected static final String LASTNAME = "Willstatter";
+  protected static final int MAX_PAGE_SIZE = 2147483647;
 
   @Rule
   public WireMockRule wireMockRule = new WireMockRule(80);

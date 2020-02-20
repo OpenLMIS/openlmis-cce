@@ -19,8 +19,11 @@ import static java.util.Collections.singleton;
 import static java.util.Collections.singletonList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertThat;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.BDDMockito.given;
 import static org.mockito.Mockito.any;
 import static org.mockito.Mockito.doThrow;
@@ -235,6 +238,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .extract().as(PageDto.class);
 
     assertEquals(1, resultPage.getContent().size());
+    assertTrue(resultPage.hasContent());
+    assertFalse(resultPage.hasNext());
+    assertFalse(resultPage.hasPrevious());
+    assertNull(resultPage.nextPageable());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -261,6 +268,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .extract().as(PageDto.class);
 
     assertEquals(3, resultPage.getContent().size());
+    assertTrue(resultPage.hasContent());
+    assertFalse(resultPage.hasNext());
+    assertFalse(resultPage.hasPrevious());
+    assertNull(resultPage.nextPageable());
 
     // All 3 DTOs should be expanded
     verify(objReferenceExpander, times(3))
@@ -306,6 +317,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .extract().as(PageDto.class);
 
     assertEquals(1, resultPage.getContent().size());
+    assertTrue(resultPage.hasContent());
+    assertFalse(resultPage.hasNext());
+    assertFalse(resultPage.hasPrevious());
+    assertNull(resultPage.nextPageable());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
@@ -339,6 +354,10 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .extract().as(PageDto.class);
 
     assertEquals(1, resultPage.getContent().size());
+    assertTrue(resultPage.hasContent());
+    assertFalse(resultPage.hasNext());
+    assertFalse(resultPage.hasPrevious());
+    assertNull(resultPage.nextPageable());
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
