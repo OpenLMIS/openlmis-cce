@@ -153,7 +153,7 @@ public class AlertControllerIntegrationTest extends BaseWebIntegrationTest {
     assertFalse(responsePage.hasNext());
     assertFalse(responsePage.hasPrevious());
     assertNull(responsePage.nextPageable());
-    assertEquals(PageRequest.of(0, MAX_PAGE_SIZE), responsePage.previousPageable());
+    assertEquals(PageRequest.of(0, Integer.MAX_VALUE), responsePage.previousPageable());
     Map response = (Map)responsePage.getContent().get(0);
     assertEquals(alertDto.getAlertId().toString(), response.get("alert_id"));
     assertEquals(alertDto.getAlertType(), response.get("alert_type"));
