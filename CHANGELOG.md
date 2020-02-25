@@ -1,7 +1,7 @@
-1.2.1 / WIP
+1.3.0 / WIP
 ==================
 
-Improvements:
+New functionality added in a backwards-compatible manner:
 * [OLMIS-6659](https://openlmis.atlassian.net/browse/OLMIS-6659): Updated Spring Boot version to 2.x:
     * Flyway is at 6.0.8, new mechanism for loading Spring Security for OAuth2, new versions for REST Assured, RAML tester, RAML parser, PowerMock, Mockito (so tests will pass) and Java callback mechanism has changed to a general handle() method.
     * Spring application properties for Flyway have changed.
