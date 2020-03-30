@@ -13,7 +13,7 @@
  * http://www.gnu.org/licenses.  For additional information contact info@OpenLMIS.org.
  */
 
-package security;
+package org.openlmis.cce.security;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
@@ -27,7 +27,6 @@ import java.util.Collections;
 import java.util.UUID;
 import org.junit.Before;
 import org.junit.Test;
-import org.openlmis.cce.security.CustomUserAuthenticationConverter;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.oauth2.provider.token.UserAuthenticationConverter;
 

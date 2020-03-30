@@ -11,6 +11,10 @@ New functionality added in a backwards-compatible manner:
     * API definitions require "Keep-Alive" header for web integration tests.
     * CustomSortSerializer added to handle difference of JSON Sort property.
 
+Bug fixes:
+* [OLMIS-6776](https://openlmis.atlassian.net/browse/OLMIS-6776): Fixed the issue with invalid token error:
+  * A mechanism to retry authentication load after encountering the error was introduced.
+
 1.2.0 / 2020-01-20
 ==================
 
