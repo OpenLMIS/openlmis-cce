@@ -1,4 +1,4 @@
-1.3.0 / WIP
+1.3.0 / 2020-04-14
 ==================
 
 New functionality added in a backwards-compatible manner:
