@@ -136,7 +136,7 @@ pipeline {
         stage('Parallel: Sonar analysis and contract tests') {
             when {
                 expression {
-                    return CURRENT_BRANCH == 'master' && VERSION.endsWith("SNAPSHOT")
+                    return VERSION.endsWith("SNAPSHOT")
                 }
             }
             parallel {
