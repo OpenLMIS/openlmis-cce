@@ -47,7 +47,7 @@ services:
     build: .
     image: openlmis/cce
   db:
-    image: openlmis/postgres:12-debezium
+    image: openlmis/postgres:9.6
     env_file: .env
   log:
     image: openlmis/rsyslog:1
