@@ -1,3 +1,9 @@
+1.3.2 / WIP
+==================
+
+Breaking changes:
+* [OLMIS-7472](https://openlmis.atlassian.net/browse/OLMIS-7472): Upgrade postgres to v12
+
 1.3.1 / 2021-10-29
 ==================
 Improvement:
