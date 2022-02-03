@@ -37,6 +37,7 @@ public class PermissionService {
   public static final String CCE_MANAGE = "CCE_MANAGE";
   public static final String CCE_INVENTORY_VIEW = "CCE_INVENTORY_VIEW";
   public static final String CCE_INVENTORY_EDIT = "CCE_INVENTORY_EDIT";
+  public static final String CCE_INVENTORY_TRANSFER = "CCE_INVENTORY_TRANSFER";
 
   @Autowired
   private AuthenticationHelper authenticationHelper;

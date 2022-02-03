@@ -4,6 +4,9 @@
 Breaking changes:
 * [OLMIS-7472](https://openlmis.atlassian.net/browse/OLMIS-7472): Upgrade postgres to v12
 
+Improvement:
+* [OLMIS-7501](https://openlmis.atlassian.net/browse/OLMIS-7501): Added CCE_INVENTORY_TRANSFER right
+
 1.3.1 / 2021-10-29
 ==================
 Improvement:
