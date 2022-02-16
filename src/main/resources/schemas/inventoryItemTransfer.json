@@ -1,0 +1,25 @@
+{
+  "type": "object",
+  "$schema": "http://json-schema.org/draft-04/schema",
+  "title": "InventoryItemTransfer",
+  "description": "A CCE Inventory item transfer",
+  "properties": {
+    "facilityId": {
+      "type": "string",
+      "title": "Target facility id"
+    },
+    "programId": {
+      "type": "string",
+      "title": "Target program id"
+    },
+    "yearOfInstallation": {
+      "type": "integer",
+      "title": "Year of installation"
+    }
+  },
+  "required": [
+    "facilityId",
+    "programId",
+    "yearOfInstallation"
+  ]
+}

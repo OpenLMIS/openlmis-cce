@@ -25,6 +25,7 @@ import java.util.Optional;
 import java.util.UUID;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
+import org.openlmis.cce.dto.InventoryItemTransferDto;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.i18n.InventoryItemMessageKeys;
@@ -48,6 +49,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -192,6 +194,30 @@ public class InventoryItemController extends BaseController {
     profiler.stop().log();
     XLOGGER.exit(page);
     return page;
+  }
+
+  /**
+   * Transfer CCE Inventory item to specified facility.
+   */
+  @PutMapping("/{id}/transfer")
+  @ResponseStatus(HttpStatus.NO_CONTENT)
+  @ResponseBody
+  public void transfer(
+          @PathVariable("id") UUID inventoryItemId,
+          @RequestBody InventoryItemTransferDto transferDto
+  ) {
+    InventoryItem inventoryItem = inventoryRepository.findById(inventoryItemId)
+            .orElseThrow(() -> new NotFoundException(ERROR_ITEM_NOT_FOUND));
+
+    permissionService.canTransferInventoryItem(inventoryItem, transferDto.getFacilityId());
+
+    InventoryItemDto inventoryItemDto = inventoryItemDtoBuilder.build(inventoryItem);
+
+    inventoryItemDto.setFacilityId(transferDto.getFacilityId());
+    inventoryItemDto.setProgramId(transferDto.getProgramId());
+    inventoryItemDto.setYearOfInstallation(transferDto.getYearOfInstallation());
+
+    saveInventory(InventoryItem.newInstance(inventoryItemDto));
   }
 
   /**

@@ -60,6 +60,7 @@ import org.openlmis.cce.domain.FunctionalStatus;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.CatalogItemDto;
 import org.openlmis.cce.dto.InventoryItemDto;
+import org.openlmis.cce.dto.InventoryItemTransferDto;
 import org.openlmis.cce.dto.ObjectReferenceDto;
 import org.openlmis.cce.dto.PermissionStringDto;
 import org.openlmis.cce.dto.UserDto;
@@ -518,6 +519,17 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
     assertThat(RAML_ASSERT_MESSAGE, restAssured.getLastReport(), RamlMatchers.hasNoViolations());
   }
 
+  @Test
+  public void shouldTransferInventoryItem() {
+    transferInventoryItem(
+            inventoryItemDto.getId(),
+            UUID.randomUUID(),
+            UUID.randomUUID(),
+            2022
+    ).then()
+            .statusCode(204);
+  }
+
   private void mockUserPermissions(UUID userId, UUID programId, UUID facilityId) {
     PermissionStringDto permission = PermissionStringDto.create(
         CCE_INVENTORY_VIEW, facilityId, programId
@@ -626,4 +638,28 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
         .when()
         .delete(RESOURCE_URL_WITH_ID);
   }
+
+  private Response transferInventoryItem(
+          UUID id,
+          UUID facilityId,
+          UUID programId,
+          int yearOfInstallation
+  ) {
+    inventoryItemDto.setId(id);
+    InventoryItemTransferDto body = new InventoryItemTransferDto(
+            facilityId,
+            programId,
+            yearOfInstallation
+    );
+
+    return restAssured.given()
+            .header(HttpHeaders.AUTHORIZATION, getTokenHeader())
+            .contentType(APPLICATION_JSON)
+            .pathParam("id", id)
+            .body(body)
+            .when()
+            .put(RESOURCE_URL_WITH_ID + "/transfer");
+  }
+
+
 }

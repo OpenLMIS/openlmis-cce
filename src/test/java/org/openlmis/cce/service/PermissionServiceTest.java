@@ -21,6 +21,7 @@ import static org.openlmis.cce.i18n.PermissionMessageKeys.ERROR_NO_FOLLOWING_PER
 import static org.openlmis.cce.service.OAuth2AuthenticationDataBuilder.API_KEY_PREFIX;
 import static org.openlmis.cce.service.OAuth2AuthenticationDataBuilder.SERVICE_CLIENT_ID;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_EDIT;
+import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_TRANSFER;
 import static org.openlmis.cce.service.PermissionService.CCE_INVENTORY_VIEW;
 import static org.openlmis.cce.service.PermissionService.CCE_MANAGE;
 
@@ -215,6 +216,22 @@ public class PermissionServiceTest {
         new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_EDIT).toString());
 
     permissionService.canEditInventoryOrIsApiKey(inventoryItem);
+  }
+
+  @Test
+  public void canTransferInventoryItem() {
+    stubProgramAndFacilityInInventoryItem();
+    stubHasRight(CCE_INVENTORY_TRANSFER, null, inventoryItem.getFacilityId());
+
+    permissionService.canTransferInventoryItem(inventoryItem, inventoryItem.getFacilityId());
+  }
+
+  @Test
+  public void canNotTransferInventoryItem() {
+    stubProgramAndFacilityInInventoryItem();
+    exception.expect(PermissionMessageException.class);
+
+    permissionService.canTransferInventoryItem(inventoryItem, null);
   }
 
   private void stubProgramAndFacilityInInventoryItem() {

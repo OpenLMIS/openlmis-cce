@@ -41,6 +41,8 @@ schemas:
 
   - inventoryItem: !include schemas/inventoryItem.json
 
+  - inventoryItemTransfer: !include schemas/inventoryItemTransfer.json
+
   - inventoryItemPage: !include schemas/inventoryItemPage.json
 
   - auditLogEntry: !include schemas/auditLogEntry.json
@@ -482,6 +484,25 @@ resourceTypes:
                   type: string
                   required: true
                   repeat: false
+          /transfer:
+            put:
+              is: [ secured ]
+              description: Transfers CCE Inventory to specified facility
+              body:
+                application/json:
+                  schema: inventoryItemTransfer
+              responses:
+                "204":
+                "400":
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
+                "403":
+                  headers:
+                    Keep-Alive:
+                  body:
+                    application/json:
+                      schema: localizedErrorResponse
           get:
               is: [ secured, expandible ]
               description: Get chosen CCE Inventory item.
