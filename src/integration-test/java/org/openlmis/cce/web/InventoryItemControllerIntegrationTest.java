@@ -521,8 +521,11 @@ public class InventoryItemControllerIntegrationTest extends BaseWebIntegrationTe
 
   @Test
   public void shouldTransferInventoryItem() {
+    when(inventoryItemRepository.findById(inventoryId))
+        .thenReturn(Optional.ofNullable(inventoryItem));
+
     transferInventoryItem(
-            inventoryItemDto.getId(),
+            inventoryId,
             UUID.randomUUID(),
             UUID.randomUUID(),
             2022
