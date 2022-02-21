@@ -209,7 +209,11 @@ public class InventoryItemController extends BaseController {
     InventoryItem inventoryItem = inventoryRepository.findById(inventoryItemId)
             .orElseThrow(() -> new NotFoundException(ERROR_ITEM_NOT_FOUND));
 
-    permissionService.canTransferInventoryItem(inventoryItem, transferDto.getFacilityId());
+    permissionService.canTransferInventoryItem(
+        inventoryItem,
+        transferDto.getProgramId(),
+        transferDto.getFacilityId()
+    );
 
     InventoryItemDto inventoryItemDto = inventoryItemDtoBuilder.build(inventoryItem);
 

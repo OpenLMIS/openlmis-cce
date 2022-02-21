@@ -109,20 +109,48 @@ public class PermissionService {
   }
 
   /**
-   * Check if user has CCE_INVENTORY_TRANSFER permission on facility
-   * of passed inventoryItem and targetFacilityId.
+   * Check if user has CCE_INVENTORY_TRANSFER permission on facility and program
+   * of passed inventoryItem and targetProgramId and targetFacilityId.
    *
    * @throws PermissionMessageException If has no CCE_INVENTORY_TRANSFER.
    */
-  public void canTransferInventoryItem(InventoryItem inventoryItem, UUID targetFacilityId) {
-    boolean canTransferInventoryItemFromFacility = hasPermission(
-            CCE_INVENTORY_TRANSFER, null, inventoryItem.getFacilityId()
+  public void canTransferInventoryItem(
+      InventoryItem inventoryItem,
+      UUID targetProgramId,
+      UUID targetFacilityId
+  ) {
+    boolean canTransferOut = hasPermission(
+        CCE_INVENTORY_TRANSFER,
+        inventoryItem.getProgramId(),
+        inventoryItem.getFacilityId()
     );
 
-    if (!(canTransferInventoryItemFromFacility
-            && hasPermission(CCE_INVENTORY_TRANSFER, null, targetFacilityId))) {
+    if (!canTransferOut) {
       throw new PermissionMessageException(
-              new Message(ERROR_NO_FOLLOWING_PERMISSION, CCE_INVENTORY_TRANSFER));
+          new Message(
+              ERROR_NO_FOLLOWING_PERMISSION,
+              CCE_INVENTORY_TRANSFER,
+              inventoryItem.getProgramId(),
+              inventoryItem.getFacilityId()
+          )
+      );
+    }
+
+    boolean canTransferIn = hasPermission(
+        CCE_INVENTORY_TRANSFER,
+        targetProgramId,
+        targetFacilityId
+    );
+
+    if (!canTransferIn) {
+      throw new PermissionMessageException(
+          new Message(
+              ERROR_NO_FOLLOWING_PERMISSION,
+              CCE_INVENTORY_TRANSFER,
+              targetProgramId,
+              targetFacilityId
+          )
+      );
     }
   }
 
