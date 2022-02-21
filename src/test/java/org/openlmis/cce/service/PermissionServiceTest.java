@@ -253,7 +253,11 @@ public class PermissionServiceTest {
     UUID targetFacilityId = UUID.fromString("a337ec45-31a0-4f2b-9b2e-a105c4b669bb");
 
     stubProgramAndFacilityInInventoryItem();
-    stubHasRight(CCE_INVENTORY_TRANSFER, inventoryItem.getProgramId(), inventoryItem.getFacilityId());
+    stubHasRight(
+        CCE_INVENTORY_TRANSFER,
+        inventoryItem.getProgramId(),
+        inventoryItem.getFacilityId()
+    );
     exception.expect(PermissionMessageException.class);
 
     permissionService.canTransferInventoryItem(inventoryItem, targetProgramId, targetFacilityId);
