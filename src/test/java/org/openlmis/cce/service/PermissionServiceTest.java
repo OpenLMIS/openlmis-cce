@@ -249,8 +249,12 @@ public class PermissionServiceTest {
 
   @Test
   public void canNotTransferOutInventoryItem() {
-    UUID targetProgramId = UUID.fromString("d835bb5b-2309-4c3e-b6d1-6315442b9f7b");
-    UUID targetFacilityId = UUID.fromString("a337ec45-31a0-4f2b-9b2e-a105c4b669bb");
+    UUID targetProgramId = UUID.fromString(
+        "d835bb5b-2309-4c3e-b6d1-6315442b9f7b"
+    );
+    UUID targetFacilityId = UUID.fromString(
+        "a337ec45-31a0-4f2b-9b2e-a105c4b669bb"
+    );
 
     stubProgramAndFacilityInInventoryItem();
     stubHasRight(
