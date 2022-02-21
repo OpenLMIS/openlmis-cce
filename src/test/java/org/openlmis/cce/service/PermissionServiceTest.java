@@ -244,18 +244,15 @@ public class PermissionServiceTest {
     stubHasRight(CCE_INVENTORY_TRANSFER, targetProgramId, targetFacilityId);
     exception.expect(PermissionMessageException.class);
 
-    permissionService.canTransferInventoryItem(inventoryItem, targetProgramId, targetFacilityId);
+    permissionService.canTransferInventoryItem(
+        inventoryItem,
+        targetProgramId,
+        targetFacilityId
+    );
   }
 
   @Test
   public void canNotTransferOutInventoryItem() {
-    UUID targetProgramId = UUID.fromString(
-        "d835bb5b-2309-4c3e-b6d1-6315442b9f7b"
-    );
-    UUID targetFacilityId = UUID.fromString(
-        "a337ec45-31a0-4f2b-9b2e-a105c4b669bb"
-    );
-
     stubProgramAndFacilityInInventoryItem();
     stubHasRight(
         CCE_INVENTORY_TRANSFER,
@@ -264,7 +261,11 @@ public class PermissionServiceTest {
     );
     exception.expect(PermissionMessageException.class);
 
-    permissionService.canTransferInventoryItem(inventoryItem, targetProgramId, targetFacilityId);
+    permissionService.canTransferInventoryItem(
+        inventoryItem,
+        UUID.fromString("d835bb5b-2309-4c3e-b6d1-6315442b9f7b"),
+        UUID.fromString("a337ec45-31a0-4f2b-9b2e-a105c4b669bb")
+    );
   }
 
   private void stubProgramAndFacilityInInventoryItem() {
