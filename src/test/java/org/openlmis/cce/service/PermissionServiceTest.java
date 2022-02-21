@@ -225,7 +225,11 @@ public class PermissionServiceTest {
 
     stubProgramAndFacilityInInventoryItem();
     stubHasRight(CCE_INVENTORY_TRANSFER, targetProgramId, targetFacilityId);
-    stubHasRight(CCE_INVENTORY_TRANSFER, inventoryItem.getProgramId(), inventoryItem.getFacilityId());
+    stubHasRight(
+        CCE_INVENTORY_TRANSFER,
+        inventoryItem.getProgramId(),
+        inventoryItem.getFacilityId()
+    );
     exception.expect(PermissionMessageException.class);
 
     permissionService.canTransferInventoryItem(inventoryItem, targetProgramId, targetFacilityId);
