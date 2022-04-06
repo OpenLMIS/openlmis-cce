@@ -6,6 +6,7 @@ Breaking changes:
 
 Improvement:
 * [OLMIS-7501](https://openlmis.atlassian.net/browse/OLMIS-7501): Added CCE_INVENTORY_TRANSFER right
+* [OLMIS-7568](https://openlmis.atlassian.net/browse/OLMIS-7568): Use openlmis/dev:7
 
 New features:
 * [OLMIS-7502](https://openlmis.atlassian.net/browse/OLMIS-7502): Add possibility to transfer inventory item to another facility 
