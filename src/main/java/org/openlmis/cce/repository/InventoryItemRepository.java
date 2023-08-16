@@ -1,6 +1,6 @@
 /*
  * This program is part of the OpenLMIS logistics management information system platform software.
- * Copyright © 2017 VillageReach
+ * Copyright © 2017-2024 VillageReach, Techie Planet Ltd
  *
  * This program is free software: you can redistribute it and/or modify it under the terms
  * of the GNU Affero General Public License as published by the Free Software Foundation, either
@@ -15,6 +15,7 @@
 
 package org.openlmis.cce.repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import org.javers.spring.annotation.JaversSpringDataAuditable;
@@ -57,4 +58,18 @@ public interface InventoryItemRepository extends PagingAndSortingRepository<Inve
           + "AND i.utilization = 'ACTIVE'")
   Optional<Number> getFacilityFunctioningVolume(
           @Param("facilityId")UUID facilityId);
+
+  @Query(value = "select f.name as facilityname, c.model, c.type, c.netvolume, "
+          + "i.referencename, p.name as programname, i.equipmenttrackingid, "
+          + "i.yearofinstallation, i.yearofwarrantyexpiry, i.functionalstatus, "
+          + "CONCAT(u.firstname, ' ', u.lastname) as lastmodifiername, "
+          + "i.modifieddate as modifieddate "
+          + "from cce.cce_inventory_items i "
+          + "join cce.cce_catalog_items c on c.id = i.catalogitemid "
+          + "join referencedata.facilities f on f.id = i.facilityid "
+          + "join referencedata.programs p on p.id = i.programid "
+          + "join referencedata.users u on u.id = i.lastmodifierid "
+          + "where f.id = :facilityId and p.id = :programId", nativeQuery = true)
+  List<Object[]> findByFacilityIdAndProgramId(
+          @Param("facilityId")UUID facilityId, @Param("programId")UUID programId);
 }
