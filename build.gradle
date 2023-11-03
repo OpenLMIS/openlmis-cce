@@ -48,7 +48,7 @@ dependencies {
     compile 'org.javers:javers-spring-boot-starter-sql:2.8.1'
     compile 'org.openlmis:openlmis-service-util:3.1.0'
     compile 'org.postgresql:postgresql:42.0.0'
-    compile 'org.projectlombok:lombok:1.16.8'
+    compile 'org.projectlombok:lombok:1.18.22'
     compile 'org.slf4j:slf4j-ext:1.7.25'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-security'
