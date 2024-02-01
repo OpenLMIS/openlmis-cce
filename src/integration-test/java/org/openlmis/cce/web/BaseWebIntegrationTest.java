@@ -72,7 +72,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 @SpringBootConfiguration
 @SpringBootTest(webEnvironment = RANDOM_PORT)
 @TestPropertySource(properties = {"service.url=" + BaseWebIntegrationTest.SERVICE_URL})
-@ActiveProfiles("test")
+@ActiveProfiles({"test", "test-run"})
 @SuppressWarnings("PMD.TooManyMethods")
 public abstract class BaseWebIntegrationTest {
 
