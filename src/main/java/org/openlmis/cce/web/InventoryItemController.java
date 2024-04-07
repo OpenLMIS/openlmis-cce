@@ -100,8 +100,6 @@ public class InventoryItemController extends BaseController {
 
   @Autowired
   private ObjReferenceExpander objReferenceExpander;
-  @Autowired
-  private CceMovementNotifier cceMovementNotifier;
 
   /**
    * Allows creating new CCE Inventory item. If the id is specified, it will be ignored.
