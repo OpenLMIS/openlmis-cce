@@ -19,6 +19,7 @@ import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUN
 import static org.openlmis.cce.service.ResourceNames.BASE_PATH;
 import static org.openlmis.cce.web.InventoryItemController.RESOURCE_PATH;
 
+import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
@@ -38,7 +39,6 @@ import org.openlmis.cce.service.InventoryItemService;
 import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.ObjReferenceExpander;
 import org.openlmis.cce.service.PermissionService;
-import org.openlmis.cce.service.notifier.CceMovementNotifier;
 import org.openlmis.cce.util.AuthenticationHelper;
 import org.openlmis.cce.util.Pagination;
 import org.openlmis.cce.web.validator.InventoryItemValidator;
