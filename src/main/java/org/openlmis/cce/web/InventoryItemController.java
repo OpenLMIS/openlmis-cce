@@ -15,20 +15,27 @@
 
 package org.openlmis.cce.web;
 
+import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_FORMAT_NOT_ALLOWED;
 import static org.openlmis.cce.i18n.InventoryItemMessageKeys.ERROR_ITEM_NOT_FOUND;
 import static org.openlmis.cce.service.ResourceNames.BASE_PATH;
 import static org.openlmis.cce.web.InventoryItemController.RESOURCE_PATH;
 
+import java.io.IOException;
 import java.time.ZonedDateTime;
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import javax.servlet.http.HttpServletResponse;
+import org.apache.commons.csv.CSVFormat;
+import org.apache.commons.csv.CSVPrinter;
 import org.openlmis.cce.domain.InventoryItem;
 import org.openlmis.cce.dto.InventoryItemDto;
 import org.openlmis.cce.dto.InventoryItemTransferDto;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.i18n.InventoryItemMessageKeys;
+import org.openlmis.cce.i18n.MessageKeys;
+import org.openlmis.cce.i18n.MessageService;
 import org.openlmis.cce.repository.InventoryItemRepository;
 import org.openlmis.cce.service.InventoryItemSearchParams;
 import org.openlmis.cce.service.InventoryItemService;
@@ -36,6 +43,7 @@ import org.openlmis.cce.service.InventoryStatusProcessor;
 import org.openlmis.cce.service.ObjReferenceExpander;
 import org.openlmis.cce.service.PermissionService;
 import org.openlmis.cce.util.AuthenticationHelper;
+import org.openlmis.cce.util.Message;
 import org.openlmis.cce.util.Pagination;
 import org.openlmis.cce.web.validator.InventoryItemValidator;
 import org.slf4j.ext.XLogger;
@@ -45,9 +53,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.web.SortDefault;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -65,6 +75,11 @@ public class InventoryItemController extends BaseController {
 
   static final String RESOURCE_PATH = BASE_PATH + "/inventoryItems";
   private static final String PROFILER_CHECK_PERMISSION = "CHECK_PERMISSION";
+  private static final String FORMAT = "format";
+  private static final String PROGRAM_ID = "programId";
+  private static final String FACILITY_ID = "facilityId";
+  private static final String CSV = "csv";
+  private static final String DISPOSITION_BASE = "attachment; filename=";
 
   @Autowired
   private InventoryItemRepository inventoryRepository;
@@ -89,6 +104,9 @@ public class InventoryItemController extends BaseController {
 
   @Autowired
   private ObjReferenceExpander objReferenceExpander;
+
+  @Autowired
+  private MessageService messageService;
 
   /**
    * Allows creating new CCE Inventory item. If the id is specified, it will be ignored.
@@ -302,6 +320,66 @@ public class InventoryItemController extends BaseController {
 
     profiler.stop().log();
     XLOGGER.exit();
+  }
+
+  /**
+   * Downloads csv file with all inventory items.
+   */
+  @GetMapping(value = "/download")
+  @ResponseStatus(HttpStatus.OK)
+  public void download(@RequestParam(FORMAT) String format,
+                       @RequestParam(PROGRAM_ID) UUID programId,
+                       @RequestParam(FACILITY_ID) UUID facilityId,
+                       HttpServletResponse response) throws IOException {
+    XLOGGER.entry(format);
+    Profiler profiler = new Profiler("DOWNLOAD_INVENTORY_ITEMS_AS_FILE");
+    profiler.setLogger(XLOGGER);
+
+    if (!CSV.equals(format)) {
+      profiler.stop().log();
+      XLOGGER.exit();
+
+      response.sendError(HttpServletResponse.SC_BAD_REQUEST,
+              messageService.localize(
+                      new Message(ERROR_FORMAT_NOT_ALLOWED, format, CSV)).asMessage());
+      return;
+    }
+
+    profiler.start("FIND_ALL");
+    List<Object[]> items = inventoryRepository.findByFacilityIdAndProgramId(facilityId, programId);
+
+    response.setContentType("text/csv");
+    response.addHeader(HttpHeaders.CONTENT_DISPOSITION,
+            DISPOSITION_BASE + "inventory_items.csv");
+
+    try {
+      profiler.start("WRITE_TO_OUTPUT");
+      CSVFormat csvFormat = CSVFormat.DEFAULT.withHeader(
+              "Facility Name", "Model", "Type", "Net Volume", "Reference Name",
+              "Program Name", "Serial No.", "Year of Installation",
+              "Year of Warranty Expiry", "Functional Status", "Last Modifier Name",
+              "Modified Date"
+      );
+
+      CSVPrinter csvPrinter = new CSVPrinter(response.getWriter(), csvFormat);
+
+      for (Object[] item : items) {
+        csvPrinter.printRecord(
+                item[0], item[1], item[2], item[3], item[4],
+                item[5], item[6], item[7], item[8], item[9],
+                item[10], item[11]
+        );
+      }
+
+      csvPrinter.flush();
+      csvPrinter.close();
+    } catch (IOException ex) {
+      throw new ValidationMessageException(
+              ex, MessageKeys.ERROR_IO, ex.getMessage());
+    } finally {
+      profiler.stop().log();
+      XLOGGER.exit();
+    }
   }
 
   private InventoryItemDto updateInventory(InventoryItemDto inventoryItemDto,
