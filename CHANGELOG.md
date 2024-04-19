@@ -1,6 +1,10 @@
+1.3.3 / 2024-04-19
+==================
+New functionality:
+* [OLMIS-7909](https://openlmis.atlassian.net/browse/OLMIS-7909): Add functionality to print inventory equipment for specific facility and program
+
 1.3.2 / 2022-04-21
 ==================
-
 Breaking changes:
 * [OLMIS-7472](https://openlmis.atlassian.net/browse/OLMIS-7472): Upgrade postgres to v12
 
