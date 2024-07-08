@@ -48,7 +48,7 @@ dependencies {
     compile 'org.javers:javers-spring-boot-starter-sql:2.8.1'
     compile 'org.openlmis:openlmis-service-util:3.1.0'
     compile 'org.postgresql:postgresql:42.0.0'
-    compile 'org.projectlombok:lombok:1.18.22'
+    compile "org.projectlombok:lombok"
     compile 'org.slf4j:slf4j-ext:1.7.25'
     compile 'org.springframework.boot:spring-boot-starter-data-jpa'
     compile 'org.springframework.boot:spring-boot-starter-security'
@@ -58,6 +58,8 @@ dependencies {
     compile 'org.springframework.security:spring-security-oauth2-client'
     compile 'org.springframework:spring-context-support'
     compile 'org.webjars.npm:api-console:3.0.17'
+
+    annotationProcessor 'org.projectlombok:lombok:1.18.22'
 
     testCompile 'be.joengenduvel.java.verifiers:to-string:1.0.2'
     testCompile 'com.github.tomakehurst:wiremock:2.22.0'
@@ -71,6 +73,8 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4:2.0.0'
     testCompile 'org.springframework.boot:spring-boot-starter-test'
     testCompile 'org.springframework:spring-test'
+
+    testAnnotationProcessor 'org.projectlombok:lombok:1.18.22'
 }
 
 idea {
@@ -157,16 +161,18 @@ tasks.withType(Test) {
 //          Defaults to 'migration' as migration name
 // Example: gradle generateMigration -PmigrationName=add_column_to_users
 //          Will create a file in migration folder with name yyyyMMddHHmmssSSS_add_column_to_users.sql.
-task generateMigration << {
+task generateMigration {
     description 'Creates an empty new file within the src/main/resources/db/migration directory into which developers can add new SQL migration code.'
-    def fileName = project.hasProperty('migrationName') ? migrationName : 'migration'
-    def timestamp = new Date().format('yyyyMMddHHmmssSSS', TimeZone.getTimeZone('GMT'))
-    def fullFileName = "${timestamp}__${fileName}.sql"
-    def migrationFile = new File(sourceSets.main.resources.srcDirs.first(),'db/migration/'+fullFileName)
-    migrationFile << "-- WHEN COMMITTING OR REVIEWING THIS FILE: Make sure that the timestamp in the file name (that serves as a version) is the latest timestamp, and that no new migration have been added in the meanwhile.\n"
-    migrationFile << "-- Adding migrations out of order may cause this migration to never execute or behave in an unexpected way.\n"
-    migrationFile << "-- Migrations should NOT BE EDITED. Add a new migration to apply changes."    
-    migrationFile.createNewFile()
+    doLast {
+        def fileName = project.hasProperty('migrationName') ? migrationName : 'migration'
+        def timestamp = new Date().format('yyyyMMddHHmmssSSS', TimeZone.getTimeZone('GMT'))
+        def fullFileName = "${timestamp}__${fileName}.sql"
+        def migrationFile = new File(sourceSets.main.resources.srcDirs.first(), 'db/migration/' + fullFileName)
+        migrationFile << "-- WHEN COMMITTING OR REVIEWING THIS FILE: Make sure that the timestamp in the file name (that serves as a version) is the latest timestamp, and that no new migration have been added in the meanwhile.\n"
+        migrationFile << "-- Adding migrations out of order may cause this migration to never execute or behave in an unexpected way.\n"
+        migrationFile << "-- Migrations should NOT BE EDITED. Add a new migration to apply changes."
+        migrationFile.createNewFile()
+    }
 }
 
 
