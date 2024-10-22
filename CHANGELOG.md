@@ -1,3 +1,9 @@
+1.3.4 / WIP
+==================
+Improvements:
+* [OIS-14](https://openlmis.atlassian.net/browse/OIS-14): Upgrade Transifex API version
+* [OIS-48](https://openlmis.atlassian.net/browse/OIS-48): Update service base images to versions without known vulnerabilities
+
 1.3.3 / 2024-04-19
 ==================
 New functionality:
