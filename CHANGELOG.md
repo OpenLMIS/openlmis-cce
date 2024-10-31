@@ -1,4 +1,4 @@
-1.3.4 / WIP
+1.3.4 / 31.10.2024
 ==================
 Improvements:
 * [OIS-14](https://openlmis.atlassian.net/browse/OIS-14): Upgrade Transifex API version
