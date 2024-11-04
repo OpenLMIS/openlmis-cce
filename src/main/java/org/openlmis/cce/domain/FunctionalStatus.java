@@ -16,6 +16,7 @@
 package org.openlmis.cce.domain;
 
 public enum FunctionalStatus {
+  UNKNOWN,
   FUNCTIONING,
   AWAITING_REPAIR,
   UNSERVICEABLE,
