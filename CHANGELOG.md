@@ -1,5 +1,7 @@
-1.3.5 / wip
+1.3.5 / 2025-03-31
 ==================
+
+Minor coverage updates and code analysis improvements.
 
 1.3.4 / 2024-10-31
 ==================
