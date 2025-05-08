@@ -16,7 +16,7 @@
 package org.openlmis.cce.security;
 
 import static org.junit.Assert.assertNotNull;
-import static org.mockito.Matchers.anyString;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 import java.util.HashMap;
@@ -24,7 +24,7 @@ import java.util.Map;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.mockito.Matchers;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mock;
 import org.mockito.runners.MockitoJUnitRunner;
 import org.springframework.http.HttpEntity;
@@ -64,8 +64,8 @@ public class CustomTokenServicesTest {
     ResponseEntity<Map> response = new ResponseEntity<>(responseAttributes, HttpStatus.OK);
 
     when(restTemplate.exchange(
-        anyString(), Matchers.any(HttpMethod.class), Matchers.any(HttpEntity.class),
-        Matchers.any(Class.class)
+        anyString(), ArgumentMatchers.any(HttpMethod.class), ArgumentMatchers.any(HttpEntity.class),
+        ArgumentMatchers.any(Class.class)
     )).thenReturn(response);
     this.customTokenServices.setRestTemplate(restTemplate);
 
@@ -80,8 +80,8 @@ public class CustomTokenServicesTest {
     ResponseEntity<Map> response = new ResponseEntity<>(responseAttributes, HttpStatus.OK);
 
     when(restTemplate.exchange(
-        anyString(), Matchers.any(HttpMethod.class), Matchers.any(HttpEntity.class),
-        Matchers.any(Class.class)
+        anyString(), ArgumentMatchers.any(HttpMethod.class), ArgumentMatchers.any(HttpEntity.class),
+        ArgumentMatchers.any(Class.class)
     )).thenReturn(response);
 
     this.customTokenServices.setRestTemplate(restTemplate);
