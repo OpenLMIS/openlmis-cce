@@ -15,11 +15,9 @@
 
 package org.openlmis.cce.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import java.util.UUID;
-
-import org.codehaus.jackson.annotate.JsonCreator;
-import org.codehaus.jackson.annotate.JsonProperty;
-
 
 public class InventoryItemTransferDto {
 
@@ -31,11 +29,9 @@ public class InventoryItemTransferDto {
    * Constructor.
    */
   @JsonCreator
-  public InventoryItemTransferDto(
-      @JsonProperty UUID facilityId,
+  public InventoryItemTransferDto(@JsonProperty UUID facilityId,
       @JsonProperty UUID programId,
-      @JsonProperty int yearOfInstallation
-  ) {
+      @JsonProperty int yearOfInstallation) {
     this.facilityId = facilityId;
     this.programId = programId;
     this.yearOfInstallation = yearOfInstallation;
