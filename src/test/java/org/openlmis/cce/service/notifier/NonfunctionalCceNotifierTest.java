@@ -79,7 +79,7 @@ public class NonfunctionalCceNotifierTest {
       + "at ${facilityName} is has been marked as ${functionalStatus} with the "
       + "reason \"${reasonForNonFunctionalStatus}\". The last status update for "
       + "this device was made by user ${saveUser} at ${saveDate}.\n"
-      + "Please login to view the list of non-functioning CCE needing attention"
+      + "Please login to view the list of CCE needing attention"
       + "at this facility. ${urlToViewCceList}";
   private static final String TEST_KEY = "testKey";
   private static final String FACILITY_NAME = "some-facility";
@@ -172,7 +172,7 @@ public class NonfunctionalCceNotifierTest {
                 + "This email is to inform you that the %s \"%s\" at %s is has been marked as %s"
                 + " with the reason \"%s\". The last status update for this device was made by "
                 + "user %s at %s.\n"
-                + "Please login to view the list of non-functioning CCE needing attention"
+                + "Please login to view the list of CCE needing attention"
                 + "at this facility. %s",
             USERNAME_1, EQUIPMENT_TYPE, REFERENCE_NAME, FACILITY_NAME, FUNCTIONAL_STATUS,
             REASON_NOT_WORKING_OR_NOT_IN_USE, LAST_MODIFIER_USERNAME,

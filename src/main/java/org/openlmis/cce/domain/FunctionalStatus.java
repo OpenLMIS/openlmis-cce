@@ -19,4 +19,5 @@ public enum FunctionalStatus {
   FUNCTIONING,
   AWAITING_REPAIR,
   UNSERVICEABLE,
+  NEEDS_ATTENTION,
 }
