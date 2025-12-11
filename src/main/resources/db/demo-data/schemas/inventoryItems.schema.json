@@ -62,7 +62,8 @@
       "values": [
         "FUNCTIONING",
         "AWAITING_REPAIR",
-        "UNSERVICEABLE"
+        "UNSERVICEABLE",
+        "NEEDS_ATTENTION"
       ],
       "selectionStyle": "random",
       "distribution": null,

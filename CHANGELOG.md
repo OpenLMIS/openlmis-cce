@@ -1,5 +1,8 @@
-Upcoming Version / (WIP)
+1.4.1 / (WIP)
 ==================
+
+Changes:
+* Added CCE status **NEEDS_ATTENTION**
 
 1.4.0 / 2025-11-27
 ==================

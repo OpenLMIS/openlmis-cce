@@ -47,7 +47,8 @@
       "enum": [
         "FUNCTIONING",
         "AWAITING_REPAIR",
-        "UNSERVICEABLE"
+        "UNSERVICEABLE",
+        "NEEDS_ATTENTION"
       ],
       "title": "functionalStatus"
     },
