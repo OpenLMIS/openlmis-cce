@@ -143,8 +143,12 @@ public class NonfunctionalCceNotifier extends BaseNotifier {
     valuesMap.put("facilityName", getFacilityName(inventoryItem.getFacilityId()));
     valuesMap.put("functionalStatus", inventoryItem.getFunctionalStatus().toString());
     valuesMap.put("referenceName", inventoryItem.getReferenceName());
-    valuesMap.put("reasonForNonFunctionalStatus",
-        inventoryItem.getReasonNotWorkingOrNotInUse().toString());
+    valuesMap.put(
+        "reasonForNonFunctionalStatus",
+        inventoryItem.getReasonNotWorkingOrNotInUse() != null
+            ? inventoryItem.getReasonNotWorkingOrNotInUse().toString()
+            : ""
+    );
     valuesMap.put("saveUser", getUsername(inventoryItem));
     valuesMap.put("saveDate", getDateTimeFormatter().format(inventoryItem.getModifiedDate()));
     valuesMap.put("urlToViewCceList", getUrlToViewCceList(inventoryItem));
