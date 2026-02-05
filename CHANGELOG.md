@@ -1,7 +1,8 @@
-Upcoming Version / (WIP)
-==================
+1.5.0 / 2026-02-05
+=================
 
 Improvements:
+* Localization & translations update (FR, ES, PT)
 * Stabilized consul registration and health checks
 
 1.4.1 / 2025-12-12
