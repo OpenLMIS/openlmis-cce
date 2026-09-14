@@ -86,10 +86,12 @@ public class ResourceServerSecurityConfiguration implements ResourceServerConfig
         .authorizeRequests()
         .antMatchers(
             "/actuator/health",
+            "/actuator/prometheus",
             "/cce",
             "/webjars/**",
             "/cce/webjars/**",
-            "/cce/docs/**"
+            "/cce/docs/**",
+            "/inventoryItems/volume"
         ).permitAll()
         .antMatchers("/**").fullyAuthenticated();
   }
