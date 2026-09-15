@@ -90,8 +90,7 @@ public class ResourceServerSecurityConfiguration implements ResourceServerConfig
             "/cce",
             "/webjars/**",
             "/cce/webjars/**",
-            "/cce/docs/**",
-            "/inventoryItems/volume"
+            "/cce/docs/**"
         ).permitAll()
         .antMatchers("/**").fullyAuthenticated();
   }
