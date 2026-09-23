@@ -8,6 +8,7 @@ Improvements:
 * Stabilized consul registration and health checks
 
 Bug fixes:
+* [OLMIS-8359](https://openlmis.atlassian.net/browse/OLMIS-8359): Fixed the CCE catalog upload rejecting an unmodified export with a database error. Catalog items are now matched by the same unique tuples the schema enforces, the upload applies as one transaction instead of chunk by chunk, and the catalog error messages that previously reached users as raw message keys now have text.
 * [OLMIS-8223](https://openlmis.atlassian.net/browse/OLMIS-8223): Fixed apostrophes being dropped from translated messages.
 
 1.4.1 / 2025-12-12

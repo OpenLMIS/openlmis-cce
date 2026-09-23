@@ -24,7 +24,7 @@ public class CatalogItemMessageKeys extends MessageKeys {
 
   public static final String ERROR_ITEM_NOT_FOUND = ERROR_PREFIX + ".item.notFound";
   public static final String ERROR_FORMAT_NOT_ALLOWED =
-      join(ERROR_PREFIX, ".format.notAllowed");
+      join(ERROR_PREFIX, "format", "notAllowed");
 
   public static final String ERROR_FROM_FIELD_REQUIRED =
       join(ERROR_PREFIX, "field", REQUIRED);
