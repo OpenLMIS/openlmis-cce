@@ -84,13 +84,21 @@ public class CatalogItemRepositoryImpl implements CatalogItemRepositoryCustom {
       CatalogItem catalogItem = items.get(i);
       Predicate predicate;
 
+      Predicate byManufacturerAndModel = builder.and(
+          builder.equal(root.get(MANUFACTURER_FIELD), catalogItem.getManufacturer()),
+          builder.equal(root.get(MODEL_FIELD), catalogItem.getModel())
+      );
+
       if (null != catalogItem.getEquipmentCode()) {
-        predicate = builder.equal(root.get(EQUIPMENT_CODE), catalogItem.getEquipmentCode());
-      } else {
-        predicate = builder.and(
-            builder.equal(root.get(MANUFACTURER_FIELD), catalogItem.getManufacturer()),
-            builder.equal(root.get(MODEL_FIELD), catalogItem.getModel())
+        predicate = builder.or(
+            builder.and(
+                builder.equal(root.get(EQUIPMENT_CODE), catalogItem.getEquipmentCode()),
+                builder.equal(root.get(MODEL_FIELD), catalogItem.getModel())
+            ),
+            byManufacturerAndModel
         );
+      } else {
+        predicate = byManufacturerAndModel;
       }
 
       predicates[i] = predicate;
