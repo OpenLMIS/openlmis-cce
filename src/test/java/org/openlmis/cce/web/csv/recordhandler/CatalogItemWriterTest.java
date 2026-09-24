@@ -177,6 +177,35 @@ public class CatalogItemWriterTest {
         incoming(null, MANUFACTURER_1, MODEL_1)));
   }
 
+  @Test(expected = ValidationMessageException.class)
+  public void shouldRejectTwoBrandNewRowsSharingManufacturerAndModel() {
+    givenInDatabase();
+
+    catalogItemWriter.write(Arrays.asList(
+        incoming(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1),
+        incoming(EQUIPMENT_CODE_2, MANUFACTURER_1, MODEL_1)));
+  }
+
+  @Test(expected = ValidationMessageException.class)
+  public void shouldRejectTwoBrandNewRowsSharingEquipmentCodeAndModel() {
+    givenInDatabase();
+
+    catalogItemWriter.write(Arrays.asList(
+        incoming(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1),
+        incoming(EQUIPMENT_CODE_1, MANUFACTURER_2, MODEL_1)));
+  }
+
+  @Test
+  public void shouldAcceptBrandNewRowsSharingOnlyTheEquipmentCode() {
+    givenInDatabase();
+
+    catalogItemWriter.write(Arrays.asList(
+        incoming(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1),
+        incoming(EQUIPMENT_CODE_1, MANUFACTURER_2, MODEL_2)));
+
+    assertThat(captureSaved(), hasSize(2));
+  }
+
   private void givenInDatabase(CatalogItem... items) {
     when(catalogItemRepository.findExisting(anyListOf(CatalogItem.class)))
         .thenReturn(Arrays.asList(items));

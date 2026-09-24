@@ -20,8 +20,10 @@ import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_DUPLICATE_IN_FI
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
@@ -49,6 +51,9 @@ public class CatalogItemWriter implements RecordWriter<CatalogItem> {
     XLOGGER.entry();
     Profiler profiler = new Profiler("WRITE");
     profiler.setLogger(XLOGGER);
+
+    profiler.start("REJECT_DUPLICATES_WITHIN_FILE");
+    rejectDuplicatesWithinChunk(entities);
 
     profiler.start("FIND_EXISTING");
     List<CatalogItem> existing = catalogItemRepository.findExisting(entities);
@@ -98,6 +103,26 @@ public class CatalogItemWriter implements RecordWriter<CatalogItem> {
       }
 
       item.setId(existingId);
+    }
+  }
+
+  private void rejectDuplicatesWithinChunk(List<CatalogItem> entities) {
+    Set<Pair<String, String>> seenManufacturerAndModel = Sets.newHashSet();
+    Set<Pair<String, String>> seenEquipmentCodeAndModel = Sets.newHashSet();
+
+    for (CatalogItem item : entities) {
+      boolean duplicate = !seenManufacturerAndModel.add(
+          ImmutablePair.of(item.getManufacturer(), item.getModel()));
+
+      if (null != item.getEquipmentCode()) {
+        duplicate |= !seenEquipmentCodeAndModel.add(
+            ImmutablePair.of(item.getEquipmentCode(), item.getModel()));
+      }
+
+      if (duplicate) {
+        throw new ValidationMessageException(
+            ERROR_DUPLICATE_IN_FILE, item.getManufacturer(), item.getModel());
+      }
     }
   }
 
