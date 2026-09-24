@@ -30,6 +30,7 @@ import static org.openlmis.cce.domain.CatalogItem.EQUIPMENT_CODE;
 import static org.openlmis.cce.domain.CatalogItem.MANUFACTURER_FIELD;
 import static org.openlmis.cce.domain.CatalogItem.MODEL_FIELD;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 import javax.persistence.EntityManager;
@@ -38,6 +39,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openlmis.cce.CatalogItemDataBuilder;
 import org.openlmis.cce.domain.CatalogItem;
+import org.openlmis.cce.web.csv.recordhandler.CatalogItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -53,11 +55,96 @@ public class CatalogItemRepositoryIntegrationTest
   @Autowired
   private EntityManager entityManager;
 
+  @Autowired
+  private CatalogItemWriter catalogItemWriter;
+
   private Pageable pageable = mock(Pageable.class);
 
   @Override
   CrudRepository<CatalogItem, UUID> getRepository() {
     return repository;
+  }
+
+  @Test
+  public void shouldFindOnlyTheMatchingItemWhenTwoShareAnEquipmentCode() {
+    CatalogItem first = generateInstance();
+    first.setModel("model-one");
+    repository.save(first);
+
+    CatalogItem second = generateInstance();
+    second.setEquipmentCode(first.getEquipmentCode());
+    second.setModel("model-two");
+    repository.save(second);
+    entityManager.flush();
+
+    List<CatalogItem> found = repository.findExisting(singletonList(first));
+
+    assertThat(found, hasSize(1));
+    assertThat(found.get(0).getId(), equalTo(first.getId()));
+  }
+
+  @Test
+  public void shouldKeepEveryIdWhenUploadingACatalogThatSharesAnEquipmentCode() {
+    final long before = repository.count();
+
+    CatalogItem first = generateInstance();
+    first.setModel("model-one");
+    repository.save(first);
+
+    CatalogItem second = generateInstance();
+    second.setEquipmentCode(first.getEquipmentCode());
+    second.setModel("model-two");
+    repository.save(second);
+    entityManager.flush();
+
+    // the exported CSV carries no id column, so the upload sees these rows without one
+    List<CatalogItem> uploaded = Arrays.asList(withoutId(first), withoutId(second));
+    assertThat(repository.findExisting(uploaded), hasSize(2));
+
+    catalogItemWriter.write(uploaded);
+
+    // resolution must have matched both rows before anything is written
+    assertThat(uploaded.get(0).getId(), equalTo(first.getId()));
+    assertThat(uploaded.get(1).getId(), equalTo(second.getId()));
+
+    entityManager.flush();
+    entityManager.clear();
+
+    assertThat(repository.count(), equalTo(before + 2));
+    assertThat(repository.findById(first.getId()).isPresent(), equalTo(true));
+    assertThat(repository.findById(second.getId()).isPresent(), equalTo(true));
+  }
+
+  private CatalogItem withoutId(CatalogItem item) {
+    return new CatalogItemDataBuilder()
+        .withEquipmentCode(item.getEquipmentCode())
+        .withType(item.getType())
+        .withModel(item.getModel())
+        .withManufacturer(item.getManufacturer())
+        .withVisibleInCatalog()
+        .buildAsNew();
+  }
+
+  @Test
+  public void shouldNotDuplicateARowThatRepeatsInALaterChunk() {
+    // CsvParser hands the writer one chunk at a time, so a file whose duplicate rows land in
+    // different chunks reaches write() as two separate calls inside the same transaction
+    final long before = repository.count();
+
+    CatalogItem firstChunkRow = generateInstance();
+    firstChunkRow.setModel("model-repeated");
+    catalogItemWriter.write(singletonList(withoutId(firstChunkRow)));
+
+    CatalogItem laterChunkRow = generateInstance();
+    laterChunkRow.setEquipmentCode(firstChunkRow.getEquipmentCode());
+    laterChunkRow.setManufacturer(firstChunkRow.getManufacturer());
+    laterChunkRow.setModel("model-repeated");
+    catalogItemWriter.write(singletonList(withoutId(laterChunkRow)));
+
+    entityManager.flush();
+    entityManager.clear();
+
+    assertThat(repository.count(), equalTo(before + 1));
   }
 
   @Override

@@ -19,6 +19,7 @@ import static java.util.Collections.singletonList;
 import static org.assertj.core.util.Lists.emptyList;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.nullValue;
 import static org.junit.Assert.assertThat;
 import static org.mockito.Mockito.anyListOf;
 import static org.mockito.Mockito.verify;
@@ -36,10 +37,13 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnitRunner;
 import org.openlmis.cce.domain.CatalogItem;
+import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.repository.CatalogItemRepository;
 
 @RunWith(MockitoJUnitRunner.class)
+@SuppressWarnings({"PMD.TooManyMethods"})
 public class CatalogItemWriterTest {
+
   private static final String EQUIPMENT_CODE_PREFIX = "equipmentCode";
   private static final String MANUFACTURER_PREFIX = "manufacturer";
   private static final String MODEL_PREFIX = "model";
@@ -58,7 +62,6 @@ public class CatalogItemWriterTest {
   private static final String MODEL_3 = MODEL_PREFIX + 3;
   private static final String MODEL_4 = MODEL_PREFIX + 4;
 
-
   @Captor
   private ArgumentCaptor<Iterable<CatalogItem>> catalogItemsCaptor;
 
@@ -70,92 +73,159 @@ public class CatalogItemWriterTest {
 
   @Test
   public void shouldNotSetIdIfExistingItemNotFound() {
-    //given
-    CatalogItem toSave = create(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1);
-    List<CatalogItem> toSaveList = singletonList(toSave);
+    CatalogItem toSave = incoming(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1);
 
-    // when
     when(catalogItemRepository.findExisting(anyListOf(CatalogItem.class)))
         .thenReturn(emptyList());
 
-    catalogItemWriter.write(toSaveList);
+    catalogItemWriter.write(singletonList(toSave));
 
-    // then
-    verify(catalogItemRepository).saveAll(toSaveList);
+    assertThat(captureSaved().get(0).getId(), nullValue());
   }
 
   @Test
-  public void shouldFindByEquipmentCode() throws Exception {
-    // given
-    CatalogItem toSave = create(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1);
-    List<CatalogItem> toSaveList = singletonList(toSave);
-
+  public void shouldFindByEquipmentCodeAndModel() {
+    CatalogItem toSave = incoming(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1);
     CatalogItem db1 = create(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1);
-    CatalogItem db2 = create(EQUIPMENT_CODE_2, MANUFACTURER_2, MODEL_2);
+
+    givenInDatabase(db1,
+        create(EQUIPMENT_CODE_2, MANUFACTURER_2, MODEL_2),
+        create(null, MANUFACTURER_3, MODEL_3),
+        create(null, MANUFACTURER_4, MODEL_4));
+
+    catalogItemWriter.write(singletonList(toSave));
+
+    assertThat(captureSaved().get(0).getId(), equalTo(db1.getId()));
+  }
+
+  @Test
+  public void shouldFindByManufacturerAndModel() {
+    CatalogItem toSave = incoming(null, MANUFACTURER_3, MODEL_3);
     CatalogItem db3 = create(null, MANUFACTURER_3, MODEL_3);
-    CatalogItem db4 = create(null, MANUFACTURER_4, MODEL_4);
-    List<CatalogItem> fromDb = Arrays.asList(db1, db2, db3, db4);
 
-    // when
+    givenInDatabase(create(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1), db3);
+
+    catalogItemWriter.write(singletonList(toSave));
+
+    assertThat(captureSaved().get(0).getId(), equalTo(db3.getId()));
+  }
+
+  @Test
+  public void shouldFindByManufacturerAndModelWhenTheEquipmentCodeIsNew() {
+    // the database enforces unique (manufacturer, model), so a row whose manufacturer and model
+    // already exist is that item, whatever equipment code the file gives it
+    CatalogItem toSave = incoming(EQUIPMENT_CODE_3, MANUFACTURER_3, MODEL_3);
+    CatalogItem db3 = create(null, MANUFACTURER_3, MODEL_3);
+
+    givenInDatabase(create(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1), db3);
+
+    catalogItemWriter.write(singletonList(toSave));
+
+    assertThat(captureSaved().get(0).getId(), equalTo(db3.getId()));
+  }
+
+  @Test
+  public void shouldGiveEachRowItsOwnIdWhenTwoItemsShareAnEquipmentCode() {
+    // (equipmentCode, model) is unique, equipmentCode alone is not
+    CatalogItem db1 = create(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1);
+    CatalogItem db2 = create(EQUIPMENT_CODE_1, MANUFACTURER_2, MODEL_2);
+
+    givenInDatabase(db1, db2);
+
+    CatalogItem first = incoming(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1);
+    CatalogItem second = incoming(EQUIPMENT_CODE_1, MANUFACTURER_2, MODEL_2);
+
+    catalogItemWriter.write(Arrays.asList(first, second));
+
+    List<CatalogItem> saved = captureSaved();
+    assertThat(saved, hasSize(2));
+    assertThat(saved.get(0).getId(), equalTo(db1.getId()));
+    assertThat(saved.get(1).getId(), equalTo(db2.getId()));
+  }
+
+  @Test
+  public void shouldNotMatchRowsWithoutAnEquipmentCodeOnModelAlone() {
+    CatalogItem db1 = create(null, MANUFACTURER_1, MODEL_1);
+
+    givenInDatabase(db1);
+
+    CatalogItem toSave = incoming(null, MANUFACTURER_2, MODEL_1);
+
+    catalogItemWriter.write(singletonList(toSave));
+
+    assertThat(captureSaved().get(0).getId(), nullValue());
+  }
+
+  @Test(expected = ValidationMessageException.class)
+  public void shouldRejectARowMatchingTwoDifferentItems() {
+    CatalogItem byCode = create(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1);
+    CatalogItem byManufacturer = create(null, MANUFACTURER_2, MODEL_1);
+
+    givenInDatabase(byCode, byManufacturer);
+
+    catalogItemWriter.write(singletonList(incoming(EQUIPMENT_CODE_1, MANUFACTURER_2, MODEL_1)));
+  }
+
+  @Test(expected = ValidationMessageException.class)
+  public void shouldRejectTwoRowsResolvingToTheSameItem() {
+    CatalogItem db1 = create(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1);
+
+    givenInDatabase(db1);
+
+    catalogItemWriter.write(Arrays.asList(
+        incoming(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1),
+        incoming(null, MANUFACTURER_1, MODEL_1)));
+  }
+
+  @Test(expected = ValidationMessageException.class)
+  public void shouldRejectTwoBrandNewRowsSharingManufacturerAndModel() {
+    givenInDatabase();
+
+    catalogItemWriter.write(Arrays.asList(
+        incoming(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1),
+        incoming(EQUIPMENT_CODE_2, MANUFACTURER_1, MODEL_1)));
+  }
+
+  @Test(expected = ValidationMessageException.class)
+  public void shouldRejectTwoBrandNewRowsSharingEquipmentCodeAndModel() {
+    givenInDatabase();
+
+    catalogItemWriter.write(Arrays.asList(
+        incoming(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1),
+        incoming(EQUIPMENT_CODE_1, MANUFACTURER_2, MODEL_1)));
+  }
+
+  @Test
+  public void shouldAcceptBrandNewRowsSharingOnlyTheEquipmentCode() {
+    givenInDatabase();
+
+    catalogItemWriter.write(Arrays.asList(
+        incoming(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1),
+        incoming(EQUIPMENT_CODE_1, MANUFACTURER_2, MODEL_2)));
+
+    assertThat(captureSaved(), hasSize(2));
+  }
+
+  private void givenInDatabase(CatalogItem... items) {
     when(catalogItemRepository.findExisting(anyListOf(CatalogItem.class)))
-        .thenReturn(fromDb);
+        .thenReturn(Arrays.asList(items));
+  }
 
-    catalogItemWriter.write(toSaveList);
-
-    //then
+  private List<CatalogItem> captureSaved() {
     verify(catalogItemRepository).saveAll(catalogItemsCaptor.capture());
-
-    List<CatalogItem> captured = Lists.newArrayList(catalogItemsCaptor.getValue());
-    assertThat(captured, hasSize(1));
-    assertThat(captured.get(0).getId(), equalTo(db1.getId()));
+    return Lists.newArrayList(catalogItemsCaptor.getValue());
   }
 
-  @Test
-  public void shouldFindByManufacturerAndModel() throws Exception {
-    // given
-    CatalogItem toSave = create(null, MANUFACTURER_3, MODEL_3);
-    List<CatalogItem> toSaveList = singletonList(toSave);
-
-    CatalogItem db1 = create(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1);
-    CatalogItem db2 = create(EQUIPMENT_CODE_2, MANUFACTURER_2, MODEL_2);
-    CatalogItem db3 = create(null, MANUFACTURER_3, MODEL_3);
-    CatalogItem db4 = create(null, MANUFACTURER_4, MODEL_4);
-    List<CatalogItem> fromDb = Arrays.asList(db1, db2, db3, db4);
-
-    // when
-    when(catalogItemRepository.findExisting(anyListOf(CatalogItem.class)))
-        .thenReturn(fromDb);
-
-    catalogItemWriter.write(toSaveList);
-
-    //then
-    verify(catalogItemRepository).saveAll(catalogItemsCaptor.capture());
-
-    List<CatalogItem> captured = Lists.newArrayList(catalogItemsCaptor.getValue());
-    assertThat(captured, hasSize(1));
-    assertThat(captured.get(0).getId(), equalTo(db3.getId()));
-  }
-
-  @Test
-  public void shouldNotFindIfEquipmentCodeNotMatch() throws Exception {
-    // given
-    CatalogItem toSave = create(EQUIPMENT_CODE_3, MANUFACTURER_3, MODEL_3);
-    List<CatalogItem> toSaveList = singletonList(toSave);
-
-    CatalogItem db1 = create(EQUIPMENT_CODE_1, MANUFACTURER_1, MODEL_1);
-    CatalogItem db2 = create(EQUIPMENT_CODE_2, MANUFACTURER_2, MODEL_2);
-    CatalogItem db3 = create(null, MANUFACTURER_3, MODEL_3);
-    CatalogItem db4 = create(null, MANUFACTURER_4, MODEL_4);
-    List<CatalogItem> fromDb = Arrays.asList(db1, db2, db3, db4);
-
-    // when
-    when(catalogItemRepository.findExisting(anyListOf(CatalogItem.class)))
-        .thenReturn(fromDb);
-
-    catalogItemWriter.write(toSaveList);
-
-    //then
-    verify(catalogItemRepository).saveAll(toSaveList);
+  /**
+   * A row as it arrives from the CSV: the file carries no id column, so incoming items never have
+   * one. Only rows already in the database do.
+   */
+  private CatalogItem incoming(String equipmentCode, String manufacturer, String model) {
+    CatalogItem item = new CatalogItem();
+    item.setEquipmentCode(equipmentCode);
+    item.setManufacturer(manufacturer);
+    item.setModel(model);
+    return item;
   }
 
   private CatalogItem create(String equipmentCode, String manufacturer, String model) {
@@ -164,8 +234,6 @@ public class CatalogItemWriterTest {
     item.setEquipmentCode(equipmentCode);
     item.setManufacturer(manufacturer);
     item.setModel(model);
-
     return item;
   }
-
 }

@@ -15,15 +15,20 @@
 
 package org.openlmis.cce.web.csv.recordhandler;
 
+import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_AMBIGUOUS_MATCH;
+import static org.openlmis.cce.i18n.CatalogItemMessageKeys.ERROR_DUPLICATE_IN_FILE;
 import static org.springframework.util.CollectionUtils.isEmpty;
 
 import com.google.common.collect.Maps;
+import com.google.common.collect.Sets;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import org.apache.commons.lang3.tuple.ImmutablePair;
 import org.apache.commons.lang3.tuple.Pair;
 import org.openlmis.cce.domain.CatalogItem;
+import org.openlmis.cce.exception.ValidationMessageException;
 import org.openlmis.cce.repository.CatalogItemRepository;
 import org.slf4j.ext.XLogger;
 import org.slf4j.ext.XLoggerFactory;
@@ -47,48 +52,29 @@ public class CatalogItemWriter implements RecordWriter<CatalogItem> {
     Profiler profiler = new Profiler("WRITE");
     profiler.setLogger(XLOGGER);
 
+    profiler.start("REJECT_DUPLICATES_WITHIN_CHUNK");
+    rejectDuplicatesWithinChunk(entities);
+
     profiler.start("FIND_EXISTING");
     List<CatalogItem> existing = catalogItemRepository.findExisting(entities);
 
     if (!isEmpty(existing)) {
       profiler.start("CREATE_GROUPS");
-      Map<String, UUID> groupByEquipmentCode = Maps.newHashMap();
+      Map<Pair<String, String>, UUID> groupByEquipmentCodeAndModel = Maps.newHashMap();
       Map<Pair<String, String>, UUID> groupByManufacturerAndModel = Maps.newHashMap();
 
       for (CatalogItem item : existing) {
-        UUID id = item.getId();
-        String equipmentCode = item.getEquipmentCode();
-
-        if (null != equipmentCode) {
-          groupByEquipmentCode.put(equipmentCode, id);
+        if (null != item.getEquipmentCode()) {
+          groupByEquipmentCodeAndModel.put(
+              ImmutablePair.of(item.getEquipmentCode(), item.getModel()), item.getId());
         }
 
-        String manufacturer = item.getManufacturer();
-        String model = item.getModel();
-        Pair<String, String> key = ImmutablePair.of(manufacturer, model);
-
-        groupByManufacturerAndModel.put(key, id);
+        groupByManufacturerAndModel.put(
+            ImmutablePair.of(item.getManufacturer(), item.getModel()), item.getId());
       }
 
       profiler.start("FIND_IN_GROUPS");
-      for (int i = 0, size = entities.size(); i < size; ++i) {
-        CatalogItem item = entities.get(i);
-        String equipmentCode = item.getEquipmentCode();
-        UUID existingId;
-
-        if (null != equipmentCode) {
-          existingId = groupByEquipmentCode.get(equipmentCode);
-        } else {
-          ImmutablePair<String, String> key = ImmutablePair.of(
-              item.getManufacturer(), item.getModel()
-          );
-          existingId = groupByManufacturerAndModel.get(key);
-        }
-
-        if (null != existingId) {
-          item.setId(existingId);
-        }
-      }
+      assignExistingIds(entities, groupByEquipmentCodeAndModel, groupByManufacturerAndModel);
     }
 
     profiler.start("SAVE");
@@ -96,6 +82,68 @@ public class CatalogItemWriter implements RecordWriter<CatalogItem> {
 
     profiler.stop().log();
     XLOGGER.exit();
+  }
+
+  private void assignExistingIds(List<CatalogItem> entities,
+                                 Map<Pair<String, String>, UUID> groupByEquipmentCodeAndModel,
+                                 Map<Pair<String, String>, UUID> groupByManufacturerAndModel) {
+    Map<UUID, CatalogItem> claimed = Maps.newHashMap();
+
+    for (CatalogItem item : entities) {
+      UUID existingId = resolveExistingId(
+          item, groupByEquipmentCodeAndModel, groupByManufacturerAndModel);
+
+      if (null == existingId) {
+        continue;
+      }
+
+      if (null != claimed.put(existingId, item)) {
+        throw new ValidationMessageException(
+            ERROR_DUPLICATE_IN_FILE, item.getManufacturer(), item.getModel());
+      }
+
+      item.setId(existingId);
+    }
+  }
+
+  private void rejectDuplicatesWithinChunk(List<CatalogItem> entities) {
+    Set<Pair<String, String>> seenManufacturerAndModel = Sets.newHashSet();
+    Set<Pair<String, String>> seenEquipmentCodeAndModel = Sets.newHashSet();
+
+    for (CatalogItem item : entities) {
+      boolean duplicate = !seenManufacturerAndModel.add(
+          ImmutablePair.of(item.getManufacturer(), item.getModel()));
+
+      if (null != item.getEquipmentCode()) {
+        duplicate |= !seenEquipmentCodeAndModel.add(
+            ImmutablePair.of(item.getEquipmentCode(), item.getModel()));
+      }
+
+      if (duplicate) {
+        throw new ValidationMessageException(
+            ERROR_DUPLICATE_IN_FILE, item.getManufacturer(), item.getModel());
+      }
+    }
+  }
+
+  private UUID resolveExistingId(CatalogItem item,
+                                 Map<Pair<String, String>, UUID> groupByEquipmentCodeAndModel,
+                                 Map<Pair<String, String>, UUID> groupByManufacturerAndModel) {
+    UUID byEquipmentCode = null == item.getEquipmentCode()
+        ? null
+        : groupByEquipmentCodeAndModel.get(
+            ImmutablePair.of(item.getEquipmentCode(), item.getModel()));
+
+    UUID byManufacturer = groupByManufacturerAndModel.get(
+        ImmutablePair.of(item.getManufacturer(), item.getModel()));
+
+    if (null != byEquipmentCode && null != byManufacturer
+        && !byEquipmentCode.equals(byManufacturer)) {
+      throw new ValidationMessageException(ERROR_AMBIGUOUS_MATCH,
+          item.getEquipmentCode(), item.getManufacturer(), item.getModel());
+    }
+
+    return null != byEquipmentCode ? byEquipmentCode : byManufacturer;
   }
 
 }

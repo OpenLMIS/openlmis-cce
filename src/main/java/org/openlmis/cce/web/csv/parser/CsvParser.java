@@ -15,16 +15,12 @@
 
 package org.openlmis.cce.web.csv.parser;
 
-import static java.util.concurrent.CompletableFuture.runAsync;
 import static org.openlmis.cce.i18n.CsvUploadMessageKeys.ERROR_UPLOAD_RECORD_INVALID;
 
 import com.google.common.collect.Lists;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import lombok.NoArgsConstructor;
 import org.openlmis.cce.domain.BaseEntity;
@@ -44,10 +40,9 @@ import org.supercsv.exception.SuperCsvException;
 import org.supercsv.util.CsvContext;
 
 /**
- * This class has logic to invoke corresponding respective record handler to parse data from input
- * stream into the corresponding model. To speed up the process for huge files the stream is divided
- * into smaller chunks. The chunk size is set by {@code csvParser.chunkSize} property. Each chunk is
- * executed asynchronously in the thread pool with size set by {@code csvParser.poolSize}.
+ * Invokes the respective record handler to parse data from an input stream into the corresponding
+ * model, in chunks sized by the {@code csvParser.chunkSize} property, writing each chunk before the
+ * next one is read so that the whole file is covered by the caller's transaction.
  */
 @Component
 @NoArgsConstructor
@@ -56,9 +51,6 @@ public class CsvParser {
 
   @Value("${csvParser.chunkSize}")
   private int chunkSize;
-
-  @Value("${csvParser.poolSize}")
-  private int poolSize;
 
   /**
    * Parses data from input stream into the corresponding model.
@@ -83,26 +75,15 @@ public class CsvParser {
     profiler.start("VALIDATE_HEADERS");
     csvBeanReader.validateHeaders();
 
-    profiler.start("CREATE_EXECUTOR_SERVICE");
-    ExecutorService executor = Executors.newFixedThreadPool(Math.min(1, poolSize));
-    List<CompletableFuture<Void>> futures = Lists.newArrayList();
+    profiler.start("PROCESS_CSV");
+    while (true) {
+      List<D> imported = doRead(csvBeanReader);
 
-    try {
-      profiler.start("HANDLE_FILE");
-      while (true) {
-        List<D> imported = doRead(csvBeanReader);
-
-        if (imported.isEmpty()) {
-          break;
-        }
-
-        Runnable runnable = () -> doWrite(processor, writer, imported);
-        CompletableFuture<Void> future = runAsync(runnable, executor);
-        futures.add(future);
+      if (imported.isEmpty()) {
+        break;
       }
-    } finally {
-      profiler.start("WAIT_FOR_THREADS");
-      futures.forEach(CompletableFuture::join);
+
+      doWrite(processor, writer, imported);
     }
 
     int count = csvBeanReader.getRowNumber() - 1;
