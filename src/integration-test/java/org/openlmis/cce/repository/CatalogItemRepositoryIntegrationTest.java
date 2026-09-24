@@ -125,6 +125,28 @@ public class CatalogItemRepositoryIntegrationTest
         .buildAsNew();
   }
 
+  @Test
+  public void shouldNotDuplicateARowThatRepeatsInALaterChunk() {
+    // CsvParser hands the writer one chunk at a time, so a file whose duplicate rows land in
+    // different chunks reaches write() as two separate calls inside the same transaction
+    final long before = repository.count();
+
+    CatalogItem firstChunkRow = generateInstance();
+    firstChunkRow.setModel("model-repeated");
+    catalogItemWriter.write(singletonList(withoutId(firstChunkRow)));
+
+    CatalogItem laterChunkRow = generateInstance();
+    laterChunkRow.setEquipmentCode(firstChunkRow.getEquipmentCode());
+    laterChunkRow.setManufacturer(firstChunkRow.getManufacturer());
+    laterChunkRow.setModel("model-repeated");
+    catalogItemWriter.write(singletonList(withoutId(laterChunkRow)));
+
+    entityManager.flush();
+    entityManager.clear();
+
+    assertThat(repository.count(), equalTo(before + 1));
+  }
+
   @Override
   CatalogItem generateInstance() {
     return new CatalogItemDataBuilder()

@@ -52,7 +52,7 @@ public class CatalogItemWriter implements RecordWriter<CatalogItem> {
     Profiler profiler = new Profiler("WRITE");
     profiler.setLogger(XLOGGER);
 
-    profiler.start("REJECT_DUPLICATES_WITHIN_FILE");
+    profiler.start("REJECT_DUPLICATES_WITHIN_CHUNK");
     rejectDuplicatesWithinChunk(entities);
 
     profiler.start("FIND_EXISTING");
