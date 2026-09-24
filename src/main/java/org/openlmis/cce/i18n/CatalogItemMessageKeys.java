@@ -33,6 +33,11 @@ public class CatalogItemMessageKeys extends MessageKeys {
       join(ERROR_PREFIX, "equipmentCode", NOT_UNIQUE);
   public static final String ERROR_MANUFACTURER_MODEL_NOT_UNIQUE =
       join(ERROR_PREFIX, "manufacturerAndModel", NOT_UNIQUE);
+  public static final String ERROR_MANUFACTURER_AND_MODEL_DUPLICATE =
+      join(ERROR_PREFIX, "manufacturerAndModel", "duplicate");
+  public static final String ERROR_EQUIPMENT_CODE_AND_MODEL_DUPLICATE =
+      join(ERROR_PREFIX, "equipmentCodeAndModel", "duplicate");
+
   public static final String ERROR_AMBIGUOUS_MATCH =
       join(ERROR_PREFIX, "ambiguousMatch");
   public static final String ERROR_DUPLICATE_IN_FILE =
