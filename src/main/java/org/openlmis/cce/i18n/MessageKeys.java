@@ -32,6 +32,8 @@ public abstract class MessageKeys {
   protected static final String JAVERS = "javers";
 
 
+  public static final String ERROR_DATA_INTEGRITY_VIOLATION =
+      join(SERVICE_ERROR_PREFIX, "dataIntegrity", "violation");
   public static final String ERROR_IO = SERVICE_ERROR_PREFIX + ".io";
   public static final String ERROR_FILE_IS_EMPTY = SERVICE_ERROR_PREFIX + ".file.empty";
   public static final String ERROR_INCORRECT_FILE_FORMAT = SERVICE_ERROR_PREFIX

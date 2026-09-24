@@ -15,14 +15,22 @@
 
 package org.openlmis.cce.errorhandling;
 
+import com.google.common.collect.ImmutableMap;
+import java.util.Map;
+import org.hibernate.exception.ConstraintViolationException;
 import org.openlmis.cce.exception.AuthenticationMessageException;
 import org.openlmis.cce.exception.NotFoundException;
 import org.openlmis.cce.exception.PermissionMessageException;
 import org.openlmis.cce.exception.ServerException;
 import org.openlmis.cce.exception.ValidationMessageException;
+import org.openlmis.cce.i18n.CatalogItemMessageKeys;
+import org.openlmis.cce.i18n.MessageKeys;
 import org.openlmis.cce.service.DataRetrievalException;
 import org.openlmis.cce.util.Message;
 import org.openlmis.util.ErrorResponse;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -35,6 +43,40 @@ import org.springframework.web.bind.annotation.ResponseStatus;
  */
 @ControllerAdvice
 public class GlobalErrorHandling extends AbstractErrorHandling {
+
+  private static final Logger LOGGER = LoggerFactory.getLogger(GlobalErrorHandling.class);
+
+  private static final Map<String, String> CONSTRAINT_MAP = ImmutableMap.of(
+      "unq_catalog_items_man_model", CatalogItemMessageKeys.ERROR_MANUFACTURER_AND_MODEL_DUPLICATE,
+      "unq_catalog_items_eqcode", CatalogItemMessageKeys.ERROR_EQUIPMENT_CODE_AND_MODEL_DUPLICATE
+  );
+
+  /**
+   * Turns a database constraint violation into a message the user can act on. The raw statement
+   * goes to the log; it must never reach the response, because the service resolves an unknown
+   * key to the key itself and would echo the SQL back verbatim.
+   *
+   * @param dive the exception thrown when a write breaks a constraint
+   * @return the localized message
+   */
+  @ExceptionHandler(DataIntegrityViolationException.class)
+  @ResponseStatus(HttpStatus.BAD_REQUEST)
+  @ResponseBody
+  public Message.LocalizedMessage handleDataIntegrityViolation(
+      DataIntegrityViolationException dive) {
+    if (dive.getCause() instanceof ConstraintViolationException) {
+      String constraintName = ((ConstraintViolationException) dive.getCause()).getConstraintName();
+      String messageKey = CONSTRAINT_MAP.get(constraintName);
+
+      if (null != messageKey) {
+        LOGGER.info("Constraint {} violated", constraintName);
+        return getLocalizedMessage(new Message(messageKey));
+      }
+    }
+
+    LOGGER.error("Unmapped data integrity violation", dive);
+    return getLocalizedMessage(new Message(MessageKeys.ERROR_DATA_INTEGRITY_VIOLATION));
+  }
   
   @ExceptionHandler(DataRetrievalException.class)
   @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)

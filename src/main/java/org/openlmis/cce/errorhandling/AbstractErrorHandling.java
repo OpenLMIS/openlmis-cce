@@ -61,4 +61,14 @@ public abstract class AbstractErrorHandling {
     return message;
   }
 
+  /**
+   * Localizes a message that was not carried by an exception.
+   *
+   * @param message the message to localize
+   * @return the localized message
+   */
+  protected final Message.LocalizedMessage getLocalizedMessage(Message message) {
+    return messageService.localize(message);
+  }
+
 }
