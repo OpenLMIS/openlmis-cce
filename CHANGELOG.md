@@ -1,5 +1,7 @@
-1.6.0-SNAPSHOT (WIP)
+1.5.1 / 2026-09-29
 ==================
+Improvements:
+* Added missing translations, added support for ES language
 
 1.5.0 / 2026-09-28
 ==================
