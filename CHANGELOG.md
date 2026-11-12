@@ -1,6 +1,9 @@
 1.5.3-SNAPSHOT (WIP)
 ==================
 
+Bug fixes:
+* [OLMIS-8452](https://openlmis.atlassian.net/browse/OLMIS-8452): Fixed the inventory CSV export (`/api/inventoryItems/download`) leaving out items that have no last modifier, which in the demo data made some facilities export only the header row. Such items are now exported with an empty Last Modifier Name.
+
 1.5.2 / 2026-10-16
 ==================
 
