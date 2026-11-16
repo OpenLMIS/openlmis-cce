@@ -1,5 +1,9 @@
 # Demo Data for OpenLMIS CCE Service
 
+This folder holds the `demo-data` layer of this service's test data: cold chain equipment inventory
+at the EPI facilities, and its alerts. Setup that every layer needs is in `../base-data/`, and
+generated inventory at the generated facilities of referencedata is in `../performance-data/`.
+
 See the project README for how to load this data.
 
 The directory `schemas/` holds copies of the Mockaroo schemas used for generating
@@ -33,6 +37,6 @@ For the two district stores and one regional store, they have:
 
 For all CCE inventory:
 * Utilization is set to **Active**
-* Year installed is set to **2017**
+* Year installed is set to **2024**
 * They were last updated by the RIVO
 * The rest of the values are randomized
