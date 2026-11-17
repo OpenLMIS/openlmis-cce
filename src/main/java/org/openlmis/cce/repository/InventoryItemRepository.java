@@ -62,13 +62,13 @@ public interface InventoryItemRepository extends PagingAndSortingRepository<Inve
   @Query(value = "select f.name as facilityname, c.model, c.type, c.netvolume, "
           + "i.referencename, p.name as programname, i.equipmenttrackingid, "
           + "i.yearofinstallation, i.yearofwarrantyexpiry, i.functionalstatus, "
-          + "CONCAT(u.firstname, ' ', u.lastname) as lastmodifiername, "
+          + "COALESCE(u.firstname || ' ' || u.lastname, '') as lastmodifiername, "
           + "i.modifieddate as modifieddate "
           + "from cce.cce_inventory_items i "
           + "join cce.cce_catalog_items c on c.id = i.catalogitemid "
           + "join referencedata.facilities f on f.id = i.facilityid "
           + "join referencedata.programs p on p.id = i.programid "
-          + "join referencedata.users u on u.id = i.lastmodifierid "
+          + "left join referencedata.users u on u.id = i.lastmodifierid "
           + "where f.id = :facilityId and p.id = :programId", nativeQuery = true)
   List<Object[]> findByFacilityIdAndProgramId(
           @Param("facilityId")UUID facilityId, @Param("programId")UUID programId);

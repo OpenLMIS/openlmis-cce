@@ -22,10 +22,12 @@ import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.when;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceException;
+import javax.persistence.Query;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
@@ -47,7 +49,13 @@ public class InventoryItemRepositoryIntegrationTest
 
   private static final String EQUIPMENT_TRACKING_ID = "equipmentTrackingId";
   private static final String CATALOG_ITEM = "catalogItem";
+  private static final String MODIFIED_ITEM = "modified item";
+  private static final String UNMODIFIED_ITEM = "unmodified item";
+  private static final int REFERENCE_NAME_COLUMN = 4;
+  private static final int LAST_MODIFIER_NAME_COLUMN = 10;
   private final UUID facilityId = UUID.randomUUID();
+  private final UUID programId = UUID.randomUUID();
+  private final UUID userId = UUID.randomUUID();
 
   @Autowired
   private InventoryItemRepository repository;
@@ -342,6 +350,93 @@ public class InventoryItemRepositoryIntegrationTest
     Optional<Number> volume = repository.getFacilityFunctioningVolume(UUID.randomUUID());
 
     assertEquals(Optional.empty(), volume);
+  }
+
+  @Test
+  public void shouldFindInventoryItemsForExportWithoutLastModifier() {
+    createReferenceDataTables();
+    saveExportItem(MODIFIED_ITEM, facilityId, userId);
+    InventoryItem unmodified = saveExportItem(UNMODIFIED_ITEM, facilityId, userId);
+    saveExportItem(MODIFIED_ITEM, UUID.randomUUID(), userId);
+    clearLastModifier(unmodified);
+
+    List<Object[]> rows = repository.findByFacilityIdAndProgramId(facilityId, programId);
+
+    assertEquals(2, rows.size());
+    assertEquals("", findRow(rows, UNMODIFIED_ITEM)[LAST_MODIFIER_NAME_COLUMN]);
+  }
+
+  @Test
+  public void shouldFindInventoryItemsForExportWhoseLastModifierIsUnknown() {
+    createReferenceDataTables();
+    saveExportItem(MODIFIED_ITEM, facilityId, userId);
+    saveExportItem(UNMODIFIED_ITEM, facilityId, UUID.randomUUID());
+
+    List<Object[]> rows = repository.findByFacilityIdAndProgramId(facilityId, programId);
+
+    assertEquals(2, rows.size());
+    assertEquals("", findRow(rows, UNMODIFIED_ITEM)[LAST_MODIFIER_NAME_COLUMN]);
+  }
+
+  @Test
+  public void shouldReturnLastModifierNameForExport() {
+    createReferenceDataTables();
+    saveExportItem(MODIFIED_ITEM, facilityId, userId);
+
+    List<Object[]> rows = repository.findByFacilityIdAndProgramId(facilityId, programId);
+
+    assertEquals(1, rows.size());
+    assertEquals("John Doe", findRow(rows, MODIFIED_ITEM)[LAST_MODIFIER_NAME_COLUMN]);
+  }
+
+  // The export query joins referencedata tables that the cce test database does not have.
+  // Postgres rolls this DDL back with the test transaction.
+  private void createReferenceDataTables() {
+    executeNative("CREATE SCHEMA IF NOT EXISTS referencedata");
+    executeNative("CREATE TABLE IF NOT EXISTS referencedata.facilities"
+        + " (id uuid PRIMARY KEY, name text NOT NULL)");
+    executeNative("CREATE TABLE IF NOT EXISTS referencedata.programs"
+        + " (id uuid PRIMARY KEY, name text NOT NULL)");
+    executeNative("CREATE TABLE IF NOT EXISTS referencedata.users"
+        + " (id uuid PRIMARY KEY, firstname text NOT NULL, lastname text NOT NULL)");
+    executeNative("INSERT INTO referencedata.facilities (id, name) VALUES (?1, 'Facility')",
+        facilityId);
+    executeNative("INSERT INTO referencedata.programs (id, name) VALUES (?1, 'Program')",
+        programId);
+    executeNative("INSERT INTO referencedata.users (id, firstname, lastname)"
+        + " VALUES (?1, 'John', 'Doe')", userId);
+  }
+
+  private InventoryItem saveExportItem(String referenceName, UUID itemFacilityId,
+      UUID lastModifierId) {
+    InventoryItem item = repository.save(getInventoryItemDataBuilder()
+        .withReferenceName(referenceName)
+        .withFacilityId(itemFacilityId)
+        .withProgramId(programId)
+        .withLastModifierId(lastModifierId)
+        .build());
+    entityManager.flush();
+    return item;
+  }
+
+  private void clearLastModifier(InventoryItem item) {
+    executeNative("UPDATE cce.cce_inventory_items SET lastmodifierid = NULL WHERE id = ?1",
+        item.getId());
+  }
+
+  private void executeNative(String sql, Object... parameters) {
+    Query query = entityManager.createNativeQuery(sql);
+    for (int i = 0; i < parameters.length; i++) {
+      query.setParameter(i + 1, parameters[i]);
+    }
+    query.executeUpdate();
+  }
+
+  private Object[] findRow(List<Object[]> rows, String referenceName) {
+    return rows.stream()
+        .filter(row -> referenceName.equals(row[REFERENCE_NAME_COLUMN]))
+        .findFirst()
+        .orElseThrow(() -> new AssertionError("no row for " + referenceName));
   }
 
   private InventoryItemDataBuilder getInventoryItemDataBuilder() {
